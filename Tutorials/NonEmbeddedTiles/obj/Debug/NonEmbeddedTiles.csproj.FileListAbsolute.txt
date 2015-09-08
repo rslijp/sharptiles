@@ -1,0 +1,6 @@
+D:\Projects\SharpTiles\Tutorials\NonEmbeddedTiles\bin\NonEmbeddedTiles.dll
+D:\Projects\SharpTiles\Tutorials\NonEmbeddedTiles\bin\NonEmbeddedTiles.pdb
+D:\Projects\SharpTiles\Tutorials\NonEmbeddedTiles\bin\org.SharpTiles.dll
+D:\Projects\SharpTiles\Tutorials\NonEmbeddedTiles\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\SharpTiles\Tutorials\NonEmbeddedTiles\obj\Debug\NonEmbeddedTiles.dll
+D:\Projects\SharpTiles\Tutorials\NonEmbeddedTiles\obj\Debug\NonEmbeddedTiles.pdb

@@ -1,0 +1,174 @@
+<?php include('tutorials.sidemenu.fragment.html'); ?>
+
+<div id="main"> <a name="plaintiles"></a>
+				<h3><i>.Net servlet tag library</i> <br/>Illustrates the use of SharpTiles without a tiles.xml</h3>
+				<p>If you just want to use the SharpTiles without the additional tiles.xml, you should read this tutorial. 
+				Without the tiles.xml you will lose the power of dependency injection. This means each view will have an explicit relation to it's parent tile. 
+				You can compare this the masterpage construction used in aspx pages.</p>
+				<p><b>So let's start.</b></p>
+				<p>Register the SharpTiles <b>Nstl</b> view engine in the global.asax.cs</p>
+				<p>
+					<code>
+						protected void Application_Start()<br/>
+						{<br/>
+						&nbsp;&nbsp;RegisterRoutes(RouteTable.Routes);<br/>
+						&nbsp;&nbsp;<span class="highlight">ViewEngines.Engines.Clear();</span><br/>
+						&nbsp;&nbsp;<span class="highlight">ViewEngines.Engines.Add(new NstlViewEngine().Init());</span><br/>
+						}<br/>
+					</code>
+				</p>
+				<p>Convert the master page to a tile<br/>
+					<b>.asxp</b><br/>
+					<code>
+							&lt;%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %&gt;<br/>
+							&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;<br/>
+							&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;<br/>
+							&nbsp;&lt;head runat="server"&gt;<br/>
+							&nbsp;&nbsp;&lt;title&gt;<br/>
+							&nbsp;&nbsp;&nbsp;<span class="highlight">&lt;asp:ContentPlaceHolder ID="TitleContent" runat="server" /&gt;<span class="super">1</span></span><br/>
+							&nbsp;&nbsp;&lt;/title&gt;<br/>
+							&nbsp;&nbsp;&lt;link href="../../Content/Site.css" rel="stylesheet" type="text/css" /&gt;<br/>
+							&nbsp;&lt;/head&gt;<br/>
+							&nbsp;&lt;body&gt;<br/>
+							&nbsp;&nbsp;&lt;div class="page"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&lt;div id="header"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="title"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;My MVC Application&lt;/h1&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="logindisplay"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">&lt;% Html.RenderPartial("LogOnUserControl"); %&gt;<span class="super">2</span></span><br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt; <br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="menucontainer"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">&lt;ul id="menu"&gt;              <br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;%= Html.ActionLink("Home", "Index", "Home")%&gt;&lt;/li&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;%= Html.ActionLink("About", "About", "Home")%&gt;&lt;/li&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<span class="super">3</span></span><br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&lt;div id="main"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">&lt;asp:ContentPlaceHolder ID="MainContent" runat="server" /&gt;<span class="super">4</span></span><br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="footer"&gt;&lt;/div&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+							&nbsp;&nbsp;&lt;/div&gt;<br/>
+							&nbsp;&lt;/body&gt;<br/>
+							&lt;/html&gt;
+					</code>
+					<b>Converted to SharpTiles</b><br/>
+					<code>
+							&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;<br/>
+							&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;<br/>
+							&nbsp;&lt;head&gt;<br/>
+							&nbsp;&nbsp;&lt;meta http-equiv="Content-Type" content="text/html;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;charset=iso-8859-1" /&gt;<br/>
+							&nbsp;&nbsp;&lt;title&gt;<span class="highlight">&lt;tiles:insert name="title"/&gt;<span class="super">1</span></span>&lt;/title&gt;<br/>
+							&nbsp;&nbsp;&lt;link href="&lt;c:url value='~/Content/Site.css'/&gt;" <br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rel="stylesheet" type="text/css" /&gt;<br/>
+							&nbsp;&lt;/head&gt;<br/>
+							&nbsp;&lt;body&gt;<br/>
+							&nbsp;&nbsp;&lt;div class="page"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&lt;div id="header"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="title"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;SharpTiles Plain Tiles tutorial&lt;/h1&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="logindisplay"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">&lt;tiles:insertTemplate template="Logon.htm"/&gt;<span class="super">2</span></span><br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt; <br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="menucontainer"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">&lt;tiles:insertTemplate template="Menu.htm"/&gt;<span class="super">3</span></span><br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&lt;div id="main"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="content"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">&lt;tiles:insert name="body"/&gt;<span class="super">4</span></span><br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="footer"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;My Sample MVC Application WITH TILES &copy; Copyright 2008<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+							&nbsp;&nbsp;&lt;/div&gt;<br/>
+							&nbsp;&lt;/body&gt;<br/>
+							&lt;/html&gt;
+					</code>
+					<b>Extracted menu</b><br/>
+					<code>
+						&lt;ul id="menu"&gt;<br/>
+						&nbsp;&nbsp;&lt;li&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_index"<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href="&lt;c:url value='~/Home/Index'/&gt;"&gt;Index&lt;/a&gt; <br/>
+						&nbsp;&nbsp;&lt;/li&gt;<br/>
+						&nbsp;&nbsp;&lt;li&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_about"<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href="&lt;c:url value='~/Home/About'/&gt;"&gt;About&lt;/a&gt; <br/>
+						&nbsp;&nbsp;&lt;/li&gt;<br/>
+						&lt;/ul&gt;<span class="super">3</span><br/>
+					</code>
+					</p>
+				<p>
+					<ol>
+						<li>Changed the content place holder, &lt;asp:ContentPlaceHolder/&gt;, with tiles insert tag, &lt;tiles:insert /&gt;.</li>
+						<li>Changed the content place holder, &lt;% Html.RenderPartial %&gt;, with tiles insert template tag, &lt;tiles:insertTemplate /&gt;. We can do this because the Logon part is the same in all views.</li>
+						<li>Extract the menu &lt;ul id="menu"&gt;  into a tile. It is always the same so we can import is as a template. with the &lt;tiles:insertTemplate /&gt;</li>
+						<li>Changed the content place holder, &lt;asp:ContentPlaceHolder/&gt;, with tiles insert tag, &lt;tiles:insert /&gt;.</li>
+					</ol> 
+				</p>
+				<p>
+				The master page is now translated to a tile with tile definition. Now we will translate the <i>View/Home/Index.aspx</i> to a tile.
+				</p>
+				<p>
+					<b>View/Home/Index.aspx</b>
+					<code>
+						&lt;%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %&gt;<br/>
+						&lt;asp:Content ID="indexTitle"<span class="super">1</span><br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ContentPlaceHolderID="TitleContent"<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;runat="server"&gt;<br/>
+						&nbsp;&nbsp;Home Page<br/>
+						&lt;/asp:Content&gt;<br/>
+						&lt;asp:Content ID="indexContent"<span class="super">2</span><br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ContentPlaceHolderID="MainContent"<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;runat="server"&gt;<br/>
+						&nbsp;&nbsp;&lt;h2&gt;&lt;%= Html.Encode(ViewData["Message"]) %&gt;&lt;/h2&gt;<br/>
+						&nbsp;&nbsp;&lt;p&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;To learn more about ASP.NET MVC visit ...<br/>
+						&nbsp;&nbsp;&lt;/p&gt;<br/>
+						&lt;/asp:Content&gt;<br/>
+					</code>
+				</p>
+				<p>
+					<b>Converted to View/Home/Index.tile</b><br/>
+					<code>
+						&lt;tiles:insertTemplate template="../Shared/Layout.htm"&gt;<br/>
+						&nbsp;&nbsp;&lt;tiles:putAttribute name="title"&gt;<span class="super">1</span><br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;Home Page<br/>
+						&nbsp;&nbsp;&lt;/tiles:putAttribute&gt;<br/>
+						&nbsp;&nbsp;&lt;tiles:putAttribute name="body"&gt;<span class="super">2</span><br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="main"&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${Message}<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/h2&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To learn more about ASP.NET MVC visit &lt;a href="http://asp.net/mvc" title="ASP.NET MVC Website"&gt;http://asp.net/mvc&lt;/a&gt;.<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+						&nbsp;&nbsp;&lt;/tiles:putAttribute&gt;<br/><br/>
+						&lt;/tiles:insertTemplate&gt;
+					</code>
+				</p>
+				<p>
+					<ol>
+						<li>Defined the content for the tile place holder <i>title</i>.</li>
+						<li>Defined the content for the tile place holder <i>body</i>.</li>
+					</ol>
+				</p>
+				<p>The structure of the tile looks very much like the aspx. It's very easy to nest the views more than one level. Now we have defined a view named <i>Home.Index</i> This view is the default view of the Index() method in the HomeController(). 
+				</p>
+				</a>
+				<p>The rest is more of the same. See the project for end result.</p>
+				</p>
+				<p class="post-footer align-right">					
+					Source location: PlainTiles project in the <a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-4.0-tutorials.zip&a=69471938">Tutorials</a> solution.
+				</p>
+</div>

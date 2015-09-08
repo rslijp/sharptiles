@@ -1,0 +1,8 @@
+﻿<c:choose>
+  <c:when test="${Request.IsAuthenticated}">
+    <fmt:message key="logon_welcome"><fmt:param value="${Page.User.Identity.Name}"/></fmt:message> [ <a href="<html:action Action="LogOff" Controller="Account"/>"><fmt:message key="logon_logoff"/></a> ]
+  </c:when>
+  <c:otherwise>
+    [ <a href="<html:action Action="LogOn" Controller="Account"/>"><fmt:message key="logon_logon"/></a> ]
+  </c:otherwise>
+</c:choose>

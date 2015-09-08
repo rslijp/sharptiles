@@ -1,0 +1,12 @@
+﻿<c:if test="${(fn:empty(Page.ExpressionCategory) or Page.ExpressionCategory != Tag.Item.CategoryDescriptionKey) and not fn:empty(Tag.Item.CategoryDescriptionKey)}">
+    <c:if test="${not fn:empty(Page.ExpressionCategory)}">
+        </table>
+    </c:if>
+        <h3><fmt:message key="${Tag.Item.CategoryDescriptionKey}"/></h3>
+        <table>
+        <tr>
+            <th><fmt:message key="expression_Header_Operator"/></th>
+            <th><fmt:message key="expression_Header_Description"/></th>
+         </tr>
+</c:if>
+<c:set scope="Page" var="ExpressionCategory" value="${Tag.Item.CategoryDescriptionKey}" />

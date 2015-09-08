@@ -1,0 +1,452 @@
+			<div id="sidebar">
+			
+				<h1>Sidebar Menu</h1>
+				<ul class="sidemenu">
+					<li><a href="#">Getting started</a></li>
+					<li><a href="#mvc">Simple MVC</a></li>
+					<li><a href="#tiles">Adding tiles</a></li>
+					<li><a href="#test">Making a test</a></li>
+					<li><a href="#refactor">Refactoring a test</a></li>
+				</ul>				
+			</div>		
+	
+	  		<div id="main"> 
+				
+				<h1>Getting started</h1>
+				<p>This "getting started" is based on VS2008. All tutorials are included in the source distribution</p>
+
+				<a name="mvc"></a>
+				<h3>Simple MVC tutorial</h3>
+				<p>
+				<i>Requires ASP.NET MVC</i></br>
+				First we create a new MVC solution.
+				</p>
+				<p>
+				<img src="images/step1_project_clipped.png" alt="New project in VS2008 of the 'ASP.NET MVC Web Application' type"/>
+				</p>
+				<p>
+				We now add a reference to the 'org.SharpTiles.dll'
+				</p>
+				<p>
+				<img src="images/step2_addreference.png" alt="Add Reference &gt; Browse &gt; org.SharpTiles.dll"/>
+				</p>
+				<p>
+				To use the tiles view engine you have to register the TilesViewEngine. A good place to do this is in the Application_Start method in Global.asax.cs 
+				extension methods.
+				</p>
+				<p>
+					<code>
+						protected void Application_Start()<br/>
+						{<br/>
+						&nbsp;&nbsp;RegisterRoutes(RouteTable.Routes);<br/>
+						&nbsp;&nbsp;<span class="highlight">ViewEngines.Engines.Clear();</span><br/>
+						&nbsp;&nbsp;<span class="highlight">ViewEngines.Engines.Add(new TilesViewEngine().Init());</span><br/>
+						}<br/>
+					</code>
+				</p>
+				<p>You don't have to change anything to your Controller. (This was required in older release of SharpTiles.) </p>
+				<p>
+					<code>
+					using System.Web.Mvc;<br/>
+					using org.SharpTiles.Connectors;<br/>
+					<br/>
+					namespace MvcApplication1.Controllers<br/>
+					{<br/>
+					&nbsp;&nbsp;public class HomeController : Controller<br/>
+					&nbsp;&nbsp;{<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;public ActionResult Index()<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ViewData["Title"] = "Home Page";<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ViewData["Message"] = "Welcome to ASP.NET MVC!";<br/>
+					<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return View();<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+					<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;public ActionResult About()<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ViewData["Title"] = "About Page";<br/>
+					<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return View();<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+					&nbsp;&nbsp;}<br/>
+					}<br/>
+					</code>
+				</p>
+				<p>
+				Well we are done with the code files lets move on to configuring tiles. SharpTiles requires a tiles 
+				definition file which holds all definitions. You can either set the location in the Web.Config file or just make a file called tiles.xml as embedded resource and place it in your assembly. 
+				SharpTiles will scan the calling assembly looking for a tiles.xml file. For now we will use the assembly approach. Check out the tutorial section for different approaches. So lets make the file tiles.xml in the Views folder. Make sure it is an embedded resource. It should look like this: 
+				</p>
+				<p>
+					<code>
+						&lt;?xml version="1.0" encoding="utf-16"?&gt;<br/>
+						&lt;tiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;<br/>
+						&nbsp;&nbsp;&lt;definitions&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;tile name="<i>Home.Index</i>" path="<span class="highlight">Views.Home.Index.tile</span>" /&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;tile name="<i>Home.About</i>" path="<span class="highlight">Views.Home.About.tile</span>" /&gt;<br/>
+						&nbsp;&nbsp;&lt;/definitions&gt;<br/>
+						&lt;/tiles&gt;<br/>
+					</code>
+				</p>
+				<p>In the sample file we see two view names 'Home.Index' and 'Home.About' (in italic). The default tile name is a concatenation of the controller name, a '.', and the action name (&lt;controller&gt;.&lt;action&gt;).
+				The highlighted blue parts are the tiles we have to implement. First we construct an Index.tile in Views\Home</p>
+				<p>
+						<code>
+							&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"&gt;<br/>
+							&lt;html&gt;<br/>
+							&nbsp;&nbsp;&lt;head&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Index&lt;/title&gt;<br/>
+							&nbsp;&nbsp;&lt;/head&gt;<br/>
+							&nbsp;&nbsp;&lt;body&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;${Title}&lt;/h1&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;${Message}&lt;/p&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="link_to_about" href="Home/About"&gt;Next&lt;/a&gt; <br/>
+							&nbsp;&nbsp;&lt;/body&gt;<br/>
+							&lt;/html&gt;<br/>
+						</code>
+				</p>
+				<p>And we make an About.tile in View\Home</p>
+				<p>
+						<code>
+							&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"&gt;<br/>
+							&lt;html&gt;<br/>
+							&nbsp;&nbsp;&lt;head&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Welcome&lt;/title&gt;<br/>
+							&nbsp;&nbsp;&lt;/head&gt;<br/>
+							&nbsp;&nbsp;&lt;body&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;${Title}&lt;/h1&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Lorem ipsum dolor sit amet, <br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;consectetuer adipiscing elit, sed diam nonummy<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nibh euismod tincidunt ut laoreet dolore magna<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aliquam erat....&lt;/p&gt;<br/>
+							&nbsp;&nbsp;&lt;/body&gt;<br/>
+							&lt;/html&gt;<br/>
+						</code>
+				</p>
+				<p>
+				Make sure that the you make both files an 'Embedded Resource'. This should result in the following file structure. The .aspx files can be removed, if you like.
+				</p>
+				<p>
+				<img src="images/step3_filestructure.png" alt="File structure after completing previous steps"/>
+				</p>
+				<p>Voila, you are ready to run the solution.</p>
+				<p>
+				<img src="images/step4_appinaction.png" alt="Application showing the home screen"/>
+				</p>
+				<p><i>I can almost hear you think: "Hmmm wait a minute. I've lost my master page. Now I'm repeating myself. This can't be good". And you
+				are correct. This is where tiles come in the picture.</i></p>
+				
+				<a name="tiles"></a>
+				<h3>Adding Tiles</h3>
+				<p>What we're missing here is the base page. Let's introduce it again without together with our tile place holder. 
+				Create a file 'Layout.tile' in the 'Shared' folder with the following contents. Make sure that the you make it an 'Embedded Resource' and
+				change your virtual path in you project settings to ''/SharpTilesSample/'</p>
+				<p>
+						<code>
+							&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"&gt;<br/>
+							&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;<br/>
+							&nbsp;&nbsp;&lt;head&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;<span class="highlight">${Title}</span>&lt;/title&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;link href=<span class="highlight">"/SharpTilesSample/Content/Site.css"</span><br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rel="stylesheet"<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type="text/css" /&gt;<br/>
+							&nbsp;&nbsp;&lt;/head&gt;<br/>
+							&nbsp;&nbsp;&lt;body&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="page"&gt;<br/>
+							<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="header"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p id="logo"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href=""&gt;My Sample MVC Application WITH TILES&lt;/a&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul id="menu"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_index"<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href=<span class="highlight">"/SharpTilesSample/Home/Index"</span>&gt;Index&lt;/a&gt; <br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_about"<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href=<span class="highlight">"/SharpTilesSample/Home/About"</span>&gt;About&lt;/a&gt; <br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+							<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="main"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="content"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">&lt;tiles:insert name="body"/&gt;</span><br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="footer"&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;My Sample MVC Application WITH TILES &copy; Copyright 2008<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+							&nbsp;&nbsp;&lt;/body&gt;<br/>
+							&lt;/html&gt;<br/>
+						</code>
+				</p>
+				<p>As you can see I highlighted all url's, (your first) SharpTiles insert tag and <i>${Title}</i>. The <i>&lt;tiles:insert/&gt;</i> is the will be substituted with the content defined in the <i>tiles.xml</i>
+				   For now you can think of it as the <i>&lt;asp:ContentPlaceHolder ID="MainContent" runat="server" /&gt;</i> on steriods. I will explain later.
+				</p>
+				<p>The urls are highlighted because they have to absolute and include the application name. If you don`t want to mention the application name you got to use the <i>&lt;c:url/&gt;</i> tag. 
+				   The next example shows the same menu as above but now with the use of the <i>&lt;c:url/&gt;</i>.
+				</p>
+				<p>
+					<code>
+						    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_index"<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href=<span class="highlight">"&lt;c:url value='~/Home/Index'/&gt;"</span>&gt;Index&lt;/a&gt; <br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_about"<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href=<span class="highlight">"&lt;c:url value='~/Home/About'/&gt;"</span>&gt;About&lt;/a&gt; <br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br/>
+					</code>
+				</p>
+				<p>Okay we got rid of the repeating of the application name, but (in my opnion) we do pay a small price. The <span class="highlight">single quote</span> is required for parsing purposes.
+				</p>
+				<p>So what's next. We got our new layout template in place. But our view 'Index' and 'About' still have the redudant html stuff in it. After some stripping the <i>Index.tile</i> should look like this
+				</p>
+				<p>
+					<code>
+						&lt;h1&gt;${Title}&lt;/h1&gt;<br/>
+						&lt;p&gt;${Message}&lt;/p&gt;<br/>
+						&lt;a id="link_to_about" href="/SharpTilesSample/Home/About"&gt;Next&lt;/a&gt;<br/>
+					</code>
+				</p>
+				<p>And the <i>About.tile</i> should look like this
+				</p>
+				<p>
+					<code>
+						&lt;h1&gt;${Title}&lt;/h1&gt;<br/>
+						&lt;p&gt;<br/>
+						&nbsp;&nbsp;Lorem ipsum dolor sit amet,</br>
+						&nbsp;&nbsp;consectetuer adipiscing elit, sed diam nonummy</br>
+						&nbsp;&nbsp;nibh euismod tincidunt ut laoreet dolore magna</br>
+						&nbsp;&nbsp;aliquam erat....</br>
+						&lt;/p&gt;<br/>
+					</code>
+				</p>
+				<p>Now we can put it all together. To make this all work we have to revisited the <i>tiles.xml</i> and redefine the 'Index' and 'About' definition.
+				   What do we need to define:<br>
+				   <ul>
+						<li>Define the tile 'Layout.tile' as 'Default.Page.Layout'</li>
+						<li>Extend the tile 'Home.Index' from 'Default.Page.Layout'<br/>
+							&nbsp;&nbsp;And use 'Index.tile' for the 'body' attribute.
+						</li>
+						<li>Extend the tile 'Home.About' from 'Default.Page.Layout'<br/>
+							&nbsp;&nbsp;And use 'About.tile' for the 'body' attribute.
+						</li>
+					</ul>
+				</p>
+				<p>
+					Why is 'Index' extended from 'Default.Page.Layout'? We want the 'Index' file to use the same layout as defined in 'Default.Page.Layout'. Extending takes care of this.
+				</p>
+				<p>
+					<code>
+						&lt;?xml version="1.0" encoding="utf-16"?&gt;<br/>
+						&lt;tiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;<br/>
+						&nbsp;&nbsp;&lt;definitions&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;tile name="Default.Page.Layout" path="Views.Shared.Layout.tile" /&gt;<br/>
+						<br/>	
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;tile name="Home.Index" extends="Default.Page.Layout"&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;attribute name="body" value="Views.Home.Index.tile"&gt;&lt;/attribute&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tile&gt;<br/>
+						<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;tile name="Home.About" extends="Default.Page.Layout"&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;attribute name="body" value="Views.Home.About.tile"&gt;&lt;/attribute&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tile&gt;<br/>
+						<br/>
+						&nbsp;&nbsp;&lt;/definitions&gt;<br/>
+						&lt;/tiles&gt;
+					</code>
+				</p>
+				<p>And yet again you are ready to run the solution.</p>
+				<p>
+				<img src="images/step5_appinaction.png" alt="Application showing the home screen now with a layout template"/>
+				</p>
+				<p>This looks alright, doesn't it. I promised you that the layout was testable, without running the webserver. 
+				This is covered in the next block. If testing through the webserver is your need I would suggest using <a href="http://watin.sourceforge.net" target="_blank">WatiN</a> or <a href="http://sourceforge.net/projects/checkmate/" target="_blank">checkmate</p>
+				<a name="test"></a>
+				<h3>Writing a test</h3>
+				<p>
+					To be able to use tiles in tests. The tiles definitions have to be loaded. SharpTiles provides some functionality to help 
+					writing tests. The <i>GuardInit</i> loads the embedded tiles inside the provided assembly.
+					<code>
+						private IViewCache _cache;<br/>
+						<br/>
+						[SetUp]<br/>
+						public void SetUp()<br/>
+						{<br/>
+						&nbsp;&nbsp;_cache = new TilesCache().GuardInit(Assembly.GetAssembly(typeof(OutputConstraintTest)))<br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					The tiles in the SharpTilesSample application our now loaded and available for testing(any IViewCache will do).  
+					The behaviour of the used cache differs. 
+					SharpTiles comes with the following two IViewCache implementations.
+					<ul>
+						<li><b>TilesCache</b> - This cache preloads all the tiles from the tiles.xml View are retrieved by tile definition name.</li>
+						<li><b>NstlCache</b> - This cache lazily loads all view. View are retrieved by path name.</li>
+					</ul>
+					Let's write a simple test, that checks the rendering of a complete tile. 
+				</p>
+				<p>
+					<code>
+						Assert.That(<span class="highlight">"Home.About"<span class="super">1</span></span>,<br/>
+						&nbsp;&nbsp;Output.<br/>
+                        &nbsp;&nbsp;Is.EqualTo.<br/>
+                        &nbsp;&nbsp;File(<span class="highlight">"Views/Home/about.expected.full.html"<span class="super">2</span></span>).<br/>
+                        &nbsp;&nbsp;UsingModel(<span class="highlight">new Hashtable { { "Title", "TEST TITLE" } }<span class="super">3</span></span>)<br/>
+						&nbsp;&nbsp;<span class="highlight">From(_cache)<span class="super">4</span></span>);<br/>
+                    </code>
+				</p>
+				<p>
+					<ol>
+						<li>The tile to test</li>
+						<li>The file location with the expected result</li>
+						<li>The model to use for rendering</li>
+						<li>The cache which contains all the tiles</li>
+					</ol> 
+				</p>
+				<p>
+					Testing only an attribute of a tile can be achieved by <i>&lt;Tile name&gt;@&lt;Attribte name&gt;</i>. For example <i>Home.About@body</i>
+					Testing the full rendering of a tile (and it's nested tiles) is specificly usesfull for tesing small tiles and for refactoring
+					bigger tiles. See the chapter about <a href="#refactor">Refactoring a test</a>. </br>
+					When testing a tile with nested tiles, you don't want full rendering. We only want to unit test the tile and not be bothered with nested 
+					tiles. Full rendering will make subject your tests to changes of used tiles and therefby unstable. How to prevent this problem.
+					SharpTiles offers you a way to stub-out the used tiles. 
+				</p>
+				<p>
+					<code>
+						 Assert.That("Home.About",<br/>
+							&nbsp;&nbsp;Output.<br/>
+                            &nbsp;&nbsp;Is.EqualTo.<br/>
+                            &nbsp;&nbsp;File("Views/Home/about.expected.tile.html").<br/>
+                            &nbsp;&nbsp;UsingModel(new Hashtable { { "Title", "TEST TITLE" } }).<br/>
+                            &nbsp;&nbsp;<span class="highlight">StubOutTiles()</span>.<br/>
+							&nbsp;&nbsp;From(_cache));<br/>
+					</code>
+				</p>
+				<p>
+					SharpTiles also renders whitespaces, tabs, newlines, etc. This means that rendering a tile may add some unexpected white space characters. In HTML 
+					we're not so concerned white space characters. This can complicate unit testing. When <i>Output.Is.Like</i> is used instead of <i>Output.Is.EqualTo</i> al
+					white space characters are ignored in the comparison.  
+				</p>
+				<p>
+					This covers the basic of unit testing of tiles. Now you should be able to <a href="http://en.wikipedia.org/wiki/Test-driven_development" target="_blank">test driven develop</a> and 
+					<a href="#refactor">refactor</a> the html rendering of your web application. 
+				</p>
+				<a name="refactor"></a>
+				<h3>Refactoring</h3>
+				<p>
+					With testing available, refactoring is possible. The next tutorial shows how to extract a tile. First we capture
+					the current output. We can do this by writing a test. If you download the source code you can use the tests inside 
+					the MVCSample application.
+				</p>
+				<p>
+					<code>
+						Assert.That("Home.About",<br/>
+						&nbsp;&nbsp;Output.<br/>
+                        &nbsp;&nbsp;Is.EqualTo.<br/>
+                        &nbsp;&nbsp;File("Views/Home/about.expected.full.html").<br/>
+                        &nbsp;&nbsp;UsingModel(new Hashtable { { "Title", "TEST TITLE" } }).
+                        &nbsp;&nbsp;<span class="highlight">StoreResultInFile(@"c:\output.html")</span>.</br>
+                        &nbsp;&nbsp;From(_cache));<br/>
+                    </code>
+                </p>
+                <p>
+					It's not advisable to keep this test. We only use it for refactoring. After running the test. The highlighted addition can be removed. 
+					Now we can start refactoring. We want to move the menu(high lighted in the sample below) on top a tile.
+                </p>
+				<p>
+					<code>
+						&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"&gt;<br/>
+						&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;<br/>
+						&nbsp;&nbsp;&lt;head&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;${Title}&lt;/title&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;link href="/SharpTilesSample/Content/Site.css"<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rel="stylesheet"<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type="text/css" /&gt;<br/>
+						&nbsp;&nbsp;&lt;/head&gt;<br/>
+						&nbsp;&nbsp;&lt;body&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="page"&gt;<br/>
+						<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="header"&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p id="logo"&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href=""&gt;My Sample MVC Application WITH TILES&lt;/a&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br/>
+						<span class="highlight">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul id="menu"&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_index"<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href="/SharpTilesSample/Home/Index"&gt;Index&lt;/a&gt; <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_about"<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href="/SharpTilesSample/Home/About"&gt;About&lt;/a&gt; <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br/>
+						</span>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+						<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="main"&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="content"&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tiles:insert name="body"/&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="footer"&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;My Sample MVC Application WITH TILES &copy; Copyright 2008<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+						&nbsp;&nbsp;&lt;/body&gt;<br/>
+						&lt;/html&gt;<br/>
+					</code>
+				</p>
+				<p>
+					To achieve this copy the high lighted section into a new file '/Views/Home/Shared/Menu.tile'. And replace the high lighted 
+					section in 'Layout.tile' with
+				</p>
+				<p>
+					<code>
+						&lt;tiles:insert name="menu"/&gt;
+					</code>
+				</p>
+				<p>The tiles are changed but we have to inject a tile with name 'menu' into to the Layout.tile. This must be done in 
+				   the 'tiles.xml'. Change the line					
+				</p>
+				<p>
+					<code>
+						&lt;tile name="Default.Page.Layout" path="Views.Shared.Layout.tile"/&gt;<br/>
+					</code>
+				</p>
+				<p>into</p>
+				<p>
+					<code>
+						&lt;tile name="Default.Page.Layout" path="Views.Shared.Layout.tile"&gt;<br/>
+						&nbsp;&nbsp;&lt;attribute name="menu" value="Views.Shared.Menu.tile"/&gt;<br/>
+						&lt;/tile&gt;<br/>
+					</code>
+				</p>
+				<p>Running the unit test probably will fail. This is because the template engine also renders spaces, enters, tabs, etc.
+				   We can fix this by using Like instead of EqualTo. Like ignores all whitespace characters.
+				</p>
+				<p>
+					<code>
+						Assert.That("Home.About",<br/>
+						&nbsp;&nbsp;Output.<br/>
+                        &nbsp;&nbsp;Is.<span class="highlight">Like</span>.<br/>
+                        &nbsp;&nbsp;File("Views/Home/about.expected.full.html").<br/>
+                        &nbsp;&nbsp;UsingModel(new Hashtable { { "Title", "TEST TITLE" } }).<br/>
+                        &nbsp;&nbsp;From(_cache));<br/>
+                    </code>
+                </p>
+                <p>Voila the test is running and the refactoring is complete
+				</p>
+			</div>

@@ -1,0 +1,503 @@
+<?php include('tutorials.sidemenu.fragment.html'); ?>
+
+<div id="main"> 
+		
+
+
+				<a name="extendingthetaglib"></a>
+				<h3><i>Extending the tag lib</i> <br/>Add new tags and functions to SharpTiles</i></h3>
+				<p>
+					SharpTiles comes with some build in functions and taglibs (the JSTL and tiles set). You can extend these tag anf functions libs. This tutorial will show you how to make the following work.
+				</p>
+				<p>
+					In /Home/Index.tile
+					<code>
+						&lt;h2&gt;<br/>
+						&nbsp;&nbsp;${Message}<br/>
+						&lt;/h2&gt;<br/>
+						&lt;p&gt;<br/>
+						&nbsp;&nbsp;Custom tags samples<br/>
+						&nbsp;&nbsp;Now tag example: <span class="highlight">&lt;my:now/&gt;<span class="super">1a</span></span>&lt;br/&gt;<br/>
+						&nbsp;&nbsp;This is the tag example with a message:<br/> 
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">&lt;my:simple Message="with a message"/&gt;<span class="super">1b</span></span>&lt;br/&gt;<br/>
+						&nbsp;&nbsp;This is the tag example with a body:<br/> 
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">&lt;my:niceBody&gt;Yihaaa&lt;/my:niceBody&gt;<span class="super">1c</span></span><br/>
+						&nbsp;&nbsp;This a more complex tag examlpe with fallback in order <br/>
+						Override, Message, Default:<br/>
+						<span class="highlight">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;my:ping Override="OVERRIDE"/&gt;,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;my:ping Message="MESSAGE"/&gt;,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;my:ping /&gt;
+						<span class="super">1d</span></span>&lt;br/&gt;<br/>
+						&nbsp;&nbsp;Tags using the TagModel:<br/> 
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">&lt;my:session Name="AMessage"/&gt;,<br/> 
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;my:any Name="AMessage"/&gt;<span class="super">1e</span></span><br/>
+ 						&nbsp;&nbsp;Tag with nested elemens:<br/>
+						<span class="highlight">
+						&nbsp;&nbsp;&lt;my:jar index="3"&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;my:pickle&gt;Big pickle&lt;/my:pickle&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;my:pickle&gt;Medium pickle&lt;/my:pickle&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;my:pickle&gt;Little pickle&lt;/my:pickle&gt;<br/>
+						&nbsp;&nbsp;&lt;/my:jar&gt;&lt;br/&gt;<span class="super">1f</span></span>
+						<br/>
+						&nbsp;&nbsp;Some custom functions like the fibonacci of 8=${<span class="highlight">math:fibonacci('8')<span class="super">2</span></span>}<br/>
+						&nbsp;&nbsp;and the faculty of 8=${<span class="highlight">math:faculty('8')<span class="super">2</span></span>}<br/>
+						&lt;/p&gt;<br/>
+					</code>
+				</p>
+				<p>
+					<ol>
+						<li>
+							a. Simpel tag without attribute<br/>
+							b. Tag with attribute<br/>
+							c. Tag with a nested content<br/>
+							d. Tag with fall back behaviour content allowed in body<br/>
+							e. Tag using the tag model<br/>
+							f. Complex tag, with nested tags<br/>
+						</li>
+						<li>Some custom functions</i>
+					</ol>
+				</p>
+				<p>
+					Tags and functions have to be added before initialization of the tiles. SharpTiles will initialize
+					tiles when the tiles.xml is loaded. The reason is that all tiles are compiled on load. If an unknown tag is encountered a parse error is returned.<br/>
+					It is therefor a good choice to register your tags in the same place as initializing SharpTiles.
+				</p>
+				<p>
+					<code>
+						protected void Application_Start()<br/>
+						{<br/>
+						&nbsp;&nbsp;RegisterRoutes(RouteTable.Routes);<br/>
+						&nbsp;&nbsp;ViewEngines.Engines.Clear();<br/>
+						&nbsp;&nbsp;<span class="highlight">FunctionLib.Register(new MathLib());<span class="super">1</span></span><br/>
+						&nbsp;&nbsp;<span class="highlight">TagLib.Register(new MyTagLib());<span class="super">2</span></span><br/>
+						&nbsp;&nbsp;var engine = new TilesViewEngine();<br/>
+						&nbsp;&nbsp;ViewEngines.Engines.Add(engine.Init());<br/>
+						&nbsp;&nbsp;engine.LoadResourceBundle(<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;"CustomTaglibsTagsAndFunctions.Views.default"<br/>
+						&nbsp;&nbsp;);<br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					Note that both lines are before initializing the view engine.
+					<ol>
+						<li>By adding <i>FunctionLib</i>-objects to the FunctionLib. You can register your own function libraries. In future releases <i>FunctionLib</i> will become an interface.</li>
+						<li>By adding <i>ITagGroup</i>-objects to the TagLib. You can register your own tag library</li>
+					</ol>
+				</p>
+				<p>
+					This class groups all functions under <i>math:</i>. So how to define your function. 
+				</p>
+				<p> 
+					Let's start with extending the function library and take a look at MathLib.cs
+					<code>
+						public class MathLib : FunctionLib<br/>
+						{<br/>
+						&nbsp;&nbsp;public MathLib()<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;RegisterFunction(<span class="highlight">new FacultyFunction()</span>);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;RegisterFunction(<span class="highlight">new FibonacciFunction()<span class="super">1</span></span><br/>
+						&nbsp;&nbsp;}<br/>
+						<br/>
+						&nbsp;&nbsp;public override string GroupName<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return <span class="highlight">"math"<span class="super">2</span></span>; }<br/>
+						&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;...<br/>
+					</code>
+				</p>
+				<p>
+					Note that both lines are before initializing the view engine.
+					<ol>
+						<li>Adds two functions. Functions have to implement <i>IFunctionDefinition</i></li>
+						<li>Defines the name of the function group</li>
+					</ol>
+				</p>
+				<p> 
+					Let's take a better look at the <i>FacultyFunction</i> class<br/>
+					<code>
+						public class FacultyFunction : <span class="highlight">IFunctionDefinition<span class="super">1</span></span><br/>
+						{<br/>	
+						&nbsp;&nbsp;private static readonly FunctionArgument[] ARGUMENTS = new[]<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new FunctionArgument{ Type = typeof (int), Name = "number" }<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};<br/>
+						<br/>
+						&nbsp;&nbsp;<span class="highlight">public object Evaluate(params object[] parameters)<span class="super">2</span></span><br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;int seed = ((int?)parameters[0]) ?? 0;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;return fac(seed);<br/>
+						&nbsp;&nbsp;}<br/>
+							<br/>
+						&nbsp;&nbsp;private int fac(int seed)<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;if (seed == 1) return 1;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;return seed * fac(seed - 1);<br/>
+						&nbsp;&nbsp;}<br/>
+							<br/>
+						&nbsp;&nbsp;public string <span class="highlight">Name<span class="super">3</span></span><br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return "faculty"; }<br/>
+						&nbsp;&nbsp;}<br/>
+							<br/>
+						&nbsp;&nbsp;public FunctionArgument[] <span class="highlight">Arguments<span class="super">4</span></span><br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return ARGUMENTS; }<br/>
+						&nbsp;&nbsp;}<br/>
+							<br/>
+						&nbsp;&nbsp;public Type <span class="highlight">ReturnType<span class="super">5</span></span><br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return typeof(int); }<br/>
+						&nbsp;&nbsp;}<br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					<ol>
+						<li><i>IFunctionDefinition</i> is a required interface</li>
+						<li>Required method. This method implements the behaviour of your function. Parameters are supplied according to defined arguments. see note 5</li>
+						<li>Required property. Defines the name of the function. Because this method is part of the MathLib with name "math". This function is accessible as "math:faculty"</li>
+						<li>Required property. Defines the arguments required by this function</li>
+						<li>Required property. Defines the return type of this function</li>
+					</ol>
+				</p>
+				<p>
+					Only simple types are supported for usage in parameters and return types. This covers the custom registration of functions. Let's proceed with cutom tags.
+				</p>
+				<p>
+					<code>
+						public class MyTagLib : <span class="highlight">BaseTagGroup&lt;MyTagLib&gt;<span class="super">1</span></span><br/>
+						{<br/>
+						&nbsp;&nbsp;static MyTagLib()<br/>
+						&nbsp;&nbsp;{<br/>
+						<span class="highlight">
+						&nbsp;&nbsp;&nbsp;&nbsp;Register&lt;Now&gt;();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;Register&lt;Ping&gt;();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;Register&lt;Simple&gt;();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;Register&lt;Jar&gt;();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;Register&lt;Pickle&gt;();
+						<span class="super">2</span></span><br/>
+						&nbsp;&nbsp;}<br/>
+						<br/>
+						&nbsp;&nbsp;public override string Name<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return <span class="highlight">"my"<span class="super">2</span></span>; }<br/>
+						&nbsp;&nbsp;}<br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					<ol>
+						<li><i>ITagGroup</i> is a required interface. BaseTagGroup&lt;T&gt; helps with the basic stuff</li>
+						<li>Registered tags. A registed tag must be of type <i>ITag</i></li>
+						<li>Name of the tag group</li>
+					</ol>
+				</p>
+				<p>We start with the most simple tag. This tag doesn't allow for a body and doesn't take any attributes.</p>
+				<p>
+					In MyTagLib.cs<br/>
+					<code>
+					internal class Now : BaseCoreTag, <span class="highlight">ITag<span class="super">1</span></span><br/>
+					{<br/>
+					&nbsp;&nbsp;public static readonly string NAME = "now";<br/>
+				<br/>
+					&nbsp;&nbsp;public string TagName<br/>
+					&nbsp;&nbsp;{<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;get { return <span class="highlight">NAME<span class="super">2</span></span>; }<br/>
+					&nbsp;&nbsp;}<br/>
+				<br/>
+					&nbsp;&nbsp;public TagBodyMode TagBodyMode<br/>
+					&nbsp;&nbsp;{<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;get { return <span class="highlight">TagBodyMode.None<span class="super">3</span></span>; }<br/>
+					&nbsp;&nbsp;}<br/>
+				<br/>
+					&nbsp;&nbsp;public string Evaluate(TagModel model)<br/>
+					&nbsp;&nbsp;{<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;return <span class="highlight">DateTime.Now.ToString();<span class="super">4</span></span><br/>
+					&nbsp;&nbsp;}<br/>
+					}<br/>
+					</code>
+				</p>
+				<p>
+					<ol>
+						<li><i>ITag</i> is a required interface. BaseCoreTag&lt;T&gt; helps with the basic stuff. There are a lot of base implementations helping you with a various of basic functionality. I will summerize them at the end of this tutorial</li>
+						<li>Name of the tag. Because this method is part of the MyTagLib with name "my". This tag is accessible as "my:now" </li>
+						<li>The tag body mode. <i>TagBodyMode.None</i> states that no body (nested/encapsulated content) is allowed.</li>
+						<li>Method that provides data to add to the page.</li>
+					</ol>
+					
+				</p>
+				<p>
+					Let's take a look at a tag with an attribute. This tag doesn't have any fallback or default value behaviour.
+				</p>
+				<p>
+					<code>
+						internal class Simple : BaseCoreTag, ITag<br/>
+						{<br/>
+						&nbsp;&nbsp;public static readonly string NAME = "simple";<br/>
+					<br/>
+						&nbsp;&nbsp;public string TagName<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return NAME; }<br/>
+						&nbsp;&nbsp;}<br/>
+					<br/>
+						&nbsp;&nbsp;<span class="highlight">public ITagAttribute Message { get; set; }<span class="super">1</span></span><br/>
+					<br/>
+						&nbsp;&nbsp;public TagBodyMode TagBodyMode<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return TagBodyMode.None; }<br/>
+						&nbsp;&nbsp;}<br/>
+					<br/>
+						&nbsp;&nbsp;public string Evaluate(TagModel model)<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;return <span class="highlight">Message != null ? Message.Evaluate(model).ToString() : "-";<span class="super">2</span></span><br/>
+						&nbsp;&nbsp;}<br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					<ol>
+						<li>An attribute must always be of type <i>ITagAttribute</i>. The name of the property is also used in the web page.</li>
+						<li>Getting the value of the Message is done by calling evaluate. Please note that the evaluate method requires a TagModel.
+							Using the tag model is discussed later on this tutorial.</li>
+					</ol>
+					
+				</p>
+				<p>
+					Attributes can also fallback to other attributes if not defined or empty. Or they can fall back to a default value. This is done by defining meta data.
+				</p>
+				<p>
+					<code>
+						 internal class Ping : BaseCoreTag, ITag<br/>
+						 {<br/>
+						&nbsp;&nbsp;public static readonly string NAME = "ping";<br/>
+					<br/>
+						&nbsp;&nbsp;public string TagName<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return NAME; }<br/>
+						&nbsp;&nbsp;}<br/>
+					<br/>
+						&nbsp;&nbsp;<span class="highlight">[TagDefaultValue("SORRY")]<span class="super">1</span></span><br/>
+						&nbsp;&nbsp;public ITagAttribute Message { get; set; }<br/>
+					<br/>
+						&nbsp;&nbsp;<span class="highlight">[TagDefaultProperty("Message")]<span class="super">2</span></span><br/>
+						&nbsp;&nbsp;public ITagAttribute Override { get; set; }<br/>
+					<br/>
+						&nbsp;&nbsp;public TagBodyMode TagBodyMode<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return TagBodyMode.None; }<br/>
+						&nbsp;&nbsp;}<br/>
+					<br/>
+						&nbsp;&nbsp;public string Evaluate(TagModel model)<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;return <span class="highlight">GetAutoValueAsString("Override", model);<span class="super">2</span></span><br/>
+						&nbsp;&nbsp;}<br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					<ol>
+						<li>TagDefaultValue - This attribute defines that this property will return "SORRY". When this property is not defined or evaluate to null</li>
+						<li>TagDefaultProperty - This attribute defines that this property will return the value of the property Message. When this property is not defined or evaluate to null</li>
+						<li>This call start evaluating the value. It will first try "Override". Possibly fall back to Message and possibly return the default of "SORRY"</li>
+					</ol>
+					The are overrides which will return the auto value in specific type. So you don't have to cast.
+				</p>
+				<p>
+					<code>
+						internal class NiceBody : BaseCoreTag, ITag<br/>
+						{<br/>
+						&nbsp;&nbsp;public static readonly string NAME = "niceBody";<br/>
+					<br/>
+						&nbsp;&nbsp;public string TagName<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return NAME; }<br/>
+						&nbsp;&nbsp;}<br/>
+					<br/>
+						&nbsp;&nbsp;[TagDefaultValue("EMPTY")]<br/>
+						&nbsp;&nbsp;public ITagAttribute <span class="highlight">Body</span> { get; set; }<br/>
+					<br/>
+						&nbsp;&nbsp;public TagBodyMode TagBodyMode<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return TagBodyMode.Free; }<br/>
+						&nbsp;&nbsp;}<br/>
+					<br/>
+						&nbsp;&nbsp;public string Evaluate(TagModel model)<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;var body = GetAutoValueAsString("Body", model);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;return body.Length + ":" + body;<br/>
+						&nbsp;&nbsp;}<br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					The "Body" property has a special meaning. It is not a property that becomes an attribute. But the Body is actually the encapsulated code by the tag
+					(between &lt;my:niceBody&gt; and &lt;/my:niceBody&gt;). And no, I don't have a nice body. 
+				</p>
+
+				<p>
+					The tag model allows for accessing  tag, page, request, session and global variables. Each scope is represented by a property on the TagModel. The next tutorial 
+					utilizes the Session scope. <i>&lt;c:out /&gt; implements this behaviour for SharpTiles, so you don't have to build your own tags 
+					for accessing the tag model. This is just a tutorial.</i>
+				</p>
+				<p>
+					<code>
+						internal class Session : BaseCoreTag, ITag<br/>
+						{<br/>
+						&nbsp;&nbsp;public static readonly string NAME = "session";<br/>
+						<br/>
+						&nbsp;&nbsp;public string TagName<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return NAME; }<br/>
+						&nbsp;&nbsp;}<br/>
+					<br/>
+						&nbsp;&nbsp;<span class="highlight">[Required]<span class="super">1</span></span><br/>
+						&nbsp;&nbsp;public ITagAttribute Name { get; set; }<br/>
+					<br/>
+						&nbsp;&nbsp;public TagBodyMode TagBodyMode<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return TagBodyMode.None; }<br/>
+						&nbsp;&nbsp;}<br/>
+					<br/>
+						&nbsp;&nbsp;public string Evaluate(TagModel model)<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;var obj = <span class="highlight">model.Session[GetAutoValueAsString("Name", model)]<span class="super">2</span></span>;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;return obj != null ? obj.ToString() : String.Empty;<br/>
+						&nbsp;&nbsp;}<br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					<ol>
+						<li>The required tag makes the property a required attribute in the tile. This is checked during the parse fase.</li>
+						<li>All scopes come with an setter and a getter. So assigning is also possible. You don't have to state the scope explicitly. The tag model can resolve in which scope
+							the data is stored..
+						</li>
+					</ol
+				</p>
+				<p>
+					<code>
+						internal class Any : BaseCoreTag, ITag<br/>
+						{<br/>
+						&nbsp;&nbsp;public static readonly string NAME = "any";<br/>
+					<br/>
+						&nbsp;&nbsp;public string TagName<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return NAME; }<br/>
+						&nbsp;&nbsp;}<br/>
+					<br/>
+						&nbsp;&nbsp;[Required]<br/>
+						&nbsp;&nbsp;public ITagAttribute Name { get; set; }<br/>
+					<br/>
+						&nbsp;&nbsp;public TagBodyMode TagBodyMode<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return TagBodyMode.None; }<br/>
+						&nbsp;&nbsp;}<br/>
+					<br/>
+						&nbsp;&nbsp;public string Evaluate(TagModel model)<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;var obj = <span class="highlight">model[GetAutoValueAsString("Name", model)]</span>;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;return obj != null ? obj.ToString() : String.Empty;<br/>
+						&nbsp;&nbsp;}<br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					For storing data in the model you could also extend from <i>BaseCoreTagWithOptionalVariable</i> or <i>BaseCoreTagWithVariable</i>
+					or implement <i>ITagWithVariable</i> and use the <i>VariableHelper</i>. The sources of SharpTiles are good place to look for examples.
+				</p>
+				<p>
+					SharpTiles also supports more complex structures with nested tags. 
+				</p>
+				<p>
+					<code>
+						internal class Jar : BaseCoreTag, <span class="highlight">ITagWithNestedTags<span class="super">1</span></span><br/>
+						{<br/>
+						&nbsp;&nbsp;public static readonly string NAME = "jar";<br/>
+						&nbsp;&nbsp;private readonly List<Pickle> <span class="highlight">_nestedTags<span class="super">2</span></span> = new List<Pickle>();<br/>
+					<br/>
+						&nbsp;&nbsp;public string TagName<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return NAME; }<br/>
+						&nbsp;&nbsp;}<br/>
+					<br/>
+						&nbsp;&nbsp;[Required]<br/>
+						&nbsp;&nbsp;public ITagAttribute Index { get; set; }<br/>
+					<br/>
+						&nbsp;&nbsp;public TagBodyMode TagBodyMode<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return <span class="highlight">TagBodyMode.NestedTags<span class="super">3</span></span>; }<br/>
+						&nbsp;&nbsp;}<br/>
+					<br/>
+						&nbsp;&nbsp;public string Evaluate(TagModel model)<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;return GetAsString(_nestedTags[GetAutoValueAsInt("Index", model).Value-1].Body, model);<br/>
+						&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;<br/>
+						&nbsp;&nbsp;public void <span class="highlight">AddNestedTag(ITag tag)<span class="super">4</span></span><br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;if (tag is Pickle){<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_nestedTags.Add(tag as Pickle);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;} else {<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw <span class="highlight">TagException.OnlyNestedTagsOfTypeAllowed(<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tag.GetType(),<br/> 
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;typeof(Jar)<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).Decorate(tag.Context);<span class="super">5</span></span><br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;}<br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					Building complex structures requires a bit more plumbing. So what is interesting:
+					<ol>
+						<li>We now implement <i>ITagWithNestedTags</i>. This forces us to make a method handling the nested tags see <span class="super">5</span>.</li>
+						<li>In this case I wan't to keep track of my children and decided to put them in a instance field.</li>
+						<li>Tag body mode is now set to <i>NestedTags</i> triggers the SharpTiles to register nested tags. Unfortunately you also have to do the interface as we so in point <span class="super">1</span>. </li>
+						<li><i>AddNestedTag</i> this method is used to register the nested tags with the parent. It is up to you what to do with it. You could register the child with the parent. Or register the
+							parent with the child, do nothing at all or something completely  different. In other words it is up to you. In this case we keep track of our child's. In the evaluate method only 
+							one child is rendered. Which child depends on de the index property.
+						</li>
+						<li>If the registered tag is not of type Pickle we throw an Exception. In this case a parse exception. The exception used requires an context. This context is used for rendering error messages. It contains 
+						line numbers, context and position of the error.</li>
+					</ol>
+				</p>
+				<p>
+					So let's take a close look to the Pickle tag
+					<code>
+						internal class Pickle : BaseCoreTag, ITag<br/> 
+						{<br/> 
+						&nbsp;&nbsp;public static readonly string NAME = "pickle";<br/> 
+					<br/> 
+						&nbsp;&nbsp;public string TagName<br/> 
+						&nbsp;&nbsp;{<br/> 
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return NAME; }<br/> 
+						&nbsp;&nbsp;}<br/> 
+					<br/> 
+						&nbsp;&nbsp;public ITagAttribute Body { get; set; }<br/> 
+					<br/> 
+						&nbsp;&nbsp;public TagBodyMode TagBodyMode<br/> 
+						&nbsp;&nbsp;{<br/> 
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return TagBodyMode.Free; }<br/> 
+						&nbsp;&nbsp;}<br/> 
+					<br/> 
+						&nbsp;&nbsp;public string Evaluate(TagModel model)<br/> 
+						&nbsp;&nbsp;{<br/> 
+						&nbsp;&nbsp;&nbsp;&nbsp;throw <span class="highlight">TagException.NotAllowedShouldBePartOf(GetType(), typeof(Jar)).Decorate(Context);</span><br/> 
+						&nbsp;&nbsp;}<br/> 
+						}<br/> 
+					</code>
+				</p>
+				<p>
+					As you can see nested tags are pretty normal tags. If we take a look at the Evaluate method you will notice that an exception is thrown. This exception is optional. 
+					When you do throw an exception, as in this case,  it disables the use of this tag out size it's nested use. This makes sense most of the time. As you should have
+					guessed by now the Evaluate method is not called when used a nested tag. This does not mean that the tags and expressions in the "Body" are not evaluated. They are
+					evaluated when the Body property is evaluated.<br/>
+					Future release of SharpTiles will include BaseCoreTags for complex and nested tags making it more dry to use.
+				</p>
+				</a>
+				<p class="post-footer align-right">					
+					Source location: CustomTaglibsTagsAndFunctions project in the <a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-4.0-tutorials.zip&a=69471938">Tutorials</a> solution.
+				</p>
+</div>	

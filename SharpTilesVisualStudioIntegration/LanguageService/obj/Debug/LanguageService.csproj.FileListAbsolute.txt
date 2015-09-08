@@ -1,0 +1,6 @@
+D:\Projects\SharpTiles\SharpTilesVisualStudioIntegration\LanguageService\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\SharpTiles\SharpTilesVisualStudioIntegration\LanguageService\bin\Debug\LanguageService.dll
+D:\Projects\SharpTiles\SharpTilesVisualStudioIntegration\LanguageService\bin\Debug\LanguageService.pdb
+D:\Projects\SharpTiles\SharpTilesVisualStudioIntegration\LanguageService\bin\Debug\org.SharpTiles.dll
+D:\Projects\SharpTiles\SharpTilesVisualStudioIntegration\LanguageService\obj\Debug\LanguageService.dll
+D:\Projects\SharpTiles\SharpTilesVisualStudioIntegration\LanguageService\obj\Debug\LanguageService.pdb

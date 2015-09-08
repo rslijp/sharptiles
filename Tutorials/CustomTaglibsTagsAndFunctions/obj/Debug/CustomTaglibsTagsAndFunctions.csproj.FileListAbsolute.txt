@@ -1,0 +1,9 @@
+D:\Projects\SharpTiles\Tutorials\CustomTaglibsTagsAndFunctions\bin\CustomTaglibsTagsAndFunctions.dll
+D:\Projects\SharpTiles\Tutorials\CustomTaglibsTagsAndFunctions\bin\CustomTaglibsTagsAndFunctions.pdb
+D:\Projects\SharpTiles\Tutorials\CustomTaglibsTagsAndFunctions\bin\ICSharpCode.SharpZipLib.dll
+D:\Projects\SharpTiles\Tutorials\CustomTaglibsTagsAndFunctions\bin\org.SharpTiles.dll
+D:\Projects\SharpTiles\Tutorials\CustomTaglibsTagsAndFunctions\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\SharpTiles\Tutorials\CustomTaglibsTagsAndFunctions\obj\Debug\CustomTaglibsTagsAndFunctions.Views.default.resources
+D:\Projects\SharpTiles\Tutorials\CustomTaglibsTagsAndFunctions\obj\Debug\CustomTaglibsTagsAndFunctions.csproj.GenerateResource.Cache
+D:\Projects\SharpTiles\Tutorials\CustomTaglibsTagsAndFunctions\obj\Debug\CustomTaglibsTagsAndFunctions.dll
+D:\Projects\SharpTiles\Tutorials\CustomTaglibsTagsAndFunctions\obj\Debug\CustomTaglibsTagsAndFunctions.pdb

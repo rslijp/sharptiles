@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AB283799-DF66-4974-A3CB-2B79339DB63A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>org.SharpTiles.HtmlTags</RootNamespace>
+    <AssemblyName>org.SharpTiles.HtmlTags</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>SharpTiles.key.pfx</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\library\System.Web.Abstractions.dll</HintPath>
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\library\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionTag.cs" />
+    <Compile Include="Form\ConstantAttribute.cs" />
+    <Compile Include="HtmlReflectionHelper.cs" />
+    <Compile Include="IHtmlTag.cs" />
+    <Compile Include="Input\CheckBoxTag.cs" />
+    <Compile Include="Input\HtmlHelperWrapperInputTag.cs" />
+    <Compile Include="Form\FormTag.cs" />
+    <Compile Include="Input\TextBoxTag.cs" />
+    <Compile Include="Input\RadioButtonTag.cs" />
+    <Compile Include="Input\PasswordTag.cs" />
+    <Compile Include="Input\HiddenTag.cs" />
+    <Compile Include="IParameterValueWithType.cs" />
+    <Compile Include="FixedParameterValue.cs" />
+    <Compile Include="IParameterValue.cs" />
+    <Compile Include="ParameterValue.cs" />
+    <Compile Include="Html.cs" />
+    <Compile Include="HtmlHelperWrapperTag.cs" />
+    <Compile Include="ParameterExpectation.cs" />
+    <Compile Include="ParameterValueAttributeSetter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HtmlHelperTagExceptions.cs" />
+    <Compile Include="HtmlAttributesParameterValue.cs" />
+    <Compile Include="Select\DropDownListTag.cs" />
+    <Compile Include="Select\ListBoxTag.cs" />
+    <Compile Include="TextArea\TextAreaTag.cs" />
+    <Compile Include="Validation\ValidationSummaryTag.cs" />
+    <Compile Include="Validation\ValidationMessageTag.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\org.SharpTiles.Common\org.SharpTiles.Common.csproj">
+      <Project>{9D3FC31B-34F5-4A32-967B-B92C4EE57C14}</Project>
+      <Name>org.SharpTiles.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\org.SharpTiles.Expressions\org.SharpTiles.Expressions.csproj">
+      <Project>{EEC8426C-129E-4CD1-8280-2A69C6598CD9}</Project>
+      <Name>org.SharpTiles.Expressions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\org.SharpTiles.TagLib\org.SharpTiles.Tags.csproj">
+      <Project>{0A831F61-1BBF-4223-BA3C-6C686C043056}</Project>
+      <Name>org.SharpTiles.Tags</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SharpTiles.key.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

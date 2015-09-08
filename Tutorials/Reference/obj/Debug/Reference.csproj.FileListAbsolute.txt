@@ -1,0 +1,5 @@
+D:\Projects\SharpTiles\Tutorials\Reference\bin\Reference.dll
+D:\Projects\SharpTiles\Tutorials\Reference\bin\Reference.pdb
+D:\Projects\SharpTiles\Tutorials\Reference\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\SharpTiles\Tutorials\Reference\obj\Debug\Reference.dll
+D:\Projects\SharpTiles\Tutorials\Reference\obj\Debug\Reference.pdb

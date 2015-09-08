@@ -1,0 +1,9 @@
+D:\Projects\SharpTiles\Tutorials\ResourceBundles\bin\ResourceBundles.dll
+D:\Projects\SharpTiles\Tutorials\ResourceBundles\bin\ResourceBundles.pdb
+D:\Projects\SharpTiles\Tutorials\ResourceBundles\bin\org.SharpTiles.dll
+D:\Projects\SharpTiles\Tutorials\ResourceBundles\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\SharpTiles\Tutorials\ResourceBundles\obj\Debug\ResourceBundles.Views.default.resources
+D:\Projects\SharpTiles\Tutorials\ResourceBundles\obj\Debug\ResourceBundles.Views.different.resources
+D:\Projects\SharpTiles\Tutorials\ResourceBundles\obj\Debug\ResourceBundles.csproj.GenerateResource.Cache
+D:\Projects\SharpTiles\Tutorials\ResourceBundles\obj\Debug\ResourceBundles.dll
+D:\Projects\SharpTiles\Tutorials\ResourceBundles\obj\Debug\ResourceBundles.pdb

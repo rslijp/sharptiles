@@ -1,0 +1,15 @@
+<tr>
+    <td class="property">${Tag.Item.Name}</td>
+    <td>
+        <fmt:message key="${Tag.Item.DescriptionKey}"></fmt:message>
+        <c:if test="${fn:length(Tag.Item.EnumValues) > '0'}">
+            <ul>
+                <c:forEach items="${Tag.Item.EnumValues}">
+                    <li>${Tag.Item}</li>
+                </c:forEach>
+            </ul>
+        </c:if>
+    </td>
+    <td class="required">${Tag.Item.Required}</td>
+    <td class="default">${Tag.Item.Default}</td>
+</tr>

@@ -1,0 +1,1145 @@
+<Configuration>
+  <UnitTestRunner>
+    <CustomStartDirectory>
+    </CustomStartDirectory>
+    <UseShadowCopy>True</UseShadowCopy>
+    <UseCustomFolder>False</UseCustomFolder>
+    <EnableUnitTesting>True</EnableUnitTesting>
+    <Providers />
+  </UnitTestRunner>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:TilesCache.cs" caret="1007" scrollPosition="0|16" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:SimpleHttpSessionState.cs" caret="922" scrollPosition="0|11" />
+      <File id="0A831F61-1BBF-4223-BA3C-6C686C043056/f:ISimpleSessionState.cs" caret="871" scrollPosition="0|0" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:TemplateField.cs" caret="2634" scrollPosition="0|60" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:PageWrapper.cs" caret="1048" scrollPosition="0|17" />
+      <File id="6D8690C1-5F8A-4EF6-80A5-0E70D7896E68/f:InternalFormatter.cs" caret="0" scrollPosition="0|168" />
+      <File id="6D8690C1-5F8A-4EF6-80A5-0E70D7896E68/f:Formatter.cs" caret="0" scrollPosition="0|78" />
+      <File id="9D3FC31B-34F5-4A32-967B-B92C4EE57C14/f:IResourceLocator.cs" caret="1014" scrollPosition="0|9" />
+      <File id="9D3FC31B-34F5-4A32-967B-B92C4EE57C14/f:AssemblyBasedResourceLocator.cs" caret="2933" scrollPosition="0|80" />
+      <File id="8743F30B-35EF-4A99-81A6-06BC84544635/d:HttpSimulator/f:SimulatedHttpRequest.cs" caret="1463" scrollPosition="0|39" />
+      <File id="8743F30B-35EF-4A99-81A6-06BC84544635/f:TestController.cs" caret="796" scrollPosition="0|4" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:TilesViewEngine.cs" caret="891" scrollPosition="0|0" />
+      <File id="6D8690C1-5F8A-4EF6-80A5-0E70D7896E68/d:SharpTags/f:Inlcude.cs" caret="2195" scrollPosition="0|55" />
+      <File id="8743F30B-35EF-4A99-81A6-06BC84544635/f:TilesViewEngineTest.cs" caret="0" scrollPosition="0|0" />
+      <File id="5622BA8E-35B5-42DE-9C67-D56B03346595/f:NstlCacheTest.cs" caret="831" scrollPosition="0|1" />
+      <File id="0A831F61-1BBF-4223-BA3C-6C686C043056/f:TagModel.cs" caret="1221" scrollPosition="0|17" />
+      <File id="A4CBFAF5-3F40-4050-B183-4CAF73A3B338/f:TilesView.cs" caret="2854" scrollPosition="0|61" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:TilesView.cs" caret="3419" scrollPosition="0|67" />
+      <File id="AB283799-DF66-4974-A3CB-2B79339DB63A/f:Html.cs" caret="1143" scrollPosition="0|26" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:NstlViewEngine.cs" caret="0" scrollPosition="0|0" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:NstlCache.cs" caret="1935" scrollPosition="0|44" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:BaseCache.cs" caret="1662" scrollPosition="0|36" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:BaseViewEngine.cs" caret="3018" scrollPosition="0|50" />
+      <File id="8743F30B-35EF-4A99-81A6-06BC84544635/d:Configuration/f:tiles.xml" caret="0" scrollPosition="0|0" />
+      <File id="8743F30B-35EF-4A99-81A6-06BC84544635/f:App.config" caret="0" scrollPosition="0|0" />
+      <File id="A4CBFAF5-3F40-4050-B183-4CAF73A3B338/f:BaseViewEngine.cs" caret="1946" scrollPosition="0|24" />
+      <File id="9D3FC31B-34F5-4A32-967B-B92C4EE57C14/f:FileBasedResourceLocator.cs" caret="8228" scrollPosition="0|224" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:VirtualDirLocatorFactory.cs" caret="1006" scrollPosition="0|20" />
+      <File id="6D8690C1-5F8A-4EF6-80A5-0E70D7896E68/d:Templates/f:FileLocatorFactory.cs" caret="949" scrollPosition="0|11" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:AbsoluteVirtualDirLocatorFactory.cs" caret="1451" scrollPosition="0|0" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="6D8690C1-5F8A-4EF6-80A5-0E70D7896E68/f:Formatter.cs" caret="5843" scrollPosition="0|31" />
+      <File id="6D8690C1-5F8A-4EF6-80A5-0E70D7896E68/f:Formatter.cs" caret="5843" scrollPosition="0|31" />
+      <File id="6D8690C1-5F8A-4EF6-80A5-0E70D7896E68/f:Formatter.cs" caret="5843" scrollPosition="0|84" />
+      <File id="6D8690C1-5F8A-4EF6-80A5-0E70D7896E68/d:Templates/f:FileLocatorFactory.cs" caret="2346" scrollPosition="0|27" />
+      <File id="6D8690C1-5F8A-4EF6-80A5-0E70D7896E68/f:Formatter.cs" caret="5843" scrollPosition="0|66" />
+      <File id="6D8690C1-5F8A-4EF6-80A5-0E70D7896E68/f:Formatter.cs" caret="5843" scrollPosition="0|66" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:VirtualDirLocatorFactory.cs" caret="1799" scrollPosition="0|25" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:TemplateField.cs" caret="2634" scrollPosition="0|63" />
+      <File id="9D3FC31B-34F5-4A32-967B-B92C4EE57C14/f:AssemblyBasedResourceLocator.cs" caret="3127" scrollPosition="0|80" />
+      <File id="8743F30B-35EF-4A99-81A6-06BC84544635/d:HttpSimulator/f:SimulatedHttpRequest.cs" caret="783" scrollPosition="0|2" />
+      <File id="8743F30B-35EF-4A99-81A6-06BC84544635/f:TestController.cs" caret="783" scrollPosition="0|4" />
+      <File id="8743F30B-35EF-4A99-81A6-06BC84544635/d:Configuration/f:tiles.xml" caret="446" scrollPosition="0|0" />
+      <File id="5622BA8E-35B5-42DE-9C67-D56B03346595/f:NstlCacheTest.cs" caret="5799" scrollPosition="0|137" />
+      <File id="5622BA8E-35B5-42DE-9C67-D56B03346595/f:NstlCacheTest.cs" caret="831" scrollPosition="0|1" />
+      <File id="9D3FC31B-34F5-4A32-967B-B92C4EE57C14/f:FileBasedResourceLocator.cs" caret="1234" scrollPosition="0|27" />
+      <File id="9D3FC31B-34F5-4A32-967B-B92C4EE57C14/f:FileBasedResourceLocator.cs" caret="1458" scrollPosition="0|27" />
+      <File id="6D8690C1-5F8A-4EF6-80A5-0E70D7896E68/d:Templates/f:FileLocatorFactory.cs" caret="2219" scrollPosition="0|41" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:AbsoluteVirtualDirLocatorFactory.cs" caret="1429" scrollPosition="0|21" />
+      <File id="9D3FC31B-34F5-4A32-967B-B92C4EE57C14/f:FileBasedResourceLocator.cs" caret="1906" scrollPosition="0|35" />
+      <File id="AB283799-DF66-4974-A3CB-2B79339DB63A/f:Html.cs" caret="1779" scrollPosition="0|26" />
+      <File id="0A831F61-1BBF-4223-BA3C-6C686C043056/f:TagModel.cs" caret="1764" scrollPosition="0|17" />
+      <File id="0A831F61-1BBF-4223-BA3C-6C686C043056/f:TagModel.cs" caret="1221" scrollPosition="0|17" />
+      <File id="A4CBFAF5-3F40-4050-B183-4CAF73A3B338/f:TilesView.cs" caret="2862" scrollPosition="0|61" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:TilesView.cs" caret="3315" scrollPosition="0|67" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:BaseCache.cs" caret="1159" scrollPosition="0|50" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:BaseCache.cs" caret="893" scrollPosition="0|18" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:BaseViewEngine.cs" caret="2565" scrollPosition="0|50" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:BaseViewEngine.cs" caret="3018" scrollPosition="0|50" />
+      <File id="A4CBFAF5-3F40-4050-B183-4CAF73A3B338/f:BaseViewEngine.cs" caret="1664" scrollPosition="0|24" />
+      <File id="FD8A43CF-12E2-4265-80EE-B48F479309F9/f:VirtualDirLocatorFactory.cs" caret="1362" scrollPosition="0|20" />
+    </RecentEdits>
+  </RecentFiles>
+  <SettingsComponent>
+    <string />
+    <integer>
+      <setting name="UsedSolutionBuilderID">0</setting>
+    </integer>
+    <boolean>
+      <setting name="livetemplates.csharp.usevar">True</setting>
+      <setting name="SolutionAnalysisEnabled">True</setting>
+      <setting name="UseSolutionBuilder">False</setting>
+    </boolean>
+  </SettingsComponent>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Default">
+      <Item value="BENCHMARK_FACTOR" priority="0" />
+      <Item value="InnerException" priority="2" />
+      <Item value="Source" priority="0" />
+      <Item value="Data" priority="1" />
+      <Item value="StackTrace" priority="2" />
+      <Item value="FormatException" priority="2" />
+      <Item value="XmlException" priority="0" />
+      <Item value="TagException" priority="11" />
+      <Item value="Decorate" priority="6" />
+      <Item value="xPath" priority="0" />
+      <Item value="Context" priority="11" />
+      <Item value="StartsWith" priority="3" />
+      <Item value="IllegalXPath" priority="2" />
+      <Item value="Message" priority="19" />
+      <Item value="XPathException" priority="0" />
+      <Item value="Exception" priority="21" />
+      <Item value="NotANumber" priority="0" />
+      <Item value="EqualTo" priority="21" />
+      <Item value="ParseException" priority="3" />
+      <Item value="dateStr" priority="0" />
+      <Item value="SetUp" priority="0" />
+      <Item value="RequiresEnglishCulture" priority="1" />
+      <Item value="foreach" priority="14" />
+      <Item value="uncompiledPath" priority="1" />
+      <Item value="CurrentThread" priority="0" />
+      <Item value="CurrentCulture" priority="0" />
+      <Item value="TagModel" priority="10" />
+      <Item value="object" priority="6" />
+      <Item value="Global" priority="4" />
+      <Item value="ResourceManager" priority="0" />
+      <Item value="baseName" priority="1" />
+      <Item value="assembly" priority="4" />
+      <Item value="originalBaseName" priority="0" />
+      <Item value="prefix" priority="5" />
+      <Item value="IsNullOrEmpty" priority="7" />
+      <Item value="Empty" priority="3" />
+      <Item value="prefixed" priority="7" />
+      <Item value="path" priority="8" />
+      <Item value="ResourceException" priority="10" />
+      <Item value="ResourceTemplate" priority="3" />
+      <Item value="IResourceLocator" priority="12" />
+      <Item value="locator" priority="17" />
+      <Item value="PreFixed" priority="6" />
+      <Item value="FileBasedResourceLocator" priority="9" />
+      <Item value="orignalFilePath" priority="0" />
+      <Item value="STUDIO_EXTENSION" priority="1" />
+      <Item value="filePath" priority="3" />
+      <Item value="FileStream" priority="0" />
+      <Item value="File" priority="2" />
+      <Item value="Open" priority="0" />
+      <Item value="FileAttributes" priority="0" />
+      <Item value="FileAccess" priority="0" />
+      <Item value="Read" priority="0" />
+      <Item value="GetDirectoryName" priority="0" />
+      <Item value="GetFileName" priority="0" />
+      <Item value="GetManifestResourceNames" priority="2" />
+      <Item value="Where" priority="3" />
+      <Item value="regex" priority="0" />
+      <Item value="Match" priority="0" />
+      <Item value="ToArray" priority="1" />
+      <Item value="Success" priority="0" />
+      <Item value="TemplateException" priority="9" />
+      <Item value="IsInterned" priority="0" />
+      <Item value="ConvertAll" priority="4" />
+      <Item value="Substring" priority="1" />
+      <Item value="GetType" priority="13" />
+      <Item value="Assembly" priority="4" />
+      <Item value="AssemblyBasedResourceLocator" priority="1" />
+      <Item value="Length" priority="8" />
+      <Item value="EndsWith" priority="0" />
+      <Item value="NewsStyleUriParser" priority="1" />
+      <Item value="GetString" priority="0" />
+      <Item value="Namespace" priority="0" />
+      <Item value="ToString" priority="23" />
+      <Item value="PrintTestg" priority="0" />
+      <Item value="Contains" priority="7" />
+      <Item value="PrintTest" priority="0" />
+      <Item value="stream" priority="3" />
+      <Item value="Exists" priority="1" />
+      <Item value="ResourceBundleNotFound" priority="0" />
+      <Item value="ViewDataDictionary" priority="4" />
+      <Item value="TilesView" priority="1" />
+      <Item value="Model" priority="1" />
+      <Item value="response" priority="4" />
+      <Item value="Headers" priority="2" />
+      <Item value="Add" priority="22" />
+      <Item value="NameValueCollection" priority="0" />
+      <Item value="Set" priority="1" />
+      <Item value="request" priority="4" />
+      <Item value="Redirect" priority="0" />
+      <Item value="AddHeader" priority="0" />
+      <Item value="override" priority="11" />
+      <Item value="RedirectLocation" priority="0" />
+      <Item value="ApplyAppPathModifier" priority="0" />
+      <Item value="WriteSubstitution" priority="0" />
+      <Item value="GetAsString" priority="1" />
+      <Item value="Page" priority="4" />
+      <Item value="ApplicationName" priority="1" />
+      <Item value="GetAsUrl" priority="1" />
+      <Item value="That" priority="17" />
+      <Item value="Evaluate" priority="8" />
+      <Item value="MockSessionState" priority="0" />
+      <Item value="MockResponse" priority="1" />
+      <Item value="Application" priority="3" />
+      <Item value="ApplicationInstance" priority="0" />
+      <Item value="Site" priority="2" />
+      <Item value="Name" priority="33" />
+      <Item value="Response" priority="1" />
+      <Item value="NamingContainer" priority="0" />
+      <Item value="expected" priority="10" />
+      <Item value="Formatter" priority="2" />
+      <Item value="Format" priority="1" />
+      <Item value="ExceptionWithContext" priority="1" />
+      <Item value="_current" priority="3" />
+      <Item value="Token" priority="0" />
+      <Item value="ParseContext" priority="0" />
+      <Item value="TokenType" priority="1" />
+      <Item value="NotSet" priority="0" />
+      <Item value="_state" priority="0" />
+      <Item value="Configuration" priority="6" />
+      <Item value="Template" priority="5" />
+      <Item value="MessageWithOutContext" priority="5" />
+      <Item value="Fail" priority="6" />
+      <Item value="TagLibParser" priority="1" />
+      <Item value="Parse" priority="0" />
+      <Item value="ReturnLiterals" priority="1" />
+      <Item value="_returnLiterals" priority="0" />
+      <Item value="Literals" priority="0" />
+      <Item value="Seperators" priority="0" />
+      <Item value="Clear" priority="1" />
+      <Item value="DontExpectLiteralsAnyMore" priority="0" />
+      <Item value="ExpectLiteralsAgain" priority="2" />
+      <Item value="controller" priority="9" />
+      <Item value="TempData" priority="0" />
+      <Item value="appName" priority="0" />
+      <Item value="_httpContext" priority="0" />
+      <Item value="model" priority="2" />
+      <Item value="httpContext" priority="0" />
+      <Item value="Profile" priority="1" />
+      <Item value="ProcessRequest" priority="0" />
+      <Item value="ApplicationPath" priority="0" />
+      <Item value="TilesCache" priority="6" />
+      <Item value="GetName" priority="1" />
+      <Item value="applicationName" priority="0" />
+      <Item value="Of" priority="4" />
+      <Item value="assemblyName" priority="0" />
+      <Item value="assemblyNameStr" priority="0" />
+      <Item value="ViewData" priority="2" />
+      <Item value="Key" priority="0" />
+      <Item value="Value" priority="11" />
+      <Item value="Xml" priority="0" />
+      <Item value="XmlQualifiedName" priority="0" />
+      <Item value="Schema" priority="0" />
+      <Item value="XmlSchemaImport" priority="0" />
+      <Item value="XmlSchema" priority="0" />
+      <Item value="XmlDocument" priority="0" />
+      <Item value="UnTerminatedLiteral" priority="1" />
+      <Item value="_literalStart" priority="0" />
+      <Item value="TokenException" priority="1" />
+      <Item value="Index" priority="1" />
+      <Item value="tileName" priority="4" />
+      <Item value="FunctionEvaluationException" priority="1" />
+      <Item value="UnkownFunction" priority="1" />
+      <Item value="FUNCTIONS" priority="0" />
+      <Item value="TryGetValue" priority="1" />
+      <Item value="functionName" priority="1" />
+      <Item value="ApplicationId" priority="1" />
+      <Item value="GetMessage" priority="0" />
+      <Item value="Equals" priority="8" />
+      <Item value="GlobalModel" priority="0" />
+      <Item value="IDictionary" priority="4" />
+      <Item value="_tagFlattened" priority="2" />
+      <Item value="Dictionary&lt;string,IModel&gt;" priority="0" />
+      <Item value="Tags" priority="0" />
+      <Item value="_tagVariables" priority="2" />
+      <Item value="LaziliyFlattenedTags" priority="1" />
+      <Item value="Peek" priority="0" />
+      <Item value="property" priority="9" />
+      <Item value="_cache" priority="3" />
+      <Item value="ContainsKey" priority="4" />
+      <Item value="resolved" priority="1" />
+      <Item value="_subject" priority="0" />
+      <Item value="ReflectionException" priority="2" />
+      <Item value="Reflection" priority="2" />
+      <Item value="View" priority="6" />
+      <Item value="Render" priority="0" />
+      <Item value="ViewContext" priority="1" />
+      <Item value="context" priority="1" />
+      <Item value="TempDataDictionary" priority="0" />
+      <Item value="RouteData" priority="4" />
+      <Item value="ViewEngines" priority="0" />
+      <Item value="ViewEngine" priority="1" />
+      <Item value="FindView" priority="0" />
+      <Item value="ViewName" priority="0" />
+      <Item value="ControllerContext" priority="7" />
+      <Item value="Controller" priority="2" />
+      <Item value="RouteBase" priority="0" />
+      <Item value="MethodName" priority="3" />
+      <Item value="Server" priority="0" />
+      <Item value="GetParameters" priority="13" />
+      <Item value="ParameterInfo" priority="2" />
+      <Item value="ForEach" priority="2" />
+      <Item value="CheckBoxTag" priority="5" />
+      <Item value="AllMethods" priority="2" />
+      <Item value="All" priority="1" />
+      <Item value="CandidateMethods" priority="2" />
+      <Item value="Count" priority="11" />
+      <Item value="GreaterThan" priority="1" />
+      <Item value="parameter" priority="8" />
+      <Item value="HashSet" priority="1" />
+      <Item value="paramaters" priority="4" />
+      <Item value="Remove" priority="3" />
+      <Item value="List" priority="3" />
+      <Item value="MethodInfo" priority="0" />
+      <Item value="candidates" priority="7" />
+      <Item value="ToList" priority="10" />
+      <Item value="Member" priority="2" />
+      <Item value="LessThan" priority="0" />
+      <Item value="First" priority="3" />
+      <Item value="Html" priority="5" />
+      <Item value="HtmlHelper" priority="8" />
+      <Item value="GetFormMethodString" priority="0" />
+      <Item value="FormMethod" priority="1" />
+      <Item value="NAME" priority="0" />
+      <Item value="CheckBox" priority="3" />
+      <Item value="ParameterExpectation" priority="13" />
+      <Item value="FromName" priority="1" />
+      <Item value="offered" priority="3" />
+      <Item value="expectation" priority="4" />
+      <Item value="attributes" priority="3" />
+      <Item value="WriteLine" priority="0" />
+      <Item value="Max" priority="0" />
+      <Item value="CandidateMethod" priority="10" />
+      <Item value="candidate" priority="2" />
+      <Item value="Not" priority="2" />
+      <Item value="Null" priority="4" />
+      <Item value="Find" priority="0" />
+      <Item value="htmlAttributes" priority="3" />
+      <Item value="ParameterType" priority="7" />
+      <Item value="AndType" priority="1" />
+      <Item value="HTMLATTRIBUTES_TYPE" priority="0" />
+      <Item value="ToUpperInvariant" priority="1" />
+      <Item value="OrderBy" priority="1" />
+      <Item value="FirstOrDefault" priority="1" />
+      <Item value="Type" priority="17" />
+      <Item value="None" priority="0" />
+      <Item value="HTMLHELPER" priority="0" />
+      <Item value="KeyValuePair" priority="0" />
+      <Item value="StringUtils" priority="1" />
+      <Item value="expections" priority="1" />
+      <Item value="expectionStr" priority="0" />
+      <Item value="FormatAsProperty" priority="1" />
+      <Item value="Invoke" priority="0" />
+      <Item value="HtmlHelperWrapperTag" priority="2" />
+      <Item value="HTML_HELPER" priority="0" />
+      <Item value="ParameterValue" priority="8" />
+      <Item value="AssembleParameters" priority="2" />
+      <Item value="routeData" priority="1" />
+      <Item value="DataTokens" priority="2" />
+      <Item value="Values" priority="1" />
+      <Item value="HtmlHelperTagException" priority="4" />
+      <Item value="CallingConvention" priority="0" />
+      <Item value="RequiredArgumentMissing" priority="1" />
+      <Item value="Method" priority="6" />
+      <Item value="StringBuilder" priority="0" />
+      <Item value="Append" priority="7" />
+      <Item value="Last" priority="0" />
+      <Item value="HTMLATTRIBUTES" priority="0" />
+      <Item value="parameterValue" priority="3" />
+      <Item value="T" priority="0" />
+      <Item value="Parameters" priority="11" />
+      <Item value="New" priority="4" />
+      <Item value="Expect" priority="6" />
+      <Item value="ApplyHtmlAttributes" priority="0" />
+      <Item value="Dictionary" priority="1" />
+      <Item value="GetInterface" priority="0" />
+      <Item value="FullName" priority="0" />
+      <Item value="GetInterfaces" priority="0" />
+      <Item value="Possible" priority="1" />
+      <Item value="IsValueType" priority="0" />
+      <Item value="actual" priority="0" />
+      <Item value="Single" priority="0" />
+      <Item value="SingleOrDefault" priority="1" />
+      <Item value="canBeUsed" priority="0" />
+      <Item value="HTMLHELPER_PARAM_NAME" priority="2" />
+      <Item value="HTMLHELPER_PARAM_TYPE" priority="1" />
+      <Item value="MustBeAnExactMatch" priority="0" />
+      <Item value="RequiresExactMatch" priority="0" />
+      <Item value="GetHelper" priority="1" />
+      <Item value="result" priority="3" />
+      <Item value="ITagFactory" priority="0" />
+      <Item value="ReevaluateParameters" priority="0" />
+      <Item value="ParsedTemplate" priority="0" />
+      <Item value="Get" priority="0" />
+      <Item value="TagLib" priority="3" />
+      <Item value="Hidden" priority="1" />
+      <Item value="RadioButtonTag" priority="0" />
+      <Item value="FormExtensions" priority="6" />
+      <Item value="FormatAsMethod" priority="0" />
+      <Item value="TextAreaExtensions" priority="0" />
+      <Item value="TextArea" priority="1" />
+      <Item value="TextAreaTag" priority="0" />
+      <Item value="ValidationExtensions" priority="0" />
+      <Item value="ValidationMessageTag" priority="0" />
+      <Item value="ValidationSummaryTag" priority="0" />
+      <Item value="DropDownList" priority="1" />
+      <Item value="ListBox" priority="1" />
+      <Item value="ListBoxTag" priority="0" />
+      <Item value="SortedDictionary&lt;string,object&gt;" priority="0" />
+      <Item value="Replace" priority="2" />
+      <Item value="PropertyAlReadySet" priority="0" />
+      <Item value="SortedDictionary" priority="0" />
+      <Item value="List&lt;IParameterValue&gt;" priority="0" />
+      <Item value="ValidationMessage" priority="1" />
+      <Item value="ModelState" priority="1" />
+      <Item value="AttemptedValue" priority="0" />
+      <Item value="ModelErrorCollection" priority="0" />
+      <Item value="Dictionary&lt;string,object&gt;" priority="0" />
+      <Item value="DataTextField" priority="0" />
+      <Item value="DataValueField" priority="0" />
+      <Item value="SelectExtensions" priority="2" />
+      <Item value="BeginForm" priority="2" />
+      <Item value="methodName" priority="3" />
+      <Item value="HtmlReflectionHelper" priority="3" />
+      <Item value="HtmlReflectionHelper&lt;T&gt;" priority="1" />
+      <Item value="Free" priority="0" />
+      <Item value="Body" priority="1" />
+      <Item value="viewContext" priority="1" />
+      <Item value="ToUpper" priority="0" />
+      <Item value="Except" priority="0" />
+      <Item value="TAG_BODY_NAME" priority="0" />
+      <Item value="_openHelper" priority="0" />
+      <Item value="HtmlAttributesParameterValue" priority="0" />
+      <Item value="PAGE_MODEL_URLHELPER_INSTANCE" priority="1" />
+      <Item value="EndTag" priority="0" />
+      <Item value="IParameterValue" priority="2" />
+      <Item value="ActionName" priority="1" />
+      <Item value="ControllerName" priority="0" />
+      <Item value="ITagAttribute" priority="1" />
+      <Item value="Attribute" priority="0" />
+      <Item value="ExtractHtmlAttributes" priority="0" />
+      <Item value="CONTROLLER_ATTRIBUTE_NAME" priority="1" />
+      <Item value="METHOD_ATTRIBUTE_NAME" priority="1" />
+      <Item value="FormTag" priority="0" />
+      <Item value="ACTION_ATTRIBUTE_NAME" priority="0" />
+      <Item value="LinkTag" priority="0" />
+      <Item value="UrlHelper" priority="0" />
+      <Item value="RequestContext" priority="1" />
+      <Item value="actionName" priority="0" />
+      <Item value="controllerName" priority="0" />
+      <Item value="RouteCollection" priority="2" />
+      <Item value="collection" priority="1" />
+      <Item value="VirtualPathProvider" priority="1" />
+      <Item value="VirtualPathProviderViewEngine" priority="0" />
+      <Item value="MockVirtualPathProvider" priority="1" />
+      <Item value="VirtualPathData" priority="0" />
+      <Item value="virtualPath" priority="0" />
+      <Item value="HTML_GROUP_NAME" priority="1" />
+      <Item value="SelfClosing" priority="1" />
+      <Item value="TagRenderMode" priority="0" />
+      <Item value="FixedParameterValue" priority="0" />
+      <Item value="_candidate" priority="0" />
+      <Item value="_candidateParameters" priority="0" />
+      <Item value="KeyNotFoundException" priority="0" />
+      <Item value="Register" priority="1" />
+      <Item value="DocumentModel" priority="0" />
+      <Item value="useCache" priority="0" />
+      <Item value="ViewEngineCollection" priority="2" />
+      <Item value="public" priority="33" />
+      <Item value="class" priority="4" />
+      <Item value="ViewResult" priority="0" />
+      <Item value="return" priority="66" />
+      <Item value="new" priority="85" />
+      <Item value="ValueProviderResult" priority="0" />
+      <Item value="null" priority="33" />
+      <Item value="ctor" priority="8" />
+      <Item value="this" priority="21" />
+      <Item value="if" priority="42" />
+      <Item value="var" priority="30" />
+      <Item value="level" priority="0" />
+      <Item value="int" priority="5" />
+      <Item value="try" priority="14" />
+      <Item value="catch" priority="18" />
+      <Item value="Re" priority="3" />
+      <Item value="throw" priority="10" />
+      <Item value="lastException" priority="0" />
+      <Item value="Assert" priority="22" />
+      <Item value="Is" priority="13" />
+      <Item value="_reflection" priority="0" />
+      <Item value="TestSubject" priority="0" />
+      <Item value="List&lt;TestSubject&gt;" priority="0" />
+      <Item value="cw" priority="27" />
+      <Item value="source" priority="0" />
+      <Item value="is" priority="7" />
+      <Item value="string" priority="15" />
+      <Item value="info" priority="2" />
+      <Item value="method" priority="2" />
+      <Item value="p" priority="1" />
+      <Item value="supects" priority="0" />
+      <Item value="true" priority="8" />
+      <Item value="private" priority="15" />
+      <Item value="static" priority="12" />
+      <Item value="Dictionary&lt;Type,IList&lt;MethodInfo&gt;&gt;" priority="0" />
+      <Item value="CACHE" priority="2" />
+      <Item value="out" priority="0" />
+      <Item value="methods" priority="3" />
+      <Item value="wrappedType" priority="1" />
+      <Item value="String" priority="16" />
+      <Item value="_helper" priority="0" />
+      <Item value="void" priority="5" />
+      <Item value="helper" priority="0" />
+      <Item value="reflection" priority="2" />
+      <Item value="x" priority="0" />
+      <Item value="AddingNewEventHandler" priority="0" />
+      <Item value="DefaultBindingProperty" priority="0" />
+      <Item value="TagDefaultValue" priority="1" />
+      <Item value="ConstantValue" priority="1" />
+      <Item value="ITag" priority="0" />
+      <Item value="value" priority="6" />
+      <Item value="ResourceLocator" priority="3" />
+      <Item value="tag" priority="2" />
+      <Item value="NotSupportedException" priority="2" />
+      <Item value="Action" priority="1" />
+      <Item value="_request" priority="1" />
+      <Item value="HttpRequestBaseWrapper" priority="1" />
+      <Item value="HttpRequestBaseWrapperTest" priority="0" />
+      <Item value="requestBase" priority="3" />
+      <Item value="IServiceProvider" priority="1" />
+      <Item value="IModel" priority="1" />
+      <Item value="page" priority="0" />
+      <Item value="Hashtable" priority="1" />
+      <Item value="TilesViewEngine" priority="1" />
+      <Item value="viewName" priority="4" />
+      <Item value="controllerContext" priority="2" />
+      <Item value="bool" priority="8" />
+      <Item value="GetTilesViewName" priority="0" />
+      <Item value="Tiles" priority="2" />
+      <Item value="view" priority="3" />
+      <Item value="else" priority="0" />
+      <Item value="HtmlTags" priority="0" />
+      <Item value="TilesViewEngineTest" priority="0" />
+      <Item value="typeof" priority="4" />
+      <Item value="IResourceLocatorFactory" priority="15" />
+      <Item value="_factory" priority="17" />
+      <Item value="_config" priority="0" />
+      <Item value="InAssembly" priority="1" />
+      <Item value="FilePrefix" priority="1" />
+      <Item value="FileLocatorFactory" priority="11" />
+      <Item value="GetBuildInFactory" priority="0" />
+      <Item value="base" priority="2" />
+      <Item value="IConfiguration" priority="2" />
+      <Item value="TILES" priority="0" />
+      <Item value="_resourceFactory" priority="1" />
+      <Item value="_factoryType" priority="4" />
+      <Item value="factoryType" priority="4" />
+      <Item value="ConstructorInfo" priority="0" />
+      <Item value="constructorInfo" priority="0" />
+      <Item value="Activator" priority="0" />
+      <Item value="factory" priority="12" />
+      <Item value="as" priority="0" />
+      <Item value="ResourceLocation" priority="1" />
+      <Item value="MockConfiguration" priority="0" />
+      <Item value="VirtualDirFileLocator" priority="0" />
+      <Item value="GetLocator" priority="2" />
+      <Item value="FileTemplate" priority="0" />
+      <Item value="TilesFactory" priority="2" />
+      <Item value="_parser" priority="1" />
+      <Item value="ts" priority="0" />
+      <Item value="DateTime" priority="2" />
+      <Item value="_addC" priority="0" />
+      <Item value="finally" priority="3" />
+      <Item value="configuration" priority="3" />
+      <Item value="_filePrefix" priority="5" />
+      <Item value="ResourceFactory" priority="1" />
+      <Item value="GetFactory" priority="0" />
+      <Item value="Stream" priority="0" />
+      <Item value="_filePath" priority="1" />
+      <Item value="_assembly" priority="2" />
+      <Item value="default" priority="1" />
+      <Item value="_locator" priority="5" />
+      <Item value="RefreshableResourceTemplate" priority="2" />
+      <Item value="protected" priority="2" />
+      <Item value="TilesConfigurationSection" priority="0" />
+      <Item value="totalSize" priority="0" />
+      <Item value="size" priority="0" />
+      <Item value="MS" priority="3" />
+      <Item value="using" priority="0" />
+      <Item value="MemoryStream" priority="0" />
+      <Item value="ms" priority="0" />
+      <Item value="block" priority="0" />
+      <Item value="filePrefix" priority="1" />
+      <Item value="Path" priority="4" />
+      <Item value="REGISTERED" priority="1" />
+      <Item value="FunctionLib" priority="12" />
+      <Item value="abstract" priority="1" />
+      <Item value="Expression" priority="2" />
+      <Item value="Function" priority="0" />
+      <Item value="_function" priority="0" />
+      <Item value="_lib" priority="1" />
+      <Item value="BaseFunctionLib" priority="3" />
+      <Item value="List&lt;FunctionLib&gt;" priority="0" />
+      <Item value="IEnumerable" priority="2" />
+      <Item value="LIBS" priority="1" />
+      <Item value="FunctionParser" priority="4" />
+      <Item value="f" priority="1" />
+      <Item value="IFunctionDefinition" priority="0" />
+      <Item value="Functions" priority="0" />
+      <Item value="PARSERS_BY_TYPE" priority="0" />
+      <Item value="MathLib" priority="0" />
+      <Item value="Test" priority="0" />
+      <Item value="parser" priority="0" />
+      <Item value="const" priority="1" />
+      <Item value="PatchedExpressions" priority="0" />
+      <Item value="IncludeException" priority="3" />
+      <Item value="msg" priority="1" />
+      <Item value="exception" priority="7" />
+      <Item value="type" priority="1" />
+      <Item value="transformed" priority="0" />
+      <Item value="ExpressionDocumentation" priority="0" />
+      <Item value="_resouceKey" priority="0" />
+      <Item value="messagePath" priority="1" />
+      <Item value="expr" priority="0" />
+      <Item value="sb" priority="2" />
+      <Item value="continue" priority="0" />
+      <Item value="IIe" priority="1" />
+      <Item value="InsertTemplate" priority="1" />
+      <Item value="tileValue" priority="0" />
+      <Item value="IAttributeEntry" priority="3" />
+      <Item value="PutAttributeEntry" priority="0" />
+      <Item value="TileType" priority="0" />
+      <Item value="TemplateTile" priority="1" />
+      <Item value="template" priority="3" />
+      <Item value="tile" priority="10" />
+      <Item value="_nestedTags" priority="0" />
+      <Item value="n" priority="0" />
+      <Item value="PutAttribute" priority="1" />
+      <Item value="InternalResourceFactory" priority="0" />
+      <Item value="CreateAttributes" priority="0" />
+      <Item value="tileEntry" priority="0" />
+      <Item value="Mandatory" priority="1" />
+      <Item value="GetAutoValueAsBool" priority="0" />
+      <Item value="config" priority="0" />
+      <Item value="readonly" priority="1" />
+      <Item value="_send404" priority="1" />
+      <Item value="send404" priority="0" />
+      <Item value="Exist" priority="0" />
+      <Item value="_viewName" priority="0" />
+      <Item value="TilesMap" priority="1" />
+      <Item value="TilesSet" priority="0" />
+      <Item value="Te" priority="0" />
+      <Item value="_httpErrors" priority="0" />
+      <Item value="_template" priority="3" />
+      <Item value="LoadResource" priority="0" />
+      <Item value="RefreshableResource" priority="0" />
+      <Item value="Map" priority="0" />
+      <Item value="false" priority="2" />
+      <Item value="_tile" priority="4" />
+      <Item value="_extends" priority="0" />
+      <Item value="LastModified" priority="0" />
+      <Item value="FNFe" priority="0" />
+      <Item value="LoadException" priority="2" />
+      <Item value="ft" priority="5" />
+      <Item value="TileException" priority="1" />
+      <Item value="tempTile" priority="1" />
+      <Item value="e" priority="7" />
+      <Item value="HttpErrors" priority="1" />
+      <Item value="WebFormView" priority="0" />
+      <Item value="HttpErrorCode" priority="4" />
+      <Item value="code" priority="1" />
+      <Item value="IHaveHttpErrorCode" priority="7" />
+      <Item value="httpErrorCode" priority="4" />
+      <Item value="Common" priority="0" />
+      <Item value="errorCode" priority="0" />
+      <Item value="Environment" priority="0" />
+      <Item value="BaseCache" priority="0" />
+      <Item value="PAGES" priority="2" />
+      <Item value="toar" priority="0" />
+      <Item value="InsufficientMemoryException" priority="0" />
+      <Item value="IViewCache" priority="7" />
+      <Item value="lock" priority="2" />
+      <Item value="Cache" priority="1" />
+      <Item value="cache" priority="12" />
+      <Item value="BaseViewEngine" priority="0" />
+      <Item value="where" priority="0" />
+      <Item value="NstlCache" priority="1" />
+      <Item value="_pages" priority="0" />
+      <Item value="NullReferenceException" priority="0" />
+      <Item value="name" priority="1" />
+      <Item value="PostFix" priority="0" />
+      <Item value="ITile" priority="0" />
+      <Item value="_model" priority="2" />
+      <Item value="entry" priority="0" />
+      <Item value="throwException" priority="0" />
+      <Item value="ITemplate" priority="1" />
+      <Item value="LoadTile" priority="0" />
+      <Item value="_file" priority="2" />
+      <Item value="_body" priority="0" />
+      <Item value="bodyName" priority="0" />
+      <Item value="OutputEqualsConstraint" priority="0" />
+      <Item value="AppPath" priority="0" />
+      <Item value="ParseTag" priority="0" />
+      <Item value="OPEN_TAG" priority="0" />
+      <Item value="OPEN_COMMENT" priority="0" />
+      <Item value="CLOSE_COMMENT" priority="0" />
+      <Item value="a" priority="0" />
+      <Item value="while" priority="0" />
+      <Item value="currentDir" priority="1" />
+      <Item value="dir" priority="3" />
+      <Item value="_currentDir" priority="1" />
+      <Item value="SharpTiles" priority="0" />
+      <Item value="ArgumentException" priority="0" />
+      <Item value="TemplateExceptionWithContext" priority="0" />
+      <Item value="_locatorFactory" priority="1" />
+      <Item value="factorhy" priority="0" />
+      <Item value="fileName" priority="0" />
+      <Item value="HttpContextBaseResponseWrapper" priority="0" />
+      <Item value="_absolute" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Web.Mvc.ControllerBase">
+      <Item value="ControllerContext" priority="0" />
+      <Item value="GetTilesViewName" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Web.Mvc.ControllerContext">
+      <Item value="RequestContext" priority="0" />
+      <Item value="Controller" priority="1" />
+      <Item value="HttpContext" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.List`1">
+      <Item value="First" priority="0" />
+      <Item value="Add" priority="1" />
+      <Item value="AsReadOnly" priority="0" />
+      <Item value="Clear" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Web.Mvc.ViewEngineCollection">
+      <Item value="Clear" priority="0" />
+      <Item value="Add" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.ConnectorsTest.TestController">
+      <Item value="ControllerContext" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.HtmlTags.Test.TestController">
+      <Item value="ControllerContext" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.String">
+      <Item value="Equals" priority="2" />
+      <Item value="ToLower" priority="1" />
+      <Item value="StartsWith" priority="3" />
+      <Item value="Contains" priority="1" />
+      <Item value="Substring" priority="1" />
+      <Item value="Length" priority="0" />
+      <Item value="Trim" priority="0" />
+      <Item value="Replace" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Common.ReflectionException">
+      <Item value="Nesting" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@NUnit.Framework.Assert">
+      <Item value="That" priority="21" />
+      <Item value="Fail" priority="5" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@NUnit.Framework.SyntaxHelpers.Is">
+      <Item value="EqualTo" priority="11" />
+      <Item value="False" priority="1" />
+      <Item value="True" priority="0" />
+      <Item value="Null" priority="4" />
+      <Item value="Not" priority="1" />
+      <Item value="SameAs" priority="3" />
+      <Item value="Empty" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.IDictionary`2">
+      <Item value="ContainsKey" priority="0" />
+      <Item value="TryGetValue" priority="0" />
+      <Item value="Add" priority="0" />
+      <Item value="Values" priority="0" />
+      <Item value="Clear" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Reflection.MethodInfo">
+      <Item value="Name" priority="1" />
+      <Item value="GetParameters" priority="4" />
+      <Item value="DeclaringType" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Reflection.ParameterInfo">
+      <Item value="Name" priority="1" />
+      <Item value="ParameterType" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.HtmlTags.ParameterExpectation">
+      <Item value="Name" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.IEnumerable`1">
+      <Item value="Equals" priority="0" />
+      <Item value="Count" priority="0" />
+      <Item value="ToList" priority="0" />
+      <Item value="ToArray" priority="0" />
+      <Item value="First" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Type">
+      <Item value="Equals" priority="2" />
+      <Item value="Name" priority="2" />
+      <Item value="Assembly" priority="0" />
+      <Item value="GetConstructor" priority="0" />
+      <Item value="FullName" priority="0" />
+      <Item value="GetType" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@org.SharpTiles.HtmlTags.Html">
+      <Item value="HTMLATTRIBUTES_PARAM_TYPE" priority="0" />
+      <Item value="HTMLATTRIBUTES_PARAM_NAME" priority="0" />
+      <Item value="PAGE_MODEL_URLHELPER_INSTANCE" priority="0" />
+      <Item value="HTML_GROUP_NAME" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Web.Mvc.Html.SelectExtensions">
+      <Item value="ListBox" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tags.ITag">
+      <Item value="Evaluate" priority="0" />
+      <Item value="Context" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Templates.Formatter">
+      <Item value="Format" priority="1" />
+      <Item value="ParsedTemplate" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@org.SharpTiles.Common.ResetIndex">
+      <Item value="LookAhead" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Web.Mvc.FormMethod">
+      <Item value="Post" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tags.ITagAttribute">
+      <Item value="Evaluate" priority="1" />
+      <Item value="ResourceLocator" priority="4" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Object">
+      <Item value="ToString" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Web.HttpRequestBase">
+      <Item value="Params" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Specialized.NameValueCollection">
+      <Item value="Keys" priority="0" />
+      <Item value="AllKeys" priority="0" />
+      <Item value="AsQueryable" priority="0" />
+      <Item value="Get" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.HtmlTags.Test.MockContextBase+MockRequestBase">
+      <Item value="ManualAuthenticated" priority="0" />
+      <Item value="Params" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Web.HttpContextBase">
+      <Item value="Response" priority="3" />
+      <Item value="Profile" priority="0" />
+      <Item value="Request" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Web.Mvc.ViewContext">
+      <Item value="View" priority="1" />
+      <Item value="Controller" priority="0" />
+      <Item value="ViewData" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Threading.Thread">
+      <Item value="CurrentPrincipal" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.String">
+      <Item value="IsNullOrEmpty" priority="5" />
+      <Item value="Format" priority="0" />
+      <Item value="Empty" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@org.SharpTiles.Connectors.TilesCache">
+      <Item value="GetView" priority="0" />
+      <Item value="HasView" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.TilesSet">
+      <Item value="Contains" priority="2" />
+      <Item value="Tiles" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@org.SharpTiles.Tags.TagLib">
+      <Item value="Register" priority="1" />
+      <Item value="Exists" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Reflection.ConstructorInfo">
+      <Item value="Invoke" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Activator">
+      <Item value="CreateInstance" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Diagnostics.Debug">
+      <Item value="WriteLine" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Connectors.TilesConfigurationSection">
+      <Item value="ResourceFactory" priority="0" />
+      <Item value="FilePrefix" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.IO.Path">
+      <Item value="Combine" priority="5" />
+      <Item value="GetFullPath" priority="0" />
+      <Item value="GetPathRoot" priority="0" />
+      <Item value="GetDirectoryName" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.Configuration.IConfiguration">
+      <Item value="GetFactory" priority="0" />
+      <Item value="FilePrefix" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.IResourceLocatorFactory">
+      <Item value="GetLocator" priority="3" />
+      <Item value="GetType" priority="0" />
+      <Item value="GetConfiguration" priority="0" />
+      <Item value="ConfigurationLastModified" priority="0" />
+      <Item value="Handle" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Common.ParseHelper">
+      <Item value="Lookahead" priority="1" />
+      <Item value="IsAhead" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Common.Token">
+      <Item value="Contents" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.Tile.TemplateTile">
+      <Item value="ParsedTemplate" priority="0" />
+      <Item value="Template" priority="2" />
+      <Item value="Render" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Templates.ParsedTemplate">
+      <Item value="ToString" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.Tile.FileTemplate">
+      <Item value="Template" priority="2" />
+      <Item value="Description" priority="0" />
+      <Item value="LoadException" priority="3" />
+      <Item value="RefreshException" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Type">
+      <Item value="GetType" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.IO.File">
+      <Item value="OpenRead" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Common.FileBasedResourceLocator">
+      <Item value="GetStream" priority="0" />
+      <Item value="AbsolutePaths" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Common.IResourceLocator">
+      <Item value="GetStream" priority="0" />
+      <Item value="LastModified" priority="0" />
+      <Item value="GetData" priority="0" />
+      <Item value="Exists" priority="1" />
+      <Item value="ResourcesCanModify" priority="0" />
+      <Item value="PathSeperator" priority="1" />
+      <Item value="Update" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Reflection.Assembly">
+      <Item value="ManifestModule" priority="0" />
+      <Item value="Evidence" priority="0" />
+      <Item value="GetManifestResourceInfo" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@org.SharpTiles.Templates.Formatter">
+      <Item value="LocatorBasedFormatter" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@org.SharpTiles.Connectors.TilesConfigurationSection">
+      <Item value="Get" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.Stream">
+      <Item value="GetData" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Reflection.ManifestResourceInfo">
+      <Item value="ReferencedAssembly" priority="0" />
+      <Item value="ResourceLocation" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.MemoryStream">
+      <Item value="Write" priority="0" />
+      <Item value="ToArray" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.IList`1">
+      <Item value="Contains" priority="0" />
+      <Item value="Select" priority="0" />
+      <Item value="Cast" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Expressions.Functions.FunctionLib">
+      <Item value="GroupName" priority="0" />
+      <Item value="Obtain" priority="1" />
+      <Item value="Functions" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@org.SharpTiles.Expressions.Functions.FunctionLib">
+      <Item value="Register" priority="1" />
+      <Item value="Libs" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Expressions.Functions.IFunctionDefinition">
+      <Item value="GetType" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Expressions.IExpressionParser">
+      <Item value="ParsedType" priority="0" />
+      <Item value="GetType" priority="0" />
+      <Item value="ParsedTypes" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:PatchedExpressions">
+      <Item value="ReInit" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Text.StringBuilder">
+      <Item value="Append" priority="1" />
+      <Item value="ToString" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tags.Templates.SharpTags.Include+IncludeException">
+      <Item value="Message" priority="1" />
+      <Item value="InnerException" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.Factory.TilesFactory">
+      <Item value="ConstructTile" priority="0" />
+      <Item value="CreateAttributes" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.Tags.InternalResourceFactory">
+      <Item value="Handle" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.Configuration.ITileEntry">
+      <Item value="TileAttributes" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.Tile.AttributeSet">
+      <Item value="HasDefinitionFor" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@org.SharpTiles.Tiles.Configuration.TileXmlConfigurator">
+      <Item value="GetCustomFactory" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Web.HttpResponseBase">
+      <Item value="StatusCode" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.Configuration.IEntry">
+      <Item value="Value" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Templates.TemplateException">
+      <Item value="Message" priority="1" />
+      <Item value="HavingHttpErrorCode" priority="0" />
+      <Item value="HttpErrorCode" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@org.SharpTiles.Templates.TemplateException">
+      <Item value="TileNotFound" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.ITile">
+      <Item value="IsLoaded" priority="1" />
+      <Item value="Name" priority="3" />
+      <Item value="Render" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.Tile.ITemplate">
+      <Item value="Template" priority="0" />
+      <Item value="Path" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Exception">
+      <Item value="Message" priority="2" />
+      <Item value="StackTrace" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@org.SharpTiles.Tiles.TileException">
+      <Item value="TileFailedToInitialize" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.FileNotFoundException">
+      <Item value="Message" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@org.SharpTiles.Common.ResourceException">
+      <Item value="ResourceNotFound" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:NUnit.Framework.Constraints.ConstraintBuilder">
+      <Item value="NaN" priority="0" />
+      <Item value="Null" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.TileException">
+      <Item value="WithHttpErrorCode" priority="0" />
+      <Item value="HttpErrorCode" priority="0" />
+      <Item value="InnerException" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Nullable`1">
+      <Item value="HasValue" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.IHaveHttpErrorCode">
+      <Item value="HttpErrorCode" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Common.IHaveHttpErrorCode">
+      <Item value="HttpErrorCode" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.TilesMap">
+      <Item value="Contains" priority="1" />
+      <Item value="AddTile" priority="0" />
+      <Item value="Tiles" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.Tile.RefreshableResourceTemplate">
+      <Item value="RefreshException" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@org.SharpTiles.Connectors.TilesViewEngine">
+      <Item value="GuardInit" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Connectors.TilesCache">
+      <Item value="Cache" priority="2" />
+      <Item value="HasView" priority="1" />
+      <Item value="GetView" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Connectors.NstlCache">
+      <Item value="Pages" priority="1" />
+      <Item value="Factory" priority="2" />
+      <Item value="HasView" priority="0" />
+      <Item value="GetView" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.NUnit.OutputEqualsConstraint">
+      <Item value="from" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@org.SharpTiles.Connectors.NstlCache">
+      <Item value="PostFix" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.Tags.InsertTemplate">
+      <Item value="Tile" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tags.TagModel">
+      <Item value="Factory" priority="3" />
+      <Item value="UpdateFactory" priority="11" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tiles.Configuration.TileXmlConfigurator">
+      <Item value="GetFactory" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Connectors.IViewCache">
+      <Item value="Factory" priority="4" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tags.Creators.ITemplate">
+      <Item value="Template" priority="0" />
+      <Item value="Path" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tags.Creators.ParsedTemplate">
+      <Item value="Evaluate" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@org.SharpTiles.Templates.SharpTags.Include+IncludeException">
+      <Item value="PartialExceptionWithContext" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@org.SharpTiles.Common.ExceptionWithContext">
+      <Item value="MakePartial" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Common.ExceptionWithContext+PartialExceptionWithContext`1">
+      <Item value="Decorate" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Templates.SharpTags.Include+IncludeException">
+      <Item value="EnsureHttpErrorCode" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Configuration.ConfigurationPropertyOptions">
+      <Item value="None" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Tags.Creators.IResourceLocatorFactory">
+      <Item value="GetNewLocator" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@org.SharpTiles.Common.FileBasedResourceLocator">
+      <Item value="HandleParent" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:org.SharpTiles.Templates.InternalFormatter">
+      <Item value="Parse" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Web.HttpContext">
+      <Item value="Current" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Web.HttpContext">
+      <Item value="Server" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Web.HttpServerUtility">
+      <Item value="MapPath" priority="1" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+</Configuration>

@@ -1,0 +1,53 @@
+<?php include('tutorials.sidemenu.fragment.html'); ?>
+
+<div id="main"> 
+<a name="bundles"></a>
+				<h3><i>Resources in tiles</i> <br/>Illustrates the use of .resx resources in your tiles</h3>
+				<p>
+					The <a href="./index.php?mainContent=cleantiles,tutorials">clean tiles tutorial</a> doesn't do anything for globalization. We will add this to sample project. First we will add a .resx file to the project. And
+					make sure it is loaded on start up. We do this in the global.asax.cs. (There are otherways to load a resource file. Those will be discussed later on in this tutorial). The
+					resource files are loaded through the resource locators. So basicly this means embedded tiles, embedded resources. Tiles as content, resources as content. 
+					(In non-embedded the .resx doesn't have to compiled; SharpTiles will do that for you.)
+				</p>
+				<p>
+					global.asax.cs<br/>
+					<code>
+					protected void Application_Start()<br/>
+					{<br/>
+					&nbsp;&nbsp;RegisterRoutes(RouteTable.Routes);<br/>
+					&nbsp;&nbsp;ViewEngines.Engines.Clear();<br/>
+					&nbsp;&nbsp;var engine = new TilesViewEngine();<br/>
+					&nbsp;&nbsp;ViewEngines.Engines.Add(engine.Init());<br/>
+					&nbsp;&nbsp;<span class="highlight">engine.LoadResourceBundle("ResourceBundles.Views.default");</span><br/>
+					}<br/>
+					</code>
+				</p>
+				<p>This loads the resource as the default resource bundle. We now can use them in the tiles.</p>
+				<p>
+					Shared/Layout.tile<br/>
+					<code>
+					...<br/>
+					&lt;div id="footer"&gt;<br/>
+					&nbsp;&nbsp;&lt;p&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">&lt;fmt:message key="default_footer"/&gt;</span><br/>
+					&nbsp;&nbsp;&lt;/p&gt;<br/>
+					&lt;/div&gt;<br/>
+					...<br/>
+					</code>
+				</p>
+				<p>Bundles can also be defined from within tiles. They are cached so don't worry about performance. Defining bundles inline is done as follows:</p>
+				<p>
+					Shared/Layout.tile<br/>
+					<code>
+					...<br/>
+					<span class="highlight">&lt;fmt:bundle baseName="ResourceBundles.Views.different"&gt;</span>
+					 ...Between these tags, the default bundle now overriden by this bundle.
+					<span class="highlight">&lt;/fmt:bundle&gt;</span>
+					...<br/>
+					</code>
+				</p>
+				</a>
+				<p class="post-footer align-right">					
+					Source location: ResourceBundles project in the <a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-4.0-tutorials.zip&a=69471938">Tutorials</a> solution.
+				</p>
+</div>

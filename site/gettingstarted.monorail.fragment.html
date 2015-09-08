@@ -1,0 +1,558 @@
+		<div id="sidebar">
+			<h1>Sidebar Menu</h1>
+			<ul class="sidemenu">
+				<li><a href="#">Getting started</a></li>
+				<li><a href="#monorail">Simple Monorail</a></li>
+				<li><a href="#tiles">Adding tiles</a></li>
+				<li><a href="#test">Making a test</a></li>
+				<li><a href="#refactor">Refactoring a test</a></li>
+			</ul>
+		</div>
+
+  		<div id="main">
+			<h1>Getting started</h1>
+			<p>This "getting started" is based on VS2008. All tutorials are included in the source distribution</p>
+
+			<a name="monorail"></a>
+			<h3>Simple Monorail tutorial</h3>
+			<p>
+			    First we create a new ASP .NET Web Application solution and name it <b>GettingStartedSample</b>.
+			</p>
+			<p>
+			    <img src="images/step1_web_app_clipped.png" alt="New project in VS2008 of the 'ASP.NET Web Application' type"/>
+			</p>
+			<p>
+			    We now add a reference to the 'org.SharpTiles.dll'.
+			</p>
+			<p>
+			    <img src="images/step2_addreference.png" alt="Add Reference &gt; Browse &gt; org.SharpTiles.dll"/>
+			</p>
+			<p>
+			    Since it's not required to have Monorail installed for this "getting started", references to the following Castle DLL's (which can be found on 
+			    <a href="http://www.castleproject.org/castle/download.html">http://www.castleproject.org/castle/download.html</a> and in the SharpTiles distribution) are also needed:
+			</p>
+			<ul>
+		            <li>Castle.Monorail.Framework.dll</li>
+		            <li>Castle.Components.Binder.dll</li>
+		            <li>Castle.Components.Common.EmailSender.dll</li>
+		            <li>Castle.Components.Validator.dll</li>
+		            <li>Castle.Core.dll</li>
+			</ul>
+		    <p>
+		        The fourth step is configuring the <tt>web.config</tt> file. A Monorail configuration section, a http handler and a http module need to be registered:
+		    </p>
+		    <p>
+		        <code>
+		            &lt;configuration&gt;<br />
+		            &nbsp;&nbsp;&lt;configSections&gt;<br />
+		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;section name="monorail" type="Castle.MonoRail.Framework.Configuration.MonoRailSectionHandler, Castle.MonoRail.Framework"/&gt;<br />
+		            &nbsp;&nbsp;&lt;/configSections&gt;<br /><br />
+		            &nbsp;&nbsp;&lt;monorail&gt;<br />
+		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;controllers&gt;<br />
+		            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;assembly&gt;GettingStartedSample&lt;/assembly&gt;<br />
+		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/controllers&gt;<br />
+		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;viewEngine<br />
+		            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewPathRoot="Views"<br />
+		            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;customEngine="org.SharpTiles.Connectors.Monorail.TilesViewEngine, org.SharpTiles,<br />
+		            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, processorArchitecture=MSIL" /&gt;<br />
+		            &nbsp;&nbsp;&lt;/monorail&gt;<br /><br />
+		            &nbsp;&nbsp;&lt;system.web&gt;<br />
+		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;httpHandlers&gt;<br />
+		            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;add verb="*" path="*.rails" type="Castle.MonoRail.Framework.MonoRailHttpHandlerFactory, Castle.MonoRail.Framework" /&gt;<br />
+		            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;add verb="*" path="*.tile" type="System.Web.HttpForbiddenHandler" /&gt;<br />
+		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/httpHandlers&gt;<br />
+		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;httpModules&gt;<br />
+		            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;add name="monorail" type="Castle.MonoRail.Framework.EngineContextModule, Castle.MonoRail.Framework" /&gt;<br />
+		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/httpModules&gt;<br />
+		            &nbsp;&nbsp;&lt;system.web&gt;<br />
+		            &lt;/configuration&gt;
+		        </code>
+		    </p>
+			<p>
+			    To actually use the tiles view engine you have to register the TilesViewEngine. A good place to do this is in the Application_Start method in Global.asax.cs 
+			    extension methods.
+			</p>
+			<p>
+				<code>
+					protected void Application_Start()<br/>
+					{<br/>
+					&nbsp;&nbsp;<span class="highlight">new org.SharpTiles.Connectors.Monorail.TilesViewEngine().Init();</span><br/>
+					}<br/>
+				</code>
+			</p>
+			<p>
+			    The final step in the preparation process is changing the <tt>Default.aspx</tt> file. Clear the entire file except for the page directive and overload the 
+			    <tt>OnLoad</tt> method to redirect to the Monorail index page (which we will create later on):
+			</p>
+			<p>
+			    <code>
+			        &lt;%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="GettingStartedSample._Default" %&gt;<br /><br />
+			        &lt;script runat="server"&gt;<br />
+			        &nbsp;&nbsp;protected override void OnLoad(EventArgs e)<br />
+			        &nbsp;&nbsp;{<br />
+			        &nbsp;&nbsp;&nbsp;&nbsp;Response.Redirect("~/home/index.rails");<br />
+			        &nbsp;&nbsp;&nbsp;&nbsp;base.OnLoad(e);<br />
+			        &nbsp;&nbsp;}<br />
+			        &lt;/script&gt;
+			    </code>
+			</p>
+			<p>
+			    On the "getting started" page of Monorail 
+			    (<a href="http://www.castleproject.org/monorail/gettingstarted/creatingproject.html">http://www.castleproject.org/monorail/gettingstarted/creatingproject.html</a>) 
+			    it's recommended to use the following folder structure in your Visual Studio solution:
+			</p>
+			<p>
+			    <img src="images/folder_structure_monorail.png" alt="Recommended folder structure for Monorail"/>
+			</p>
+			<p>
+			    For this tutorial we use the same folder structure as shown in the image above, but instead of the "Views\layouts" folder we use the "Views\shared" folder. The next
+			    step is creating a controller: create a controller class "HomeController" in the "Controllers" folder and make it look like this:
+			</p>
+			<p>
+				<code>
+				    using Castle.MonoRail.Framework;<br/><br/>
+				    namespace GettingStartedSample.Controllers<br/>
+				    {<br/>
+				    &nbsp;&nbsp;public class HomeController : SmartDispatcherController<br/>
+				    &nbsp;&nbsp;{<br/>
+				    &nbsp;&nbsp;&nbsp;&nbsp;public void Index()<br/>
+				    &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PropertyBag["Title"] = "Home Page";<br/>
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PropertyBag["Message"] = "Welcome to Monorail!";<br/>
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderView("Index");<br/>
+				    &nbsp;&nbsp;&nbsp;&nbsp;}<br/><br/>
+				    &nbsp;&nbsp;&nbsp;&nbsp;public void About()<br/>
+				    &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PropertyBag["Title"] = "About Page";<br/>
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderView("About");<br/>
+				    &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+				    &nbsp;&nbsp;}<br/>
+				    }
+				</code>
+			</p>
+			<p>
+			    Well we are done with the code files; let's move on to configuring tiles. SharpTiles requires a tiles definition file which holds all definitions. You can either set the 
+			    location in the Web.Config file or just make a file called tiles.xml as embedded resource and place it in your assembly. SharpTiles will scan the calling assembly 
+			    looking for a tiles.xml file. For now we will use the assembly approach. Check out the tutorial section for different approaches. So lets make the file tiles.xml in the 
+			    Views folder. Make sure it is an embedded resource. It should look like this:
+			</p>
+			<p>
+				<code>
+					&lt;?xml version="1.0" encoding="utf-16"?&gt;<br/>
+					&lt;tiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;<br/>
+					&nbsp;&nbsp;&lt;definitions&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;tile name="<i>home.Index</i>" path="<span class="highlight">Views.Home.Index.tile</span>" /&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;tile name="<i>home.About</i>" path="<span class="highlight">Views.Home.About.tile</span>" /&gt;<br/>
+					&nbsp;&nbsp;&lt;/definitions&gt;<br/>
+					&lt;/tiles&gt;<br/>
+				</code>
+			</p>
+			<p>
+			    In the sample file we see two view names: 'home.Index' and 'home.About' (in italic). The default tile name is a concatenation of the controller name (lower case), a '.', 
+			    and the action name (&lt;controller&gt;.&lt;action&gt;). Since Monorail formats controller names to lower case, the controller name part of the tile name needs to be in 
+			    lower case for the controller to be found by SharpTiles. The highlighted blue parts are the tiles we have to implement. First we construct an Index.tile in Views\Home:</p>
+			<p>
+				<code>
+					&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"&gt;<br/>
+					&lt;html&gt;<br/>
+					&nbsp;&nbsp;&lt;head&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Index&lt;/title&gt;<br/>
+					&nbsp;&nbsp;&lt;/head&gt;<br/>
+					&nbsp;&nbsp;&lt;body&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;${Title}&lt;/h1&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;${Message}&lt;/p&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="link_to_about" href="home/About.rails"&gt;Next&lt;/a&gt; <br/>
+					&nbsp;&nbsp;&lt;/body&gt;<br/>
+					&lt;/html&gt;<br/>
+				</code>
+			</p>
+			<p>Also create an About.tile in Views\Home:</p>
+			<p>
+				<code>
+					&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"&gt;<br/>
+					&lt;html&gt;<br/>
+					&nbsp;&nbsp;&lt;head&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Welcome&lt;/title&gt;<br/>
+					&nbsp;&nbsp;&lt;/head&gt;<br/>
+					&nbsp;&nbsp;&lt;body&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;${Title}&lt;/h1&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Lorem ipsum dolor sit amet, <br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;consectetuer adipiscing elit, sed diam nonummy<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nibh euismod tincidunt ut laoreet dolore magna<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aliquam erat....&lt;/p&gt;<br/>
+					&nbsp;&nbsp;&lt;/body&gt;<br/>
+					&lt;/html&gt;<br/>
+				</code>
+			</p>
+			<p>
+			    Make sure that the you make both files an 'Embedded Resource'. This should result in the following file structure:
+			</p>
+			<p>
+			    <img src="images/filestructure_monorail.png" alt="File structure after completing previous steps"/>
+			</p>
+			<p>Voila, you are ready to run the solution.</p>
+			<p>
+			    <img src="images/appinaction_monorail.png" alt="Application showing the home screen"/>
+			</p>
+			<p>
+			    <i>I can almost hear you think: "Hmmm wait a minute. I'm repeating myself. This can't be good". And you are correct. This is where tiles come in the picture.</i>
+			</p>
+
+			<a name="tiles"></a>
+			<h3>Adding Tiles</h3>
+			<p>
+			    What we're missing here is the base page. Let's introduce it together with our tile place holder. Create a file 'Layout.tile' in the 'Shared' folder with the 
+			    following contents. Make sure that the you make it an 'Embedded Resource' and change your virtual path in you project settings to '/GettingStartedSample/'.
+			</p>
+			<p>
+				<code>
+					&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"&gt;<br/>
+					&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;<br/>
+					&nbsp;&nbsp;&lt;head&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;<span class="highlight">${Title}</span>&lt;/title&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;style type="text/css"&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: .75em;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Verdana, Helvetica, Sans-Serif;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background-color: #DDD;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p#logo<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-weight: bold;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 24px !important;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin-bottom: 3px;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#main<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;padding: 5px 30px 15px 30px;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background-color: #FFF;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#footer<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text-align: center;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: .9em;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br/>
+					&nbsp;&nbsp;&lt;/head&gt;<br/>
+					&nbsp;&nbsp;&lt;body&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p id="logo"&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;My Sample Monorail Application WITH TILES<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_index"<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href=<span class="highlight">"/GettingStartedSample/home/Index.rails"</span>&gt;Index&lt;/a&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_about"<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href=<span class="highlight">"/GettingStartedSample/home/About.rails"</span>&gt;About&lt;/a&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="main"&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="content"&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">&lt;tiles:insert name="body"/&gt;</span><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="footer"&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;My Sample Monorail Application WITH TILES &copy; Copyright 2010<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+					&nbsp;&nbsp;&lt;/body&gt;<br/>
+					&lt;/html&gt;<br/>
+				</code>
+			</p>
+			<p>
+			    As you can see I highlighted all url's, (your first) SharpTiles insert tag and <i>${Title}</i>. The <i>&lt;tiles:insert/&gt;</i> is the will be substituted with the content 
+			    defined in the <i>tiles.xml</i>. For now you can think of it as the <i>&lt;asp:ContentPlaceHolder ID="MainContent" runat="server" /&gt;</i> on steriods. I will explain later.
+			</p>
+			<p>
+			    The urls are highlighted because they have to be absolute and include the application name. If you don't want to mention the application name you got to use the 
+			    <i>&lt;c:url/&gt;</i> tag. The next example shows the same menu as above but now with the use of the <i>&lt;c:url/&gt;</i>:
+			</p>
+			<p>
+				<code>
+				    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_index"<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href=<span class="highlight">"&lt;c:url value='~/home/Index.rails'/&gt;"</span>&gt;Index&lt;/a&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_about"<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href=<span class="highlight">"&lt;c:url value='~/home/About.rails'/&gt;"</span>&gt;About&lt;/a&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br/>
+				</code>
+			</p>
+			<p>
+			    Okay we got rid of the repeating of the application name, but (in my opnion) we do pay a small price. The <span class="highlight">single quote</span> is required for 
+			    parsing purposes. So what's next? We got our new layout template in place. But our views 'Index' and 'About' still have the redudant html stuff in them. After some 
+			    stripping the <i>Index.tile</i> should look like this:
+			</p>
+			<p>
+				<code>
+					&lt;h1&gt;${Title}&lt;/h1&gt;<br/>
+					&lt;p&gt;${Message}&lt;/p&gt;<br/>
+					&lt;a id="link_to_about" href="/GettingStartedSample/home/About.rails"&gt;Next&lt;/a&gt;
+				</code>
+			</p>
+			<p>
+			    And the <i>About.tile</i> should look like this:
+			</p>
+			<p>
+				<code>
+					&lt;h1&gt;${Title}&lt;/h1&gt;<br/>
+					&lt;p&gt;<br/>
+					&nbsp;&nbsp;Lorem ipsum dolor sit amet,<br/>
+					&nbsp;&nbsp;consectetuer adipiscing elit, sed diam nonummy<br/>
+					&nbsp;&nbsp;nibh euismod tincidunt ut laoreet dolore magna<br/>
+					&nbsp;&nbsp;aliquam erat....<br/>
+					&lt;/p&gt;
+				</code>
+			</p>
+			<p>
+			    Now we can put it all together. To make this all work we have to revisit the <i>tiles.xml</i> and redefine the 'Index' and 'About' definition. This is what we need to define:<br/>
+			    <ul>
+					<li>Define the tile 'Layout.tile' as 'Default.Page.Layout'</li>
+					<li>Extend the tile 'Home.Index' from 'Default.Page.Layout'<br/>&nbsp;&nbsp;and use 'Index.tile' for the 'body' attribute.</li>
+					<li>Extend the tile 'Home.About' from 'Default.Page.Layout'<br/>&nbsp;&nbsp;and use 'About.tile' for the 'body' attribute.</li>
+				</ul>
+			</p>
+			<p>
+				Why is 'Index' extended from 'Default.Page.Layout'? We want the 'Index' file to use the same layout as defined in 'Default.Page.Layout'. Extending takes care of this. The 
+				revisited <i>tiles.xml</i> will look like this (note that the controller name part of the tile names is lower cased, as discussed before):
+			</p>
+			<p>
+				<code>
+					&lt;?xml version="1.0" encoding="utf-16"?&gt;<br/>
+					&lt;tiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;<br/>
+					&nbsp;&nbsp;&lt;definitions&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;tile name="Default.Page.Layout" path="Views.Shared.Layout.tile" /&gt;<br/>
+					<br/>	
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;tile name="home.Index" extends="Default.Page.Layout"&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;attribute name="body" value="Views.Home.Index.tile"&gt;&lt;/attribute&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tile&gt;<br/>
+					<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;tile name="home.About" extends="Default.Page.Layout"&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;attribute name="body" value="Views.Home.About.tile"&gt;&lt;/attribute&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tile&gt;<br/>
+					&nbsp;&nbsp;&lt;/definitions&gt;<br/>
+					&lt;/tiles&gt;
+				</code>
+			</p>
+			<p>And yet again you are ready to run the solution.</p>
+			<p>
+			    <img src="images/appinaction_layout_monorail.png" alt="Application showing the home screen now with a layout template"/>
+			</p>
+			<p>
+			    This looks alright, doesn't it? I promised you that the layout was testable, without running the webserver. This is covered in the next block. If testing through the 
+			    webserver is your need I would suggest using <a href="http://watin.sourceforge.net" target="_blank">WatiN</a> or <a href="http://sourceforge.net/projects/checkmate/" target="_blank">Checkmate</a>.
+			</p>
+
+			<a name="test"></a>
+			<h3>Writing a test</h3>
+			<p>
+				To be able to use tiles in tests, the tiles definitions have to be loaded. SharpTiles provides some functionality to help writing tests. The <i>GuardInit</i> loads 
+				the embedded tiles inside the provided assembly.
+		    </p>
+		    <p>
+				<code>
+					private IViewCache _cache;<br/><br/>
+					[SetUp]<br/>
+					public void SetUp()<br/>
+					{<br/>
+					&nbsp;&nbsp;_cache = new TilesCache().GuardInit(Assembly.GetAssembly(typeof(OutputConstraintTest)))<br/>
+					}
+				</code>
+			</p>
+			<p>
+				The tiles in the GettingStartedSample application are now loaded and available for testing (any IViewCache will do). The behaviour of the used cache differs. SharpTiles 
+				comes with the following two IViewCache implementations:
+				<ul>
+					<li><b>TilesCache</b> - This cache preloads all the tiles from the tiles.xml; Views are retrieved by tile definition name.</li>
+					<li><b>NstlCache</b> - This cache lazily loads all views; Views are retrieved by path name.</li>
+				</ul>
+				Let's write a simple test that checks the rendering of a complete tile.
+			</p>
+			<p>
+				<code>
+					Assert.That(<span class="highlight">"Home.About"<span class="super">1</span></span>,<br/>
+					&nbsp;&nbsp;Output.<br/>
+                    &nbsp;&nbsp;Is.EqualTo.<br/>
+                    &nbsp;&nbsp;File(<span class="highlight">"Views/Home/about.expected.full.html"<span class="super">2</span></span>).<br/>
+                    &nbsp;&nbsp;UsingModel(<span class="highlight">new Hashtable { { "Title", "TEST TITLE" } }<span class="super">3</span></span>)<br/>
+					&nbsp;&nbsp;<span class="highlight">From(_cache)<span class="super">4</span></span>);<br/>
+                </code>
+			</p>
+			<p>
+				<ol>
+					<li>The tile to test;</li>
+					<li>The file location with the expected result;</li>
+					<li>The model to use for rendering;</li>
+					<li>The cache which contains all the tiles.</li>
+				</ol> 
+			</p>
+			<p>
+				Testing only an attribute of a tile can be achieved by <i>&lt;Tile name&gt;@&lt;Attribte name&gt;</i>, for example <i>Home.About@body</i>. 
+				Testing the full rendering of a tile (and its nested tiles) is specificly usefull for tesing small tiles and for refactoring
+				bigger tiles. See the chapter about <a href="#refactor">Refactoring a test</a>.
+			</p>
+			<p>
+				When testing a tile with nested tiles, you don't want full rendering. We only want to unit test the tile and not be bothered with nested 
+				tiles. Full rendering will subject your tests to changes of used tiles and thereby make them unstable. How to prevent this problem? 
+				SharpTiles offers you a way to stub-out the used tiles. 
+			</p>
+			<p>
+				<code>
+					 Assert.That("Home.About",<br/>
+						&nbsp;&nbsp;Output.<br/>
+                        &nbsp;&nbsp;Is.EqualTo.<br/>
+                        &nbsp;&nbsp;File("Views/Home/about.expected.tile.html").<br/>
+                        &nbsp;&nbsp;UsingModel(new Hashtable { { "Title", "TEST TITLE" } }).<br/>
+                        &nbsp;&nbsp;<span class="highlight">StubOutTiles()</span>.<br/>
+						&nbsp;&nbsp;From(_cache));
+				</code>
+			</p>
+			<p>
+				SharpTiles also renders whitespaces, tabs, newlines, etc. This means that rendering a tile may add some unexpected white space characters. In HTML 
+				we're not so concerned about white space characters. This can complicate unit testing. When <i>Output.Is.Like</i> is used instead of <i>Output.Is.EqualTo</i>, all 
+				white space characters are ignored in the comparison.
+			</p>
+			<p>
+				This covers the basic of unit testing of tiles. Now you should be able to <a href="http://en.wikipedia.org/wiki/Test-driven_development" target="_blank">test driven develop</a> and 
+				<a href="#refactor">refactor</a> the HTML rendering of your web application.
+			</p>
+
+			<a name="refactor"></a>
+			<h3>Refactoring</h3>
+			<p>
+				With testing available, refactoring is possible. The next tutorial shows how to extract a tile. First we capture the current output. We can do this by writing a test. 
+				If you download the source code you can use the tests inside the MonorailSample application.
+			</p>
+			<p>
+				<code>
+					Assert.That("Home.About",<br/>
+					&nbsp;&nbsp;Output.<br/>
+                    &nbsp;&nbsp;Is.EqualTo.<br/>
+                    &nbsp;&nbsp;File("Views/Home/about.expected.full.html").<br/>
+                    &nbsp;&nbsp;UsingModel(new Hashtable { { "Title", "TEST TITLE" } }).<br/>
+                    &nbsp;&nbsp;<span class="highlight">StoreResultInFile(@"C:\output.html")</span>.<br/>
+                    &nbsp;&nbsp;From(_cache));<br/>
+                </code>
+            </p>
+            <p>
+				It's not advisable to keep this test. We only use it for refactoring. After running the test, the highlighted addition can be removed. 
+				Now we can start refactoring. We want to move the menu (highlighted in the sample below) on top of a tile.
+            </p>
+			<p>
+				<code>
+					&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"&gt;<br/>
+					&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;<br/>
+					&nbsp;&nbsp;&lt;head&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;<span class="highlight">${Title}</span>&lt;/title&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;style type="text/css"&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: .75em;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-family: Verdana, Helvetica, Sans-Serif;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background-color: #DDD;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p#logo<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-weight: bold;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 24px !important;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin-bottom: 3px;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#main<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;padding: 5px 30px 15px 30px;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background-color: #FFF;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#footer<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text-align: center;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: .9em;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;/style&gt;<br/>
+					&nbsp;&nbsp;&lt;/head&gt;<br/>
+					&nbsp;&nbsp;&lt;body&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p id="logo"&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;My Sample Monorail Application WITH TILES<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br/>
+					<span class="highlight">
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;<br/>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;<br/>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_index"<br/>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href=<span class="highlight">"/GettingStartedSample/home/Index.rails"</span>&gt;Index&lt;/a&gt;<br/>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br/>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;<br/>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_about"<br/>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href=<span class="highlight">"/GettingStartedSample/home/About.rails"</span>&gt;About&lt;/a&gt;<br/>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br/>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br/>
+					</span>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="main"&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="content"&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">&lt;tiles:insert name="body"/&gt;</span><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="footer"&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;My Sample Monorail Application WITH TILES &copy; Copyright 2010<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+					&nbsp;&nbsp;&lt;/body&gt;<br/>
+					&lt;/html&gt;
+				</code>
+			</p>
+			<p>
+				To achieve this, copy the highlighted section into a new file '/Views/Home/Shared/Menu.tile' (don't forget to set it as embedded resource) and replace the highlighted 
+				section in 'Layout.tile' with
+			</p>
+			<p>
+				<code>
+					&lt;tiles:insert name="menu"/&gt;
+				</code>
+			</p>
+			<p>
+			    The tiles are changed but we have to inject a tile with name 'menu' into to the Layout.tile. This must be done in the 'tiles.xml'. Change the line
+			</p>
+			<p>
+				<code>
+					&lt;tile name="Default.Page.Layout" path="Views.Shared.Layout.tile"/&gt;<br/>
+				</code>
+			</p>
+			<p>into</p>
+			<p>
+				<code>
+					&lt;tile name="Default.Page.Layout" path="Views.Shared.Layout.tile"&gt;<br/>
+					&nbsp;&nbsp;&lt;attribute name="menu" value="Views.Shared.Menu.tile"/&gt;<br/>
+					&lt;/tile&gt;<br/>
+				</code>
+			</p>
+			<p>
+			    Running the unit test probably will fail. This is because the template engine also renders spaces, enters, tabs, etc. We can fix this by using Like instead of 
+			    EqualTo. Like ignores all whitespace characters.
+			</p>
+			<p>
+				<code>
+					Assert.That("Home.About",<br/>
+					&nbsp;&nbsp;Output.<br/>
+                    &nbsp;&nbsp;Is.<span class="highlight">Like</span>.<br/>
+                    &nbsp;&nbsp;File("Views/Home/about.expected.full.html").<br/>
+                    &nbsp;&nbsp;UsingModel(new Hashtable { { "Title", "TEST TITLE" } }).<br/>
+                    &nbsp;&nbsp;From(_cache));<br/>
+                </code>
+            </p>
+            <p>Voila: the test is running and the refactoring is complete.</p>
+		</div>

@@ -1,0 +1,36 @@
+<Configuration>
+  <UnitTestRunner>
+    <CustomStartDirectory>
+    </CustomStartDirectory>
+    <UseShadowCopy>True</UseShadowCopy>
+    <UseCustomFolder>False</UseCustomFolder>
+    <EnableUnitTesting>True</EnableUnitTesting>
+    <Providers />
+  </UnitTestRunner>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="0F6F1FF0-87ED-47BA-AFE4-63E240CE9C7C/f:App.config" caret="600" scrollPosition="0|0" />
+      <File id="0F6F1FF0-87ED-47BA-AFE4-63E240CE9C7C/f:WebFormsTest.cs" caret="474" scrollPosition="0|0" />
+      <File id="d:Miscellaneous Files/f:DevWebServer.cs" caret="1894" scrollPosition="0|20" />
+      <File id="0F6F1FF0-87ED-47BA-AFE4-63E240CE9C7C/f:DevWebServer.cs" caret="0" scrollPosition="0|0" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="0F6F1FF0-87ED-47BA-AFE4-63E240CE9C7C/f:DevWebServer.cs" caret="0" scrollPosition="42|0" />
+      <File id="0F6F1FF0-87ED-47BA-AFE4-63E240CE9C7C/f:DevWebServer.cs" caret="0" scrollPosition="0|0" />
+      <File id="0F6F1FF0-87ED-47BA-AFE4-63E240CE9C7C/f:DevWebServer.cs" caret="1897" scrollPosition="0|20" />
+      <File id="0F6F1FF0-87ED-47BA-AFE4-63E240CE9C7C/f:DevWebServer.cs" caret="993" scrollPosition="0|0" />
+    </RecentEdits>
+  </RecentFiles>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="SolutionAnalysisEnabled">False</setting>
+      <setting name="UseSolutionBuilder">False</setting>
+    </boolean>
+  </SettingsComponent>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <CompletionStatisticsManager />
+</Configuration>

@@ -1,0 +1,66 @@
+<?php include('tutorials.sidemenu.fragment.html'); ?>
+
+<div id="main"> 
+	<a name="actionsandurls"></a>
+				<h3><i>Actions and urls</i> <br/>handles the difference between<i>&lt;c:url/&gt;</i> and <i>&lt;html:action/&gt;</i></h3>
+				<p>
+					In the jstl world url's are defined using the &lt;c:url/&gt; this works fine in most situations. The HtmlHelper provides a different strategy with the &lt;html:action/&gt; tags.
+					The big difference is that the last is more suitable and descriptive for controller actions and the first is a more generic solution for loading images, css, javascript and other resources.
+				</p>
+				<p>
+					The Shared/Logon.tile uses the &lt;html:action/&gt; tag for it's links
+					<code>
+						&lt;c:choose&gt;<br/>
+						&nbsp;&lt;c:when test="${Request.IsAuthenticated}"&gt;<br/>
+						&nbsp;&nbsp;Welcome &lt;b&gt;${Page.User.Identity.Name}&lt;/b&gt; <br/>
+						&nbsp;&nbsp;[&lt;a href='<span class="highlight">&lt;html:action Action="LogOff" Controller="Account"/&gt;</span>'&gt;<br/>
+						&nbsp;&nbsp;Log off&lt;/a&gt;]<br/>
+						&nbsp;&lt;/c:when&gt;<br/>
+						&nbsp;&lt;c:otherwise&gt;<br/>
+						&nbsp;&nbsp;[&lt;a href="<span class="highlight">&lt;html:action Action="LogOn" Controller="Account"/&gt;</span>"&gt; <br/>
+						&nbsp;&nbsp;Log on&lt;/a&gt;]<br/>
+						&nbsp;&lt;/c:otherwise&gt;<br/>
+						&lt;/c:choose&gt;<br/>
+					</code>
+				</p>
+				<p>The next example show how to rewrite a <i>&lt;c:url/&gt;</i> tag to an <i>&lt;html:action/&gt;</i> tag
+				</p>
+				<p>
+					Shared/Menu.tile
+					<code>
+						&lt;ul id="menu"&gt;<br/>
+						&nbsp;&nbsp;&lt;li&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_index" <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href="<span class="highlight">&lt;c:url value='~/Home/Index'/&gt;<span class="super">1</span></span>"&gt;Index&lt;/a&gt; <br/>
+						&nbsp;&nbsp;&lt;/li&gt;<br/>
+						&nbsp;&nbsp;&lt;li&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_about" <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href="<span class="highlight">&lt;c:url value='~/Home/About'/&gt;<span class="super">2</span></span>"&gt;About&lt;/a&gt; <br/>
+						&nbsp;&nbsp;&lt;/li&gt;<br/>
+						&lt;/ul&gt;<br/>
+					</code>
+				</p>
+				<p>
+					becomes
+					<code>
+						&lt;ul id="menu"&gt;<br/>
+						&nbsp;&nbsp;&lt;li&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_index" <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href="<span class="highlight">&lt;html:action Action='Index'/&gt;<span class="super">1</span></span>"&gt;Index&lt;/a&gt; <br/>
+						&nbsp;&nbsp;&lt;/li&gt;<br/>
+						&nbsp;&nbsp;&lt;li&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_about" <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;href="<span class="highlight">&lt;html:action Action='About'/&gt;<span class="super">2</span></span>"&gt;About&lt;/a&gt; <br/>
+						&nbsp;&nbsp;&lt;/li&gt;<br/>
+						&lt;/ul&gt;<br/>
+					</code>
+				</p>
+				<p>
+					Notice that you don't have to define the controller when your action is applied on the last controller used.<br/>
+					Whether you use <i>&lt;c:url/&gt;</i> or <i>&lt;html:action/&gt;</i> is up to you.
+				</p>
+				</a>
+				<p class="post-footer align-right">					
+					Source location: ActionsAndUrls project in the <a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-4.0-tutorials.zip&a=69471938">Tutorials</a> solution.
+				</p>
+</div>

@@ -1,0 +1,78 @@
+<?php include('tutorials.sidemenu.fragment.html'); ?>
+
+<div id="main"> 
+		<a name="nonembedded"></a>
+				<h3><i>Non embedded tiles</i> <br/>tiles outside the assembly</h3>
+				<p>
+					The previous examples all have the tiles embedded in the assembly. This is the default configuration of SharpTiles. However this might not be desired. SharpTiles allows
+					for changing the way resources are found. Resources are found through resource locators this can be configured. SharpTiles comes with three build in factories:
+					<ul>
+						<li><b>AssemblyBasedResourceLocator</b> - Assembly based</li>
+						<li><b>FileLocator</b> - File based</li>
+						<li><b>VirtualDirLocator</b> - File based prepared for web use</li>
+					</ul>
+				</p>
+				<p>	In the <a href="./index.php?mainContent=customrepository,tutorials">custom tile repository</a> example we will show how to build your own resource locator.<br/>
+					This tutorial change the previous <a href="./index.php?mainContent=cleantiles,tutorials">tutorial</a> to use the <i>VirtualDirLocator</i>. To accomplish this we need to make changes in the web.config. We need to add a <i>tilesConfiguration</i>.
+				</p>
+				<p>
+					Web.config<br/>
+					<code>
+						...<br/>
+						&nbsp;&nbsp;&lt;/sectionGroup&gt;<br/>
+						<span class="highlight">
+						&nbsp;&nbsp;&lt;section name="tilesConfiguration" 
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type="org.SharpTiles.Connectors.TilesConfigurationSection, <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;org.SharpTiles"/&gt;<span class="super">1</span></span><br/>
+						&lt;/configSections&gt;<br/>
+						&lt;appSettings/&gt;<br/>
+						<span class="highlight">
+						&lt;tilesConfiguration ConfigFilePath="my.tiles.xml"<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RefreshIntervalSeconds="15"<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FilePrefix="Views/"<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResourceFactory="org.SharpTiles.Connectors.VirtualDirLocatorFactory,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;org.SharpTiles,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Version=1.0.0.0,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Culture=neutral,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PublicKeyToken=null"/&gt;<span class="super">2</span></span><br/>
+						&lt;connectionStrings&gt;<br/>
+						...
+	
+					</code>
+				</p>
+				<p>
+					<ol>
+						<li>Defines the config section. This is standard for adding a config section in .NET</li>
+						<li>With the <i>ResourceFactory</i> SharpTiles is configured to use the web virtual directory locator. 
+							This is basicly the file locator using the webvirtual dir as a starting point. 
+						    The 'Prefix' adds an additional prefix before the requested resource. In this case the views folder is also prepended. 
+						    So <i>Home/Index.tile</i> becomes <i>&lt;virtual dir&gt;/View/Home/Index.tile</i>. The 'RefreshIntervalSeconds' specifies how often SharpTiles checks 
+						    if any of the resources are changed.
+						 </li>
+					</ol>
+				</p>
+				<p>
+					Make sure that all tiles, .tile, and tiles.xml are marked as Content instead of Embedded Resource. We also need to change the tiles.xml file. File paths uses '/' instead of an '.' see the <span class="super">*</span>
+				</p>
+				<p>
+					<code>
+						&lt;?xml version="1.0" encoding="utf-16"?&gt;<br/>
+						&lt;tiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;<br/>
+						&nbsp;&lt;definitions&gt;<br/>
+						&nbsp;&nbsp;...<br/>
+							<br/>
+						&nbsp;&nbsp;&lt;tile name="Home.Index" extends="Default.Page.Layout"&gt;<br/>
+						&nbsp;&nbsp;&lt;attribute name="title" type="String" value="Home Page"/&gt;<br/>
+						&nbsp;&nbsp;&lt;attribute name="body" value="Views<span class="highlight">/<span class="super">*</span></span>Home.Index.tile"/&gt;<br/>
+						&nbsp;&nbsp;&lt;/tile&gt;<br/>
+						&nbsp;&nbsp;...<br/>
+							<br/>
+						&nbsp;&lt;/definitions&gt;<br/>
+						&lt;/tiles&gt;</br>
+					</code>
+				</p>
+				</a>
+				<p class="post-footer align-right">					
+					Source location: NonEmbeddedTiles project in the <a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-4.0-tutorials.zip&a=69471938">Tutorials</a> solution.
+				</p>
+			</div>	

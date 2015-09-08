@@ -1,0 +1,38 @@
+﻿<tiles:insertTemplate template="../Shared/Layout.htm">
+  <tiles:putAttribute name="title">
+    Log On
+  </tiles:putAttribute>
+  <tiles:putAttribute name="body">
+    <div id="main">
+      <h2>Log On</h2>
+        <p>
+          Please enter your username and password. <a href="<html:action Action="Register" />">Register</a> if you don't have an account.
+        </p>
+        <html:validationSummary message="Login was unsuccessful. Please correct the errors and try again."/>
+        <html:form>
+          <div
+            <fieldset>
+            <legend>Account Information</legend>
+            <p>
+              <label for="username">Username:</label>
+              <html:textBox name="username"/>
+              <html:validationMessage modelName="username"/>
+            </p>
+            <p>
+              <label for="password">Password:</label>
+              <html:password name="password"/>
+              <html:validationMessage modelName="password"/>
+            </p>
+            <p>
+              <html:checkBox name="rememberMe"/> <label class="inline" for="rememberMe">Remember me?</label>
+            </p>
+            <p>
+              <input type="submit" value="Log On" />
+            </p>
+          </fieldset>
+        </div>
+        </html:form>
+    </div>
+    </tiles:putAttribute>
+</tiles:insertTemplate>
+

@@ -1,0 +1,35 @@
+<sharp:include file="tagcategory.htm"/>
+<h4>&lt;${Page.tagGroup}:${Tag.Item.Name}&gt;</h4> - <fmt:message key="${Tag.Item.DescriptionKey}"></fmt:message>
+<sharp:include file="exampletag.htm"/>
+<c:if test="${fn:length(Tag.Item.Properties) > '0'}">
+    <table>
+        <tr>
+            <th><fmt:message key="tag_Header_Attribute"/></th>
+            <th><fmt:message key="tag_Header_Description"/></th>
+            <th><fmt:message key="tag_Header_Required"/></th>
+            <th><fmt:message key="tag_Header_Default"/></th>
+         </tr>
+         <c:forEach items="${Tag.Item.Properties}">
+                <sharp:include file="property.htm"/>
+	     </c:forEach>
+	  </table>
+</c:if>
+<c:if test="${fn:length(Tag.Item.Methods) > '0'}">
+   <table>
+        <tr>
+            <th><fmt:message key="function_Header_Operator"/></th>
+         </tr>
+         
+        <c:forEach items="${Tag.Item.Methods}">
+            <tr>
+                <td class="function">
+                   ${Tag.Item.Name}(
+                    <c:forEach  items="${Tag.Item.Arguments}">
+                        <fmt:message key="type_${Tag.Item.Type.Name}"/> <i>${Tag.Item.Name}</i><c:if test="${!Tag.Status.IsLast}">,</c:if>
+                    </c:forEach>) : <fmt:message key="type_${Tag.Item.ReturnType.Name}"/>
+                </td>
+            </tr>
+        </c:forEach>
+   </table>
+</c:if>
+<sharp:include file="notetag.htm"/>

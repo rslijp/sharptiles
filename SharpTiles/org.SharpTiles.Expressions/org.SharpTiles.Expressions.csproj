@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EEC8426C-129E-4CD1-8280-2A69C6598CD9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>org.SharpTiles.Expressions</RootNamespace>
+    <AssemblyName>org.SharpTiles.Expressions</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>SharpTiles.key.pfx</AssemblyOriginatorKeyFile>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ArithmeticExpressions\ArithmeticExpression.cs" />
+    <Compile Include="ComparisionException.cs" />
+    <Compile Include="Functions\BaseFunctionLib.cs" />
+    <Compile Include="Functions\FunctionLib.cs" />
+    <Compile Include="Functions\ReverseFunction.cs" />
+    <Compile Include="Functions\FunctionArgument.cs" />
+    <Compile Include="Functions\ContainsFunction.cs" />
+    <Compile Include="Functions\ContainsIgnoreCaseFunction.cs" />
+    <Compile Include="Functions\ConcatFunction.cs" />
+    <Compile Include="Functions\SubStringBeforeFunction.cs" />
+    <Compile Include="Functions\SubStringAfterFunction.cs" />
+    <Compile Include="Functions\SubStringFunction.cs" />
+    <Compile Include="Functions\ToUpperCaseFunction.cs" />
+    <Compile Include="Functions\ToLowerCaseFunction.cs" />
+    <Compile Include="Functions\TrimFunction.cs" />
+    <Compile Include="Functions\ReplaceFunction.cs" />
+    <Compile Include="Functions\SplitFunction.cs" />
+    <Compile Include="Functions\StartsWithFunction.cs" />
+    <Compile Include="Functions\EscapeXmlFunction.cs" />
+    <Compile Include="Functions\JoinFunction.cs" />
+    <Compile Include="Functions\EndsWithFunction.cs" />
+    <Compile Include="Functions\IndexOfFunction.cs" />
+    <Compile Include="Functions\FunctionEvaluationException.cs" />
+    <Compile Include="Functions\FunctionDefinition.cs" />
+    <Compile Include="Functions\LengthFunction.cs" />
+    <Compile Include="Misc\Constant.cs" />
+    <Compile Include="Misc\ConstantParser.cs" />
+    <Compile Include="Misc\Brackets.cs" />
+    <Compile Include="Misc\BracketsParser.cs" />
+    <Compile Include="BooleanLogicExpressions\And.cs" />
+    <Compile Include="BooleanLogicExpressions\AndParser.cs" />
+    <Compile Include="ComparisonExpressions\ComparisonExpression.cs" />
+    <Compile Include="BooleanLogicExpressions\BooleanTupleExpression.cs" />
+    <Compile Include="Functions\FunctionParser.cs" />
+    <Compile Include="Functions\Function.cs" />
+    <Compile Include="Functions\EmptyFunction.cs" />
+    <Compile Include="ExpressionOperatorSign.cs" />
+    <Compile Include="BooleanLogicExpressions\Or.cs" />
+    <Compile Include="BooleanLogicExpressions\OrParser.cs" />
+    <Compile Include="ComparisonExpressions\NotEqualToParser.cs" />
+    <Compile Include="ComparisonExpressions\NotEqualTo.cs" />
+    <Compile Include="ComparisonExpressions\EqualTo.cs" />
+    <Compile Include="ComparisonExpressions\EqualToParser.cs" />
+    <Compile Include="ComparisonExpressions\LessThanOrEqual.cs" />
+    <Compile Include="ComparisonExpressions\LessThanOrEqualParser.cs" />
+    <Compile Include="ComparisonExpressions\GreaterThanOrEqual.cs" />
+    <Compile Include="ComparisonExpressions\GreaterThanOrEqualParser.cs" />
+    <Compile Include="ComparisonExpressions\LessThanParser.cs" />
+    <Compile Include="ComparisonExpressions\LessThan.cs" />
+    <Compile Include="ComparisonExpressions\GreaterThan.cs" />
+    <Compile Include="ComparisonExpressions\GreaterThanParser.cs" />
+    <Compile Include="BooleanLogicExpressions\Not.cs" />
+    <Compile Include="BooleanLogicExpressions\NotParser.cs" />
+    <Compile Include="ArithmeticExpressions\Modulo.cs" />
+    <Compile Include="ArithmeticExpressions\ModuloParser.cs" />
+    <Compile Include="ArithmeticExpressions\Power.cs" />
+    <Compile Include="ArithmeticExpressions\PowerParser.cs" />
+    <Compile Include="ArithmeticExpressions\Divide.cs" />
+    <Compile Include="ArithmeticExpressions\DivideParser.cs" />
+    <Compile Include="Misc\StringConstantParser.cs" />
+    <Compile Include="Misc\PropertyParser.cs" />
+    <Compile Include="OperatorPrecedence.cs" />
+    <Compile Include="ArithmeticExpressions\Multiply.cs" />
+    <Compile Include="ArithmeticExpressions\AddParser.cs" />
+    <Compile Include="ArithmeticExpressions\Add.cs" />
+    <Compile Include="ArithmeticExpressions\MultiplyParser.cs" />
+    <Compile Include="ExpressionParseException.cs" />
+    <Compile Include="ExpressionParserHelper.cs" />
+    <Compile Include="ArithmeticExpressions\MinusParser.cs" />
+    <Compile Include="IExpressionParser.cs" />
+    <Compile Include="ArithmeticExpressions\Minus.cs" />
+    <Compile Include="Expression.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Misc\Property.cs" />
+    <Compile Include="Misc\StringConstant.cs" />
+    <Compile Include="TupleExpression.cs" />
+    <Compile Include="TupleExpressionParser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\org.SharpTiles.Common\org.SharpTiles.Common.csproj">
+      <Project>{9D3FC31B-34F5-4A32-967B-B92C4EE57C14}</Project>
+      <Name>org.SharpTiles.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SharpTiles.key.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

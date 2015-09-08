@@ -1,0 +1,262 @@
+<?php include('tutorials.sidemenu.fragment.html'); ?>
+
+<div id="main"> 
+		<a name="viewengine"></a>
+				<h3><i>Multi screen ajax updates/Custom view engine</i> <br/>Update multiple tiles at once</h3>
+				<p>
+					In the <a href="./index.php?mainContent=simpleajax,tutorials">simple ajax</a> tutorial we started an ajax implementation. It has one draw back. You can only update one part. However you probably want to
+					update more than one part.
+				</p>
+				<p>
+					<table class="guideexample">
+						<tr>
+							<td>Page</td><td>=</td>
+							<td>
+								<table class="guide">
+								<tr><td>whole page</td></tr>
+								<tr><td><table class="guidenested"><tr><td>First part to update</td></tr></table></td></tr>
+								<tr><td><table class="guidenested"><tr><td>Second part to update</td></tr></table></td></tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</p>
+				<p>
+					How to do this. Well there are many ways to do this. So I will be describing my implementation. This tutorial starts where the <a href="./index.php?mainContent=simpleajax,tutorials">simple ajax</a> tutorial stops.
+					Oke, let's start.<br/>
+					During the processing of the Action we will gather the views to update. 
+					I created a couple of extension methods to collect the updates. The updates are stored on the call context. An update is a tile intended for updating only a part of the page.
+					This is discusses in the previous tutorial. An new view engine is created to generate a view containing all parts to update. 
+					After the <i>Ajax.Updater</i> is finished all individual parts are processed. 
+					Processing means replacing the target div with the new div and execute the contained javascript.
+				</p>
+				<p>
+					Let's look at an <i>Update</i> methods in <i>ViewEngineExtensions</i> class
+				</p>
+				<p>
+					<code>
+						public static Controller Update(this Controller controller, string forId, string viewName, object model)<br/>
+						{<br/>
+						&nbsp;&nbsp;var view = <span class="highlight">MultiViewEngine.GetMultiView()<span class="super">1</span></span>;<br/>
+						&nbsp;&nbsp;view.Add(<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">forId<span class="super">2</span></span>,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">new TilesView(viewName)<span class="super">3</span></span>,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">new ViewDataDictionary(model)<span class="super">4</span></span><br/>
+						&nbsp;&nbsp;);<br/>
+						&nbsp;&nbsp;return controller;<br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					<ol>
+						<li>The multi view stored on the call context. If not present one is created.</li>
+						<li>The id of the div to update.</li>
+						<li>The view to update.</li>
+						<li>The model to use during rendering.</li>
+					</ol>
+				</p>
+				<p>The other "Update"-extension methods do basicly the same, but have slight variations in arguments. I created two more extension methods.</p>
+				<p>
+					<code>
+						public static ViewResult <span class="highlight">Render<span class="super">1</span></span>(this Controller controller)<br/>
+						{<br/>
+						&nbsp;&nbsp;return new ViewResult<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;ViewData = controller.ViewData,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;ViewName = controller.GetTilesViewName(),<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;TempData = controller.TempData,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;};<br/>
+						}<br/>
+					<br/>
+						public static ViewResult <span class="highlight">RenderLayout<span class="super">2</span></span>(this Controller controller)<br/>
+						{<br/>
+						&nbsp;&nbsp;return new ViewResult<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;ViewData = controller.ViewData,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;ViewName = "LayOut",<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;TempData = controller.TempData,<br/>
+						&nbsp;&nbsp;};<br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					<ol>
+						<li>The "Render" method renders all parts in a generated view. This should be called after all "Update"-calls</li>
+						<li>The "RenderLayout" method renders the layout with the stubs, divs, to update.</li>
+					</ol>
+				</p>
+				<p>
+					These methods depend on a custom view engine the MultiViewEngine.class. 
+					The MultiViewEngine.class basicly contains some plumbing code to get some basics done. The MultiViewEngine handles ...
+					<ol>
+						<li>Placing the MutliViewResult on the call context and cleaning up after all parts are rendered</li>
+						<li>Rendering a layout view(empty frame which can be filled with updates) or an update view with changed parts</li>
+					</ol>
+				</p>
+				<p>
+					<code>
+						public ViewEngineResult <span class="highlight">FindView<span class="super">1</span></span>(<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ControllerContext controllerContext, <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string viewName, <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string masterName, <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool useCache)<br/>
+						{<br/>
+						&nbsp;&nbsp;if(viewName.Equals("LayOut"))<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;return new TilesViewEngine().FindView(<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;controllerContext, <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;viewName, <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;masterName, <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;useCache);<br/>
+						&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;var view = GetMultiView();<br/>
+						&nbsp;&nbsp;return new ViewEngineResult(<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;);<br/>
+						}<br/>
+					<br/>
+						public static  MultiView <span class="highlight">GetMultiView<span class="super">2</span></span>()<br/>
+						{<br/>
+						&nbsp;&nbsp;var view =  (MultiView) CallContext.GetData("View");<br/>
+						&nbsp;&nbsp;if(view==null)<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;view = new MultiView();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;CallContext.SetData("View", view);<br/>
+						&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;return view;<br/>
+						}<br/>
+					<br/>
+						public void <span class="highlight">ReleaseView<span class="super">2</span></span>(<br/>
+						&nbsp;&nbsp;ControllerContext controllerContext,<br/>
+						&nbsp;&nbsp;IView view<br/>
+						){<br/>
+						&nbsp;&nbsp;CallContext.SetData("View", null);<br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					<ol>
+						<li>Generate a multi view or the layout view</li>
+						<li>Administration of the MultiView on the CallContext</li>
+					</ol>
+				</p>
+				<p>
+					Now we move on the the interesting code the MultiView.class. This is the class where all updates are rendered in the one generated view.
+				</p>
+				<p>
+					<code>
+						private readonly IList<PartialView> _parts = new List<PartialView>();<br/>
+					<br/>
+						public void Render(ViewContext viewContext, TextWriter writer)<br/>
+						{<br/>
+						&nbsp;&nbsp;foreach (var part in _parts)<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;viewContext.ViewData = part.Data;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">writer.WriteLine(string.Format(<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&lt;div id=\"update-{0}\"&gt;", part.ForId)<span class="super">1</span></span><br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">part.View.Render(viewContext, writer)<span class="super">2</span></span>;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">writer.WriteLine(string.Format("&lt;/div&gt;"));<span class="super">1</span></span><br/>
+						&nbsp;&nbsp;}<br/>
+						}<br/>
+					<br/>
+						public void Add(string forId, IView view, ViewDataDictionary data)<br/>
+						{<br/>
+						&nbsp;&nbsp;_parts.Add(new PartialView{ForId = forId, View=view, Data=data});<br/>
+						}<br/>
+					<br/>
+						public class PartialView<br/>
+						{<br/>
+						&nbsp;&nbsp;public String ForId { get; set; }<br/>
+						&nbsp;&nbsp;public IView View { get; set; }<br/>
+						&nbsp;&nbsp;public ViewDataDictionary Data { get; set; }<br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					So what is happening here. When the multiview is rendered all registered updates, tiles, are rendered. 
+					<ol>
+						<li>The rendered part is wrapped in side a div with an id indicating which div should be updated.</li>
+						<li>The part, a tile, is rendered.</li>
+					</ol>
+				</p>
+				<p>This covers the server side. The client side requires some javascript to make this work. I changed the <i>goto(url)</i> method to handle the view returned by the <i>MultiView</i></p>
+				<p>
+					<code>
+						String.prototype.startsWith = function(str){<br/>
+						return (this.match("^" + str) == str) 
+						}<br/>
+						<br/>
+						function <span class="highlight">goto(url)<span class="super">1</span></span>{<br/>
+							new Ajax.Updater('pageUpdate', url, <br/>
+								{ method: 'get', onComplete: <span class="highlight">updatePage<span class="super">2</span></span> });<br/>
+						}<br/>
+						<br/>
+						function <span class="highlight">updatePage()<span class="super">2</span></span><br/>
+						{<br/>
+						&nbsp;&nbsp;var update = $('pageUpdate');<br/>
+						&nbsp;&nbsp;$('pageUpdate'). <span class="highlight">childElements().each<span class="super">3</span></span>(<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;function(child)<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var id = "" + child.identify();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (id.startsWith("update-"))<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">var idToUpdate = id.substr(<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"update-".length, <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(id.length - "update-".length)<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<span class="super">4</span></span>;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">$(idToUpdate).replace($(id))<span class="super">5</span></span>;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">$(id).id = idToUpdate<span class="super">6</span></span>;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$(idToUpdate).addClassName('blink')<span class="super">*</span>;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setTimeout(<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"removeBlink('" + idToUpdate + "')", <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1000<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<span class="super">*</span>;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;); <br/>
+						&nbsp;&nbsp;<span class="highlight">runScripts()<span class="super">7</span></span>;<br/>
+						}<br/>
+						<br/>
+						function removeBlink(id)<br/>
+						{<br/>
+						&nbsp;&nbsp;$(id).removeClassName('blink');<br/>
+						}<br/>
+						<br/>
+						function <span class="highlight">runScripts()<span class="super">7</span></span>()<br/>
+						{<br/>
+						&nbsp;&nbsp;var injections = $$('.javascriptInjection');<br/>
+						&nbsp;&nbsp;injections.each(<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;function(injected)<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eval(injected.innerHTML);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;injected.remove();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;); <br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					It's a lot of code at once. However it doesn't do that much. Walk over all parts. Extract the id to update . Update the div with that id. And run all the new javascript.
+					<ol>
+						<li>Place the call to the server.</li>
+						<li>And register the updatePage method to process the multiview.</li>
+						<li>Process each part in the update</li>
+						<li>Extract the id to update(target)</li>
+						<li>Update the target</li>
+						<li>Restore the id of the target</li>
+						<li>Run the javascript we injected in the page. The javascript is not embedded in &lt;script/&gt; but in a hidden div with class ".javascriptInjection". This solves
+						some issues with browser not allowing script replacement.</li>
+					</ol>
+					
+				</p>
+				<p><span class="super">*</span>=You can ignore this blink stuff. It's only there to show what was updated. I added it for the tutorial.</p>
+				<p>
+					Well this is basicly it. If you miss something in the explanation. Just post me a mail with your question in the contact form.
+				</p>
+				</a>
+				<p class="post-footer align-right">					
+					Source location: AjaxWithTiles project in the <a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-4.0-tutorials.zip&a=69471938">Tutorials</a> solution.
+				</p>
+</div>

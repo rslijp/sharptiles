@@ -1,0 +1,151 @@
+<?php include('tutorials.sidemenu.fragment.html'); ?>
+
+<div id="main"> 
+		<a name="customrepository"></a>
+				<h3><i>A custom tile repository</i> <br/>How to store your tiles on a different location</i></h3>
+				<p>
+					In this tutorial we will build our own repository to store our tiles in. The tiles will be stored in a seperate zip file. To achieve this we need to build:
+					<ol>
+						<li>We need to build a resource locator.</li>
+						<li>A factory to contruct resource locators.</li>
+						<li>Configure our resource locator factory.</li>
+					</ol>
+				</p>
+				<p>
+					We start with the locator. A locator is used to retrieve resources for a certain path. It also embed functionality to handle relative resources.
+				</p>
+				<p>
+					<code>
+						public class ZipResourceLocator : <span class="highlight">IResourceLocator<span class="super">1</span></span><br/>
+						{<br/>
+						&nbsp;&nbsp;private readonly ZipFile _file;<br/>
+						&nbsp;&nbsp;private readonly String _prefix;<br/>
+						<br/>
+						&nbsp;&nbsp;public ZipResourceLocator(ZipFile file) : this(file, null){}<br/>
+						<br/>
+						&nbsp;&nbsp;public ZipResourceLocator(ZipFile file, String prefix)<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;_file = file;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;_prefix = prefix;<br/>
+						&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;...<br/>
+						&nbsp;&nbsp;public byte[] <span class="highlight">GetData<span class="super">2</span></span>(string name)<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;return _file[name];<br/>
+						&nbsp;&nbsp;}<br/>
+						<br/>
+						&nbsp;&nbsp;public bool <span class="highlight">Exists<span class="super">2</span></span>(string name)<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;return _file.Exists(name);<br/>
+						&nbsp;&nbsp;}<br/>
+						<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;public string <span class="highlight">PreFixed<span class="super">3</span></span>(string path)<br/>
+							{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;string prefixed = _prefix;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;if (!String.IsNullOrEmpty(prefixed))<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prefixed = prefixed.EndsWith(".")<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prefixed<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(prefixed + ".");<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;} else {<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prefixed = "";<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;prefixed += path;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;return prefixed;<br/>
+						&nbsp;&nbsp;}<br/>
+						<br/>
+						&nbsp;&nbsp;public IResourceLocator <span class="highlight">Update<span class="super">4</span></span>(string path)<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;var newLocator = new ZipResourceLocator(_file, _prefix);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;return newLocator;<br/>
+						&nbsp;&nbsp;}<br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					<ol>
+						<li>Any resource locator has to implement the <i>IResourceLocator</i>.</li>
+						<li>The <i>IResourceLocator</i> demands some methods to be implemented. These are some examples. The most methods are there for acquiring resources.</li>
+						<li>The <i>PreFixed</i> method prepends a path with an prefix. This way you'll get nicer paths in your application.</li>
+						<li>The <i>Update</i> method can be used to implement relative paths. You could use the new path as a the prefix for your new locator. I did make this locator relative.</li>
+					</ol>
+				</p>
+				<p>
+					As you can see, writing your own locator isn't that hard. As you will see the factory isn't that hard either.
+				</p>
+				<p>
+					<code>
+						public class ZipLocatorFactory : <span class="highlight">IResourceLocatorFactory<span class="super">1</span></span><br/>
+						{<br/>
+						&nbsp;&nbsp;private const string CONFIG_FILE = "tiles.xml";<br/>
+						&nbsp;&nbsp;private static readonly ZipFile _zipFile;<br/>
+								<br/>
+						&nbsp;&nbsp;static ZipLocatorFactory()<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;_zipFile = new ZipFile();<br/>
+						&nbsp;&nbsp;}<br/>
+						<br/>
+						&nbsp;&nbsp;public void Init(IConfiguration configuration){}<br/>
+						<br/>
+						&nbsp;&nbsp;public Stream GetConfiguration()<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;return GetLocator().GetStream(CONFIG_FILE);<br/>
+						&nbsp;&nbsp;}<br/>
+						<br/>
+						&nbsp;&nbsp;public IResourceLocator GetLocator()<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;return new ZipResourceLocator(_zipFile);<br/>
+						&nbsp;&nbsp;}<br/>
+						<br/>
+						&nbsp;&nbsp;public ITemplate <span class="highlight">Handle<span class="super">2</span></span>(IEntry entry, bool throwException)<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;var locator = GetLocator();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;if (throwException || locator.Exists(entry.Value))<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new RefreshableResourceTemplate(locator, this, entry);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;return null;<br/>
+						&nbsp;&nbsp;}<br/>
+						<br/>
+						&nbsp;&nbsp;public DateTime? ConfigurationLastModified<br/>
+						&nbsp;&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;get { return _zipFile.ResourceLastModified; }<br/>
+						&nbsp;&nbsp;}<br/>
+						}
+					</code>
+				</p>
+				<p>
+					<ol>
+						<li>Any resource locator has to implement the <i>IResourceLocatorFactory</i>.</li>
+						<li>The <i>Handle</i> is most important method to implement. It creates a new locator an creates an resource template with it. You can create a refreshable template, 
+							<i>RefreshableResourceTemplate</i> or regular template, <i>ResourceTemplate</i>. Later on the "Update" method is used on the instantiated resource locator. 
+						</li>
+					</ol>
+				</p>
+				<p>
+					Only one thing remains. That is configuring the new locator factory.
+				</p>
+				<p>
+					<code>
+						...<br/>
+						&lt;tilesConfiguration ConfigFilePath="my.tiles.xml"<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RefreshIntervalSeconds="15"<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">ResourceFactory="ZipLocatorFactory, <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CustomFileRepositories, <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Version=1.0.0.0, <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Culture=neutral, <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PublicKeyToken=null"</span>/&gt;<br/>
+						...
+
+					</code>
+				</p>
+				<p>
+					This is done in the Web.Config. Specify the full type qualifier of your factory into the ResourceFactory attribute and SharpTiles will use your locators.
+				</p>
+				</a>
+				<p class="post-footer align-right">					
+					Source location: CustomFileRepositories project in the <a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-4.0-tutorials.zip&a=69471938">Tutorials</a> solution.
+				</p>
+			</div>

@@ -1,0 +1,17 @@
+﻿<h2>
+  ${Message}
+</h2>
+<p>
+  Custom tags samples
+  Now tag example: <my:now/><br/>
+  This is the tag example with a message: <my:simple Message="with a message"/><br/>
+  This is the tag example with a body: <my:niceBody>Yihaaa</my:niceBody><br/>
+  This a more complex tag examlpe with fallback in order Override, Message, Default: <my:ping Override="OVERRIDE"/>, <my:ping Message="MESSAGE"/>, <my:ping /><br/>
+  Tags using the TagModel: <my:session Name="AMessage"/>, <my:any Name="AMessage"/><br/>
+  Tag with nested elemens: <my:jar index="3">
+    <my:pickle>Big pickle</my:pickle>
+    <my:pickle>Medium pickle</my:pickle>
+    <my:pickle>Little pickle</my:pickle>
+  </my:jar><br/>
+  Some custom fuctions like the fibonacci of 8=${math:fibonacci('8')} and the faculty of 8=${math:faculty('8')}
+</p>

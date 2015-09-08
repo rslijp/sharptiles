@@ -1,0 +1,17 @@
+<html>
+    <body>
+            <html:form action="${Model.action}" controller="${Model.controller}" method="post">
+                <html:textBox name="${Model.textBoxName}" value="${Model.textBoxValue}" class="${Model.style}"/>
+                <html:radioButton name="${Model.radioButtonName}" value="${Model.radioButtonValue}" class="${Model.style}"/>
+                <html:checkBox name="${Model.checkBoxName}" isChecked="${Model.checkBoxValue}" class="${Model.style}"/>
+                <html:hidden name="${Model.hiddenName}" value="${Model.hiddenValue}" class="${Model.style}"/>
+                <html:password name="${Model.passwordName}" value="${Model.passwordValue}" class="${Model.style}"/>
+                <html:radioButton name="${Model.radioButtonName}" value="${Model.radioButtonValue}" class="${Model.style}"/>
+                <html:textArea name="${Model.textAreaName}" value="${Model.textAreaValue}" columns="${Model.columns}" rows="${Model.rows}" class="${Model.style}"/>
+                <html:validationMessage modelName="${Model.modelName}" validationMessage="${Model.validationMessage}"/>
+                <html:validationSummary message="msg" class="${Model.style}"/>
+                <html:listBox name="${Model.listBoxName}" selectList="${Model.mutliList}"/>
+                <html:dropDownList name="${Model.dropDownListName}" selectList="${Model.selectList}"/>
+            </html:form>
+    </body>
+</html>

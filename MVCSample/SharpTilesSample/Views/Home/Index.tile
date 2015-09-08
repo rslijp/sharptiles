@@ -1,0 +1,3 @@
+<h1>${Title}</h1>
+<p>${Message}</p>
+<a id="link_to_about" href="/SharpTilesSample/Home/About">Next</a> 

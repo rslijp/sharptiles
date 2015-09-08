@@ -1,0 +1,6 @@
+﻿<h1>${title}</h1>
+<hr />
+<c:forEach items="${chapters}" var="chapter">
+    <tiles:insert name="book.chapter" />
+    <hr/>
+</c:forEach>

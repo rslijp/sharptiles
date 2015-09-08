@@ -1,0 +1,4414 @@
+<?php include('documentation.sidemenu.fragment.html'); ?>
+
+  		<div id="main"> 
+			<h1 class="overalltitle">SharpTiles</h1>
+		<i class="overalltitle">R.Z. Slijp, 2008</i>
+		<p>
+		    The contents of this reference guide is based on the 'JSTL Quick Reference' by Bill Siggelkow(2003)
+		    <br />
+		    <br />
+		    This document is not copyright protected. However the 'JSTL Quick Reference', which forms the base of this document, is copyrighted by Bill Siggelkow.
+	    </p>
+		<hr />
+	    <h1>Expression language</h1>
+<h3>In Attribute Values</h3>
+<p><ul>
+	<li>&lt;a:tag value="${expr}"/&gt;</li>
+	<li>&lt;a:tag value="me${expr} ${expr}"/&gt;</li>
+  </ul></p>
+<h3>Bean Property Acces</h3>
+<p>bean.<i>name</i></p>
+<h3>Indexed Property Access</h3>
+<p>bean.property.<i>index</i></p>
+<h3>Map Property Access</h3>
+<p>bean.property.<i>key</i></p>
+<p class="note">
+      In java dictionary and list access is done with brackets. SharpTiles deviates from this syntax. In SharpTiles access to properties, 
+   list, dictionaries is done with the same '.' notation.<br/>
+   <br/>
+   For example:<br/>
+   <br/>
+&nbsp;&nbsp;&nbsp;<i>map["key"][i].property</i> becomes <i>map.key.i.property</i><br/><br/>
+	The underlying implementation of the properties is now hidden from the view logic.
+   
+</p>
+<h1>Operators</h1>
+
+    
+    
+        <h3>Arithmetic expressions</h3>
+        <table>
+        <tr>
+            <th>Operator</th>
+            <th>Description</th>
+         </tr>
+
+
+
+<tr>
+    <td class="operator">
+       
+    +
+
+    </td>
+    <td class="description">Addition</td>
+</tr>
+
+    
+
+
+<tr>
+    <td class="operator">
+       
+    -
+
+    </td>
+    <td class="description">Subtraction</td>
+</tr>
+
+    
+
+
+<tr>
+    <td class="operator">
+       
+    *
+
+    </td>
+    <td class="description">Multliplication</td>
+</tr>
+
+    
+
+
+<tr>
+    <td class="operator">
+       
+    /&nbsp;
+
+    div
+
+    </td>
+    <td class="description">Division</td>
+</tr>
+
+    
+
+
+<tr>
+    <td class="operator">
+       
+    %&nbsp;
+
+    mod
+
+    </td>
+    <td class="description">Remainder(modulo)</td>
+</tr>
+
+    
+
+
+<tr>
+    <td class="operator">
+       
+    ^&nbsp;
+
+    pow
+
+    </td>
+    <td class="description">Power</td>
+</tr>
+
+    
+    
+        </table>
+    
+        <h3>Comparison expressions</h3>
+        <table>
+        <tr>
+            <th>Operator</th>
+            <th>Description</th>
+         </tr>
+
+
+
+<tr>
+    <td class="operator">
+       
+    <&nbsp;
+
+    lt
+
+    </td>
+    <td class="description">Less than</td>
+</tr>
+
+    
+
+
+<tr>
+    <td class="operator">
+       
+    >&nbsp;
+
+    gt
+
+    </td>
+    <td class="description">Greater than</td>
+</tr>
+
+    
+
+
+<tr>
+    <td class="operator">
+       
+    <=&nbsp;
+
+    le
+
+    </td>
+    <td class="description">Less than or equal to</td>
+</tr>
+
+    
+
+
+<tr>
+    <td class="operator">
+       
+    >=&nbsp;
+
+    ge
+
+    </td>
+    <td class="description">Greater than or equal to</td>
+</tr>
+
+    
+
+
+<tr>
+    <td class="operator">
+       
+    ==&nbsp;
+
+    eq
+
+    </td>
+    <td class="description">Equal to</td>
+</tr>
+
+    
+
+
+<tr>
+    <td class="operator">
+       
+    !=&nbsp;
+
+    ne
+
+    </td>
+    <td class="description">Not equal to</td>
+</tr>
+
+    
+    
+        </table>
+    
+        <h3>Boolean logic expressions</h3>
+        <table>
+        <tr>
+            <th>Operator</th>
+            <th>Description</th>
+         </tr>
+
+
+
+<tr>
+    <td class="operator">
+       
+    &&&nbsp;
+
+    and
+
+    </td>
+    <td class="description">Logic and right parameter lazy evaluated</td>
+</tr>
+
+    
+
+
+<tr>
+    <td class="operator">
+       
+    ||&nbsp;
+
+    or
+
+    </td>
+    <td class="description">Logic or right parameter lazy evaluated</td>
+</tr>
+
+    
+
+
+<tr>
+    <td class="operator">
+       
+    !&nbsp;
+
+    not
+
+    </td>
+    <td class="description">not</td>
+</tr>
+
+    
+    
+        </table>
+    
+        <h3>Other</h3>
+        <table>
+        <tr>
+            <th>Operator</th>
+            <th>Description</th>
+         </tr>
+
+
+
+<tr>
+    <td class="operator">
+       
+    (&nbsp;
+
+    )&nbsp;
+
+    ,
+
+    </td>
+    <td class="description">Paranthesis for changing operator precedence or used as parameters in function calls</td>
+</tr>
+
+    
+
+
+<tr>
+    <td class="operator">
+       
+    @
+
+    </td>
+    <td class="description">String constant</td>
+</tr>
+
+    
+
+
+<tr>
+    <td class="operator">
+       
+    '
+
+    </td>
+    <td class="description">Constant (will be interpreted as bool or decimal if possible)</td>
+</tr>
+
+</table>
+<h1>Operator precedence</h1>
+<table class="operatorprecedence">
+    <tr>
+         <th>Priority</th>
+         <th>Operator</th>
+    </tr>
+
+    <tr>
+        <td class="priority">1</td>
+        <td class="operator">
+            
+                
+    ^&nbsp;
+
+    pow
+
+                
+            
+        </td>
+    </tr>
+
+    <tr>
+        <td class="priority">2</td>
+        <td class="operator">
+            
+                
+    *
+
+                <br />
+            
+                
+    /&nbsp;
+
+    div
+
+                <br />
+            
+                
+    %&nbsp;
+
+    mod
+
+                
+            
+        </td>
+    </tr>
+
+    <tr>
+        <td class="priority">3</td>
+        <td class="operator">
+            
+                
+    +
+
+                <br />
+            
+                
+    -
+
+                <br />
+            
+                
+    !&nbsp;
+
+    not
+
+                
+            
+        </td>
+    </tr>
+
+    <tr>
+        <td class="priority">4</td>
+        <td class="operator">
+            
+                
+    ==&nbsp;
+
+    eq
+
+                <br />
+            
+                
+    !=&nbsp;
+
+    ne
+
+                
+            
+        </td>
+    </tr>
+
+    <tr>
+        <td class="priority">5</td>
+        <td class="operator">
+            
+                
+    >&nbsp;
+
+    gt
+
+                <br />
+            
+                
+    >=&nbsp;
+
+    ge
+
+                <br />
+            
+                
+    <&nbsp;
+
+    lt
+
+                <br />
+            
+                
+    <=&nbsp;
+
+    le
+
+                
+            
+        </td>
+    </tr>
+
+    <tr>
+        <td class="priority">6</td>
+        <td class="operator">
+            
+                
+    ||&nbsp;
+
+    or
+
+                
+            
+        </td>
+    </tr>
+
+    <tr>
+        <td class="priority">7</td>
+        <td class="operator">
+            
+                
+    &&&nbsp;
+
+    and
+
+                
+            
+        </td>
+    </tr>
+
+    <tr>
+        <td class="priority">8</td>
+        <td class="operator">
+            
+                
+    (&nbsp;
+
+    )&nbsp;
+
+    ,
+
+                
+            
+        </td>
+    </tr>
+
+    <tr>
+        <td class="priority">9</td>
+        <td class="operator">
+            
+                
+    fn:
+
+                
+            
+        </td>
+    </tr>
+
+</table>
+<h1>Functions</h1>
+<table>
+        <tr>
+            <th>Function</th>
+            <th>Description</th>
+         </tr>
+
+    <tr>
+    <td class="function">
+        fn:length(
+        
+            IEnumerable <i>object</i>
+        ) : integer
+    </td>
+    <td class="description">If a collection or array is passed, the size of the collection or array is
+returned; If a string is passed, the number of characters in the string is
+returned.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:reverse(
+        
+            IEnumerable <i>object</i>
+        ) : integer
+    </td>
+    <td class="description">If a collection, string or array is passed. The order of the elements will be reversed.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:concat(
+        
+            string <i>left</i>,
+        
+            string <i>right</i>
+        ) : string
+    </td>
+    <td class="description">Concatenates the left string with the right string.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:empty(
+        
+            object <i>arg</i>
+        ) : boolean
+    </td>
+    <td class="description">True if the operand is null, an empty String, empty array, empty Map, or empty List; false, otherwise.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:contains(
+        
+            string <i>source</i>,
+        
+            string <i>substring</i>
+        ) : boolean
+    </td>
+    <td class="description">Returns true if substring is contained in source; false, otherwise.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:containsIgnoreCase(
+        
+            string <i>source</i>,
+        
+            string <i>substring</i>
+        ) : boolean
+    </td>
+    <td class="description">Returns true if substring is contained in source regardless of case; false,
+otherwise.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:indexOf(
+        
+            string <i>source</i>,
+        
+            string <i>substring</i>
+        ) : boolean
+    </td>
+    <td class="description">Returns an integer representing the 0-based index within source of the first
+occurrence of substring. If substring is empty, 0 is returned.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:startsWith(
+        
+            string <i>source</i>,
+        
+            string <i>prefix</i>
+        ) : boolean
+    </td>
+    <td class="description">Returns true if source starts with the specified prefix; false, otherwise.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:endsWith(
+        
+            string <i>source</i>,
+        
+            string <i>suffix</i>
+        ) : boolean
+    </td>
+    <td class="description">Returns true if source ends with the specified suffix; false, otherwise.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:replace(
+        
+            string <i>source</i>,
+        
+            string <i>oldValue</i>,
+        
+            string <i>newValue</i>
+        ) : string
+    </td>
+    <td class="description">Replaces in source, every occurrence of beforeString with
+afterString. An empty string is returned if either inputString or
+beforeString is empty. If afterString is empty, all occurences of the
+beforeString are removed.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:join(
+        
+            string[] <i>parts</i>,
+        
+            string <i>seperator</i>
+        ) : string
+    </td>
+    <td class="description">Joins all elements of the parts into a single string. Separator
+separates each element in the resulting string. If separator is an empty string, the elements are joined without a separator.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:split(
+        
+            string <i>source</i>,
+        
+            string <i>seperator</i>
+        ) : string[]
+    </td>
+    <td class="description">Splits string into a string array using the given set of delimiter characters.
+The delimiter characters are not included in any returned tokens.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:escapeXml(
+        
+            string <i>source</i>
+        ) : boolean
+    </td>
+    <td class="description">Escapes characters (e.g changing "&lt;" to "& lt;") that could be interpreted as XML (including HTML) markup.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:toLowerCase(
+        
+            string <i>source</i>
+        ) : boolean
+    </td>
+    <td class="description">Converts all characters of a string to lowercase.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:toUpperCase(
+        
+            string <i>source</i>
+        ) : boolean
+    </td>
+    <td class="description">Converts all characters of a string to uppercase.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:trim(
+        
+            string <i>source</i>
+        ) : boolean
+    </td>
+    <td class="description">Removes whitespace from both ends of a string.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:substring(
+        
+            string <i>source</i>,
+        
+            integer <i>start</i>,
+        
+            integer <i>end</i>
+        ) : string
+    </td>
+    <td class="description">Returns a subset of source using the zero-based indices – inclusive of the
+begin index, but exclusive of the end index.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:substringBefore(
+        
+            string <i>source</i>,
+        
+            string <i>before</i>
+        ) : string
+    </td>
+    <td class="description">Returns the subset of source that procedes the given substring.</td>
+</tr>
+
+    <tr>
+    <td class="function">
+        fn:substringAfter(
+        
+            string <i>source</i>,
+        
+            string <i>after</i>
+        ) : string
+    </td>
+    <td class="description">Returns the subset of source that succedes the given substring.</td>
+</tr>
+
+</table>
+
+
+	    <h1>Tags</h1>
+
+         <h2>c - Core <i>Tag Library</i></h2>
+The core tag lib provides basic functionality for page flow, rendering and handling variables.
+
+
+
+
+
+
+    <p>
+        
+    <p><h3>General-Purpose Actions</h3><br/>Actions for rendering data, creating and modifying scoped variables, and catching exceptions.</p>
+
+
+
+<h4>&lt;c:out&gt;</h4> - renders data to the page
+
+    <p>
+        <code>
+        &lt;h2&gt;Welcome, &lt;c:out value="${user.name}" default="Guest"/&gt;&lt;/h2&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Value</td>
+    <td>
+        Data to output
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">Default</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Default</td>
+    <td>
+        Fallback data to output if value is empty
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">Body</td>
+</tr>
+	     
+                <tr>
+    <td class="property">EscapeXml</td>
+    <td>
+        <i>true</i> to escape special characters
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'True'</td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;c:set&gt;</h4> - saves data to a scoped variable
+
+    <p>
+        <code>
+        &lt;c:set var="dogAge" value="${age div 7}"/&gt; You are &lt;c:out value="${dogAge}"/&gt; in dog years.
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Value</td>
+    <td>
+        Data to save No Body
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">Body</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to store data. An existing variable will be changed. If the property is the property of an object(in any scope). The value of the property will be changed.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;c:remove&gt;</h4> - deletes a scoped variable
+
+    <p>
+        <code>
+        &lt;c:remove var="dogAge" scope="page"/&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable or property to delete. Deleting of properties is done by setting the value of properties to null.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;c:catch&gt;</h4> - traps all exceptions or errors from the enclosed body.
+
+    <p>
+        <code>
+        &lt;c:catch var="err"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;c:import value="http://www.sharptiles.org"/&gt;<br/>
+&lt;/c:catch&gt;<br/>
+&lt;c:if test="${not empty err}"&gt;<br/>
+&nbsp;&nbsp;&nbsp;Could not connect to Sharptiles web site.<br/>
+&lt;/c:if&gt;<br/>
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to store data. An existing variable will be changed. If the property is the property of an object(in any scope). The value of the property will be changed.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Model'</td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+    <p><h3>Conditional Actions</h3><br/>Actions for processing markup based on logical conditions.</p>
+
+
+
+<h4>&lt;c:if&gt;</h4> - processes the body if test is true
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Test</td>
+    <td>
+        Condition to evaluate.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default">'False'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to store data. An existing variable will be changed. If the property is the property of an object(in any scope). The value of the property will be changed.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;c:choose&gt;</h4> - multiple conditions - processes the body of the <b>first</b> enclosed <i>when</i> tag where the test 
+   condition is true. If none match then the body of the <i>otherwise</i> tag (if present) is processed.
+
+    <p>
+        <code>
+        &lt;c:choose&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;c:when test="${a boolean expr}"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// do something<br/>
+&nbsp;&nbsp;&nbsp;&lt;/c:when&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;c:when test="${another boolean expr}"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// do something else<br/>
+&nbsp;&nbsp;&nbsp;&lt;/c:when&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;c:otherwise&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// do this when nothing else is true<br/>
+&nbsp;&nbsp;&nbsp;&lt;/c:otherwise&gt;<br/>
+&lt;/c:choose&gt;
+        </code>
+    </p>
+
+
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;c:when&gt;</h4> - processes the body if test is true and no
+other previous <i>&lt;c:when&gt;</i> tags evaluated to true.
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Test</td>
+    <td>
+        Condition to evaluate.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default">'False'</td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;c:otherwise&gt;</h4> - processes the body if no other previous <i>&lt;c:when&gt;</i> condition was matched. This tag accepts no attributes and, if present, must be the 
+   last tag in the <i>&lt;c:choose&gt;</i> body.
+
+
+
+
+
+
+
+    </p>
+
+    <p>
+        
+    <p><h3>Iterator Actions</h3><br/>Actions that loop over collections, for a fixed number of times, or over a set of string tokens. These actions share a lot of the same attributes for iterating over a subset of elements.</p>
+
+
+
+<h4>&lt;c:forEach&gt;</h4> - repeats the nested body content over a collection or for a fixed number of times.
+
+    <p>
+        <code>
+        &lt;c:forEach items="${user.languages}" var="lang" varStatus="status"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;c:if test="${status.first}"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You speak these languages:&lt;br/&gt;&lt;ul&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;/c:if&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;c:out value="${lang}"/&gt;&lt;/li&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;c:if test="${status.last}"&gt;&lt;/ul&gt;&lt;/c:if&gt;<br/>
+&lt;/c:forEach&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Items</td>
+    <td>
+        Collection, iterator, map, or array to loop over.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Begin</td>
+    <td>
+        Zero-based index of first item to process, inclusive.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'0'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">End</td>
+    <td>
+        Zero-based index of last item to process, inclusive.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Step</td>
+    <td>
+        Process every stepth element (e.g 2 = every second element).
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'1'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to hold the current item. This variable has only nested visibility.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Item'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">VarStatus</td>
+    <td>
+        Name of variable to hold the loop status with the following properties:
+		   <ul>
+				<li>index - position of the current item</li>
+				<li>count - number of times through the loop (starting with 1)</li>
+				<li>first - boolean indicator if this is the first iteration</li>
+				<li>last - boolean indicator if this is the last iteration</li>
+			</ul>
+	
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Status'</td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;c:forTokens&gt;</h4> - repeats the nested body content for each token of a delimited string.
+
+    <p>
+        <code>
+        &lt;c:set var="users"&gt;Fred,Joe,Mary&lt;c:set&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;c:forTokens var="name" items="${users}" delims=","&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;c:out value="${name}"/&gt;&lt;br/&gt;<br/>
+&lt;/c:forTokens&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Items</td>
+    <td>
+        String of tokens to loop over.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Delims</td>
+    <td>
+        Set of characters that separate the tokens (e.g. delims=",;" will tokenize a string separated by commas or semi-colons).
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Begin</td>
+    <td>
+        Zero-based index of first item to process, inclusive.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'0'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">End</td>
+    <td>
+        Zero-based index of last item to process, inclusive.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Step</td>
+    <td>
+        Process every stepth element (e.g 2 = every second element).
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'1'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to hold the current item. This variable has only nested visibility.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Item'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">VarStatus</td>
+    <td>
+        Name of variable to hold the loop status with the following properties:
+		   <ul>
+				<li>index - position of the current item</li>
+				<li>count - number of times through the loop (starting with 1)</li>
+				<li>first - boolean indicator if this is the first iteration</li>
+				<li>last - boolean indicator if this is the last iteration</li>
+			</ul>
+	
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Status'</td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+    <p><h3>URL Related Actions</h3><br/>Actions for importing content from URLs, building URLs, and redirecting.</p>
+
+
+
+<h4>&lt;c:url&gt;</h4> - builds a URL with the proper rewriting rules applied (only relative URLs are rewritten). Action may include nested <i>&lt;c:param&gt;</i> tags to specify the query string.
+
+    <p>
+        <code>
+        &lt;c:url="editProfile.do" var="profileLnk"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;c:param name="id" value="${user.id}"/&gt;<br/>
+&lt;/c:url&gt;<br/>
+&lt;a href='&lt;c:out value="${profileLnk}"/&gt;'&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit Profile<br/>
+&lt;/a&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Value</td>
+    <td>
+        URL to be processed.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to store data. An existing variable will be changed. If the property is the property of an object(in any scope). The value of the property will be changed.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;c:import&gt;</h4> - imports the content of a URL-based resource. Action may include nested <i>&lt;c:param&gt;</i> tags to specify the query string (unless the varReader  attribute is specified).
+
+    <p>
+        <code>
+        <b>&lt;c:import url="includes/header.aspx"&gt;</b><br/>
+&nbsp;&nbsp;&nbsp;&lt;c:param name="title"&gt;Hello World&lt;/c:param&gt;<br/>
+<b>&lt;/c:import&gt;</b>
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Url</td>
+    <td>
+        URL of the resource to import.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to store data. An existing variable will be changed. If the property is the property of an object(in any scope). The value of the property will be changed.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;c:redirect&gt;</h4> - sends the client a response to redirect to the specified URL. This action will abort processing of the current page. Action may include nested <i>&lt;c:param&gt;</i> tags to specify the query string.
+
+    <p>
+        <code>
+        &lt;c:if test="${empty user}"&gt;<br/>
+&nbsp;&nbsp;&nbsp;<b>&lt;c:redirect url="login.aspx"/&gt;</b><br/>
+&lt;/c:if&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Url</td>
+    <td>
+        URL of the resource to redirect to.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;c:param&gt;</h4> - adds request parameters to a URL. This action can only be nested within <i>&lt;c:import&gt;</i>, <i>&lt;c:url&gt;</i>, or <i>&lt;c:redirect&gt;</i>.
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Name</td>
+    <td>
+        Name of the query string parameter.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Value</td>
+    <td>
+        Value of the parameter. If not specified, value is taken from the tag body.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+
+         <h2>fmt - Formatting  <i>Tag Library</i></h2>
+The formatting tag lib handles the translations, character setsand the parsing and formatting of numbers and dates
+
+
+
+
+
+
+    <p>
+        
+    <p><h3>Internationalization (I18N) Actions</h3><br/>Actions that establish localization (l10n) contexts, specify resource bundles, and format messages. </p>
+
+
+
+<h4>&lt;fmt:setLocale&gt;</h4> - Sets the default locale for the specified scope. This will override the browserbased locale.
+
+    <p>
+        <code>
+        &lt;fmt:setLocale scope="session" value="fr-CA"/&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Value</td>
+    <td>
+        String representation of a locale (e.g. en-US) or an actual java.util.Locale object.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope to set the default locale for.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;fmt:requestEncoding&gt;</h4> - Instructs JSTL to use a specific character encoding (see <a href="http://www.iana.org/assignments/character-sets">http://www.iana.org/assignments/character-sets</a>) to decode request parameters. Omitting a value indicates to use automatic detection of the proper encoding.
+
+    <p>
+        <code>
+        &lt;fmt:requestEncoding key="UTF-7"/&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Value</td>
+    <td>
+        Character encoding (e.g. "UTF-8") to use.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;fmt:bundle&gt;</h4> - Sets the localization context, based on the specified resource bundle, to be used within the body content of this tag.
+
+    <p>
+        <code>
+        <b>&lt;fmt:bundle baseName="resources" prefix="label."&gt;</b><br/>
+&nbsp;&nbsp;&nbsp;&lt;fmt:message key="userId"/&gt;<br/>
+<b>&lt;fmt:bundle&gt;</b><br/>
+  
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">BaseName</td>
+    <td>
+        Fully-qualified name of the base bundle without a file type (such as ".resx").
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Prefix</td>
+    <td>
+        String prefix to be prepended to the value of the message key. Note that the prefix must include all characters – a separator character (e.g. ".") is not assumed.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;fmt:setBundle&gt;</h4> - Creates and stores in a scoped variable, a localization context based on the specified resource bundle.
+
+    <p>
+        <code>
+        &lt;fmt:setBundle baseName="ApplicationResources" var="tilesMessages" scope="Application"/&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">BaseName</td>
+    <td>
+        Fully-qualified name of the base bundle without a file type (such as ".properties").
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to store data. An existing variable will be changed. If the property is the property of an object(in any scope). The value of the property will be changed.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;fmt:message&gt;</h4> - Looks up a localized message in a resource bundle. This tag can contain nested <i>&lt;fmt:param&gt;</i> tags to specify message format substitution values. The resultant message is printed or stored in a scoped variable.
+
+    <p>
+        <code>
+        &lt;fmt:message key="title" bundle="${tilesMessages}"/&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Key</td>
+    <td>
+        Message key to be looked up.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Bundle</td>
+    <td>
+        Localization context (set by prio configuration, &lt;fmt:bundle&gt;, or &lt;fmt:setBundle&gt;, which specifies the resource bundle the message key is to be looked up in.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to store data. An existing variable will be changed. If the property is the property of an object(in any scope). The value of the property will be changed.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;fmt:param&gt;</h4> - Supplies a parameter for message  format substitution in a containing <i>&lt;fmt:message&gt;</i> tag. Parameters are substituted in sequential order.
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Value</td>
+    <td>
+        Value used for parametric message format substitution.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+    <p><h3>Internationalization (I18N) Actions</h3><br/>Actions that format and parse numbers, currencies, percentages, dates and times.</p>
+
+
+
+<h4>&lt;fmt:formatNumber&gt;</h4> - Formats a number, currency, or percentage in a locale-sensitive manner. The formatted value is printed or stored in a scoped variable.
+
+    <p>
+        <code>
+        &lt;fmt:formatNumber type="Currency" value="3.977"&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Value</td>
+    <td>
+        Numeric value to format.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">Body</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Type</td>
+    <td>
+        Specifies the type of value. Valid values are:
+	
+        
+            <ul>
+                
+                    <li>Number</li>
+                
+                    <li>Currency</li>
+                
+                    <li>Percentage</li>
+                
+            </ul>
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Number'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Pattern</td>
+    <td>
+        Custom formatting pattern (overrides other formatting options including type - see System.Globalization.NumberFormatInfo)
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">CurrencyCode</td>
+    <td>
+        Currency code (ISO 4217) used for formatting currencies. Such as "USD" (US dollars) or "EUR" (euro).
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">CurrencySymbol</td>
+    <td>
+        Currency symbol used when formatting currencies. Such as "$" for US dollars, or "F" for Francs.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">CurrencyCode</td>
+</tr>
+	     
+                <tr>
+    <td class="property">GroupingUsed</td>
+    <td>
+        Specifies if grouping separators will be used (for example - formatting "23890" as "23,890").
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'True'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">MinFractionDigits</td>
+    <td>
+        Maximum number of digits to print in the fractional part of the number.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'2'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">MaxFractionDigits</td>
+    <td>
+        Minimum number of digits to print in the fractional part of the number.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">MinIntegerDigits</td>
+    <td>
+        Maximum number of digits to print in the integer part of the number.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">MaxIntegerDigits</td>
+    <td>
+        Minimum number of digits to print in the integer part of the number.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to store data. An existing variable will be changed. If the property is the property of an object(in any scope). The value of the property will be changed.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;fmt:parseNumber&gt;</h4> - Parses a String representing a number, currency, or percentage in a localesensitive manner. The parsed value is printed or stored in a scoped variable.
+
+    <p>
+        <code>
+        <b>&lt;fmt:parseNumber var="num" type="Number" Styles="AllowDecimalPoint,AllowThousands" value="2,447"/&gt;</b><br/>&lt;c:out value="${num}"/&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Value</td>
+    <td>
+        Value to parse.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">Body</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Type</td>
+    <td>
+        Specifies the type of value. Valid values are:
+	
+        
+            <ul>
+                
+                    <li>Number</li>
+                
+                    <li>Currency</li>
+                
+                    <li>Percentage</li>
+                
+            </ul>
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Number'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Styles</td>
+    <td>
+        Specifies the number style of value as "," seperated list. Valid values are String representation of System.Globalization.NumberStyles:		
+	
+        
+            <ul>
+                
+                    <li>None</li>
+                
+                    <li>AllowLeadingWhite</li>
+                
+                    <li>AllowTrailingWhite</li>
+                
+                    <li>AllowLeadingSign</li>
+                
+                    <li>Integer</li>
+                
+                    <li>AllowTrailingSign</li>
+                
+                    <li>AllowParentheses</li>
+                
+                    <li>AllowDecimalPoint</li>
+                
+                    <li>AllowThousands</li>
+                
+                    <li>Number</li>
+                
+                    <li>AllowExponent</li>
+                
+                    <li>Float</li>
+                
+                    <li>AllowCurrencySymbol</li>
+                
+                    <li>Currency</li>
+                
+                    <li>Any</li>
+                
+                    <li>AllowHexSpecifier</li>
+                
+                    <li>HexNumber</li>
+                
+            </ul>
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">ParseLocale</td>
+    <td>
+        String representation of a locale (e.g. en_US) or an actual System.Globalization.CultureInfo object used for parsing.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">IntegerOnly</td>
+    <td>
+        Specifies if only the integer portion of the value should be parsed.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'False'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to store data. An existing variable will be changed. If the property is the property of an object(in any scope). The value of the property will be changed.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;fmt:formatDate&gt;</h4> - Formats a date and/or time in a locale-sensitive manner. The formatted value is printed or stored in a scoped variable.
+
+    <p>
+        <code>
+        &lt;fmt:formatDate value="${now}" pattern="yy-MMM-dd&gt;"/>
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Value</td>
+    <td>
+        Date value to format. Value must be a System.Date object or String representation.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">Body</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Type</td>
+    <td>
+        Specifies the type of value. Valid values are:
+        
+            <ul>
+                
+                    <li>Time</li>
+                
+                    <li>Date</li>
+                
+                    <li>Both</li>
+                
+            </ul>
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">DateStyle</td>
+    <td>
+        Predefined formatting style for a date (ignored if type="time") - see System.Globalization.DateTimeFormatInfo
+        
+            <ul>
+                
+                    <li>Default</li>
+                
+                    <li>Short</li>
+                
+                    <li>Long</li>
+                
+            </ul>
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">TimeStyle</td>
+    <td>
+        Predefined formatting style for a time (ignored if type="date") - see System.Globalization.DateTimeFormatInfo. Valid values are:
+        
+            <ul>
+                
+                    <li>Default</li>
+                
+                    <li>Short</li>
+                
+                    <li>Long</li>
+                
+            </ul>
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Pattern</td>
+    <td>
+        Custom formatting style (overrides type, dateStyle, and timeStyle) - see System.Globalization.DateTimeFormatInfo.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to store data. An existing variable will be changed. If the property is the property of an object(in any scope). The value of the property will be changed.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;fmt:parseDate&gt;</h4> - Parses a string representing a date and/or time in a locale-sensitive manner. The parsed value is printed or stored in a scoped variable.
+
+    <p>
+        <code>
+        <b>&lt;fmt:parseDate var="bday" pattern="MM/dd/yy" value="05/10/63"/&gt;</b><br/>&lt;fmt:formatDate value="${bday}" dateStyle="Long"/&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Value</td>
+    <td>
+        Date/time string to parse.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">Body</td>
+</tr>
+	     
+                <tr>
+    <td class="property">ParseLocale</td>
+    <td>
+        String representation of a locale (e.g. en_US) or an actual System.Globalization.CultureInfo object used for parsing.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Exact</td>
+    <td>
+        Forces the date parser to do an exact parse.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'True'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Type</td>
+    <td>
+        Specifies the type of value. Valid values are:
+        
+            <ul>
+                
+                    <li>Time</li>
+                
+                    <li>Date</li>
+                
+                    <li>Both</li>
+                
+            </ul>
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">DateStyle</td>
+    <td>
+        Predefined formatting style for a date (ignored if type="time") - see System.Globalization.DateTimeFormatInfo
+        
+            <ul>
+                
+                    <li>Default</li>
+                
+                    <li>Short</li>
+                
+                    <li>Long</li>
+                
+            </ul>
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">TimeStyle</td>
+    <td>
+        Predefined formatting style for a time (ignored if type="date") - see System.Globalization.DateTimeFormatInfo. Valid values are:
+        
+            <ul>
+                
+                    <li>Default</li>
+                
+                    <li>Short</li>
+                
+                    <li>Long</li>
+                
+            </ul>
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Pattern</td>
+    <td>
+        Custom formatting style (overrides type, dateStyle, and timeStyle) - see System.Globalization.DateTimeFormatInfo.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to store data. An existing variable will be changed. If the property is the property of an object(in any scope). The value of the property will be changed.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+
+         <h2>x - XML <i>Tag Library</i></h2>
+The XML tag library supports parsing of XML documents, selection of XML fragments, conditional and iterative processing based on XML content, and
+			XSLT transformations. A common pattern for using the XML tags is as follows:
+			<ol>
+				<li>Use <i>&lt;x:parse&gt;</i> to parse XML into a scoped variable. The XML can come from the body literally, from the body via <i>&lt;c:import&gt;</i>, or from the 
+				value attribute which may refer to any XML source. <i>&lt;x:parse var="varName" ...&gt;</i>
+				</li>
+				<li>Use the scoped variable from  <i>&lt;x:parse&gt;</i> to specify the XML document to use in XPath expressions. <i>&lt;x:out source="${varName}" select="XPathexpression"/&gt;</i>
+				    The following example demonstrates the above techniques.
+				</li>
+			</ol>
+	
+
+
+
+    <p>
+        <code>
+        
+&lt;x:parse var="doc"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;users&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;user id="997"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;first-name&gt;George&lt;/first-name&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;last-name&gt;Burdell&lt;/last-name&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/user&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;user id="998"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;first-name&gt;Joseph&lt;/first-name&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;last-name&gt;Blough&lt;/last-name&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/user&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;/users&gt;<br/>
+&lt;/x:parse&gt;<br/>
+<br/>
+&lt;c:set var="userId" value="${user.id}" scope="page"/&gt;<br/>
+<br/>
+&lt;x:set var="user" source="${doc}" select="//users/user[@id=$pageScope:userId]"/&gt;<br/>
+<br/>
+Hi &lt;x:out source="${user}" select="/first-name"/&gt; !
+   
+        </code>
+    </p>
+
+
+
+
+    <p>
+        
+    <p><h3>General-Purpose Actions</h3><br/>Actions for parsing XML, outputting to the page, and selecting XML fragments. The examples that follow
+demonstrate use of the XML tags for processing Rich Site Summary (RSS) feeds. RSS has more or less the following format:</p>
+
+
+
+<h4>&lt;x:parse&gt;</h4> - Parses XML content, provided by the value attribute or the tags body, into a scoped variable(s). This variable can then be used for subsequent processing by other XML tags.
+
+    <p>
+        <code>
+        &lt;c:import var="rss" url="http://news.google.com/?output=rss"/&gt;<br/>
+<b>&lt;x:parse var="news" xml="${rss}"/&gt;</b>
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Doc</td>
+    <td>
+        Text of the document to a parse as a String or Reader
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">Body</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to store data. An existing variable will be changed. If the property is the property of an object(in any scope). The value of the property will be changed.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;x:out&gt;</h4> - Prints the result of the XPath expression as a string.
+
+    <p>
+        <code>
+        &lt;x:out source="${news}" select="//channel/title"/&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Source</td>
+    <td>
+        Var containing DOM model where the XPath expression is run over.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Select</td>
+    <td>
+        XPath expression.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">EscapeXml</td>
+    <td>
+        true to escape special characters
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'True'</td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;x:set&gt;</h4> - Saves the result of the select XPath expression to a scoped variable. Returned value may be a node set (XML fragment), boolean, string, or number.
+
+    <p>
+        <code>
+        &lt;x:set source="${news}" select="//channel/item"
+var="newsItems"/&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Source</td>
+    <td>
+        Var containing DOM model where the XPath expression is run over.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Select</td>
+    <td>
+        XPath expression.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to store data. An existing variable will be changed. If the property is the property of an object(in any scope). The value of the property will be changed.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+    <p><h3>Conditional Actions</h3><br/>Actions that format and parse numbers, currencies, percentages, dates and times.</p>
+
+
+
+<h4>&lt;x:if&gt;</h4> - Processes the body if select XPath evaluates to true (following the rules of the boolean() XPath function).
+
+    <p>
+        <code>
+        &lt;x:if source="${news}" select="item[contains(description,'Linux')]"&gt;<br/>
+&nbsp;&nbsp;&nbsp;Linux is in the news today!<br/>
+&lt;/x:if&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Source</td>
+    <td>
+        Var containing DOM model where the XPath expression is run over.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Select</td>
+    <td>
+        XPath expression.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to store data. An existing variable will be changed. If the property is the property of an object(in any scope). The value of the property will be changed.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;x:choose&gt;</h4> - Processes the body of the <b>first</b> enclosed <i>&lt;x:when&gt;</i> tag where the select XPath expression evaluates to true. If none match then the body of the <i>&lt;x:otherwise&gt;</i> tag (if present)
+is processed.
+
+    <p>
+        <code>
+        &lt;x:choose&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;x:when source="${news}" select="//item"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We've got news :)<br/>
+&nbsp;&nbsp;&nbsp;&lt;/x:when&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;x:otherwise&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No news today :(<br/>
+&nbsp;&nbsp;&nbsp;&lt;/x:otherwise&gt;<br/>
+&lt;/x:choose&gt;
+        </code>
+    </p>
+
+
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;x:when&gt;</h4> - Represents an alternative in an <i>&lt;x:choose&gt;</i> tag. Processes the body if the select expression evaluates to true and no other previous <i>&lt;x:when&gt;</i> tags in the <i>&lt;x:choose&gt;</i>
+matched.
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Source</td>
+    <td>
+        Var containing DOM model where the XPath expression is run over.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Select</td>
+    <td>
+        XPath expression.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;x:otherwise&gt;</h4> - Processes the body if no other previous <i>&lt;x:when&gt;</i> condition in the <i>&lt;x:choose&gt;</i> matched. This tag accepts no attributes and, if present, must be the last tag in
+<i>&lt;x:choose&gt;</i> body.
+
+
+
+
+
+
+
+    </p>
+
+    <p>
+        
+    <p><h3>Iterator Actions</h3><br/>Actions that format and parse numbers, currencies, percentages, dates and times.</p>
+
+
+
+<h4>&lt;x:forEach&gt;</h4> - Repeats the nested body content over a node set determined by an XPath expression, setting the context node to each element in the iteration.
+
+    <p>
+        <code>
+        <b>&lt;x:forEach source="${news}" select="//item"&gt;</b><br/>
+&nbsp;&nbsp;&nbsp;&lt;a href='&lt;x:out select="link"/&gt;'&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;x:out select="title"/&gt;&lt;/a&gt;<br/>
+<b>&lt;/x:forEach&gt;</b>
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Source</td>
+    <td>
+        Var containing DOM model where the XPath expression is run over.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Select</td>
+    <td>
+        XPath expression.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Begin</td>
+    <td>
+        Zero-based index of first item to process, inclusive.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'0'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">End</td>
+    <td>
+        Zero-based index of last item to process, inclusive.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Step</td>
+    <td>
+        Process every stepth element (e.g 2 = every second element).
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'1'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to hold the current item. This variable has only nested visibility.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Item'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">VarStatus</td>
+    <td>
+        Name of variable to hold the loop status with the following properties:
+		   <ul>
+				<li>index - position of the current item</li>
+				<li>count - number of times through the loop (starting with 1)</li>
+				<li>first - boolean indicator if this is the first iteration</li>
+				<li>last - boolean indicator if this is the last iteration</li>
+			</ul>
+	
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Status'</td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+    <p><h3>Transformation Actions</h3><br/>JSTL provides an <i>&lt;x:transform&gt;</i> tag for performing XSLT transformations. The <i>&lt;x:param&gt;</i> tag can be nested in the <i>&lt;x:transform&gt;</i> tag to set a parameter that is used in the stylesheet.</p>
+
+
+
+<h4>&lt;x:transform&gt;</h4> - Conducts an XSLT transformation on source XML. The source XML is provided by the doc attribute or the body of the tag. The XSL stylesheet is specified by the  <i>xslt</i> attribute. While in most cases, the stylesheet will be set up by back-end code - it is possible to define the stylesheet inline and make it available with <i>&lt;c:set&gt;</i> as in the
+following example:
+
+    <p>
+        <code>
+        
+   &lt;c:set var="xsl"&gt;<br/&gt;<br/>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;<br/>
+&lt;xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;xsl:template match="item"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;xsl:value-of select="title"/&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;/xsl:template&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;xsl:template match="/"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ol&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;xsl:apply-templates select="//item"/&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ol&gt;<br/>
+&nbsp;&nbsp;&nbsp;&lt;/xsl:template&gt;<br/>
+</xsl:stylesheet&gt;<br/>
+</c:set&gt;<br/>
+<b>&lt;x:transform doc="${news}" xslt="${xsl}"/&gt;</b><br/>
+   
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Doc</td>
+    <td>
+        Source XML document for the transformation. Value can be a String, Stream, TextReader, XmlReader, System.Xml.XPath.XPathDocument or any value exported &lt;x:parse&gt; or &lt;x:set&gt;.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">CacheVar</td>
+    <td>
+        Var to save a cached instance of the parsed xsl template in.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">CacheScope</td>
+    <td>
+        Scope of the cached instance.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Session'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Xslt</td>
+    <td>
+        XSLT stylesheet to use. The value must be String, Stream, TextReader, XmlReader, System.Xml.XPath.XPathDocument or any value exported &lt;x:parse&gt; or &lt;x:set&gt;.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to store data. An existing variable will be changed. If the property is the property of an object(in any scope). The value of the property will be changed.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+    <p>Conducts an XSLT transformation on source XML. The source XML is provided by the doc attribute or the body of the tag. The XSL stylesheet is specified by the  <i>xslt</i> attribute. While in most cases, the stylesheet will be set up by back-end code - it is possible to define the stylesheet inline and make it available with <i>&lt;c:set&gt;</i> as in the
+following example:</p>
+
+
+
+<h4>&lt;x:param&gt;</h4> - Sets a transformation parameter that will be passed to stylesheet which declares parameters using the <i>&lt;xsl:param&gt;</i> tag. 
+   The <i>&lt;x:param&gt;</i> tag can only be nested within an <i>&lt;x:transform&gt;</i> tag. Any <i>&lt;x:param&gt;</i>
+   tags must come after the XML body content of the <i>&lt;x:transform&gt;</i> tag, if present.
+
+    <p>
+        <code>
+        &lt;x:transform doc="${news}" xslt="${searchXsl}"/&gt;<br/>
+&nbsp;&nbsp;&nbsp;<b>&lt;x:param name="searchParam"&gt;Web Services&lt;/x:param&gt;</b><br/>
+&lt;/x:transform&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Name</td>
+    <td>
+        Name of the parameter as a String. This name must match the name in the corresponding &lt;xsl:param&gt; XSLT tag.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Value</td>
+    <td>
+        Value of the parameter. If not specified, value is taken from the tag body.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">Body</td>
+</tr>
+	     
+                <tr>
+    <td class="property">NameSpaceUri</td>
+    <td>
+        Namespace uri used in the <xsl:param>
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+
+         <h2>sharp - Sharp <i>Tag Library</i></h2>
+<h3>Sharp Actions</h3><br/>Miscelanious actions.
+
+
+
+
+
+
+    <p>
+        
+
+
+<h4>&lt;sharp:marker&gt;</h4> - Marks the nested body. The body is included inside a <i>&lt;div&gt;</i> element.
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Id</td>
+    <td>
+        Marker Id which will return in the output
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;sharp:include&gt;</h4> - Includes and evaluates a fragment.
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">File</td>
+    <td>
+        Includes the template into current template
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;sharp:scope&gt;</h4> - Pushes a new tag scope on the stack. So tag level variables can be used without changes the early created variables.
+
+
+
+
+
+
+
+    </p>
+
+
+         <h2>html - Html wrapper <i>Tag Library</i></h2>
+The html tag lib provides a wrapper to access the <a href='http://www.codeplex.com/MVCContrib/Wiki/View.aspx?title=FormHelper&referringTitle=Documentation'>HtmlHelper</a>.
+
+    <p class="note">
+        The html tag lib is only available in combination with ASP.NET MVC.</br>This is because the html tag lib is implemented with the HtmlHelper, which is only available in ASP.NET MVC.
+   
+    </p>
+
+
+
+
+
+
+    <p>
+        
+    <p>
+    This taglib basicly is a wrapper for all extension methods on the HtmlHelper. This allows you add a tag like </br>
+     <p>
+        <code>
+        &lt;html:checkBox name="rememberMe" isChecked="${Model.checkBoxValue}" class="loginform"/&gt; </br>
+        </code>
+    </p>
+    to your page. The example wraps the following method: </br>
+    <p>
+        <code>
+                   InputExtensions.CheckBox(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        boolean <i>isChecked</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                 </code>
+    </p></br>
+    In a aspx page the example would look like this:<p>
+        <code>
+			&lt;%=HtmlHelper.CheckBox("rememberMe", ViewData.Model.CheckBoxvalue, new {class="formInput"});%&gt;
+	    </code>
+    </p></br>
+	SharpTiles will always look for a matching method with the least amount of parameters. The parameter names are matched on name with two exceptions,  <i>htmlHelkper </i> and  <i>htmlAttributes</i>
+	the  <i>htmlHelper</i> is added automaticly by the framework. The  <i>htmlAttributes</i> is a dictionary containing key value pairs of unmatched attributes. So our example requires a
+	method with name <i>checkBox</i> and a parameter <i>name</i> and a parameter <i>isChecked</i>. Further more there isn't a method which takes <i>class</i> as a parameter so this is stored in the <i>htmlAttributes</i>. This 
+	makes that the method we are looking for also required a parameters <i>htmlAttributes</i>. SharpTiles will search for this method and makes the call.
+	All parameters are evaluated by shaprtiles before being passed through the html helper.<br/>
+	Below this introduction all wrapped methods are enumerated. A different version of your HtmlHelper might change the availability of the wrapped methods.
+    </p>
+
+
+
+<h4>&lt;html:action&gt;</h4> - Renders an action url.
+
+    <p>
+        <code>
+        &lt;html:action action='${Model.action}' controller='LoginController'/&gt;
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Action</td>
+    <td>
+        Action to be called on the controller
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Controller</td>
+    <td>
+        Controller to redirect to
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Scope</td>
+    <td>
+        Scope of variable
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Page'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Var</td>
+    <td>
+        Name of variable to store data. An existing variable will be changed. If the property is the property of an object(in any scope). The value of the property will be changed.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;html:form&gt;</h4> - Simulates the form extensions method. A new implementation was required, because the existing form extensions writes directly to the http response.
+
+    <p>
+        <code>
+        
+       &lt;html:form action='${Model.action}' controller='${Model.controller}' method='post'&gt;
+       &nbsp;&nbsp;<html:textBox name='${Model.textBoxName}' value='${Model.textBoxValue}' class='${Model.style}'/&gt;
+       &lt;/html:form&gt;
+    
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Action</td>
+    <td>
+        Name of the action used to handle the post
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Controller</td>
+    <td>
+        Name of the controller to post to. If omitted the current controller is used
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Method</td>
+    <td>
+        Set how this form is posted.
+        
+            <ul>
+                
+                    <li>Get</li>
+                
+                    <li>Post</li>
+                
+            </ul>
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'Post'</td>
+</tr>
+	     
+                <tr>
+    <td class="property">Id</td>
+    <td>
+        The id of the form
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+    <p>All the html helper methods</p>
+
+
+
+<h4>&lt;html:checkBox&gt;</h4> - Wraps the check box helper method
+
+    <p>
+        <code>
+        &lt;html:checkBox name='${Model.checkBoxName}' isChecked='${Model.checkBoxValue}' class='${Model.style}'/&gt;
+        </code>
+    </p>
+
+
+
+
+   <table>
+        <tr>
+            <th>Function</th>
+         </tr>
+         
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.CheckBox(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.CheckBox(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        boolean <i>isChecked</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.CheckBox(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.CheckBox(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        boolean <i>isChecked</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                </td>
+            </tr>
+        
+   </table>
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;html:hidden&gt;</h4> - Wraps the hidden helper method
+
+    <p>
+        <code>
+        &lt;html:hidden name='${Model.hiddenName}' value='${Model.hiddenValue}' class='${Model.style}'/&gt;
+        </code>
+    </p>
+
+
+
+
+   <table>
+        <tr>
+            <th>Function</th>
+         </tr>
+         
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.Hidden(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.Hidden(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        object <i>value</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.Hidden(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        object <i>value</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                </td>
+            </tr>
+        
+   </table>
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;html:password&gt;</h4> - Wraps the password helper method
+
+    <p>
+        <code>
+        &lt;html:password name="${Model.passwordName}" value="${Model.passwordValue}" class="${Model.style}"/&gt;
+        </code>
+    </p>
+
+
+
+
+   <table>
+        <tr>
+            <th>Function</th>
+         </tr>
+         
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.Password(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.Password(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        object <i>value</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.Password(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        object <i>value</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                </td>
+            </tr>
+        
+   </table>
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;html:radioButton&gt;</h4> - Wraps the radion button helper method
+
+    <p>
+        <code>
+        &lt;html:radioButton name="${Model.radioButtonName}" value="${Model.radioButtonValue}" class="${Model.style}"/&gt;
+        </code>
+    </p>
+
+
+
+
+   <table>
+        <tr>
+            <th>Function</th>
+         </tr>
+         
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.RadioButton(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        object <i>value</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.RadioButton(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        object <i>value</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.RadioButton(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        object <i>value</i>,
+                    
+                        boolean <i>isChecked</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.RadioButton(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        object <i>value</i>,
+                    
+                        boolean <i>isChecked</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                </td>
+            </tr>
+        
+   </table>
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;html:textBox&gt;</h4> - Wraps the text box helper method
+
+    <p>
+        <code>
+        &lt;html:textBox name='${Model.textBoxName}' value='${Model.textBoxValue}' class='${Model.style}"/>
+        </code>
+    </p>
+
+
+
+
+   <table>
+        <tr>
+            <th>Function</th>
+         </tr>
+         
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.TextBox(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.TextBox(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        object <i>value</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   InputExtensions.TextBox(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        object <i>value</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                </td>
+            </tr>
+        
+   </table>
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;html:dropDownList&gt;</h4> - Wraps the drop down list helper method
+
+    <p>
+        <code>
+        &lt;html:dropDownList name='${Model.dropDownListName}' selectList='${Model.selectList}"/&gt;
+        </code>
+    </p>
+
+
+
+
+   <table>
+        <tr>
+            <th>Function</th>
+         </tr>
+         
+        
+            <tr>
+                <td class="function">
+                   SelectExtensions.DropDownList(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        string <i>optionLabel</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   SelectExtensions.DropDownList(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        IEnumerable&lt;SelectListItem&gt; <i>selectList</i>,
+                    
+                        string <i>optionLabel</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   SelectExtensions.DropDownList(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   SelectExtensions.DropDownList(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        IEnumerable&lt;SelectListItem&gt; <i>selectList</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   SelectExtensions.DropDownList(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        IEnumerable&lt;SelectListItem&gt; <i>selectList</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   SelectExtensions.DropDownList(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        IEnumerable&lt;SelectListItem&gt; <i>selectList</i>,
+                    
+                        string <i>optionLabel</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                </td>
+            </tr>
+        
+   </table>
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;html:listBox&gt;</h4> - Wraps the list box helper method
+
+    <p>
+        <code>
+        &lt;html:listBox name='${Model.listBoxName}' selectList='${Model.mutliList}'/&gt;
+        </code>
+    </p>
+
+
+
+
+   <table>
+        <tr>
+            <th>Function</th>
+         </tr>
+         
+        
+            <tr>
+                <td class="function">
+                   SelectExtensions.ListBox(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   SelectExtensions.ListBox(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        IEnumerable&lt;SelectListItem&gt; <i>selectList</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   SelectExtensions.ListBox(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        IEnumerable&lt;SelectListItem&gt; <i>selectList</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                </td>
+            </tr>
+        
+   </table>
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;html:textArea&gt;</h4> - Wraps the textarea box helper method
+
+    <p>
+        <code>
+        &lt;html:textArea name='${Model.textAreaName}' value='${Model.textAreaValue}' columns='${Model.columns}' rows='${Model.rows}' class='htmlEditor'/&gt;
+        </code>
+    </p>
+
+
+
+
+   <table>
+        <tr>
+            <th>Function</th>
+         </tr>
+         
+        
+            <tr>
+                <td class="function">
+                   TextAreaExtensions.TextArea(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   TextAreaExtensions.TextArea(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   TextAreaExtensions.TextArea(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        string <i>value</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   TextAreaExtensions.TextArea(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        string <i>value</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   TextAreaExtensions.TextArea(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>name</i>,
+                    
+                        string <i>value</i>,
+                    
+                        integer <i>rows</i>,
+                    
+                        integer <i>columns</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                </td>
+            </tr>
+        
+   </table>
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;html:validationMessage&gt;</h4> - Wraps the validation message helper
+
+    <p>
+        <code>
+        &lt;html:validationMessage modelName='${Model.modelName}' validationMessage='${Model.validationMessage}'/&gt;
+        </code>
+    </p>
+
+
+
+
+   <table>
+        <tr>
+            <th>Function</th>
+         </tr>
+         
+        
+            <tr>
+                <td class="function">
+                   ValidationExtensions.ValidationMessage(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>modelName</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   ValidationExtensions.ValidationMessage(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>modelName</i>,
+                    
+                        string <i>validationMessage</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   ValidationExtensions.ValidationMessage(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>modelName</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   ValidationExtensions.ValidationMessage(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>modelName</i>,
+                    
+                        string <i>validationMessage</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                </td>
+            </tr>
+        
+   </table>
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;html:validationSummary&gt;</h4> - The name of the tile to import
+
+    <p>
+        <code>
+        &lt;html:validationSummary message='msg' class='errorReport'/&gt;
+        </code>
+    </p>
+
+
+
+
+   <table>
+        <tr>
+            <th>Function</th>
+         </tr>
+         
+        
+            <tr>
+                <td class="function">
+                   ValidationExtensions.ValidationSummary(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   ValidationExtensions.ValidationSummary(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>message</i>
+                    ) : string
+                </td>
+            </tr>
+        
+            <tr>
+                <td class="function">
+                   ValidationExtensions.ValidationSummary(
+                    
+                        <i>HtmlHelper</i> <i>htmlHelper</i>,
+                    
+                        string <i>message</i>,
+                    
+                        IDictionary&lt;string, object&gt; <i>htmlAttributes</i>
+                    ) : string
+                </td>
+            </tr>
+        
+   </table>
+
+
+
+
+    </p>
+
+
+         <h2>tiles - Tiles <i>Tag Library</i></h2>
+The tiles tag lib provides functionality to include defined tiles in to the page.
+
+
+
+
+
+
+    <p>
+        
+
+
+<h4>&lt;tiles:insert&gt;</h4> - Inserts a configured tile into the page. The available tiles set is configured in a seperate config file.
+
+    <p>
+        <code>
+        
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;</br>
+&nbsp;&nbsp;&lt;head&gt;</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Sample&lt;/title&gt;</br>
+&nbsp;&nbsp;&lt;/head&gt;</br>
+&nbsp;&nbsp;&lt;body&gt;</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="menu"&gt;</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tiles:insert name='menu'/&gt;</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;hr /&gt;</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="main"&gt;</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tiles:insert name='body'/&gt;</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</br>
+&nbsp;&nbsp;&lt;/body&gt;</br>
+&lt;/html&gt;</br>
+    
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Name</td>
+    <td>
+        The name of the tile to import
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Mandatory</td>
+    <td>
+        If this attribute is set to false and the attribute specified by the name does not exist then nothing will be rendered. The default value, true, will raise an error.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">'True'</td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;tiles:insertTemplate&gt;</h4> - Allows pages to enter a masterpage without explictely defining it in the tiles.xml configuration file.<br/><i>Contributed by Ronald Dehuysser</i>
+
+    <p>
+        <code>
+        &lt;tiles:insertTemplate template="/Views/Shared/Masterpage.tile"&gt;</br>
+&nbsp;&nbsp;&lt;tiles:putAttribute name="title" value="Sample Title"/&gt;</br>
+&nbsp;&nbsp;&lt;tiles:putAttribute name="Top Navigation" value="/Views/Shared/navigation.tile"/&gt;</br>
+&nbsp;&nbsp;&lt;tiles:putAttribute name="body"&gt;</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="main"&gt;</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Dit is de body&lt;/p&gt;</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</br>
+&lt;/tiles:insertTemplate&gt;</br>
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Template</td>
+    <td>
+        Defines the template that will be used to display the current page.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+
+
+
+
+
+    </p>
+
+    <p>
+        
+
+
+<h4>&lt;tiles:putAttribute&gt;</h4> - This tag allows attibutes to be add to the current page.<br/><i>Contributed by Ronald Dehuysser</i>
+
+    <p>
+        <code>
+        See the example for the &lt;tiles:insertTemplate /&gt; tag.
+        </code>
+    </p>
+
+
+
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+            <th>Required</th>
+            <th>Default</th>
+         </tr>
+         
+                <tr>
+    <td class="property">Name</td>
+    <td>
+        This attribute defines the name of the current tile attribute and must match one of the Tiles insert names in the masterpage so it can be imported.
+        
+    </td>
+    <td class="required">True</td>
+    <td class="default"></td>
+</tr>
+	     
+                <tr>
+    <td class="property">Value</td>
+    <td>
+        The value of the attribute to be imported. This value is not required and can be provided in the body of the tag. If provided, it can be a plain string value or a url. If the value starts with a '/' it is used as a url and the file provided by the url is imported.
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default">Body</td>
+</tr>
+	     
+                <tr>
+    <td class="property">TileType</td>
+    <td>
+        Like tiles defined in the tiles.xml The tile factory will guess the tile type (template or string). You can override the guessing by defining the type
+        
+            <ul>
+                
+                    <li>String</li>
+                
+                    <li>File</li>
+                
+                    <li>Definition</li>
+                
+            </ul>
+        
+    </td>
+    <td class="required">False</td>
+    <td class="default"></td>
+</tr>
+	     
+	  </table>
+    </p>
+</div>

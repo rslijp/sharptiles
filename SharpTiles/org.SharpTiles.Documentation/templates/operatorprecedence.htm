@@ -1,0 +1,18 @@
+<h1><fmt:message key="title_OperatorPrecedence"/></h1>
+<table class="operatorprecedence">
+    <tr>
+         <th><fmt:message key="expression_Header_Priority"/></th>
+         <th><fmt:message key="expression_Header_Operator"/></th>
+    </tr>
+<c:forEach items="${fn:reverse(Model.OperatorPrecedence)}">
+    <tr>
+        <td class="priority"><c:out value="${Tag.Status.Index+'1'}"/></td>
+        <td class="operator">
+            <c:forEach items="${Tag.Item}">
+                <sharp:include file="expressiontokens.htm"/>
+                <c:if test="${!Tag.Status.IsLast}"><br /></c:if>
+            </c:forEach>
+        </td>
+    </tr>
+</c:forEach>
+</table>

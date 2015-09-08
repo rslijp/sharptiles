@@ -1,0 +1,6 @@
+D:\Projects\SharpTiles\Tutorials\I18NResouces\bin\I18NResouces.dll
+D:\Projects\SharpTiles\Tutorials\I18NResouces\bin\I18NResouces.pdb
+D:\Projects\SharpTiles\Tutorials\I18NResouces\bin\org.SharpTiles.dll
+D:\Projects\SharpTiles\Tutorials\I18NResouces\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\SharpTiles\Tutorials\I18NResouces\obj\Debug\I18NResouces.dll
+D:\Projects\SharpTiles\Tutorials\I18NResouces\obj\Debug\I18NResouces.pdb

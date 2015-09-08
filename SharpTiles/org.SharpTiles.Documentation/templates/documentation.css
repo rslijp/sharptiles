@@ -1,0 +1,126 @@
+﻿h1.overalltitle
+{
+	text-align: center;
+	text-transform: uppercase;
+}
+
+
+h1,h2
+{
+	font-family: arial, 'sans serif'; 
+}
+
+h3 
+{
+	font-family: arial, 'sans serif'; 
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+	font-size: small;
+	text-decoration: underline;
+}
+
+h4 
+{
+	font-family: arial, 'sans serif'; 
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+	font-size: smaller;
+	display: inline;
+}
+
+p,table,li,address
+{
+	font-family: arial, 'sans serif'; 
+	margin-left: 15pt;
+}
+
+table {
+	margin-top: 7px;
+	border-collapse: collapse;
+	width: 90%;
+}
+
+td.property {
+	  font-weight: bold;
+	  width: 100px;
+}
+
+td.operator
+{
+	  font-weight: bold;
+	  width: 100px;
+}
+
+td.default
+{
+	  font-style: italic;
+	  width: 100px;
+}
+
+td.priority
+{
+	  width: 75px;
+	  text-align: right;
+}
+
+td.required {
+	  width: 100px;
+}
+
+td.function
+{
+	  font-weight: bold;
+	  width: 50%;
+}
+
+table td {
+	padding: 2px;
+	border: 1px solid black;
+}
+
+table th {
+	padding: 2px;
+	border: 1px solid black;
+	border-collapse: separate;
+	background-color: black;
+	color: white;
+}
+
+p,li,th,td
+{
+	font-size: 80%;
+}
+
+code 
+{
+	margin-left: 15%;
+	display: block;
+	border: solid 1px black;
+	padding: 15px;
+	width: 70%;
+}
+
+p.note 
+{
+	margin-left: 15%;
+	display: block;
+	border: solid 1px black;
+	padding: 15px;
+	padding-left: 72px;
+	width: 70%;
+	background-image: url(note.gif);
+	background-position: 15px 15px;
+	
+	background-repeat: no-repeat;
+}
+
+
+table.operatorprecedence 
+{
+	width: 200px;
+}
+
+table.operatorprecedence td
+{
+	vertical-align: top;
+}

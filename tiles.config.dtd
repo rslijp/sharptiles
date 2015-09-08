@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!ELEMENT tiles (definitions)>
+<!ATTLIST tiles
+	xmlns:xsd CDATA #REQUIRED
+	xmlns:xsi CDATA #REQUIRED
+>
+
+<!ELEMENT definitions (tile+)>
+
+<!ELEMENT tile (attribute+)>
+<!ATTLIST tile
+	extends NMTOKEN #IMPLIED
+	name NMTOKEN #REQUIRED
+	path NMTOKEN #IMPLIED
+>
+
+<!ELEMENT attribute EMPTY>
+<!ATTLIST attribute
+	name NMTOKEN #REQUIRED
+	value NMTOKEN #REQUIRED
+>
+

@@ -1,0 +1,66 @@
+<?php include('tutorials.sidemenu.fragment.html'); ?>
+
+<div id="main"> <a name="standalone"></a>
+				<h3><i>Stand alone</i> <br/>Illustrates how to use SharpTiles without an MVC platform</h3>
+				<p>You can use SharpTiles without the .NET MVC framework. So you can use SharpTiles to generate e-mails, documentation, etc.</p>
+				<p>You can use a tiles.xml or keep it simple. We will start simple and just call the formatter for a template.<br/>
+					<b>.asxp</b><br/>
+					<code>
+                			var output = Formatter.FileBasedFormatter("templates/template.txt").<br/>
+					&nbsp;Format(new Hashtable{{"Key",<br/>
+                			&nbsp;&nbsp;new List<Person>{<br/>
+                			&nbsp;&nbsp;&nbsp;new Person{Name="Ruth Kingsley", Age=42},<br/>
+                			&nbsp;&nbsp;&nbsp;new Person{Name="Jacob van Dijk", Age=23},<br/>
+               				&nbsp;&nbsp;&nbsp;new Person{Name="Stuwared Langley", Age=66}<br/>
+                			&nbsp;&nbsp;}}<br/>
+                			&nbsp;}));<br/>
+					</code>
+					The formatter has some overloads which might suite you. The template looks the same as in the MVC samples.<br/>
+					<code>
+							&lt;fmt:bundle baseName="sample"&gt;<br/>
+							&lt;c:choose&gt;<br/>
+							&nbsp;&nbsp;&lt;c:when test="${not fn:empty(Model.Key)}"&gt;&lt;fmt:message key="Name"/&gt;,&lt;fmt:message key="Age"/&gt;<br/>
+							&lt;c:forEach items="${Model.Key}"&gt;&lt;sharp:include file="row.txt"/&gt;<br/>
+							&lt;/c:forEach&gt;<br/>
+							&lt;/c:when&gt;<br/>
+							&lt;c:otherwise&gt;<br/>
+							&lt;fmt:message key="NoData"/&gt;<br/>
+							&lt;/c:otherwise&gt;<br/>
+							&lt;/c:choose&gt;<br/>
+							&lt;/fmt:bundle&gt;<br/>
+					</code>
+					<p>Other templates are more of the same.</p>
+				</p>
+				<p>You can also use tiles without the .NET MVC framework. It is a bit more complex.</p>
+				<p>
+					<code>
+						var configurator =  new TileXmlConfigurator("tiles.xml");<span class="highlight super">1</span><br/>
+						var set = new TilesSet(configurator);<span class="highlight super">2</span><br/>
+                				var model = new TagModel(new Hashtable<br/>
+                                             	&nbsp;{<br/>
+                                                &nbsp;&nbsp;{<br/>
+                                                &nbsp;&nbsp;&nbsp;"Key",<br/>
+                                                &nbsp;&nbsp;&nbsp;new List<Person><br/>
+                                                &nbsp;&nbsp;&nbsp;{<br/>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;new Person {Name = "Ruth Kingsley", Age = 42},<br/>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;new Person {Name = "Jacob van Dijk", Age = 23},<br/>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;new Person {Name = "Stuward Langley", Age = 66}<br/>
+                                                &nbsp;&nbsp;&nbsp;}<br/>
+                                                &nbsp;&nbsp;}<span class="highlight super">3</span><br/>
+                                             	}).UpdateFactory(new FileLocatorFactory());<span class="highlight super">4</span><br/>
+                				var output = set["template"].Render(model);<span class="highlight super">5</span><br/>
+					</code>
+				</p>
+				<p>
+					<ol>
+						<li>Create a XML based configuration reader</li>
+						<li>Load all the tiles in the set. (This happens lazily.)</li>
+						<li>You will have to create a tag model</li>
+						<li>and you will have to set a factory to load nested templates. Writing this tutorial, I decided to refactor this, so this will be simpeler in the future.</li>
+						<li>Render the tile.</li>
+					</ol> 
+				</p>
+				<p class="post-footer align-right">					
+					Source location: TemplateEngines project in the <a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-4.0-tutorials.zip&a=69471938">Tutorials</a> solution.
+				</p>
+</div>

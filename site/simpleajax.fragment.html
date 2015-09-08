@@ -1,0 +1,123 @@
+<?php include('tutorials.sidemenu.fragment.html'); ?>
+
+<div id="main"> 
+<a name="simpleajax"></a>
+				<h3><i>Simple ajax</i> <br/>How to utilize tiles for simple ajax behaviour</i></h3>
+				<p>
+					This tutorial covers adding ajax updates to an existing application. This creates a hybrid ajax application. If you are looking for a fully fledged ajax application take a 
+					look at the <a href="./index.php?mainContent=multiviewengine,tutorials">Multi screen ajax updates</a> tutorial. <br/>
+					So back to this tutorial we have a page(Home/Index) and we want to update one part(Tab)
+				</p>
+				<p>
+					<table class="guideexample">
+						<tr>
+							<td>Page</td><td>=</td>
+							<td>
+								<table class="guide">
+								<tr><td>whole page</td></tr>
+								<tr><td><table class="guidenested"><tr><td>Part to update</td></tr></table></td></tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</p>
+				<p>
+					To accomplish this we change the <i>HomeController</i> class from
+					<code>
+					...<br/>
+					public ActionResult Index()<br/>
+					{<br/>
+					&nbsp;&nbsp;ViewData["Message"] = "Welcome to ASP.NET MVC!";<br/>
+					&nbsp;&nbsp;return View();<br/>
+					}<br/>
+					...
+					</code>
+				</p>
+				<p>
+					to
+					<code>
+						...<br/>
+						public ActionResult Index()<br/>
+						{<br/>
+						&nbsp;&nbsp;return Home();<br/>
+						}<br/>
+				<br/>
+						public ActionResult Home()<br/>
+						{<br/>
+						&nbsp;&nbsp;ViewData["Message"] = "Welcome to ASP.NET MVC!";<br/>
+						&nbsp;&nbsp;return View();<br/>
+						}<br/>
+						...<br/>
+					</code>
+				</p>
+				<p>
+					This allows us to creates different view for <i>Index</i> and <i>Home</i>. The old tiles.xml looked like
+				</p>
+				<p>
+					<code>
+						...<br/>
+						&lt;tile name="Home.Index" extends="<span class="highlight">Default.Page.Layout<span class="super">1</span></span>"&gt;<br/>
+						&nbsp;&nbsp;&lt;attribute name="title" type="String" value="Home Page"&gt;&lt;/attribute&gt;<br/>
+						&nbsp;&nbsp;&lt;attribute name="body" value="Views.Home.Index.tile"&gt;&lt;/attribute&gt;<br/>
+						&lt;/tile&gt;<br/>
+						<br/>
+						&lt;tile name="Home.About" extends="<span class="highlight">Default.Page.Layout<span class="super">2</span></span>"&gt;<br/>
+						&nbsp;&nbsp;&lt;attribute name="title" type="String" value="About Us"&gt;&lt;/attribute&gt;<br/>
+						&nbsp;&nbsp;&lt;attribute name="body" value="Views.Home.About.tile"&gt;&lt;/attribute&gt;<br/>
+						&lt;/tile&gt;<br/>
+						...
+					</code>
+				</p>
+				<p>
+					we need partial views to update just the tab content.
+				</p>
+				<p>
+					<code>
+						...<br/>
+						&lt;tile name="Home.Index" extends="Default.Page.Layout"&gt;<br/>
+						&nbsp;&nbsp;&lt;attribute name="title" type="String" value="Home Page"&gt;&lt;/attribute&gt;<br/>
+						&nbsp;&nbsp;&lt;attribute name="body" value="<span class="highlight">Home.Home<span class="super">1</span></span>"&gt;&lt;/attribute&gt;<br/>
+						&lt;/tile&gt;<br/>
+					<br/>
+						&lt;tile name="Home.Home" path="<span class="highlight">Views.Home.Home.tile<span class="super">1</span></span>"/&gt;<br/>
+						<br/>
+						&lt;tile name="Home.About" path="<span class="highlight">Views.Home.About.tile<span class="super">2</span></span>"/&gt;<br/>
+						...<br/>
+					</code>
+				</p>
+				<p>
+					<ol>
+						<li>The body, tab content, if "Home.Index" is <b>extracted</b> in a seperated tile, "Home.Home".</li>
+						<li>The body, tab content, if "Home.About" is stripped to the tab content only.</li>
+					</ol>
+					We now have to partial views. 
+				</p>
+				<p>Now we add some ajax to the tab navigation in the <i>/Shared/Menu.tile</i>
+					<code>
+						&lt;ul id="menu"&gt;<br/>
+						&nbsp;&nbsp;&lt;li&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_index" href="<span class="highlight">javascript:goto('&lt;c:url value="~/Home/Home"/&gt;');</span>"&gt;Index&lt;/a&gt; <br/>
+						&nbsp;&nbsp;&lt;/li&gt;<br/>
+						&nbsp;&nbsp;&lt;li&gt;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;a id="menu_to_about" href="<span class="highlight">javascript:goto('&lt;c:url value='~/Home/About'/&gt;');</span>"&gt;About&lt;/a&gt; <br/>
+						&nbsp;&nbsp;&lt;/li&gt;<br/>
+						&lt;/ul&gt;<br/>
+					</code>
+				</p>
+				<p>
+					The goto method is defined as
+					<code>
+						function goto(url){<br/>
+						&nbsp;&nbsp;new Ajax.Updater('content', url, { method: 'get', onComplete: <i>updatePage</i> });<br/>
+						}<br/>
+					</code>
+				</p>
+				<p>
+					The <i>updatePage</i> method is only there for tutorial purposes. It generates a blink after update. So you can see what is updated. You can use null instead. 
+					The <i>Ajax.Updater</i> method is defined in prototype.js and this is basicly all for making single ajax updates.
+				</p>
+				</a>
+				<p class="post-footer align-right">					
+					Source location: SimpleAjax project in the <a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-4.0-tutorials.zip&a=69471938">Tutorials</a> solution.
+				</p>
+					</div>

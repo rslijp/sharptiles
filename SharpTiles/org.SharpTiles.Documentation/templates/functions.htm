@@ -1,0 +1,10 @@
+<h1><fmt:message key="title_Functions"/></h1>
+<table>
+        <tr>
+            <th><fmt:message key="function_Header_Operator"/></th>
+            <th><fmt:message key="function_Header_Description"/></th>
+         </tr>
+<c:forEach items="${Model.Functions}">
+    <sharp:include file="function.htm"/>
+</c:forEach>
+</table>

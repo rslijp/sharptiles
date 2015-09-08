@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpTilesSample", "SharpTilesSample\SharpTilesSample.csproj", "{7AB87F02-27F8-425C-9129-1C62570D2A8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpTilesSampleTest", "SharpTilesSampleTest\SharpTilesSampleTest.csproj", "{0F6F1FF0-87ED-47BA-AFE4-63E240CE9C7C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7AB87F02-27F8-425C-9129-1C62570D2A8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AB87F02-27F8-425C-9129-1C62570D2A8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AB87F02-27F8-425C-9129-1C62570D2A8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AB87F02-27F8-425C-9129-1C62570D2A8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F6F1FF0-87ED-47BA-AFE4-63E240CE9C7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F6F1FF0-87ED-47BA-AFE4-63E240CE9C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F6F1FF0-87ED-47BA-AFE4-63E240CE9C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F6F1FF0-87ED-47BA-AFE4-63E240CE9C7C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

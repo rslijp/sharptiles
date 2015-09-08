@@ -1,0 +1,47 @@
+﻿<tiles:insertTemplate template="Shared/Layout.htm">
+  <tiles:putAttribute name="title">
+    Register
+  </tiles:putAttribute>
+  <tiles:putAttribute name="body">
+    <div id="main">
+      <h2>Create a New Account</h2>
+        <p>
+          Use the form below to create a new account.
+        </p>
+        <p>
+          Passwords are required to be a minimum of ${PasswordLength} characters in length.
+        </p>
+        <html:validationSummary message="Account creation was unsuccessful. Please correct the errors and try again."/>
+        <html:form>
+        <div>  
+            <fieldset>
+            <legend>Account Information</legend>
+            <p>
+              <label for="username">Username:</label>
+              <html:textBox name="username"/>
+              <html:validationMessage modelName="username"/>
+            </p>
+            <p>
+              <label for="email">Email:</label>
+              <html:textBox name="email"/>
+              <html:validationMessage modelName="email"/>
+            </p>
+            <p>
+              <label for="password">Password:</label>
+              <html:password name="password"/>
+              <html:validationMessage modelName="password"/>
+            </p>
+            <p>
+              <label for="confirmPassword">Confirm password:</label>
+              <html:password name="confirmPassword"/>
+              <html:validationMessage modelName="confirmPassword"/>
+            </p>
+            <p>
+              <input type="submit" value="Register" />
+            </p>
+          </fieldset>
+        </div>
+        </html:form>
+    </div>
+    </tiles:putAttribute>
+</tiles:insertTemplate>

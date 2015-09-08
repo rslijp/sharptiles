@@ -1,0 +1,66 @@
+<?php include('tutorials.sidemenu.fragment.html'); ?>
+
+<div id="main"> <a name="cleantiles"></a>
+				<h3><i>Clean tiles</i> <br/>refactors the simple tiles example to more clean tiles</h3>
+				<p>
+					In the previous <a href="./index.php?mainContent=plaintiles,tutorials">tutorial</a> we made a one-on-one translations of the content parts to tiles. This generated a lot of very small tiles
+					,<i>*/title.tile</i>, and lot of folders like<br/>
+					<ul>
+						<li>Home/Index</li>
+						<li>Home/About</li>
+						<li>Account/ChangePassword</li>
+						<li>Account/Logon</li>
+						<li>...</li>
+					</ul>
+					We will deal with these changes in this tutorial
+				</p>
+				<p><b>Highlights</b></p>
+				<p>First we will refactor the <i>Home/Index/title.tile</i> out. We will move the content of this file</p>
+				<p>
+					<code>
+						<span class="highlight">Home Page</span>
+					</code>
+				</p>
+				<p>to the tiles.xml</p>
+				<p>
+					<code>
+						&lt;?xml version="1.0" encoding="utf-16"?&gt;<br/>
+						&lt;tiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;<br/>
+						&nbsp;&lt;definitions&gt;<br/>
+						&nbsp;&nbsp;...<br/>
+							<br/>
+						&nbsp;&nbsp;&lt;tile name="Home.Index" extends="Default.Page.Layout"&gt;<br/>
+						&nbsp;&nbsp;<span class="highlight">&lt;attribute name="title" type="String" value="Home Page"/&gt;</span><br/>
+						&nbsp;&nbsp;&lt;attribute name="body" value="Views.Home.Index.body.tile"/&gt;<br/>
+						&nbsp;&nbsp;&lt;/tile&gt;<br/>
+						&nbsp;&nbsp;...<br/>
+							<br/>
+						&nbsp;&lt;/definitions&gt;<br/>
+						&lt;/tiles&gt;</br>
+					</code>
+				</p>
+				<p>Having one file in a folder makes no sence. So we can move/rename the fiel <i>Home/Index/body.tile</i> to <i>Home/Index.tile</i>. This results in the following change in tiles.xml
+				<p>
+					<code>
+						&lt;?xml version="1.0" encoding="utf-16"?&gt;<br/>
+						&lt;tiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;<br/>
+						&nbsp;&lt;definitions&gt;<br/>
+						&nbsp;&nbsp;...<br/>
+							<br/>
+						&nbsp;&nbsp;&lt;tile name="Home.Index" extends="Default.Page.Layout"&gt;<br/>
+						&nbsp;&nbsp;&lt;attribute name="title" type="String" value="Home Page"/&gt;<br/>
+						&nbsp;&nbsp;<span class="highlight">&lt;attribute name="body" value="Views.Home.Index.tile"/&gt;</span><br/>
+						&nbsp;&nbsp;&lt;/tile&gt;<br/>
+						&nbsp;&nbsp;...<br/>
+							<br/>
+						&nbsp;&lt;/definitions&gt;<br/>
+						&lt;/tiles&gt;</br>
+					</code>
+				</p>
+				</a>
+				<p>The rest is more of the same. See the project for end result.</p>
+				<p class="post-footer align-right">					
+					Source location: CleanTiles project in the <a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-4.0-tutorials.zip&a=69471938">Tutorials</a> solution.
+				</p>
+				
+</div>

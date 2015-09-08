@@ -1,0 +1,93 @@
+<Configuration>
+  <UnitTestRunner>
+    <CustomStartDirectory>
+    </CustomStartDirectory>
+    <UseShadowCopy>True</UseShadowCopy>
+    <UseCustomFolder>False</UseCustomFolder>
+    <EnableUnitTesting>True</EnableUnitTesting>
+    <Providers />
+  </UnitTestRunner>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/f:DevWebServer.cs" caret="1291" scrollPosition="0|7" />
+      <File id="BEFB2EE5-CA70-488F-B0D6-4500424F3D75/f:Default.aspx.cs" caret="179" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.different.spacing.body.html" caret="0" scrollPosition="0|0" />
+      <File id="BEFB2EE5-CA70-488F-B0D6-4500424F3D75/d:Views/f:tiles.xml" caret="0" scrollPosition="0|0" />
+      <File id="BEFB2EE5-CA70-488F-B0D6-4500424F3D75/d:Views/f:Web.config" caret="0" scrollPosition="0|0" />
+      <File id="BEFB2EE5-CA70-488F-B0D6-4500424F3D75/d:Controllers/f:HomeController.cs" caret="557" scrollPosition="0|0" />
+      <File id="BEFB2EE5-CA70-488F-B0D6-4500424F3D75/f:Web.config" caret="4550" scrollPosition="0|48" />
+      <File id="BEFB2EE5-CA70-488F-B0D6-4500424F3D75/d:Views/d:Home/f:About.tile" caret="0" scrollPosition="0|0" />
+      <File id="BEFB2EE5-CA70-488F-B0D6-4500424F3D75/d:Views/d:Home/f:Index.tile" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/f:MVCTest.cs" caret="0" scrollPosition="0|0" />
+      <File id="BEFB2EE5-CA70-488F-B0D6-4500424F3D75/d:Views/d:Shared/f:Layout.tile" caret="1241" scrollPosition="0|1" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="1003" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:AboutTileTest.cs" caret="1275" scrollPosition="0|21" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.tile.html" caret="0" scrollPosition="0|0" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="BEFB2EE5-CA70-488F-B0D6-4500424F3D75/d:Views/d:Shared/f:Layout.tile" caret="939" scrollPosition="0|1" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="0" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="1343" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.full.html" caret="409" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.tile.html" caret="1168" scrollPosition="0|0" />
+      <File id="D59E8285-ECE5-46EE-8A87-4EB8C5C163B0/d:Views/d:Home/f:about.expected.tile.html" caret="409" scrollPosition="0|0" />
+    </RecentEdits>
+  </RecentFiles>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="SolutionAnalysisEnabled">False</setting>
+      <setting name="UseSolutionBuilder">False</setting>
+    </boolean>
+  </SettingsComponent>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Default">
+      <Item value="RouteData" priority="1" />
+      <Item value="Route" priority="0" />
+      <Item value="GetType" priority="1" />
+      <Item value="Title" priority="0" />
+      <Item value="StoreResultInFile" priority="1" />
+      <Item value="View" priority="1" />
+      <Item value="ViewEngineResult" priority="0" />
+      <Item value="SearchedLocations" priority="0" />
+      <Item value="ViewEngine" priority="0" />
+      <Item value="viewContext" priority="1" />
+      <Item value="HttpContext" priority="0" />
+      <Item value="Request" priority="0" />
+      <Item value="SampleView" priority="0" />
+      <Item value="ViewData" priority="0" />
+      <Item value="context" priority="0" />
+      <Item value="FindView" priority="0" />
+      <Item value="controllerContext" priority="0" />
+      <Item value="partialViewName" priority="0" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+</Configuration>

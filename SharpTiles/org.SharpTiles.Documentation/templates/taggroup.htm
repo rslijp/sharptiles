@@ -1,0 +1,10 @@
+<h2>${Tag.Item.Name} - <fmt:message key="${Tag.Item.DescriptionKey}_Title"/></h2>
+<fmt:message key="${Tag.Item.DescriptionKey}"/>
+<sharp:include file="notetag.htm"/>
+<sharp:include file="exampletag.htm"/>
+<c:set scope="Page" var="tagGroup">${Tag.Item.Name}</c:set>
+<c:forEach items="${Tag.Item.Tags}">
+    <p>
+        <sharp:include file="tag.htm"/>
+    </p>
+</c:forEach>

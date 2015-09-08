@@ -1,0 +1,10 @@
+﻿<table>
+<c:forEach var="Key" items="${Keys}">
+  <tr>
+    <td>${Key}</td>
+    <td>
+      <fmt:message key="${Key}"><fmt:param value="param1"/></fmt:message>
+    </td>
+  </tr>  
+</c:forEach>
+</table>

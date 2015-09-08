@@ -1,0 +1,11 @@
+D:\Projects\SharpTiles\Tutorials\TemplateEngines\bin\Debug\templates\row.txt
+D:\Projects\SharpTiles\Tutorials\TemplateEngines\bin\Debug\templates\header.txt
+D:\Projects\SharpTiles\Tutorials\TemplateEngines\bin\Debug\templates\template.txt
+D:\Projects\SharpTiles\Tutorials\TemplateEngines\bin\Debug\templates\sample.resx
+D:\Projects\SharpTiles\Tutorials\TemplateEngines\bin\Debug\TemplateEngines.exe
+D:\Projects\SharpTiles\Tutorials\TemplateEngines\bin\Debug\TemplateEngines.pdb
+D:\Projects\SharpTiles\Tutorials\TemplateEngines\bin\Debug\org.SharpTiles.dll
+D:\Projects\SharpTiles\Tutorials\TemplateEngines\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\SharpTiles\Tutorials\TemplateEngines\obj\Debug\TemplateEngines.exe
+D:\Projects\SharpTiles\Tutorials\TemplateEngines\obj\Debug\TemplateEngines.pdb
+D:\Projects\SharpTiles\Tutorials\TemplateEngines\bin\Debug\tiles.xml

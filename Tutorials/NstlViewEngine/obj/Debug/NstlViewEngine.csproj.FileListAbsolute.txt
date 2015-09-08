@@ -1,0 +1,6 @@
+D:\Projects\SharpTiles\Tutorials\NstlViewEngine\bin\NstlViewEngine.dll
+D:\Projects\SharpTiles\Tutorials\NstlViewEngine\bin\NstlViewEngine.pdb
+D:\Projects\SharpTiles\Tutorials\NstlViewEngine\bin\org.SharpTiles.dll
+D:\Projects\SharpTiles\Tutorials\NstlViewEngine\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\SharpTiles\Tutorials\NstlViewEngine\obj\Debug\NstlViewEngine.dll
+D:\Projects\SharpTiles\Tutorials\NstlViewEngine\obj\Debug\NstlViewEngine.pdb

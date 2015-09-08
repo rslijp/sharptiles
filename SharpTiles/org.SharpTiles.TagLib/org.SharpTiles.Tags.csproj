@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0A831F61-1BBF-4223-BA3C-6C686C043056}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>org.SharpTiles.Tags</RootNamespace>
+    <AssemblyName>org.SharpTiles.Tags</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>SharpTiles.key.pfx</AssemblyOriginatorKeyFile>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseTagGroup.cs" />
+    <Compile Include="Creators\IResourceLocatorFactory.cs" />
+    <Compile Include="Creators\ITemplate.cs" />
+    <Compile Include="Creators\ITemplatePart.cs" />
+    <Compile Include="Creators\ParsedTemplate.cs" />
+    <Compile Include="DefaultPropertyValues\TagDefaultProperty.cs" />
+    <Compile Include="DefaultPropertyValues\TagDefaultValue.cs" />
+    <Compile Include="DefaultPropertyValues\IDefaultPropertyValue.cs" />
+    <Compile Include="HasExampleAttribute.cs" />
+    <Compile Include="HasNoteAttribute.cs" />
+    <Compile Include="EnumProperyType.cs" />
+    <Compile Include="ITagAttributeSetter.cs" />
+    <Compile Include="ReflectionAttributeSetter.cs" />
+    <Compile Include="RequiredAttribute.cs" />
+    <Compile Include="CoreTags\BaseCoreTag.cs" />
+    <Compile Include="CoreTags\BaseCoreTagWithOptionalVariable.cs" />
+    <Compile Include="CoreTags\Catch.cs" />
+    <Compile Include="CoreTags\Choose.cs" />
+    <Compile Include="CoreTags\ChooseItemCoreTag.cs" />
+    <Compile Include="CoreTags\BaseIterationTag.cs" />
+    <Compile Include="CoreTags\BaseUrlTag.cs" />
+    <Compile Include="CoreTags\BaseCoreTagWithVariable.cs" />
+    <Compile Include="CoreTags\BaseUrlTagWithVariable.cs" />
+    <Compile Include="CoreTags\ITagWithVariable.cs" />
+    <Compile Include="CoreTags\Redirect.cs" />
+    <Compile Include="CoreTags\Url.cs" />
+    <Compile Include="CoreTags\ForTokens.cs" />
+    <Compile Include="CoreTags\ForEach.cs" />
+    <Compile Include="CoreTags\Import.cs" />
+    <Compile Include="CoreTags\Otherwise.cs" />
+    <Compile Include="CoreTags\Param.cs" />
+    <Compile Include="CoreTags\VariableHelper.cs" />
+    <Compile Include="CoreTags\When.cs" />
+    <Compile Include="CoreTags\If.cs" />
+    <Compile Include="CoreTags\Remove.cs" />
+    <Compile Include="CoreTags\Set.cs" />
+    <Compile Include="CoreTags\Core.cs" />
+    <Compile Include="CoreTags\Out.cs" />
+    <Compile Include="FormatTags\Bundle.cs" />
+    <Compile Include="FormatTags\BaseDateTag.cs" />
+    <Compile Include="FormatTags\ParseDate.cs" />
+    <Compile Include="FormatTags\TimeStyle.cs" />
+    <Compile Include="FormatTags\DateStyle.cs" />
+    <Compile Include="FormatTags\DateType.cs" />
+    <Compile Include="FormatTags\FormatDate.cs" />
+    <Compile Include="FormatTags\ParseNumber.cs" />
+    <Compile Include="FormatTags\FormatNumber.cs" />
+    <Compile Include="FormatTags\NumberType.cs" />
+    <Compile Include="FormatTags\RequestEncoding.cs" />
+    <Compile Include="FormatTags\Message.cs" />
+    <Compile Include="FormatTags\Param.cs" />
+    <Compile Include="FormatTags\SetBundle.cs" />
+    <Compile Include="FormatTags\Format.cs" />
+    <Compile Include="FormatTags\FormatConstants.cs" />
+    <Compile Include="FormatTags\ResourceBundle.cs" />
+    <Compile Include="FormatTags\SetLocale.cs" />
+    <Compile Include="GenericTagFactory.cs" />
+    <Compile Include="IResponse.cs" />
+    <Compile Include="ITagAttribute.cs" />
+    <Compile Include="ITagFactory.cs" />
+    <Compile Include="ITagGroup.cs" />
+    <Compile Include="ITag.cs" />
+    <Compile Include="ITagWithNestedTags.cs" />
+    <Compile Include="InternalAttribute.cs" />
+    <Compile Include="ISessionResolver.cs" />
+    <Compile Include="ISimpleSessionState.cs" />
+    <Compile Include="TagBodyMode.cs" />
+    <Compile Include="TagExceptions.cs" />
+    <Compile Include="TagLib.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TagState.cs" />
+    <Compile Include="TagModel.cs" />
+    <Compile Include="VariableScope.cs" />
+    <Compile Include="XmlTags\Choose.cs" />
+    <Compile Include="XmlTags\Param.cs" />
+    <Compile Include="XmlTags\Transform.cs" />
+    <Compile Include="XmlTags\ForEach.cs" />
+    <Compile Include="XmlTags\If.cs" />
+    <Compile Include="XmlTags\Otherwise.cs" />
+    <Compile Include="XmlTags\When.cs" />
+    <Compile Include="XmlTags\XmlHelper.cs" />
+    <Compile Include="XmlTags\Set.cs" />
+    <Compile Include="XmlTags\Out.cs" />
+    <Compile Include="XmlTags\Parse.cs" />
+    <Compile Include="XmlTags\Xml.cs" />
+    <Compile Include="XmlTags\XsltParameter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\org.SharpTiles.Common\org.SharpTiles.Common.csproj">
+      <Project>{9D3FC31B-34F5-4A32-967B-B92C4EE57C14}</Project>
+      <Name>org.SharpTiles.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\org.SharpTiles.Expressions\org.SharpTiles.Expressions.csproj">
+      <Project>{EEC8426C-129E-4CD1-8280-2A69C6598CD9}</Project>
+      <Name>org.SharpTiles.Expressions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SharpTiles.key.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

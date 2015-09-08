@@ -1,0 +1,6 @@
+D:\Projects\SharpTiles\Tutorials\PlainTiles\bin\PlainTiles.dll
+D:\Projects\SharpTiles\Tutorials\PlainTiles\bin\PlainTiles.pdb
+D:\Projects\SharpTiles\Tutorials\PlainTiles\bin\org.SharpTiles.dll
+D:\Projects\SharpTiles\Tutorials\PlainTiles\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\SharpTiles\Tutorials\PlainTiles\obj\Debug\PlainTiles.dll
+D:\Projects\SharpTiles\Tutorials\PlainTiles\obj\Debug\PlainTiles.pdb

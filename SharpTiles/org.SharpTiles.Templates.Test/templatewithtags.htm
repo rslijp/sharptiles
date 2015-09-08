@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+	    <h1><c:out value="'Page'"/></h1>
+	    <p><c:set var="bool">${small < large}</c:set></p>
+	    <p>
+	        <c:choose>
+	            <c:when test="${bool}">
+	                <c:forTokens step='2' items="1,2,3,4,5,6" delims=",">${Status.Index}.[<c:forTokens step='2' begin='1' items="1,2,3,4,5,6" delims=",">${Status.Index}</c:forTokens>]</c:forTokens>
+	            </c:when>
+	            <c:otherwise>
+	                Sorry nothing to show
+	            </c:otherwise>
+	       </c:choose>
+	    </p>
+	    <c:if test="${bool}">
+	        <c:forEach items="${Model.list}">
+	            ${Tag.Item}. ${fn:concat(greet, fn:concat(' ', to))}
+	        </c:forEach>
+	    </c:if>
+	</body>
+</html>

@@ -1,0 +1,102 @@
+			<div id="sidebar">
+			
+				<h1>Sidebar Menu</h1>
+				<ul class="sidemenu">
+					<li><a href="#">Mission</a></li>
+					<li><a href="#DRY">DRY</a></li>
+					<li><a href="#IoC">IoC</a></li>
+					<li><a href="#lightweight">Light weight</a></li>
+					<li><a href="#testability">Testability</a></li>
+				</ul>				
+			</div>		
+	
+	  		<div id="main"> 
+				
+				<h1>Mision</h1>
+				<p>The design of SharpTiles and it's syntax if based on the following principles:</p>
+
+				<a name="DRY"></a>
+				<h3>DRY</h3>
+				<p>
+				<i>Don't Repeat Yourself</i></br>
+				Microsoft did a great job with C# 3.5. The syntax was enriched with the <i>var statement</i>, <i>property initializer</i>, <i>collection initializer</i>, <i>extension methods</i> and <i>Linq</i>. All 
+				syntax enhancements for reducing the repetition and plumbing in your code. The .aspx syntax has fallen behind. As far as I'm concerned I'm just rendering HTML. This is especially the case when doing MVC, but I have to 
+				add information about base pages, code files, base classes, imported namespaces, my own assembly and a  third party assemblies with a very specific PublicKeyToken. 
+				</p>
+				<p>
+					<code>
+					1:&lt;%@ Page Language="C#" <br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MasterPageFile="~/the.master" <br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AutoEventWireup="true" <br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CodeFile="somepage.aspx.cs" <br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CodeFileBaseClass="MyBase" <br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inherits="SomePage" %&gt; <br/>
+					2:&lt;%@ Import namespace="My.Business"%&gt; <br/>
+					3:&lt;%@ Register TagPrefix="3dtxt" <br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Namespace="ThirdParty.WebUI.WebDataInput"<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Assembly="ThirdParty.WebUI.WebDataInput.v4.2, Version=4.2.20042.32, <br/> 
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Culture=neutral, PublicKeyToken=324dfdsf234"%&gt;<br/>
+					4:&lt;%@ Register Assembly="My.Web.UI" Namespace="My.Web.UI" TagPrefix="myweb" %&gt;<br/>
+					</code>
+				</p>
+				<p>
+					And for each new .aspx file I probably repeat 80% of this stuff. In SharpTiles taglibs are registered in code only once. After registering, the tags are available throughout all tiles and there 
+					is no need for registering assemblies in each file. Therefore lines 3 and 4 aren't required, furthermore a tile doesn't have a code behind. It's just a template without any knowledge 
+					of the business layer (loosely coupled). As a result there is no need for the import and description of the base class and code file and no need for line 1 and 2.
+				</p>
+				
+				<a name="IoC"></a>
+				<h3>Inverse of Control</h3>
+				<p>
+				Reuse of components must be stimulated. How does Sharptile accomplishes this? Take another look at the previous code example and notice the MasterPageFile declaration. 
+				By declaring the master page file you prohibit yourself to use this page with a different master. What if I want to use my page on a participant portal and an 
+				administrator portal? Well you better do some nice stuff in your base page. 
+				</p>
+				<p>So why not use a UserControl? Well they aren't that bad but you will have a tight relation between parent and user control. For example you have one page which 
+				   could show a bar graph or pie charts for some data depending on the picked menu item. So you basically want to slide in a different control for rendering the data. 
+				   But what you end up doing is placing both controls in the page and disabling one or the other. Switching between the user controls is now page logic. Wouldn't it be 
+				   nice to just configure this? It would definitely save you a couple lines of code. Dynamically loading UserControls is also an option but it has the same problem.
+
+				</p>
+				<p>
+				SharpTiles solves this by inversing and decoupling the encapsulation of controls. With the Tiles concept you have small building blocks (your tiles) and a definition file
+  			    stating how your page is built up. See the following Java Tiles example</p>
+				<p>
+					<code>
+					&nbsp;&nbsp;&lt;definition name="main" template="/layout/main.jsp"&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;put-attribute name="header" value="/jspf/header.jsp"/&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;put-attribute name="menu" value="/jspf/menu.jsp"/&gt;<br/>
+					&nbsp;&nbsp;&lt;/definition&gt;<br/>
+					<br/>
+					&nbsp;&nbsp;&lt;definition name="participant.portal" extends="main"&gt;<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;put-attribute name="body" value="/jspf/participant/portal.jsp"/&gt;<br/>
+					&nbsp;&nbsp;&lt;/definition&gt;<br/>
+					</code>
+				</p>
+				<p>
+				IoC containers solve the same kind of problem. The SharpTiles template engine supports tiles. The Tiles <u>concept</u> is adopted from the 
+				<a href="http://tiles.apache.org" target="_blank">Java Tiles framework project</a>.
+				</p>
+
+				<a name="lightweight"></a>
+				<h3>Light weight</h3>
+				<p>No heavy code base should be required. We want to be able to render html in a simple way. For rendering the SharpTagLib (based on JSTL) syntax is used. 
+				   This provides a good balance between the amount of code and the available tags and their functionality. 
+				</p>
+				<p>Tiles don't require compilation. They are parsed and cached at first use. The SharpTiles framework will allow changing of definitions, tiles and resources while running the application as of Milestone 4. At this point only refreshing of 
+				tiles is implemented.
+				</p>
+
+				<a name="testability"></a>
+				<h3>Testablility</h3>
+				<p>
+				This is a big thing. Aspx files and their code behind are not very willing to volunteer as test subjects. 
+				Mocking the HttpRequest, HttpResponse and or HttpContext isn't done easily and isn't pretty. Therefore you can run the SharpTiles template engine stand alone. 
+				Together with the Tiles concept this should allow you to narrow down your html render tests to small modular pieces. 
+For integration test I refer to  
+				<a href="http://watin.sourceforge.net" target="_blank">WatiN</a></p> 
+				<p>
+				As a matter of fact SharpTiles is developed with the TDD paradigm. With each binary download you get a test and a coverage report.
+				</p>
+				
+			</div>

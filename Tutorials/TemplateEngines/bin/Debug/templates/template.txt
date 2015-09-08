@@ -1,0 +1,11 @@
+﻿<fmt:bundle baseName="sample">
+<c:choose>
+	<c:when test="${not fn:empty(Model.Key)}"><fmt:message key="Name"/>,<fmt:message key="Age"/>
+<c:forEach items="${Model.Key}"><sharp:include file="row.txt"/>
+</c:forEach>
+	</c:when>
+	<c:otherwise>
+<fmt:message key="NoData"/>
+	</c:otherwise>
+</c:choose>
+</fmt:bundle>

@@ -1,0 +1,8 @@
+﻿<p>Bundle defined in global asax:
+<tiles:insert name="allResources"/>
+</p>
+<fmt:bundle baseName="ResourceBundles.Views.different">
+  <p>In page defined bundle:
+  <tiles:insert name="allResources"/>
+  </p>
+</fmt:bundle>

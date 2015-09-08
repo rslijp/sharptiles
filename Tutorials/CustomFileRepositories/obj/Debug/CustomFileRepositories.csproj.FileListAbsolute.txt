@@ -1,0 +1,7 @@
+D:\Projects\SharpTiles\Tutorials\CustomFileRepositories\bin\CustomFileRepositories.dll
+D:\Projects\SharpTiles\Tutorials\CustomFileRepositories\bin\CustomFileRepositories.pdb
+D:\Projects\SharpTiles\Tutorials\CustomFileRepositories\bin\ICSharpCode.SharpZipLib.dll
+D:\Projects\SharpTiles\Tutorials\CustomFileRepositories\bin\org.SharpTiles.dll
+D:\Projects\SharpTiles\Tutorials\CustomFileRepositories\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\SharpTiles\Tutorials\CustomFileRepositories\obj\Debug\CustomFileRepositories.dll
+D:\Projects\SharpTiles\Tutorials\CustomFileRepositories\obj\Debug\CustomFileRepositories.pdb

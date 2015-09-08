@@ -1,0 +1,126 @@
+<div id="sidebar">
+
+	<h1>Releases</h1>
+	<ul class="sidemenu">
+		<li><a href="javascript:setDocumentation('latest');">Fixes and tutorials/Latest</a></li>
+		<li><a href="javascript:setDocumentation('html');">Added HTML helper</a></li>
+		<li><a href="javascript:setDocumentation('beta1');">MVC Beta 1</a></li>
+		<li><a href="javascript:setDocumentation('tiles');">Tiles</a></li>
+		<li><a href="javascript:setDocumentation('jstl');">JSTL/Initial</a></li>
+	</ul>				
+</div>		
+
+<div id="maindocumentation"> 
+	  	
+		<div id="main"> 
+			    <h1>Download</h1>
+			    <p>
+				SharpTiles is hosted on SourceForge. You can go directly to the latest download or pick a version form the list below. 
+				<a href="https://sourceforge.net/projects/sharptiles/files/sharptiles/org.SharpTiles-5.0-bin.zip/download">Latest</a>
+				</p>
+				
+			    <a name="latest"></a>
+				<h3><i>Added NstlViewEngine/Latest</i> <br/>
+				Breaking changes: Default Resource bundle loading changed<br/>
+				Milestone: M3</h3>
+				<p>
+					This release adds a new view engine to SharpTiles, The Nstl View Engine. This makes it possible to use SharpTiles without the tiles.xml. 
+					The default resource bundles must now be loaded as followed:
+				</p>
+				<p>
+					<code>
+						protected void Application_Start()<br/>
+						{<br/>
+						&nbsp;&nbsp;RegisterRoutes(RouteTable.Routes);<br/>
+						&nbsp;&nbsp;ViewEngines.Engines.Clear();<br/>
+						&nbsp;&nbsp;<span class="highlight">var engine = new TilesViewEngine()<br/>
+						&nbsp;&nbsp;ViewEngines.Engines.Add(engine.Init());<br/>
+						&nbsp;&nbsp;engine.LoadResourceBundle("ResourceBundles.Views.default");</span><br/>
+						}<br/>
+					</code>
+				</p>
+				</a>
+				<p class="post-footer align-right">					
+					<a href="https://sourceforge.net/projects/sharptiles/files/sharptiles/org.SharpTiles-5.0-bin.zip/download">Binaries</a> 
+					<a href="https://sourceforge.net/projects/sharptiles/files/sharptiles/org.SharpTiles-5.0-src.zip/download">Sources</a>
+					<a href="https://sourceforge.net/projects/sharptiles/files/sharptiles/org.SharpTiles-5.0-tutorials.zip/download">Tutorials</a>
+				</p>
+				
+			
+				<h3><i>Fixes and tutorials</i> <br/>
+				Breaking changes: TilesView method removed<br/>
+				Milestone: M3</h3>
+				<p>
+					This release fixes some small bugs and adds complete plugability to SharpTiles. How to use these features is explained in the tutorials section. As of this release the Turorials solution 
+					is inculded in the release. This releases breaks the way tiles are rendered in the controller the extension method is removed now the MVC framework methods View() and PartialView() are 
+					used. To accomplish this the SharpTiles view engine must be registered. A good place to do this is the global.asax.cs. 
+				</p>
+				<p>
+					<code>
+						protected void Application_Start()<br/>
+						{<br/>
+						&nbsp;&nbsp;RegisterRoutes(RouteTable.Routes);<br/>
+						&nbsp;&nbsp;<span class="highlight">ViewEngines.Engines.Clear();</span><br/>
+						&nbsp;&nbsp;<span class="highlight">ViewEngines.Engines.Add(new TilesViewEngine().Init());</span><br/>
+						}<br/>
+					</code>
+				</p>
+				</a>
+				<p class="post-footer align-right">					
+					<a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-4.0-bin.zip&a=41996241">Binaries</a> 
+					<a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-4.0-src.zip&a=30220300">Sources</a>
+					<a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-4.0-tutorials.zip&a=69471938">Tutorials</a>
+				</p>
+		
+			    <a name="html"></a>
+				<h3><i>Added HTML helper</i> <br/>
+				Breaking changes: None<br/>
+				Milestone: M2</h3>
+				<p>
+					The popular MVC HTML helper is wrapped. Check out the reference guide. Look for the section discussing the <i>html</i> tag lib
+				</p>
+				<p class="post-footer align-right">					
+					<a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-3.0-bin.zip&a=41764233">Binaries</a> 
+					<a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-3.0-src.zip&a=9865062">Sources</a>
+				</p>
+
+				<a name="beta1"></a>
+				<h3><i>MVC beta 1</i> <br/>
+				Breaking changes: None<br/>
+				Milestone: M1</h3>
+				<p>
+					Upgrade to MVC Beta 1
+				</p>
+				</a>
+				<p class="post-footer align-right">					
+					<a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-2.0-Beta1-bin.zip&a=95931310">Binaries</a> 
+					<a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-2.0-Beta1-src.zip&a=79037913">Sources</a>
+				</p>
+				
+				<a name="tiles"></a>
+				<h3><i>Tiles</i> <br/>
+				Breaking changes: None<br/>
+				Milestone: M1</h3>
+				<p>
+					Added the tiles implementation. 
+				</p>
+				</a>
+				<p class="post-footer align-right">					
+					<a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-1.0-RC2-bin.zip&a=78063772">Binaries</a> 
+					<a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-1.0-RC2-src.zip&a=95082002">Sources</a>
+				</p>
+				
+				<a name="tiles"></a>
+				<h3><i>JSTL</i> <br/>
+				Breaking changes: None<br/>
+				Milestone: -</h3>
+				<p>
+					Released the initial base for the SharpTiles framework. This release consist only the jstl tag support without tiles.
+				</p>
+				</a>
+				<p class="post-footer align-right">					
+					<a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-1.0-RC1-bin.zip&a=13054815">Binaries</a> 
+					<a href="http://sourceforge.net/project/downloading.php?group_id=227832&filename=org.SharpTiles-1.0-RC1-src.zip&a=89310599">Sources</a>
+				</p>
+		</div>
+</div>

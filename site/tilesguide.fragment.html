@@ -1,0 +1,433 @@
+<?php include('documentation.sidemenu.fragment.html'); ?>
+
+<div id="main"> 
+	
+<h1 class="overalltitle">Tile configuration guide</h1>
+<i class="overalltitle">R.Z. Slijp, 2008</i>
+<p>
+	This guide should help you configuring your tiles illustrated by sample scenario's. All paths in the samples are based on embedded tiles and thus refer to resouces inside the assembly. 
+	This example apply to a tile definition for a complete page and for a component.
+</p>
+<hr />
+<h1>A simple page</h1>
+
+<table>
+	<tr>
+		<td class="operator">
+		   Name
+		</td>
+		<td class="description">base</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   Features
+		</td>
+		<td class="description">Just a simple page</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   WebForm equivalent
+		</td>
+		<td class="description">.aspx with code behind. No master page</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   When
+		</td>
+		<td class="description">To define a page or component</td>
+	</tr>
+</table>
+<p>
+	<code>
+		&lt;tile<br/>
+		&nbsp;&nbsp;name=&quot;<span class="highlight">Default.Page.Layout<span class="super">1</span></span>&quot;<br/>
+		&nbsp;&nbsp;path=&quot;<span class="highlight">Views.Shared.Layout.tile<span class="super">2</span></span>&quot;<br/>
+		/&gt;
+	</code>
+</p>
+<ol>
+	<li>The name of the view</li>
+	<li>The path the tile(layout)</li>
+</ol>
+<p>
+	<table class="guideexample">
+		<tr>
+			<td>Default.Page.Layout</td><td>=</td><td><table class="guide"><tr><td><i>Contents of definition</i> Views.Shared.Layout.tile</td></tr></table></td>
+		</tr>
+	</table>
+</p>
+
+<h1>A page with tiles</h1>
+<i>with auto-properties</i>        
+<table>
+	<tr>
+		<td class="operator">
+		   Name
+		</td>
+		<td class="description">composit</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   Features
+		</td>
+		<td class="description">A page with some tiles</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   WebForm equivalent
+		</td>
+		<td class="description">.aspx with code behind. No master page</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   When
+		</td>
+		<td class="description">To define a page or component which is composed of other tiles</td>
+	</tr>
+</table>
+<p>
+	<code>
+		&lt;tile<br/>
+		&nbsp;&nbsp;name=&quot;<span class="highlight">Default.Page.Layout<span class="super">1</span></span>&quot;<br/>
+		&nbsp;&nbsp;path=&quot;<span class="highlight">Views.Shared.Layout.tile<span class="super">2</span></span>&quot;<br/>
+		&gt;<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;&lt;attribute name=&quot;<span class="highlight">body<span class="super">3</span></span>&quot; value=&quot;<span class="highlight">Body.Home.Index<span class="super">4</span></span>&quot;/&gt;<br/>
+		&lt;/tile&gt;
+	</code>
+</p>
+<ol>
+	<li>The name of the view</li>
+	<li>The path the tile</li>
+	<li>The name of the tile attribute. Use this handle to insert the tile.</li>
+	<li>The name of a tile definition, path to a tile or static string representing the nested tile. Without stating the specific type of the attribute SharpTiles tries to resolve it automaticly in the following order:
+		<p>
+			<b>File</b> - file tile can be the file system or embedded in the assembly<br/>
+			<b>Definition</b> - definition tile<br/>
+			<b>String</b> - static string tile<br/>
+		</p>
+		See the next example for properties with the type declared
+	</li>
+</ol>
+<p>
+	<table class="guideexample">
+		<tr>
+			<td>Default.Page.Layout</td><td>=</td>
+			<td>
+				<table class="guide">
+				<tr><td><i>Contents of definition</i> Views.Shared.Layout.tile</td></tr>
+				<tr><td><table class="guidenested"><tr><td><i>Contents of definition</i> Body.Home.Index</td></tr></table></td></tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</p>
+
+<a name="Default_Page_Layout"></a>
+<h1>A page with tiles</h1>
+<i>without auto-properties</i>        
+<table>
+	<tr>
+		<td class="operator">
+		   Name
+		</td>
+		<td class="description">composit</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   Features
+		</td>
+		<td class="description">A page with some tiles</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   WebForm equivalent
+		</td>
+		<td class="description">.aspx with code behind. No master page</td>
+	</tr>
+	<tr>
+	<td class="operator">
+		   When
+		</td>
+		<td class="description">To define a page or component which is composed of other tiles</td>
+	</tr>
+</table>
+<p>
+	<code>
+		&lt;tile<br/>
+		&nbsp;&nbsp;name=&quot;<span class="highlight">Default.Page.Layout<span class="super">1</span></span>&quot;<br/>
+		&gt;<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;&lt;attribute name=&quot;<span class="highlight">header<span class="super">3</span></span>&quot;<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type=&quot;<span class="highlight">String<span class="super">4</span></span>&quot;<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value=&quot;<span class="highlight">Hello world<span class="super">5</span></span>&quot;<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;&lt;attribute name=&quot;body&quot;<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type=&quot;<span class="highlight">File<span class="super">6</span></span>&quot;<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value=&quot;<span class="highlight">c:\path\to\some\tile.html<span class="super">7</span></span>&quot;<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;&lt;attribute name=&quot;footer&quot;<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type=&quot;<span class="highlight">Definition<span class="super">8</span></span>&quot;<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value=&quot;<span class="highlight">Body.Home.Index<span class="super">9</span></span>&quot;<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br/>
+		&lt;/tile&gt;
+	</code>
+</p>
+<ol>
+	<li>The name of the view</li>
+	<li>The path the tile</li>
+	<li>The name of the tile attribute. Use this handle to insert the tile.</li>
+	<li>Declare this attribute as a static string.</li>
+	<li>The static string representing tile.</li>
+	<li>Declare this attribute as a file tile.</li>
+	<li>The path to the tile.</li>
+	<li>Declare this attribute as a definition.</li>
+	<li>The name of the tile definition.</li>
+</ol>
+<p>
+	<table class="guideexample">
+		<tr>
+			<td>Default.Page.Layout</td><td>=</td>
+			<td>
+				<table class="guide">
+				<tr><td><i>Contents of definition</i> Views.Shared.Layout.tile</td></tr>
+				<tr><td><table class="guidenested"><tr><td>Hello world</td></tr></table></td></tr>
+				<tr><td><table class="guidenested"><tr><td><i>Contents of file</i> c:\path\to\some\tile.html</td></tr></table></td></tr>
+				<tr><td><table class="guidenested"><tr><td><i>Contents of definition</i> Body.Home.Index</td></tr></table></td></tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</p>
+
+<h1>Page extending a base tile</h1>
+<i>The "Default.Page.Layout" is defined in the <a href="#Default_Page_Layout">"A page with tiles"</a> example.</i>
+<table>
+	<tr>
+		<td class="operator">
+		   Name
+		</td>
+		<td class="description">extends/inheritance</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   Features
+		</td>
+		<td class="description">A tile inherting behaviour from an other tile</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   WebForm equivalent
+		</td>
+		<td class="description">Some simple cases can be compared with the Master page concept. For nested inhertance or inheritance of components there is no WebForm equivalent.</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   When
+		</td>
+		<td class="description">To ensure a default layout a base tile can be used. This exmaple shows how to make a concrete tile with use of a default layout</td>
+	</tr>
+</table>
+<p>
+	<code>
+		
+    &lt;tile name=&quot;<span class="highlight">About.Index<span class="super">1</span></span>&quot; extends=&quot;<span class="highlight">Default.Page.Layout<span class="super">2</span></span>&quot;&gt;<br/>
+    &nbsp;&nbsp;&lt;attribute name=&quot;specific&quot; value=&quot;Views.About.Index.tile&quot;/&gt;<br/>
+    &lt;/tile&gt;<br/>
+
+	</code>
+</p>
+<ol>
+	<li>The name of the view</li>
+	<li>The definition from which the behaviour(layout, attributes and inheritance) is extended.</li>
+</ol>
+<p>
+	<table class="guideexample">
+		<tr>
+			<td>Default.Page.Layout</td><td>=</td>
+			<td>
+				<table class="guide">
+				<tr><td><i>Contents of definition</i> Views.Shared.Layout.tile</td></tr>
+				<tr><td><table class="guidenested"><tr><td>Hello world</td></tr></table></td></tr>
+				<tr><td><table class="guidenested"><tr><td><i>Contents of file</i> c:\path\to\some\tile.html</td></tr></table></td></tr>
+				<tr><td><table class="guidenested"><tr><td><i>Contents of definition</i> Body.Home.Index</td></tr></table></td></tr>
+				<tr><td><table class="guidenested"><tr><td><i>Contents of definition</i> Views.About.Index.tile</td></tr></table></td></tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2"/>
+			<td style="text-align: center">is extended from
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2"/>
+			<td>
+				<table class="guide">
+				<tr><td><i>Contents of definition</i> Views.Shared.Layout.tile</td></tr>
+				<tr><td><table class="guidenested"><tr><td>Hello world</td></tr></table></td></tr>
+				<tr><td><table class="guidenested"><tr><td><i>Contents of file</i> c:\path\to\some\tile.html</td></tr></table></td></tr>
+				<tr><td><table class="guidenested"><tr><td><i>Contents of definition</i> Body.Home.Index</td></tr></table></td></tr>
+				</table>
+			</td>
+		</tr>
+
+	</table>
+</p>
+
+<h1>Page extending a base tile with an overriden attributes</h1>
+<i>The "Default.Page.Layout" is defined in the <a href="#Default_Page_Layout">"A page with tiles"</a> example.</i>
+<table>
+	<tr>
+		<td class="operator">
+		   Name
+		</td>
+		<td class="description">extends/inheritance</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   Features
+		</td>
+		<td class="description">A tile inherting behaviour from an other tile</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   WebForm equivalent
+		</td>
+		<td class="description">Some simple cases can be compared with the Master page concept. For nested inhertance or inheritance of components there is no WebForm equivalent.</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   When
+		</td>
+		<td class="description">To ensure a default layout a base tile can be used. This exmaple shows how to make a concrete tile with use of a default layout</td>
+	</tr>
+</table>
+<p>
+	<code>
+		
+    &lt;tile name=&quot;<span class="highlight">About.Index<span class="super">1</span></span>&quot; extends=&quot;<span class="highlight">Default.Page.Layout<span class="super">2</span></span>&quot;&gt;<br/>
+    &nbsp;&nbsp;&lt;attribute name=&quot;<span class="highlight">title<span class="super">3</span></span>&quot; type=&quot;String&quot; value=&quot;About page&quot;/&gt;<br/>
+    &nbsp;&nbsp;&lt;attribute name=&quot;<span class="highlight">body<span class="super">4</span></span>&quot; value=&quot;Views.About.Index.tile&quot;/&gt;<br/>
+    &lt;/tile&gt;<br/>
+
+	</code>
+</p>
+<ol>
+	<li>The name of the view</li>
+	<li>The definition from which the behaviour(layout, attributes and inheritance) is extended.</li>
+	<li>A new attribute</li>
+	<li>The body attribute of the <i>Default.Page.Layout</i> is overriden</li>
+</ol>
+<p>
+	<table class="guideexample">
+		<tr>
+			<td>Default.Page.Layout</td><td>=</td>
+			<td>
+				<table class="guide">
+				<tr><td><i>Contents of definition</i> Views.Shared.Layout.tile</td></tr>
+				<tr><td><table class="guidenested"><tr><td class="overriden">About page</td></tr></table></td></tr>
+				<tr><td><table class="guidenested"><tr><td><i>Contents of definition</i> Views.About.Index.tile</td></tr></table></td></tr>
+				<tr><td><table class="guidenested"><tr><td><i>Contents of definition</i> Body.Home.Index</td></tr></table></td></tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2"/>
+			<td style="text-align: center">is extended from
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2"/>
+			<td>
+				<table class="guide">
+				<tr><td><i>Contents of definition</i> Views.Shared.Layout.tile</td></tr>
+				<tr><td><table class="guidenested"><tr><td>Hello world</td></tr></table></td></tr>
+				<tr><td><table class="guidenested"><tr><td><i>Contents of file</i> c:\path\to\some\tile.html</td></tr></table></td></tr>
+				<tr><td><table class="guidenested"><tr><td><i>Contents of definition</i> Body.Home.Index</td></tr></table></td></tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</p>
+
+<h1>Page extending a base tile with use of new templates</h1>
+<i>The "Default.Page.Layout" is defined in the <a href="#Default_Page_Layout">"A page with tiles"</a> example.</i>
+<table>
+	<tr>
+		<td class="operator">
+		   Name
+		</td>
+		<td class="description">extends/inheritance with a new tile</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   Features
+		</td>
+		<td class="description">A tile inheriting behaviour from an other tile except that the template is redefined.</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   WebForm equivalent
+		</td>
+		<td class="description">none</td>
+	</tr>
+	<tr>
+		<td class="operator">
+		   When
+		</td>
+		<td class="description">This is best illustrated with an example. Think of a application with an administrator and a participant portal. The layout of 
+		both portals are different. Some pages can be used directly form one portal into the other portal. Overriding the layout tile helps you to render both the pages
+		on both portals correctly with as much reuse as possible.</td>
+	</tr>
+
+</table>
+<p>
+	<code>
+		
+    &lt;tile name=&quot;<span class="highlight">Default.Participant.PortalPage.Layout<span class="super">1</span></span>&quot;<br/>
+    &nbsp;&nbsp;extends=&quot;<span class="highlight">Default.Page.Layout<span class="super">2</span></span>&quot;<br/>
+	&nbsp;&nbsp;path=&quot;<span class="highlight">Views.Participant.Portal.Layout.tile<span class="super">3</span></span>&quot;<br/>
+	&gt;<br/>
+    &nbsp;&nbsp;&lt;attribute name=&quot;<span class="highlight">title<span class="super">4</span></span>&quot; type=&quot;String&quot; value=&quot;Participant portal&quot;/&gt;<br/>
+    &lt;/tile&gt;<br/>
+
+	</code>
+</p>
+<ol>
+	<li>The name of the view</li>
+	<li>The definition from which the behaviour(attributes and inheritance) is extended.</li>
+	<li>The path the tile(new layout)</li>
+	<li>A new attribute</li>
+</ol>
+<p>
+	<table class="guideexample">
+		<tr>
+			<td>Default.Page.Layout</td><td>=</td>
+			<td>
+				<table class="guide">
+				<tr><td class="overriden"><i>Contents of definition</i> Views.Participant.Portal.Layout.tile</td></tr>
+				<tr><td><table class="guidenested"><tr><td class="overriden">Participant portal</td></tr></table></td></tr>
+				<tr><td><table class="guidenested"><tr><td><i>Contents of file</i> c:\path\to\some\tile.html</td></tr></table></td></tr>
+				<tr><td><table class="guidenested"><tr><td><i>Contents of definition</i> Body.Home.Index</td></tr></table></td></tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2"/>
+			<td style="text-align: center">is extended from
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2"/>
+			<td>
+				<table class="guide">
+				<tr><td><i>Contents of definition</i> Views.Shared.Layout.tile</td></tr>
+				<tr><td><table class="guidenested"><tr><td>Hello world</td></tr></table></td></tr>
+				<tr><td><table class="guidenested"><tr><td><i>Contents of file</i> c:\path\to\some\tile.html</td></tr></table></td></tr>
+				<tr><td><table class="guidenested"><tr><td><i>Contents of definition</i> Body.Home.Index</td></tr></table></td></tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</p>
+
+</div>

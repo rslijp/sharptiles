@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+	     <c:import url='${fileUrl}' var='file'/>
+         <x:parse doc='${file}' var='fileAsXml'></x:parse>
+         <c:set var='xsltAsString'>
+                <?xml version="1.0" encoding="ISO-8859-1"?>
+                <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                    <xsl:output method="text" media-type="text/plain" omit-xml-declaration="yes"/>
+                        <xsl:template match="/">
+                            <xsl:for-each select="CATALOG/CD">
+                                <xsl:value-of select="ARTIST"/>
+                                <xsl:if test="position() != last()">,</xsl:if>
+                           </xsl:for-each>
+                       </xsl:template>
+                   </xsl:stylesheet>
+         </c:set>
+         <x:transform Doc='${file}' Xslt='${xsltAsString}' cacheVar='sheet1' cacheScope='Global'/>
+         ----
+         Last one: <x:out Select='//CD[position()=last()]/TITLE' Source='fileAsXml'/>
+	</body>
+</html>

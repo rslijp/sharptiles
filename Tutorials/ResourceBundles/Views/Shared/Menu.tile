@@ -1,0 +1,11 @@
+﻿            <ul id="menu">
+                <li>
+                    <a id="menu_to_index" href="<c:url value="~/Home/Index"/>"><fmt:message key="menu_index"/></a> 
+                </li>
+                <li>
+                    <a id="menu_to_about" href="<c:url value='~/Home/About'/>"><fmt:message key="menu_about"/></a> 
+                </li>
+              <li>
+                <a id="menu_to_about" href="<c:url value='~/Home/Bundle'/>">Bundle example</a>
+              </li>
+            </ul>

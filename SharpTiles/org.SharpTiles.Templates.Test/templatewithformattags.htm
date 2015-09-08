@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+	    <fmt:setLocale scope="Page" Value="en-US"/>
+	    <fmt:parseNumber var="resultNumber" scope="Page">0.33</fmt:parseNumber>
+	    <fmt:parseDate var="resultDate" Type="Time" scope="Page">4:55 PM</fmt:parseDate>
+	    <fmt:setBundle baseName="compiled" var="tilesMessages" scope="Global"/>
+	    <h1>en-US</h1>
+	    <p><fmt:message key="a" bundle="tilesMessages"/></p>
+	    <p><fmt:formatNumber value="${resultNumber}" Type="Percentage"/></p>
+	    <p><fmt:formatDate Value="${resultDate}" Type="Time"/></p>
+	    <fmt:setLocale scope="Page" Value="nl-NL"/>
+	    <h1>nl-NL</h1>
+	    <p><fmt:message key="a" bundle="tilesMessages"/></p>
+	    <p><fmt:formatNumber value="${resultNumber}" Type="Percentage"/></p>
+	    <p><fmt:formatDate Value="${resultDate}" Type="Time"/></p>
+	</body>
+</html>

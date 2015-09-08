@@ -1,0 +1,8 @@
+﻿<c:choose>
+  <c:when test="${Request.IsAuthenticated}">
+    Welcome <b>${Page.User.Identity.Name}</b> [ <a href="<html:action Action="LogOff" Controller="Account"/>">Log off</a> ]
+  </c:when>
+  <c:otherwise>
+    [ <a href="<html:action Action="LogOn" Controller="Account"/>">Log on</a> ]
+  </c:otherwise>
+</c:choose>

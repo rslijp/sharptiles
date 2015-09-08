@@ -1,0 +1,6 @@
+D:\Projects\SharpTiles\Tutorials\AbsoluteTiles\bin\AbsoluteTiles.dll
+D:\Projects\SharpTiles\Tutorials\AbsoluteTiles\bin\AbsoluteTiles.pdb
+D:\Projects\SharpTiles\Tutorials\AbsoluteTiles\bin\org.SharpTiles.dll
+D:\Projects\SharpTiles\Tutorials\AbsoluteTiles\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\SharpTiles\Tutorials\AbsoluteTiles\obj\Debug\AbsoluteTiles.dll
+D:\Projects\SharpTiles\Tutorials\AbsoluteTiles\obj\Debug\AbsoluteTiles.pdb
