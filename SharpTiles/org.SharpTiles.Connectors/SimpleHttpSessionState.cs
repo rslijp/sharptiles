@@ -48,6 +48,11 @@ namespace org.SharpTiles.Connectors
             }
         }
 
+        public object TryGet(string property)
+        {
+            return Session[property];
+        }
+
         public void Clear()
         {
             Session.Clear();

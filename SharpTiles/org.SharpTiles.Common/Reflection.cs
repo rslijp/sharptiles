@@ -26,8 +26,8 @@ namespace org.SharpTiles.Common
 {
     public class Reflection : IReflectionModel
     {
-        private static IDictionary<CacheKey, PropertyHandler> HANDLER_CACHE = new Dictionary<CacheKey, PropertyHandler>();
-        private static IDictionary<CacheKey, PropertyInfo> PROPERTY_CACHE = new Dictionary<CacheKey, PropertyInfo>();
+        private static IDictionary<CacheKey, ReflectionPropertyResult> HANDLER_CACHE = new Dictionary<CacheKey, ReflectionPropertyResult>();
+        private static IDictionary<CacheKey, PropertyInfoResult> PROPERTY_CACHE = new Dictionary<CacheKey, PropertyInfoResult>();
 
         #region Delegates
 
@@ -36,10 +36,28 @@ namespace org.SharpTiles.Common
         #endregion
 
         public const string SEPERATOR = ".";
-
+        private bool strict = false;
 
         private readonly object _subject;
         private ResolveObject _objectResolver;
+
+        private class ReflectionResult
+        {
+            public ReflectionException ReflectionException { get; set; }
+            public object Result { get; set; }
+        }
+
+        private class ReflectionPropertyResult
+        {
+            public ReflectionException ReflectionException { get; set; }
+            public PropertyHandler PropertyHandler { get; set; }
+        }
+
+        private class PropertyInfoResult
+        {
+            public ReflectionException ReflectionException { get; set; }
+            public PropertyInfo PropertyInfo { get; set; }
+        }
 
         public Reflection(object subject)
         {
@@ -52,74 +70,110 @@ namespace org.SharpTiles.Common
             set { _objectResolver = value; }
         }
 
+        public Reflection BecomeStrict()
+        {
+            strict = true;
+            return this;
+        }
+
         #region IReflectionModel Members
 
         public object this[string property]
         {
             get {
-                try
-                {
-                    return GetProperty(_subject, property, 0);
-                }
-                catch (ReflectionException Re)
-                {
-                    if (Re.IgnoreOnGet) return null;
-                    throw Re;
-                }
+                var result = GetProperty(_subject, property, 0);
+                if (result.ReflectionException!=null && (strict || !result.ReflectionException.IgnoreOnGet)) throw result.ReflectionException;
+                return result.Result;
             }
-            set { SetProperty(_subject, property, value, 0); }
+            set
+            {
+                var result = SetProperty(_subject, property, value, 0);
+                if (result.ReflectionException != null) throw result.ReflectionException;
+            }
+        }
+
+        public object TryGet(string property)
+        {
+            try
+            {
+                return GetProperty(_subject, property, 0);
+            }
+            catch (ReflectionException)
+            {
+                return null;
+            }
         }
 
         #endregion
 
-        private void SetProperty(object subject, string property, object value, int level)
+        private ReflectionResult SetProperty(object subject, string property, object value, int level)
         {
-            GuardPropertyIsSet(property);
+            var exception = GuardPropertyIsSet(property);
+            if (exception != null) return new ReflectionResult {ReflectionException = exception};
             int split = property.IndexOf(SEPERATOR);
             if (split >= 0)
             {
                 string head = property.Substring(0, split);
                 string tail = property.Substring(split + 1);
-                SetProperty(GetCurrentProperty(subject, head, level), tail, value, level + 1);
+                var temp = GetCurrentProperty(subject, head, level);
+                if (temp.ReflectionException != null)
+                {
+                    return temp;
+                }
+                return SetProperty(temp.Result, tail, value, level + 1);
             }
-            else
-            {
-                SetCurrentProperty(subject, property, value, level);
-            }
+            return SetCurrentProperty(subject, property, value, level);
         }
 
-        private object GetProperty(object subject, string property, int level)
+        private ReflectionResult GetProperty(object subject, string property, int level)
         {
-            GuardPropertyIsSet(property);
+            var exception = GuardPropertyIsSet(property);
+            if (exception != null) return new ReflectionResult { ReflectionException = exception };
             int split = property.IndexOf(SEPERATOR);
             if (split >= 0)
             {
                 string head = property.Substring(0, split);
                 string tail = property.Substring(split + 1);
-                return GetProperty(GetCurrentProperty(subject, head, level), tail, level+1);
+                var temp = GetCurrentProperty(subject, head, level);
+                if (temp.ReflectionException != null)
+                {
+                    return temp;
+                }
+                return GetProperty(temp.Result, tail, level+1);
             }
             return GetCurrentProperty(subject, property, level);
         }
 
-        private void SetCurrentProperty(object source, string property, object value, int level)
+        private ReflectionResult SetCurrentProperty(object source, string property, object value, int level)
         {
-            DeterminePropertyHandlerCached(source, property).Set(property, source, value, level);
+            var propertyHandler = DeterminePropertyHandlerCached(source, property);
+            if (propertyHandler.ReflectionException != null)
+            {
+                return new ReflectionResult { ReflectionException = propertyHandler.ReflectionException };
+            }
+            return propertyHandler.PropertyHandler.Set(property, source, value, level);
         }
 
 
-        private object GetCurrentProperty(object source, string property, int level)
+        private ReflectionResult GetCurrentProperty(object source, string property, int level)
         {
-            object result = DeterminePropertyHandlerCached(source, property).Get(property, source, level);
-            result = Resolve(result);
+            var propertyHandler = DeterminePropertyHandlerCached(source, property);
+            if (propertyHandler.ReflectionException != null)
+            {
+                return new ReflectionResult {ReflectionException = propertyHandler.ReflectionException};
+            }
+            ReflectionResult result = propertyHandler.PropertyHandler.Get(property, source, level);
+            if(result.Result!=null) { result.Result=Resolve(result.Result); }
             return result;
         }
 
-        private static void GuardPropertyIsSet(string property)
+        private static ReflectionException GuardPropertyIsSet(string property)
         {
             if (property == null)
             {
-                throw ReflectionException.NoPropertyAvailable();
+                return ReflectionException.NoPropertyAvailable();
             }
+            return null;
         }
 
         
@@ -158,8 +212,8 @@ namespace org.SharpTiles.Common
 
         private class PropertyHandler
         {
-            public delegate object GetResult(string property, object source);
-            public delegate void SetResult(string property, object source, object value);
+            public delegate ReflectionResult GetResult(string property, object source);
+            public delegate ReflectionResult SetResult(string property, object source, object value);
 
             private GetResult _get;
             private SetResult _set;
@@ -170,37 +224,32 @@ namespace org.SharpTiles.Common
                 _set = set;
             }
 
-            public object Get(string property, object source, int level)
+            public ReflectionResult Get(string property, object source, int level)
             {
-                try
-                {
-                    return _get(property, source);
-                } catch(ReflectionException Re)
-                {
-                    Re.Nesting = level;
-                    throw Re;
+                var result= _get(property, source);
+                if (result.ReflectionException != null) { 
+                    result.ReflectionException.Nesting = level;
                 }
+                return result;
             }
 
-            public void Set(string property, object source, object value, int level)
+            public ReflectionResult Set(string property, object source, object value, int level)
             {
-                try
+                var result = _set(property, source, value);
+                if (result.ReflectionException != null)
                 {
-                    _set(property, source, value);
+                    result.ReflectionException.Nesting = level;
                 }
-                catch (ReflectionException Re)
-                {
-                    Re.Nesting = level;
-                    throw Re;
-                }
+                return result;
             }
         }
 
-        private static PropertyHandler DeterminePropertyHandlerCached(object source, string property)
+        private static ReflectionPropertyResult DeterminePropertyHandlerCached(object source, string property)
         {
-            GuardSource(property, source);
+            var result = GuardSource(property, source);
+            if (result != null) return result;
             var key = new CacheKey(property, source);
-            PropertyHandler cacheResult;
+            ReflectionPropertyResult cacheResult;
             HANDLER_CACHE.TryGetValue(key, out cacheResult);
             if (cacheResult!=null)
             {
@@ -211,7 +260,7 @@ namespace org.SharpTiles.Common
             return cacheResult;
         }
 
-        private static PropertyHandler DeterminePropertyHandler(object source)
+        private static ReflectionPropertyResult DeterminePropertyHandler(object source)
         {
             PropertyHandler result;
             if (source.GetType().IsMarshalByRef)
@@ -250,17 +299,17 @@ namespace org.SharpTiles.Common
             {
                 result = new PropertyHandler(GetSimple, SetSimple);
             }
-            return result;
+            return new ReflectionPropertyResult {PropertyHandler = result};
         }
 
-        private static void SetEnumerable(string property, object source, object value)
+        private static ReflectionResult SetEnumerable(string property, object source, object value)
         {
-            throw ReflectionException.SetNotAvailable("Enumerable");
+            return new ReflectionResult {ReflectionException = ReflectionException.SetNotAvailable("Enumerable")};
         }
 
-        private static void SetNameValueCollection(string property, object source, object value)
+        private static ReflectionResult SetNameValueCollection(string property, object source, object value)
         {
-            throw ReflectionException.SetNotAvailable("NameValueCollection");
+            return new ReflectionResult { ReflectionException = ReflectionException.SetNotAvailable("NameValueCollection") };
         }
 
         private object Resolve(object result)
@@ -272,15 +321,16 @@ namespace org.SharpTiles.Common
             return result;
         }
 
-        private static void GuardSource(string property, object source)
+        private static ReflectionPropertyResult GuardSource(string property, object source)
         {
             if (source == null)
             {
-                throw ReflectionException.NoSourceAvailable(property);
+                return new ReflectionPropertyResult {ReflectionException = ReflectionException.NoSourceAvailable(property)};
             }
+            return null;
         }
 
-        private static void SetDictionary(string property, object source, object value)
+        private static ReflectionResult SetDictionary(string property, object source, object value)
         {
             var sourceAsList = (IDictionary) source;
             if (sourceAsList.Contains(property))
@@ -291,9 +341,10 @@ namespace org.SharpTiles.Common
             {
                 sourceAsList.Add(property, value);
             }
+            return new ReflectionResult();
         }
 
-        private static void SetLookUpDictionary(string property, object source, object value)
+        private static ReflectionResult SetLookUpDictionary(string property, object source, object value)
         {
             var sourceAsList = (IDictionary<string, object>)source;
             if (sourceAsList.ContainsKey(property))
@@ -304,33 +355,35 @@ namespace org.SharpTiles.Common
             {
                 sourceAsList.Add(property, value);
             }
+            return new ReflectionResult();
         }
 
-        private static object GetDictionary(string property, object source)
+        private static ReflectionResult GetDictionary(string property, object source)
         {
             var sourceAsList = (IDictionary) source;
-            return sourceAsList[property];
+            return new ReflectionResult {Result = sourceAsList[property]};
         }
 
-        private static object GetNameValueCollection(string property, object source)
+        private static ReflectionResult GetNameValueCollection(string property, object source)
         {
             var sourceAsList = (NameValueCollection) source;
-            return sourceAsList[property];
+            return new ReflectionResult { Result = sourceAsList[property] };
         }
 
 
-        private static object GetLookUpDictionary(string property, object source)
+        private static ReflectionResult GetLookUpDictionary(string property, object source)
         {
             var sourceAsList = (IDictionary<string, object>)source;
-            return sourceAsList[property];
+            return new ReflectionResult { Result = sourceAsList[property] };
         }
 
-        private static void SetList(string property, object source, object value)
+        private static ReflectionResult SetList(string property, object source, object value)
         {
             var sourceAsList = (IList) source;
             if (property.Equals("add"))
             {
                 sourceAsList.Add(value);
+                return new ReflectionResult();
             }
             else
             {
@@ -338,58 +391,66 @@ namespace org.SharpTiles.Common
                 try
                 {
                     sourceAsList[index] = value;
+                    return new ReflectionResult();
                 }
                 catch (ArgumentOutOfRangeException)
                 {
-                    throw ReflectionException.IndexOutOfBounds(source.GetType(), index);
+                    return new ReflectionResult
+                    {
+                        ReflectionException = ReflectionException.IndexOutOfBounds(source.GetType(), index)
+                    };
                 }
             }
         }
 
 
-        private static object GetList(string property, object source)
+        private static ReflectionResult GetList(string property, object source)
         {
             var sourceAsList = (IList) source;
             int index = int.Parse(property);
             try
             {
-                return sourceAsList[index];
+                return new ReflectionResult {Result = sourceAsList[index]};
             }
             catch (ArgumentOutOfRangeException)
             {
-                throw ReflectionException.IndexOutOfBounds(source.GetType(), index);
+                return new ReflectionResult
+                {
+                    ReflectionException = ReflectionException.IndexOutOfBounds(source.GetType(), index)
+                };
             }
         }
 
-        private static void SetArray(string property, object source, object value)
+        private static ReflectionResult SetArray(string property, object source, object value)
         {
             var sourceAsArray = (Array) source;
             int index = int.Parse(property);
             try
             {
                 sourceAsArray.SetValue(value, index);
+                return new ReflectionResult();
             }
             catch (IndexOutOfRangeException)
             {
-                throw ReflectionException.IndexOutOfBounds(source.GetType(), index);
+                return new ReflectionResult { ReflectionException = ReflectionException.IndexOutOfBounds(source.GetType(), index) };
             }
         }
 
-        private static object GetArray(string property, object source)
+        private static ReflectionResult GetArray(string property, object source)
         {
             var sourceAsArray = (Array) source;
             int index = int.Parse(property);
             try
             {
-                return sourceAsArray.GetValue(index);
+                return new ReflectionResult {Result = sourceAsArray.GetValue(index)};
             }
             catch (IndexOutOfRangeException)
             {
-                throw ReflectionException.IndexOutOfBounds(source.GetType(), index);
+                return new ReflectionResult {ReflectionException = ReflectionException.IndexOutOfBounds(source.GetType(), index)};
             }
         }
 
-        private static object GetEnumerable(string property, object source)
+        private static ReflectionResult GetEnumerable(string property, object source)
         {
             var sourceAsEnumerable = (IEnumerable) source;
             int index = int.Parse(property);
@@ -399,20 +460,28 @@ namespace org.SharpTiles.Common
             {
                 if (!enumerator.MoveNext())
                 {
-                    throw ReflectionException.IndexOutOfBounds(source.GetType(), index);
+                    return new ReflectionResult
+                    {
+                        ReflectionException = ReflectionException.IndexOutOfBounds(source.GetType(), index)
+                    };
                 }
                 i++;
             } while (i <= index);
-            return enumerator.Current;
+            return new ReflectionResult {Result = enumerator.Current};
         }
 
-        private static void SetSimple(string property, object source, object value)
+        private static ReflectionResult SetSimple(string property, object source, object value)
         {
-            PropertyInfo info = AcquirePropertyInfo(property, source);
-            value = TypeConverter.To(value, info.PropertyType);
+            PropertyInfoResult info = AcquirePropertyInfo(property, source);
+            if (info.ReflectionException != null)
+            {
+                return new ReflectionResult { ReflectionException = info.ReflectionException };
+            }
+            value = TypeConverter.To(value, info.PropertyInfo.PropertyType);
             try
             {
-                info.SetValue(source, value, null);
+                info.PropertyInfo.SetValue(source, value, null);
+                return new ReflectionResult();
             }
             catch (TargetInvocationException Te)
             {
@@ -424,12 +493,16 @@ namespace org.SharpTiles.Common
             }
         }
 
-        private static object GetSimple(string property, object source)
+        private static ReflectionResult GetSimple(string property, object source)
         {
             try
             {
-                PropertyInfo info = AcquirePropertyInfo(property, source);
-                return info.GetValue(source, null);
+                PropertyInfoResult info = AcquirePropertyInfo(property, source);
+                if (info.ReflectionException != null)
+                {
+                    return new ReflectionResult {ReflectionException = info.ReflectionException};
+                }
+                return new ReflectionResult {Result = info.PropertyInfo.GetValue(source, null)};
             } catch (TargetInvocationException TIe)
             {
                 if(TIe.InnerException!=null)
@@ -440,21 +513,22 @@ namespace org.SharpTiles.Common
             }
         }
 
-        private static object GetReflection(string property, object source)
+        private static ReflectionResult GetReflection(string property, object source)
         {
-            return ((IReflectionModel) source)[property];
+            return new ReflectionResult {Result = ((IReflectionModel) source)[property]};
         }
 
-        private static void SetReflection(string property, object source, object value)
+        private static ReflectionResult SetReflection(string property, object source, object value)
         {
             ((IReflectionModel) source)[property] = value;
+            return new ReflectionResult();
         }
 
-        private static PropertyInfo AcquirePropertyInfo(string property, object source)
+        private static PropertyInfoResult AcquirePropertyInfo(string property, object source)
         {
             Type type = source.GetType();
             var key = new CacheKey(property, type);
-            PropertyInfo info;
+            PropertyInfoResult info;
             PROPERTY_CACHE.TryGetValue(key, out info);
             if(info!=null)
             {
@@ -465,14 +539,17 @@ namespace org.SharpTiles.Common
             return info;
         }
 
-        private static PropertyInfo InternalAcquirePropertyInfo(string property, Type type)
+        private static PropertyInfoResult InternalAcquirePropertyInfo(string property, Type type)
         {
             PropertyInfo info = type.GetProperty(property);
             if (info == null)
             {
-                throw ReflectionException.PropertyNotFound(property, type);
+                return new PropertyInfoResult
+                {
+                    ReflectionException = ReflectionException.PropertyNotFound(property, type)
+                };
             }
-            return info;
+            return new PropertyInfoResult {PropertyInfo = info};
         }
     }
 }

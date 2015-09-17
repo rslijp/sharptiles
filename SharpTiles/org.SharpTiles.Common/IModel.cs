@@ -21,5 +21,6 @@
     public interface IModel
     {
         object this[string property] { get; set; }
+        object TryGet(string property);
     }
 }

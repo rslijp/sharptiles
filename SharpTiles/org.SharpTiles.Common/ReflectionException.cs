@@ -33,13 +33,13 @@ namespace org.SharpTiles.Common
 
         public static ReflectionException PropertyNotFound(string property, Type type)
         {
-            string msg = String.Format("There's no (public) property '{0}' found on '{1}'.", property, type.FullName);
+            string msg = string.Format("There's no (public) property '{0}' found on '{1}'.", property, type.FullName);
             return new ReflectionException(msg);
         }
 
         public static ReflectionException NoSourceAvailable(string property)
         {
-            string msg = String.Format("There's no source(null) to evaluate property '{0}' on.", property);
+            string msg = string.Format("There's no source(null) to evaluate property '{0}' on.", property);
             return new ReflectionException(msg) { IgnoreOnGet = true };
         }
 

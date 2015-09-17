@@ -20,6 +20,7 @@
 using System.Text;
 using org.SharpTiles.Common;
  using org.SharpTiles.Tags;
+ using org.SharpTiles.Tags.CoreTags;
  using org.SharpTiles.Tags.Creators;
  using org.SharpTiles.Templates;
 
@@ -78,7 +79,7 @@ namespace org.SharpTiles.Templates
             foreach (ITemplatePart part in _resultParts)
             {
                 object result = part.Evaluate(model);
-                builder.Append(result != null ? result.ToString() : String.Empty);
+                builder.Append(result != null ? BaseCoreTag.ValueOfWithi18N(model, result) : String.Empty);
             }
             return builder;
         }

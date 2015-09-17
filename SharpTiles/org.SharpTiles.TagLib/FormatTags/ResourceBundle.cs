@@ -100,7 +100,7 @@ namespace org.SharpTiles.Tags.FormatTags
             return bundle.Get(key, model);
         }
 
-        private static CultureInfo GetLocale(TagModel model)
+        public static CultureInfo GetLocale(TagModel model)
         {
             return (CultureInfo) model.Resolve(FormatConstants.LOCALE, false);
         }

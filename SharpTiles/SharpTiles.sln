@@ -44,10 +44,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.SharpTiles.HtmlTags", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.SharpTiles.HtmlTags.Test", "org.SharpTiles.HtmlTags.Test\org.SharpTiles.HtmlTags.Test.csproj", "{784C9FE0-F539-46D1-B955-10564245C3AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.SharpTiles.Connectors.Monorail", "org.SharpTiles.Connectors.Monorail\org.SharpTiles.Connectors.Monorail.csproj", "{A4CBFAF5-3F40-4050-B183-4CAF73A3B338}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.SharpTiles.Connectors.Monorail.Test", "org.SharpTiles.Connectors.Monorail.Test\org.SharpTiles.Connectors.Monorail.Test.csproj", "{8743F30B-35EF-4A99-81A6-06BC84544635}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -126,14 +122,6 @@ Global
 		{784C9FE0-F539-46D1-B955-10564245C3AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{784C9FE0-F539-46D1-B955-10564245C3AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{784C9FE0-F539-46D1-B955-10564245C3AB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A4CBFAF5-3F40-4050-B183-4CAF73A3B338}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4CBFAF5-3F40-4050-B183-4CAF73A3B338}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4CBFAF5-3F40-4050-B183-4CAF73A3B338}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4CBFAF5-3F40-4050-B183-4CAF73A3B338}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8743F30B-35EF-4A99-81A6-06BC84544635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8743F30B-35EF-4A99-81A6-06BC84544635}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8743F30B-35EF-4A99-81A6-06BC84544635}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8743F30B-35EF-4A99-81A6-06BC84544635}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

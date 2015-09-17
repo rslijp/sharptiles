@@ -16,10 +16,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using org.SharpTiles.Common;
+using org.SharpTiles.Tags.CoreTags;
+using org.SharpTiles.Tags.FormatTags;
 
 namespace org.SharpTiles.Tags.Creators
 {
@@ -90,9 +94,13 @@ namespace org.SharpTiles.Tags.Creators
             var sb = new StringBuilder();
             foreach (var part in _templateParsed)
             {
-                sb.Append(part.Evaluate(model));
+                var raw = part.Evaluate(model);
+                var value = BaseCoreTag.ValueOfWithi18N(model, raw);
+                sb.Append(value);
             }
             return sb.ToString();
         }
+
+       
     }
 }

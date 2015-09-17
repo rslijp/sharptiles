@@ -476,7 +476,8 @@ namespace org.SharpTiles.HtmlTags.Test
             ITag tag =
                 TagLibParser.Parse(
                     "<html:validationSummary message=\"msg\" class=\"${Model.class}\"/>");
-            Assert.That(tag.Evaluate(model), Is.EqualTo("<span class=\"nice\">msg</span>\r\n<ul class=\"nice\"><li>error</li>\r\n</ul>"));
+            
+            Assert.That(tag.Evaluate(model), Is.EqualTo("<ul class=\"nice\" message=\"msg\"><li>error</li>\r\n</ul>"));
         }
 
         [Test]

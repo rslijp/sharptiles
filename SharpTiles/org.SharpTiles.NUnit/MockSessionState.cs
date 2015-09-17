@@ -39,6 +39,11 @@ namespace org.SharpTiles.NUnit
             set { new Reflection(_internal)[property] = value; }
         }
 
+        public object TryGet(string property)
+        {
+            return _internal.ContainsKey(property) ? _internal[property] : null;
+        }
+
         public void Clear()
         {
             _internal.Clear();

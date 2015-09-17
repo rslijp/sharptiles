@@ -432,6 +432,7 @@ namespace org.SharpTiles.Common.Test
             }
             catch (ReflectionException Re)
             {
+                Console.WriteLine(Re.Message);
                 Assert.That(Re.Nesting, Is.EqualTo(3));
             }
         }
@@ -660,6 +661,7 @@ namespace org.SharpTiles.Common.Test
             }
             catch (ReflectionException Re)
             {
+                Console.WriteLine(Re.Message);
                 ReflectionException test = ReflectionException.NoSourceAvailable("a");
                 Assert.That(Re.Message, Is.EqualTo(test.Message));
             }

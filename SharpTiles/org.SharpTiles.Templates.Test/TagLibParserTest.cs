@@ -775,10 +775,10 @@ namespace org.SharpTiles.Templates.Test
         public void TestSimpleCatchWithCatch()
         {
             var model = new Hashtable();
-            var reflection = new TagModel(model);
+            var reflection = new TagModel(model).BecomeStrict();
             Assert.That(
                 TagLibParser.Parse("<c:catch>[<c:out value=\"${" + VariableScope.Model + ".a.text}\"/>]</c:catch>").
-                    Evaluate(reflection), Is.EqualTo(String.Empty));
+                    Evaluate(reflection), Is.EqualTo(""));
         }
 
         [Test]
@@ -786,9 +786,9 @@ namespace org.SharpTiles.Templates.Test
         {
             var model = new Hashtable();
             model.Add(VariableScope.Model.ToString(), new Hashtable());
-            var reflection = new TagModel(model);
+            var reflection = new TagModel(model).BecomeStrict(); ;
             Assert.That(
-                TagLibParser.Parse("<c:catch var=\"error\"><c:out value=\"${asa.text}\"/></c:catch>").Evaluate(
+                TagLibParser.Parse("<c:catch var=\"error\"><c:out value=\"${Model.asa.bb.text}\"/></c:catch>").Evaluate(
                     reflection), Is.EqualTo(String.Empty));
             Assert.IsNotNull(reflection[VariableScope.Model + ".error"]);
             Assert.IsTrue(

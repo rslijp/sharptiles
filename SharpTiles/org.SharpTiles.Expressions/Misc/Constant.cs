@@ -18,7 +18,8 @@
  */
  using System;
 using System.ComponentModel;
-using org.SharpTiles.Common;
+ using System.Globalization;
+ using org.SharpTiles.Common;
 using TypeConverter=org.SharpTiles.Common.TypeConverter;
 
 namespace org.SharpTiles.Expressions
@@ -27,13 +28,18 @@ namespace org.SharpTiles.Expressions
     public class Constant : Expression
     {
         protected readonly string _value;
-        private readonly object _evaluated;
+        private object _evaluated;
+        private CultureInfo _used;
+
         public Constant(string value)
         {
             _value = value;
+            //Determine type is possible (ignoring I18N) This is done in the evaluate
+            _used = CultureInfo.CurrentCulture;
             _evaluated = TypeConverter.TryTo(_value, typeof(bool)) ??
-                         TypeConverter.TryTo(_value, typeof(decimal)) ??
-                        _value;
+                        TypeConverter.TryTo(_value, typeof(decimal)) ??
+                       _value;
+
         }
 
         public string Value
@@ -55,6 +61,13 @@ namespace org.SharpTiles.Expressions
 
         public override object Evaluate(IModel model)
         {
+            var culture = (model.TryGet("I18NLocale") as CultureInfo) ?? CultureInfo.CurrentCulture;
+            if (!_used.Equals(culture))
+            {
+                _evaluated = TypeConverter.TryTo(_value, typeof (bool), culture) ??
+                             TypeConverter.TryTo(_value, typeof (decimal), culture) ??
+                             _value;
+            }
             return _evaluated;
         }
 

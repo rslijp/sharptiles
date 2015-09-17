@@ -69,6 +69,12 @@ namespace org.SharpTiles.Tags
         {
         }
 
+        public TagModel BecomeStrict()
+        {
+            _internal.BecomeStrict();
+            return this;
+        }
+
         public TagModel(IModel model)
             : this(model, null, null, null, null)
         {
@@ -158,7 +164,10 @@ namespace org.SharpTiles.Tags
 
         public object this[string property]
         {
-            get { return HasScopePrefix(property) ? _internal[property] : Resolve(property, true); }
+            get
+            {
+                return HasScopePrefix(property) ? _internal[property] : Resolve(property, true);
+            }
             set
             {
                 if (HasScopePrefix(property))
@@ -170,6 +179,11 @@ namespace org.SharpTiles.Tags
                     _internal[VariableScope.Model + Reflection.SEPERATOR + property] = value;
                 }
             }
+        }
+
+        public object TryGet(string property)
+        {
+            return HasScopePrefix(property) ? _internal.TryGet(property) : Resolve(property, false);
         }
 
         #endregion

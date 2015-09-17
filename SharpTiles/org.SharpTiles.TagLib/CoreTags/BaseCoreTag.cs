@@ -23,6 +23,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using org.SharpTiles.Common;
 using org.SharpTiles.Tags.DefaultPropertyValues;
+ using org.SharpTiles.Tags.FormatTags;
 
 namespace org.SharpTiles.Tags.CoreTags
 {
@@ -83,8 +84,23 @@ namespace org.SharpTiles.Tags.CoreTags
         public string GetAutoValueAsString(string propertyName, TagModel model)
         {
             object result = GetAutoValue(propertyName, model);
-            return result != null ? result.ToString() : null;
+            return result != null ? ValueOfWithi18N(model, result.ToString()) : null;
 
+        }
+
+        public static string ValueOfWithi18N(TagModel model, object raw)
+        {
+            if (raw == null) return String.Empty;
+            var value = raw.ToString();
+            if (raw is DateTime)
+            {
+                value = ((DateTime)raw).ToString(ResourceBundle.GetLocale(model).DateTimeFormat);
+            }
+            else if (raw is decimal)
+            {
+                value = ((decimal)raw).ToString(ResourceBundle.GetLocale(model).NumberFormat);
+            }
+            return value;
         }
 
         protected int? GetAutoValueAsInt(string propertyName, TagModel model)
