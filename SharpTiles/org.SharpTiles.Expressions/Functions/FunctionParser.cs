@@ -64,8 +64,15 @@ namespace org.SharpTiles.Expressions
             var function = _lib.Obtain(token.Contents);
             function.Token = start;
             parseHelper.Push(function);
-            var bp = new BracketsParser(true, function.Arguments.Length);
-            bp.Parse(parseHelper);
+            if (function.Arguments.Length == 0)
+            {
+                   BracketsParser.MunchEmptyBrackets(parseHelper);
+            }
+            else
+            {
+                var bp = new BracketsParser(true, function.Arguments.Length);
+                bp.Parse(parseHelper);
+            }
         }
 
         public bool Reduce(ExpressionParserHelper parseHelper, Expression you, int priorty)

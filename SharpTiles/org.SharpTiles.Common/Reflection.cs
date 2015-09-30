@@ -41,12 +41,6 @@ namespace org.SharpTiles.Common
         private readonly object _subject;
         private ResolveObject _objectResolver;
 
-        private class ReflectionResult
-        {
-            public ReflectionException ReflectionException { get; set; }
-            public object Result { get; set; }
-        }
-
         private class ReflectionPropertyResult
         {
             public ReflectionException ReflectionException { get; set; }
@@ -90,6 +84,11 @@ namespace org.SharpTiles.Common
                 var result = SetProperty(_subject, property, value, 0);
                 if (result.ReflectionException != null) throw result.ReflectionException;
             }
+        }
+
+        public ReflectionResult Get(string property)
+        {
+            return GetProperty(_subject, property, 0);
         }
 
         public object TryGet(string property)

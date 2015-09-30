@@ -97,5 +97,12 @@ namespace org.SharpTiles.Expressions
         }
 
         #endregion
+
+        public static void MunchEmptyBrackets(ExpressionParserHelper parseHelper)
+        {
+            parseHelper.Expect(BRACKETS_OPEN);
+            parseHelper.Read(BRACKETS_CLOSE);
+
+        }
     }
 }

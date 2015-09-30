@@ -42,6 +42,7 @@ namespace org.SharpTiles.Expressions.Functions
             RegisterFunction(new SubStringFunction());
             RegisterFunction(new SubStringBeforeFunction());
             RegisterFunction(new SubStringAfterFunction());
+            RegisterFunction(new NowFunction());
         }
 
         public override string GroupName

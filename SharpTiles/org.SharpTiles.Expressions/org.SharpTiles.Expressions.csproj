@@ -69,6 +69,7 @@
     <Compile Include="ComparisionException.cs" />
     <Compile Include="Functions\BaseFunctionLib.cs" />
     <Compile Include="Functions\FunctionLib.cs" />
+    <Compile Include="Functions\NowFunction.cs" />
     <Compile Include="Functions\ReverseFunction.cs" />
     <Compile Include="Functions\FunctionArgument.cs" />
     <Compile Include="Functions\ContainsFunction.cs" />

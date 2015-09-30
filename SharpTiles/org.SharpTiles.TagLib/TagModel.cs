@@ -211,36 +211,44 @@ namespace org.SharpTiles.Tags
             return false;
         }
 
-        public object Resolve(string property, bool throwException)
+        public ReflectionResult Get(string property)
         {
             ReflectionException lastException = null;
             foreach (VariableScope scope in SCOPE_ORDER)
             {
-                try
+
+                IModel model = GetModel(scope);
+                if (model != null)
                 {
-                    IModel model = GetModel(scope);
-                    if (model != null)
+                    ReflectionResult reflectionResult = model.Get(property);
+                    if (reflectionResult.Result != null)
                     {
-                        object result = model[property];
-                        if (result != null)
-                        {
-                            return result;
-                        }
+                        return reflectionResult;
                     }
-                }
-                catch (ReflectionException Re)
-                {
-                    if (lastException == null || lastException.Nesting < Re.Nesting)
+                    if (lastException == null ||
+                        (   reflectionResult.ReflectionException != null &&
+                            lastException.Nesting < reflectionResult.ReflectionException.Nesting)
+                        )
                     {
-                        lastException = Re;
+                        lastException = reflectionResult.ReflectionException;
                     }
                 }
             }
-            if (throwException && lastException != null)
+            if (lastException != null)
             {
-                throw lastException;
+                return new ReflectionResult {ReflectionException = lastException};
             }
-            return null;
+            return new ReflectionResult();
+        }
+
+        public object Resolve(string property, bool throwException)
+        {
+            var result = Get(property);
+            if (throwException && result.ReflectionException != null)
+            {
+                throw result.ReflectionException;
+            }
+            return result.Result;
         }
 
         private IModel GetModel(VariableScope scope)

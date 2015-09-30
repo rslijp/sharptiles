@@ -1252,5 +1252,25 @@ namespace org.SharpTiles.Expressions.Test
                         Is.EqualTo(100)
                 );
         }
+
+        [Test]
+        public void Should_Handle_Function_With_Zero_Arguments()
+        {
+            var reflection = new Reflection(new SampleModel());
+            var e = Expression.Parse("fn:now()");
+            Assert.That(e.ReturnType, Is.Not.Null);
+            Assert.That(e.ReturnType, Is.EqualTo(typeof(DateTime)));
+
+        }
+
+        [Test]
+        public void Should_Handle_Functions_With_Zero_Arguments()
+        {
+            var reflection = new Reflection(new SampleModel());
+            var e = Expression.Parse("fn:now() le fn:now()");
+            Assert.That(e.ReturnType, Is.Not.Null);
+            Assert.That(e.ReturnType, Is.EqualTo(typeof(bool)));
+
+        }
     }
 }

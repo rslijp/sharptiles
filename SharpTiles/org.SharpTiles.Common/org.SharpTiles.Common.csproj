@@ -73,6 +73,7 @@
     <Compile Include="IHaveHttpErrorCode.cs" />
     <Compile Include="IResourceLocator.cs" />
     <Compile Include="ParseContext.cs" />
+    <Compile Include="ReflectionResult.cs" />
     <Compile Include="ResourceException.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="TypeConverter.cs" />

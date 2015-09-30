@@ -18,7 +18,8 @@
  */
  using System.Web;
 using System.Web.SessionState;
-using org.SharpTiles.Tags;
+ using org.SharpTiles.Common;
+ using org.SharpTiles.Tags;
 
 namespace org.SharpTiles.Connectors
 {
@@ -46,6 +47,11 @@ namespace org.SharpTiles.Connectors
                     Session.Remove(key);
                 }
             }
+        }
+
+        public ReflectionResult Get(string property)
+        {
+            return new ReflectionResult {Result = Session[property]};
         }
 
         public object TryGet(string property)

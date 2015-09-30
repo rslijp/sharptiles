@@ -40,6 +40,14 @@ namespace org.SharpTiles.Connectors
             set { throw new NotSupportedException("Request is read only");}
         }
 
+        public ReflectionResult Get(string property)
+        {
+            var result = _request.Params.Get(property);
+            if (result != null) return new ReflectionResult {Result = result};
+            return new Reflection(_request).Get(property);
+            
+        }
+
         public object TryGet(string property)
         {
             var result = _request.Params.Get(property);

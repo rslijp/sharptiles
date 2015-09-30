@@ -22,5 +22,6 @@
     {
         object this[string property] { get; set; }
         object TryGet(string property);
+        ReflectionResult Get(string property);
     }
 }

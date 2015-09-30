@@ -21,7 +21,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
-using org.SharpTiles.Common;
+ using System.Globalization;
+ using org.SharpTiles.Common;
 using org.SharpTiles.Tags.DefaultPropertyValues;
  using org.SharpTiles.Tags.FormatTags;
 
@@ -107,6 +108,22 @@ namespace org.SharpTiles.Tags.CoreTags
         {
             object result = GetAutoValue(propertyName, model);
             return (int?) TypeConverter.To(result, typeof (int?));
+        }
+
+        protected decimal? GetAutoValueAsDecimal(string propertyName, TagModel model)
+        {
+            object result = GetAutoValue(propertyName, model);
+            return (decimal?)TypeConverter.To(result, typeof(decimal?));
+        }
+
+        protected DateTime? GetAutoValueAsDateTime(string propertyName, TagModel model)
+        {
+            var dateStr = GetAutoValueAsString(propertyName, model);
+            if (string.IsNullOrEmpty(dateStr))
+            {
+                return default(DateTime?);
+            }
+            return DateTime.ParseExact(dateStr, "dd-MM-yyyy", CultureInfo.CurrentCulture);
         }
 
         protected bool GetAutoValueAsBool(string propertyName, TagModel model)

@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoreTags\AutoValueTest.cs" />
     <Compile Include="CoreTags\CatchTest.cs" />
     <Compile Include="CoreTags\ChooseTest.cs" />
     <Compile Include="CoreTags\RedirectTest.cs" />
