@@ -120,7 +120,16 @@ namespace org.SharpTiles.Tags.CoreTags
         protected DateTime? GetAutoValueAsDateTime(string propertyName, TagModel model)
         {
             var dateStr = GetAutoValueAsString(propertyName, model);
-            Console.WriteLine(dateStr);
+            if (string.IsNullOrEmpty(dateStr))
+            {
+                return default(DateTime?);
+            }
+            return DateTime.ParseExact(dateStr, PatternStrings.DATETIME_FORMAT, CultureInfo.CurrentCulture);
+        }
+
+        protected DateTime? GetAutoValueAsDate(string propertyName, TagModel model)
+        {
+            var dateStr = GetAutoValueAsString(propertyName, model);
             if (string.IsNullOrEmpty(dateStr))
             {
                 return default(DateTime?);
