@@ -17,6 +17,7 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
  using System;
+ using System.Globalization;
  using System.Linq;
  using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
@@ -42,6 +43,9 @@ namespace org.SharpTiles.Expressions.Test
             {
                 get { return "NAME VALUE"; }
             }
+
+            public CultureInfo I18NLocale { get; set; }
+
 
             public bool Bool
             {
@@ -849,6 +853,55 @@ namespace org.SharpTiles.Expressions.Test
         }
 
         [Test]
+        public void TestParseNumberWhenValueIsInt()
+        {
+            Assert.That(Expression.ParseAndEvaluate("9",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo(9));
+        }
+
+        [Test]
+        public void TestParseNumberWhenValueIsDecimal()
+        {
+
+            Assert.That(Expression.ParseAndEvaluate("9.6",
+                            new Reflection(new SampleModel() {I18NLocale = new CultureInfo("en-GB")})),
+                        Is.EqualTo(9.6m));
+        }
+
+        [Test]
+        public void TestParseNumberWhenValueIsBool()
+        {
+            Assert.That(Expression.ParseAndEvaluate("true",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo(true));
+        }
+
+        [Test]
+        public void TestParseNumberWhenValueIsDateTime()
+        {
+            Assert.That(Expression.ParseAndEvaluate("'1979-10-02T16:22:33'",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo(new DateTime(1979, 10, 2, 16, 22, 33)));
+        }
+
+        [Test]
+        public void TestParseNumberWhenValueIsDate()
+        {
+            Assert.That(Expression.ParseAndEvaluate("'1979-10-02'",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo(new DateTime(1979, 10, 2)));
+        }
+
+        [Test]
+        public void TestParsePropertyWhenNoneMatch()
+        {
+            Assert.That(Expression.ParseAndEvaluate("Name",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo("NAME VALUE"));
+        }
+
+        [Test]
         public void TestParseOfEqualThanOrEqualExpression()
         {
             Assert.That(Expression.ParseAndEvaluate(
@@ -1170,7 +1223,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSpacesShouldBeTrimmedInProperties()
         {
-            Assert.That(((Property) Expression.Parse("Property ")).Name, Is.EqualTo("Property"));
+            Assert.That(((PropertyOrConstant) Expression.Parse("Property ")).Name, Is.EqualTo("Property"));
         }
 
         [Test]

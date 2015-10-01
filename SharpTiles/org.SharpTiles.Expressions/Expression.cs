@@ -26,6 +26,7 @@ namespace org.SharpTiles.Expressions
 {
     public abstract class Expression
     {
+        private static bool TRY_RESOLVE_PROPERTY_INTO_CONSTANT=true;
         private static string[] OPERANDS;
 
         private static readonly IDictionary<string, IExpressionParser> PARSERS_BY_STR =
@@ -78,8 +79,15 @@ namespace org.SharpTiles.Expressions
             }
             Register(new StringConstantParser(), operands, whiteSpaceOperands);
             Register(new ConstantParser(), operands, whiteSpaceOperands);
-            AddParserByTypes(new PropertyParser().ParsedTypes, new PropertyParser());
-            
+            if (TRY_RESOLVE_PROPERTY_INTO_CONSTANT)
+            {
+                AddParserByTypes(new PropertyOrConstantParser().ParsedTypes, new PropertyOrConstantParser());
+            }
+            else
+            {
+                AddParserByTypes(new PropertyParser().ParsedTypes, new PropertyParser());
+            }
+     
             OPERANDS = operands.ToArray();
             WHITESPACE_OPERANDS = whiteSpaceOperands.ToArray();
         }
@@ -160,7 +168,7 @@ namespace org.SharpTiles.Expressions
             }
             else
             {
-                parser = PARSERS_BY_TYPE[typeof (Property)];
+                parser = PARSERS_BY_TYPE[typeof (PropertyOrConstant)];
             }
             parser.Parse(parseHelper);
             if (parseHelper.HasMore())

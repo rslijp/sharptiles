@@ -95,7 +95,8 @@ namespace org.SharpTiles.Common
         {
             try
             {
-                return GetProperty(_subject, property, 0);
+                var result =  GetProperty(_subject, property, 0);
+                return result.Result;
             }
             catch (ReflectionException)
             {

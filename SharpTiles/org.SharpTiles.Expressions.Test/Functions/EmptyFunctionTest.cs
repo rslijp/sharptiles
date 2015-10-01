@@ -207,7 +207,7 @@ namespace org.SharpTiles.Expressions.Test
             Assert.IsTrue(empty.Nested is Brackets);
 
             var brackets = (Brackets) empty.Nested;
-            Assert.IsTrue(brackets.Nested is Property);
+            Assert.IsTrue(brackets.Nested is PropertyOrConstant);
         }
 
         [Test]
@@ -224,13 +224,13 @@ namespace org.SharpTiles.Expressions.Test
             Assert.IsTrue(emptyLhs.Nested is Brackets);
 
             var bracketsLhs = (Brackets) emptyLhs.Nested;
-            Assert.IsTrue(bracketsLhs.Nested is Property);
+            Assert.IsTrue(bracketsLhs.Nested is PropertyOrConstant);
 
             var emptyRhs = (Function) and.Rhs;
             Assert.IsTrue(emptyLhs.Nested is Brackets);
 
             var bracketsRhs = (Brackets) emptyRhs.Nested;
-            Assert.IsTrue(bracketsRhs.Nested is Property);
+            Assert.IsTrue(bracketsRhs.Nested is PropertyOrConstant);
         }
     }
 }

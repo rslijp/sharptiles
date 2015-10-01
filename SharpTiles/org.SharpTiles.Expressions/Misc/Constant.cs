@@ -29,17 +29,21 @@ namespace org.SharpTiles.Expressions
     {
         protected readonly string _value;
         private object _evaluated;
-        private CultureInfo _used;
 
         public Constant(string value)
         {
             _value = value;
             //Determine type is possible (ignoring I18N) This is done in the evaluate
-            _used = CultureInfo.CurrentCulture;
-            _evaluated = TypeConverter.TryTo(_value, typeof(bool)) ??
-                        TypeConverter.TryTo(_value, typeof(decimal)) ??
-                       _value;
+            Evaluate(CultureInfo.InvariantCulture);
+        }
 
+        private void Evaluate(CultureInfo culture)
+        {
+            _evaluated = TypeConverter.TryTo(_value, typeof (bool), culture) ??
+                         TypeConverter.TryTo(_value, typeof (decimal), culture) ??
+                         TryParseDateTime(_value, culture) ??
+                         TryParseDate(_value, culture) ?? 
+                         _value;
         }
 
         public string Value
@@ -55,19 +59,26 @@ namespace org.SharpTiles.Expressions
             }
         }
 
+        public object TryParseDateTime(string raw, CultureInfo culture)
+        {
+            var value = default(DateTime);
+            var r = DateTime.TryParseExact(raw, PatternStrings.DATETIME_FORMAT, culture, DateTimeStyles.None, out value);
+            return r ? value : default(DateTime?);
+        }
+
+        public object TryParseDate(string raw, CultureInfo culture)
+        {
+            var value = default(DateTime);
+            var r = DateTime.TryParseExact(raw, PatternStrings.DATE_FORMAT, culture, DateTimeStyles.None, out value);
+            return r ? value : default(DateTime?);
+        }
+
         public override void GuardTypeSafety()
         {
         }
 
         public override object Evaluate(IModel model)
         {
-            var culture = (model.TryGet("I18NLocale") as CultureInfo) ?? CultureInfo.CurrentCulture;
-            if (!_used.Equals(culture))
-            {
-                _evaluated = TypeConverter.TryTo(_value, typeof (bool), culture) ??
-                             TypeConverter.TryTo(_value, typeof (decimal), culture) ??
-                             _value;
-            }
             return _evaluated;
         }
 

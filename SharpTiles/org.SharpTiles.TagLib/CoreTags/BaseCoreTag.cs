@@ -23,7 +23,8 @@ using System.Reflection;
 using System.Collections.Generic;
  using System.Globalization;
  using org.SharpTiles.Common;
-using org.SharpTiles.Tags.DefaultPropertyValues;
+ using org.SharpTiles.Expressions;
+ using org.SharpTiles.Tags.DefaultPropertyValues;
  using org.SharpTiles.Tags.FormatTags;
 
 namespace org.SharpTiles.Tags.CoreTags
@@ -119,11 +120,12 @@ namespace org.SharpTiles.Tags.CoreTags
         protected DateTime? GetAutoValueAsDateTime(string propertyName, TagModel model)
         {
             var dateStr = GetAutoValueAsString(propertyName, model);
+            Console.WriteLine(dateStr);
             if (string.IsNullOrEmpty(dateStr))
             {
                 return default(DateTime?);
             }
-            return DateTime.ParseExact(dateStr, "dd-MM-yyyy", CultureInfo.CurrentCulture);
+            return DateTime.ParseExact(dateStr, PatternStrings.DATE_FORMAT, CultureInfo.CurrentCulture);
         }
 
         protected bool GetAutoValueAsBool(string propertyName, TagModel model)

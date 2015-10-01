@@ -30,7 +30,6 @@ namespace org.SharpTiles.Tags.FormatTags
         public const string NUMBER_PATTERN = "n";
         public const string PERCENTAGE_PATTERN = "p";
 
-
         public static IDictionary<NumberType, string> NUMBERPATTERNS = new Dictionary<NumberType, string>();
         public static IDictionary<NumberType, NumberStyles> NUMBERSTYLES = new Dictionary<NumberType, NumberStyles>();
 

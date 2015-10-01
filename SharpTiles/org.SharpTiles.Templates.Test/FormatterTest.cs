@@ -162,36 +162,13 @@ namespace org.SharpTiles.Templates.Test
             string formatted = formatter.Format(model);
             Assert.That(formatted, Is.EqualTo(FORMATTED));
         }
-
-        [Test]
-        public void Setting_Local_Affects_Formatting_Of_Number_NL()
-        {
-            const string TEMPLATE = "<fmt:setLocale value='nl-NL' scope='Page'/>${'0,00'+'1,00'}%";
-            const string FORMATTED = "1,00%";
-            var model = new TestModel();
-            model.Text = "";
-            var formatter = new Formatter(TEMPLATE);
-            string formatted = formatter.Format(model);
-            Assert.That(formatted, Is.EqualTo(FORMATTED));
-        }
+        
 
         [Test]
         public void Setting_Local_Affects_Formatting_Of_Number_EN_After_Cout()
         {
             const string TEMPLATE = "<fmt:setLocale value='en-GB' scope='Page'/><c:out value=\"${'0.00'+'1.00'}%\"/>";
             const string FORMATTED = "1.00%";
-            var model = new TestModel();
-            model.Text = "";
-            var formatter = new Formatter(TEMPLATE);
-            string formatted = formatter.Format(model);
-            Assert.That(formatted, Is.EqualTo(FORMATTED));
-        }
-
-        [Test]
-        public void Setting_Local_Affects_Formatting_Of_Number_NL_After_Cout()
-        {
-            const string TEMPLATE = "<fmt:setLocale value='nl-NL' scope='Page'/><c:out value=\"${'0,00'+'1,00'}%\"/>";
-            const string FORMATTED = "1,00%";
             var model = new TestModel();
             model.Text = "";
             var formatter = new Formatter(TEMPLATE);

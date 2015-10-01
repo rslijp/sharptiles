@@ -125,6 +125,8 @@
     <Compile Include="ArithmeticExpressions\PowerParser.cs" />
     <Compile Include="ArithmeticExpressions\Divide.cs" />
     <Compile Include="ArithmeticExpressions\DivideParser.cs" />
+    <Compile Include="Misc\PropertyOrConstant.cs" />
+    <Compile Include="Misc\PropertyOrConstantParser.cs" />
     <Compile Include="Misc\StringConstantParser.cs" />
     <Compile Include="Misc\PropertyParser.cs" />
     <Compile Include="OperatorPrecedence.cs" />
@@ -138,6 +140,7 @@
     <Compile Include="IExpressionParser.cs" />
     <Compile Include="ArithmeticExpressions\Minus.cs" />
     <Compile Include="Expression.cs" />
+    <Compile Include="PatternStrings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Misc\Property.cs" />
     <Compile Include="Misc\StringConstant.cs" />
