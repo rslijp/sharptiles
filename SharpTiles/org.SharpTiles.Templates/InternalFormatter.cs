@@ -33,7 +33,7 @@ namespace org.SharpTiles.Templates
         public static readonly char COMMENT = '\\';
         public static readonly char QUOTE = '\'';
         public static readonly char DOUBLE_QUOTE = '"';
-        public static readonly string GROUP_TAG_SEPERATOR = TagLibParser.GROUP_TAG_SEPERATOR;
+        public static readonly string GROUP_TAG_SEPERATOR = TagLibConstants.GROUP_TAG_SEPERATOR;
 
         public static readonly char[] LITERALS = new[] { QUOTE, DOUBLE_QUOTE };
         public static readonly string OPEN_EXPRESSION = "{";
@@ -60,17 +60,20 @@ namespace org.SharpTiles.Templates
 
         private ITag _closeTag;
         private IList<ITemplatePart> _templateParsed;
+        private TagLibParserFactory _tagLibHelper;
 
-        public InternalFormatter(string template, bool allowTags, IResourceLocator locator)
+        public InternalFormatter(string template, bool allowTags, IResourceLocator locator, TagLibMode mode)
         {
+            _tagLibHelper = new TagLibParserFactory(mode);
             _locator = locator;
             _expectCloseTag = false;
             _allowTags = allowTags;
             _parser = new ParseHelper(new Tokenizer(template, true, COMMENT, SEPERATORS, null /*LITERALS*/));
         }
 
-        public InternalFormatter(ParseHelper parser, bool allowTags, bool expectCloseTag, IResourceLocator locator)
+        public InternalFormatter(ParseHelper parser, bool allowTags, bool expectCloseTag, IResourceLocator locator, TagLibMode mode)
         {
+            _tagLibHelper = new TagLibParserFactory(mode);
             _locator = locator;
             _allowTags = allowTags;
             _expectCloseTag = expectCloseTag;
@@ -167,7 +170,7 @@ namespace org.SharpTiles.Templates
 
         private void ParseTag()
         {
-            var tag = TagLibParser.Parse(_parser, _locator);
+            var tag = _tagLibHelper.Parse(_parser, _locator);
             if (tag == null)
             {
                 _parser.Rollback();

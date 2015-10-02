@@ -35,6 +35,12 @@ namespace org.SharpTiles.Tags
             return Get(name.Contents, name.Context);
         }
 
+        public bool Exist(Token name)
+        {
+            return REGISTERED_TAGS.ContainsKey(name.Contents);
+        }
+
+
         public ITag Get(string name, ParseContext context)
         {
             if (REGISTERED_TAGS.ContainsKey(name))

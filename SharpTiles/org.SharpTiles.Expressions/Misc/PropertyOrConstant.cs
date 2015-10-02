@@ -29,9 +29,7 @@ namespace org.SharpTiles.Expressions
     {
         private readonly string _name;
         private object _evaluated;
-        private CultureInfo _used;
-
-
+       
         public PropertyOrConstant(string name)
         {
             _name = name;

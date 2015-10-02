@@ -38,7 +38,7 @@ namespace org.SharpTiles.Tags
             Register(new Xml());
         }
 
-        public static TagLib Tags
+        public static TagLib Libs
         {
             get { return lib; }
         }

@@ -29,9 +29,12 @@ namespace org.SharpTiles.Templates
 {
     public class Formatter
     {
-        private readonly IResourceLocatorFactory _locatorFactory;
+        private IResourceLocatorFactory _locatorFactory = new FileLocatorFactory();
+        private IResourceLocator _initialLocator = null;
+        private bool _allowTags = true;
         private readonly string _template;
-        private readonly ParsedTemplate _templateParsed;
+        private ParsedTemplate _templateParsed;
+        private TagLibMode _mode = TagLibMode.Strict;
 
         static Formatter()
         {
@@ -39,38 +42,48 @@ namespace org.SharpTiles.Templates
         }
 
         public Formatter(string template)
-            : this(template, true)
-        {
-        }
 
-        //        public Formatter(string template, string currentDir) 
-        //            : this(template, true, new FileBasedResourceLocator(currentDir))
-        //        {
-        //        }
-
-        public Formatter(string template, IResourceLocatorFactory locatorFactory)
-            : this(template, true, locatorFactory)
-        {
-        }
-
-        public Formatter(string template, bool allowTags)
-            : this(template, allowTags, new FileLocatorFactory())
-        {
-        }
-
-        public Formatter(string template, bool allowTags, IResourceLocatorFactory locatorFactory)
         {
             _template = template;
-            _templateParsed = new InternalFormatter(template, allowTags, locatorFactory.GetNewLocator()).Parse();
-            _locatorFactory = locatorFactory;
         }
 
-        public Formatter(string template, bool allowTags, IResourceLocator locator, IResourceLocatorFactory locatorFactory)
+        
+
+        public Formatter SetLocatorFactory(IResourceLocatorFactory locatorFactory)
         {
-            _template = template;
             _locatorFactory = locatorFactory;
-            _templateParsed = new InternalFormatter(template, allowTags, locator).Parse();
+            return this;
         }
+
+        public Formatter SetInitialLocator(IResourceLocator locator)
+        {
+            _initialLocator = locator;
+            return this;
+        }
+
+        public Formatter SwitchToMode(TagLibMode mode)
+        {
+            _mode = mode;
+            return this;
+        }
+
+        public Formatter AllowTags(bool allowTags)
+        {
+            _allowTags = allowTags;
+            return this;
+        }
+
+        public Formatter Parse()
+        {
+            if (_initialLocator == null)
+            {
+                _initialLocator = _locatorFactory.GetNewLocator();
+            }
+            _templateParsed = new InternalFormatter(_template, _allowTags, _initialLocator, _mode).Parse();
+
+            return this;
+        }
+
 
         public string Template
         {
@@ -86,20 +99,39 @@ namespace org.SharpTiles.Templates
 
         public static Formatter FileBasedFormatter(string path)
         {
+            return FileBasedFormatter(path, TagLibMode.Strict);
+        }
+        public static Formatter FileBasedFormatter(string path, TagLibMode mode)
+        {
             var locator = new FileBasedResourceLocator();
-            return new Formatter(locator.GetDataAsString(path), true,  locator.Update(path), new FileLocatorFactory());
+            return new Formatter(locator.GetDataAsString(path)).
+                        AllowTags(true).
+                        SetLocatorFactory(new FileLocatorFactory()).
+                        SetInitialLocator(locator.Update(path)).
+                        SwitchToMode(mode).
+                        Parse();
         }
 
         public static Formatter FileBasedFormatter(string path, Encoding encoding)
         {
             var locator = new FileBasedResourceLocator();
-            return new Formatter(locator.GetDataAsString(path, encoding), true, locator.Update(path), new FileLocatorFactory());
+            return new Formatter(locator.GetDataAsString(path)).
+                        AllowTags(true).
+                        SetLocatorFactory(new FileLocatorFactory()).
+                        SetInitialLocator(locator.Update(path)).
+                        SwitchToMode(TagLibMode.Strict).
+                        Parse();
         }
 
         public static Formatter LocatorBasedFormatter(String path, IResourceLocator locator, IResourceLocatorFactory factory)
         {
             var template = locator.GetDataAsString(path);
-            return new Formatter(template, true, locator.Update(path), factory);
+            return new Formatter(template).
+                        AllowTags(true).
+                        SetLocatorFactory(factory).
+                        SetInitialLocator(locator.Update(path)).
+                        SwitchToMode(TagLibMode.Strict).
+                        Parse();
         }
 
         #endregion
@@ -143,7 +175,7 @@ namespace org.SharpTiles.Templates
             return _templateParsed.Evaluate(model.UpdateFactory(_locatorFactory));
         }
 
-        public static ParsedTemplate ParseNested(ParseHelper helper, IResourceLocator locator)
+        public static ParsedTemplate ParseNested(ParseHelper helper, IResourceLocator locator, TagLibMode mode)
         {
             try
             {
@@ -155,7 +187,7 @@ namespace org.SharpTiles.Templates
                     null,
                     null, //InternalFormatter.LITERALS, 
                     ResetIndex.LookAhead);
-                return new InternalFormatter(helper, true, true, locator).ParseNested();
+                return new InternalFormatter(helper, true, true, locator,mode).ParseNested();
             }
             finally
             {

@@ -65,15 +65,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RelaxedResolveTagLibParser.cs" />
+    <Compile Include="StrictResolveTagLibParser.cs" />
+    <Compile Include="StrictTagLibParser.cs" />
     <Compile Include="InternalFormatter.cs" />
+    <Compile Include="ITagLibParser.cs" />
     <Compile Include="SessionResolver.cs" />
     <Compile Include="SharpTags\Inlcude.cs" />
     <Compile Include="SharpTags\Scope.cs" />
     <Compile Include="SimpleSessionState.cs" />
     <Compile Include="SharpTags\Sharp.cs" />
     <Compile Include="SharpTags\Marker.cs" />
+    <Compile Include="TagLibConstants.cs" />
+    <Compile Include="TagLibMode.cs" />
+    <Compile Include="TagLibParserFactory.cs" />
     <Compile Include="TemplateAttribute.cs" />
-    <Compile Include="TagLibParser.cs" />
+    <Compile Include="AbstractTagLibParser.cs" />
     <Compile Include="TagPart.cs" />
     <Compile Include="ExpressionPart.cs" />
     <Compile Include="Formatter.cs" />

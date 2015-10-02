@@ -21,30 +21,12 @@ using org.SharpTiles.Tags;
 
 namespace org.SharpTiles.Templates
 {
-    public class TagLibParser
+    public abstract class AbstractTagLibParser : ITagLibParser
     {
-        public static readonly string CLOSE_SLASH = "/";
-        public static readonly string CLOSE_TAG = ">";
-
-        public static readonly char QUOTE = '\'';
-        public static readonly char DOUBLE_QUOTE = '"';
-
-        public static readonly string FIELD_ASSIGNMENT = "=";
-        public static readonly string GROUP_TAG_SEPERATOR = ":";
-        public static readonly char[] LITERALS = new[] {QUOTE, DOUBLE_QUOTE};
-
-
-        public static readonly string START_TAG = "<";
-        public static readonly string TAG_FIELD_SEPERATOR = " ";
-        
-        public static readonly string[] SEPERATORS =
-            new[] {START_TAG, CLOSE_SLASH, CLOSE_TAG, GROUP_TAG_SEPERATOR, TAG_FIELD_SEPERATOR, FIELD_ASSIGNMENT};
-
-        
-        private readonly ParseHelper _helper;
+        protected readonly ParseHelper _helper;
         private readonly IResourceLocator _locator;
 
-        public TagLibParser(ParseHelper helper, IResourceLocator locator)
+        public AbstractTagLibParser(ParseHelper helper, IResourceLocator locator)
         {
             _helper = helper;
             _locator = locator;
@@ -52,11 +34,11 @@ namespace org.SharpTiles.Templates
 
         public ITag Parse()
         {
-            if (!_helper.At(START_TAG))
+            if (!_helper.At(TagLibConstants.START_TAG))
             {
-                _helper.Read(START_TAG);
+                _helper.Read(TagLibConstants.START_TAG);
             }
-            if (_helper.IsAhead(CLOSE_SLASH))
+            if (_helper.IsAhead(TagLibConstants.CLOSE_SLASH))
             {
                 return ParseCloseTag();
             }
@@ -65,26 +47,14 @@ namespace org.SharpTiles.Templates
 
         private ITag ParseCloseTag()
         {
-            _helper.Read(CLOSE_SLASH);
-            if (!_helper.IsAhead(TokenType.Regular))
-            {
-                return null;
-            }
-            Token group = _helper.Read(TokenType.Regular);
-            if (!_helper.IsAhead(GROUP_TAG_SEPERATOR))
-            {
-                return null;
-            }
-            _helper.Read(GROUP_TAG_SEPERATOR);
-            Token name = _helper.Read(TokenType.Regular);
+            _helper.Read(TagLibConstants.CLOSE_SLASH);
+            ITag tag = ParseTagType();
+            if (tag == null) return null;
             _helper.DontExpectLiteralsAnyMore();
-            _helper.Read(CLOSE_TAG);
+            _helper.Read(TagLibConstants.CLOSE_TAG);
             _helper.ExpectLiteralsAgain(); 
-            if (_helper.IgnoreUnkownTag() && !TagLib.Exists(group.Contents))
-            {
-                return null;
-            }
-            var tag = TagLib.Tags.Get(group).Get(name);
+            
+            //var tag = TagLib.Libs.Get(group).Get(name);
             tag.State = TagState.Closed;
             return tag;
         }
@@ -95,33 +65,20 @@ namespace org.SharpTiles.Templates
             {
                 return null;
             }
-            Token group = _helper.Read(TokenType.Regular);
-            if (!_helper.IsAhead(GROUP_TAG_SEPERATOR))
-            {
-                return null;
-            }
-            _helper.Read(GROUP_TAG_SEPERATOR);
-            Token name = _helper.Read(TokenType.Regular);
-
-            if (_helper.IgnoreUnkownTag() && !TagLib.Exists(group.Contents))
-            {
-                return null;
-            }
-            ITagGroup tagGroup = TagLib.Tags.Get(group);
-            ITag tag = tagGroup.Get(name);
-
+            ITag tag = ParseTagType();
+            if (tag == null) return null;
             var tagReflection = tag.AttributeSetter;
             AddAttributes(tagReflection);
             tagReflection.InitComplete();
             
             TagState state = TagState.Opened;
-            if (_helper.IsAhead(CLOSE_SLASH))
+            if (_helper.IsAhead(TagLibConstants.CLOSE_SLASH))
             {
-                _helper.Read(CLOSE_SLASH);
+                _helper.Read(TagLibConstants.CLOSE_SLASH);
                 state = TagState.OpenedPendingClose;
             }
             _helper.DontExpectLiteralsAnyMore();
-            _helper.Read(CLOSE_TAG);
+            _helper.Read(TagLibConstants.CLOSE_TAG);
             _helper.ExpectLiteralsAgain();
             CheckRequiredAttributes(tag);
             tag.State = state;
@@ -132,6 +89,9 @@ namespace org.SharpTiles.Templates
             tag.State = TagState.OpenedAndClosed;
             return tag;
         }
+
+        protected abstract ITag ParseTagType();
+        protected abstract TagLibMode Mode { get;  }
 
         private void HandleBody(ITag tag, ITagAttributeSetter tagReflection)
         {
@@ -190,7 +150,7 @@ namespace org.SharpTiles.Templates
         private void HandleFreeNestedBody(ITagAttributeSetter tagReflection)
         {
             _helper.PushIgnoreUnkownTag(false);
-            var attribute = new TemplateAttribute(Formatter.ParseNested(_helper, _locator));
+            var attribute = new TemplateAttribute(Formatter.ParseNested(_helper, _locator, Mode));
             tagReflection["Body"] = attribute;
             _helper.PopIgnoreUnkownTag();
         }
@@ -198,7 +158,7 @@ namespace org.SharpTiles.Templates
         private void HandleFreeWithIgnoredUnkownTagsNestedBody(ITagAttributeSetter tagReflection)
         {
             _helper.PushIgnoreUnkownTag(true);
-            var attribute = new TemplateAttribute(Formatter.ParseNested(_helper, _locator));
+            var attribute = new TemplateAttribute(Formatter.ParseNested(_helper, _locator, Mode));
             tagReflection["Body"] = attribute;
             _helper.PopIgnoreUnkownTag();
         }
@@ -219,46 +179,26 @@ namespace org.SharpTiles.Templates
 
         private void AddAttributes(ITagAttributeSetter tagReflection)
         {
-            while (!_helper.IsAhead(CLOSE_TAG, CLOSE_SLASH))
+            while (!_helper.IsAhead(TagLibConstants.CLOSE_TAG, TagLibConstants.CLOSE_SLASH))
             {
-                _helper.Read(TAG_FIELD_SEPERATOR);
+                _helper.Read(TagLibConstants.TAG_FIELD_SEPERATOR);
                 ReadWhiteSpace(_helper);
-                if (_helper.IsAhead(CLOSE_SLASH, CLOSE_TAG))
+                if (_helper.IsAhead(TagLibConstants.CLOSE_SLASH, TagLibConstants.CLOSE_TAG))
                 {
                     return;
                 }
                 var keyToken = _helper.Read(TokenType.Regular);
                 var key = keyToken.Contents;
-                _helper.Read(FIELD_ASSIGNMENT);
+                _helper.Read(TagLibConstants.FIELD_ASSIGNMENT);
                 var value = _helper.Read(TokenType.Literal).Contents;
                 if (tagReflection[key] != null)
                 {
                     throw TagException.PropertyAlReadySet(key).Decorate(keyToken.Context);
                 }
-                tagReflection[key] = new TemplateAttribute(new InternalFormatter(value, false, _locator).Parse());
+                tagReflection[key] = new TemplateAttribute(new InternalFormatter(value, false, _locator, Mode).Parse());
             }
         }
 
-        public static ITag Parse(string tag)
-        {
-            var tokenizer = new Tokenizer(tag, true, true, null, SEPERATORS, LITERALS, null);
-            var helper = new ParseHelper(tokenizer);
-            helper.Init();
-            return new TagLibParser(helper, new FileBasedResourceLocator()).Parse();
-        }
-
-        public static ITag Parse(ParseHelper helper, IResourceLocator locator)
-        {
-            helper.PushNewTokenConfiguration(true, true, null, SEPERATORS, null, LITERALS,
-                                             ResetIndex.CurrentAndLookAhead);
-            try
-            {
-                return new TagLibParser(helper, locator).Parse();
-            }
-            finally
-            {
-                helper.PopTokenConfiguration(ResetIndex.LookAhead);
-            }
-        }
+       
     }
 }

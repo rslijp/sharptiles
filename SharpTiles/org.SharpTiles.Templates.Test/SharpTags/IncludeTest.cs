@@ -76,7 +76,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         public void CheckPassThroughOfContentException()
         {
             new Formatter("just for init");
-            ITag tag = TagLibParser.Parse("<sharp:include file='SharpTags/error.htm'/>");
+            ITag tag = new TagLibParserFactory().Parse("<sharp:include file='SharpTags/error.htm'/>");
             try
             {
                 tag.Evaluate(new TagModel(this).UpdateFactory(new FileLocatorFactory("SharpTags/")));
@@ -92,7 +92,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         public void CheckPassThroughOfContentParsed()
         {
             new Formatter("just for init");
-            ITag tag = TagLibParser.Parse("<sharp:include file='SharpTags/a.htm'/>");
+            ITag tag = new TagLibParserFactory().Parse("<sharp:include file='SharpTags/a.htm'/>");
             Assert.That(tag.Evaluate(new TagModel(this).UpdateFactory(new FileLocatorFactory("SharpTags/"))), Is.EqualTo("aa"));
         }
 
@@ -100,7 +100,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         public void CheckPassThroughOfNestedException()
         {
             new Formatter("just for init");
-            ITag tag = TagLibParser.Parse("<sharp:include file='SharpTags/nestederror.htm'/>");
+            ITag tag = new TagLibParserFactory().Parse("<sharp:include file='SharpTags/nestederror.htm'/>");
             try
             {
                 tag.Evaluate(new TagModel(this).UpdateFactory(new FileLocatorFactory("SharpTags/")));

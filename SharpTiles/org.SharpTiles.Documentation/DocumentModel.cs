@@ -53,7 +53,7 @@ namespace org.SharpTiles.Documentation
         {
             _groups = new List<TagGroupDocumentation>();
             new TilesSet(); //Register Tiles tag
-            foreach (ITagGroup tag in TagLib.Tags)
+            foreach (ITagGroup tag in TagLib.Libs)
             {
                 _groups.Add(new TagGroupDocumentation(_resouceKey, tag));
             }

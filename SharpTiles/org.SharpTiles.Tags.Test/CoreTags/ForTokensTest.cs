@@ -140,7 +140,7 @@ namespace org.SharpTiles.Tags.Test.CoreTags
             var tag = new ForTokens();
             tag.Items = new MockAttribute(new Property("AList"));
             tag.Delims = new MockAttribute(new Property("Delimeter"));
-            tag.Body = new TemplateAttribute(new Formatter(ComplexBody).ParsedTemplate);
+            tag.Body = new TemplateAttribute(new Formatter(ComplexBody).Parse().ParsedTemplate);
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("[1][2][3][4][5][6][7]"));
         }
 
@@ -150,7 +150,7 @@ namespace org.SharpTiles.Tags.Test.CoreTags
             var tag = new ForTokens();
             tag.Items = new MockAttribute(new Property("AList"));
             tag.Delims = new MockAttribute(new Property("Delimeter"));
-            tag.Body = new TemplateAttribute(new Formatter(ComplexStatusBody).ParsedTemplate);
+            tag.Body = new TemplateAttribute(new Formatter(ComplexStatusBody).Parse().ParsedTemplate);
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("[0/7][1/7][2/7][3/7][4/7][5/7][6/7]"));
         }
 
@@ -174,7 +174,7 @@ namespace org.SharpTiles.Tags.Test.CoreTags
             tag.Begin = new MockAttribute(new Constant("1"));
             tag.End = new MockAttribute(new Constant("6"));
             tag.Step = new MockAttribute(new Constant("2"));
-            tag.Body = new TemplateAttribute(new Formatter(ComplexBody).ParsedTemplate);
+            tag.Body = new TemplateAttribute(new Formatter(ComplexBody).Parse().ParsedTemplate);
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("[2][4][6]"));
         }
 
@@ -195,7 +195,7 @@ namespace org.SharpTiles.Tags.Test.CoreTags
             var tag = new ForTokens();
             tag.Items = new MockAttribute(new Constant("1,2.3,4.5,6.7"));
             tag.Delims = new MockAttribute(new Constant(",."));
-            tag.Body = new TemplateAttribute(new Formatter(ComplexBody).ParsedTemplate);
+            tag.Body = new TemplateAttribute(new Formatter(ComplexBody).Parse().ParsedTemplate);
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("[1][2][3][4][5][6][7]"));
         }
 
@@ -205,7 +205,7 @@ namespace org.SharpTiles.Tags.Test.CoreTags
             var tag = new ForTokens();
             tag.Items = new MockAttribute(new Constant("1,2.3,4.5,6.7"));
             tag.Delims = new MockAttribute(new Property("Delimeter"));
-            tag.Body = new TemplateAttribute(new Formatter(ComplexBody).ParsedTemplate);
+            tag.Body = new TemplateAttribute(new Formatter(ComplexBody).Parse().ParsedTemplate);
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("[1][2.3][4.5][6.7]"));
         }
 

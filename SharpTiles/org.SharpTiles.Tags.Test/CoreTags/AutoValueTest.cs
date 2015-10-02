@@ -49,7 +49,7 @@ namespace org.SharpTiles.Tags.Test.CoreTags
             public TagBodyMode TagBodyMode { get; }
             public string Evaluate(TagModel model)
             {
-                var date = GetAutoValueAsDateTime(nameof(SomeDateValue), model);
+                var date = GetAutoValueAsDate(nameof(SomeDateValue), model);
                 return $"date={date?.ToString("dd|MM|yyyy")}";
             }
         }
@@ -63,8 +63,35 @@ namespace org.SharpTiles.Tags.Test.CoreTags
             public TagBodyMode TagBodyMode { get; }
             public string Evaluate(TagModel model)
             {
-                var date = GetAutoValueAsDateTime(nameof(SomeDateValue), model);
+                var date = GetAutoValueAsDate(nameof(SomeDateValue), model);
                 return $"date={date?.ToString("dd|MM|yyyy")}";
+            }
+        }
+
+        public class DateTimeAutoValueTestTag : BaseCoreTag, ITag
+        {
+            public ITagAttribute SomeDateValue { get; set; }
+
+            public string TagName { get; }
+            public TagBodyMode TagBodyMode { get; }
+            public string Evaluate(TagModel model)
+            {
+                var date = GetAutoValueAsDateTime(nameof(SomeDateValue), model);
+                return $"date={date?.ToString("dd|MM|yyyy|HH|mm|ss")}";
+            }
+        }
+
+        public class DateTimeAutoValueTestTagWithDefault : BaseCoreTag, ITag
+        {
+            [TagDefaultValue("2015-10-02T14:33:22")]
+            public ITagAttribute SomeDateValue { get; set; }
+
+            public string TagName { get; }
+            public TagBodyMode TagBodyMode { get; }
+            public string Evaluate(TagModel model)
+            {
+                var date = GetAutoValueAsDateTime(nameof(SomeDateValue), model);
+                return $"date={date?.ToString("dd|MM|yyyy|HH|mm|ss")}";
             }
         }
 
@@ -121,5 +148,31 @@ namespace org.SharpTiles.Tags.Test.CoreTags
             Assert.That(tag.Evaluate(_model), Is.EqualTo("date=02|10|2015"));
         }
 
+        [Test]
+        public void DateTimeAutoValueTestTag_Should_Be_Null_Safe()
+        {
+            var _model = new TagModel(new Hashtable());
+            var tag = new DateTimeAutoValueTestTag();
+            Assert.That(tag.Evaluate(_model), Is.EqualTo("date="));
+        }
+
+        [Test]
+        public void DateTimeAutoValueTestTag_Should_Parse_Date()
+        {
+            var _model = new TagModel(new Hashtable() {
+                { "SomeDate", "1979-10-02T11:55:44"}
+            });
+            var tag = new DateTimeAutoValueTestTag();
+            tag.SomeDateValue = new MockAttribute(new Property("SomeDate"));
+            Assert.That(tag.Evaluate(_model), Is.EqualTo("date=02|10|1979|11|55|44"));
+        }
+
+        [Test]
+        public void DateTimeAutoValueTestTag_Should_Be_Null_Safe_And_Return_Default()
+        {
+            var _model = new TagModel(new Hashtable());
+            var tag = new DateTimeAutoValueTestTagWithDefault();
+            Assert.That(tag.Evaluate(_model), Is.EqualTo("date=02|10|2015|14|33|22"));
+        }
     }
 }

@@ -27,6 +27,8 @@ namespace org.SharpTiles.Tags
 
         ITag Get(Token name);
 
+        bool Exist(Token name);
+
         ITag Get(string name, ParseContext context);
 
     }

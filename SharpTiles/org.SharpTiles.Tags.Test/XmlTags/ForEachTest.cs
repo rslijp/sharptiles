@@ -124,7 +124,7 @@ namespace org.SharpTiles.Tags.Test.XmlTags
             tag.Select = new MockAttribute(new Constant("//value"));
             tag.Source = new MockAttribute(new Constant("xml"));
             tag.End = new MockAttribute(new Constant("7"));
-            tag.Body = new TemplateAttribute(new Formatter("[${Status.Index}/${Status.Count}]").ParsedTemplate);
+            tag.Body = new TemplateAttribute(new Formatter("[${Status.Index}/${Status.Count}]").Parse().ParsedTemplate);
             Assert.That(tag.Evaluate(_model), Is.EqualTo("[0/26][1/26][2/26][3/26][4/26][5/26][6/26]"));
         }
 
@@ -134,7 +134,7 @@ namespace org.SharpTiles.Tags.Test.XmlTags
             var tag = new ForEach();
             tag.Select = new MockAttribute(new Constant("//value"));
             tag.Source = new MockAttribute(new Constant("xml"));
-            tag.Body = new TemplateAttribute(new Formatter("<x:out source=\"Item\" select=\".\"/>").ParsedTemplate);
+            tag.Body = new TemplateAttribute(new Formatter("<x:out source=\"Item\" select=\".\"/>").Parse().ParsedTemplate);
             tag.End = new MockAttribute(new Constant("13"));
             Assert.That(tag.Evaluate(_model), Is.EqualTo("AbCdEfGhIjKlM"));
         }
@@ -145,7 +145,7 @@ namespace org.SharpTiles.Tags.Test.XmlTags
             var tag = new ForEach();
             tag.Select = new MockAttribute(new Constant("//value"));
             tag.Source = new MockAttribute(new Constant("xml"));
-            tag.Body = new TemplateAttribute(new Formatter("<x:out source=\"Item\" select=\".\"/>").ParsedTemplate);
+            tag.Body = new TemplateAttribute(new Formatter("<x:out source=\"Item\" select=\".\"/>").Parse().ParsedTemplate);
             Assert.That(tag.Evaluate(_model), Is.EqualTo("AbCdEfGhIjKlMnOpQrStUvWxYz"));
         }
 
@@ -155,7 +155,7 @@ namespace org.SharpTiles.Tags.Test.XmlTags
             var tag = new ForEach();
             tag.Select = new MockAttribute(new Constant("//value"));
             tag.Source = new MockAttribute(new Constant("xml"));
-            tag.Body = new TemplateAttribute(new Formatter("<x:out source=\"Item\" select=\".\"/>").ParsedTemplate);
+            tag.Body = new TemplateAttribute(new Formatter("<x:out source=\"Item\" select=\".\"/>").Parse().ParsedTemplate);
             tag.Begin = new MockAttribute(new Constant("13"));
             Assert.That(tag.Evaluate(_model), Is.EqualTo("nOpQrStUvWxYz"));
         }
@@ -166,7 +166,7 @@ namespace org.SharpTiles.Tags.Test.XmlTags
             var tag = new ForEach();
             tag.Select = new MockAttribute(new Constant("//value"));
             tag.Source = new MockAttribute(new Constant("xml"));
-            tag.Body = new TemplateAttribute(new Formatter("<x:out source=\"Item\" select=\".\"/>").ParsedTemplate);
+            tag.Body = new TemplateAttribute(new Formatter("<x:out source=\"Item\" select=\".\"/>").Parse().ParsedTemplate);
             tag.Begin = new MockAttribute(new Constant("4"));
             tag.End = new MockAttribute(new Constant("13"));
             Assert.That(tag.Evaluate(_model), Is.EqualTo("EfGhIjKlM"));
@@ -178,7 +178,7 @@ namespace org.SharpTiles.Tags.Test.XmlTags
             var tag = new ForEach();
             tag.Select = new MockAttribute(new Constant("//value"));
             tag.Source = new MockAttribute(new Constant("xml"));
-            tag.Body = new TemplateAttribute(new Formatter("<x:out source=\"Item\" select=\".\"/>").ParsedTemplate);
+            tag.Body = new TemplateAttribute(new Formatter("<x:out source=\"Item\" select=\".\"/>").Parse().ParsedTemplate);
             tag.Begin = new MockAttribute(new Constant("13"));
             tag.Step = new MockAttribute(new Constant("2"));
             Assert.That(tag.Evaluate(_model), Is.EqualTo("nprtvxz"));
@@ -190,7 +190,7 @@ namespace org.SharpTiles.Tags.Test.XmlTags
             var tag = new ForEach();
             tag.Select = new MockAttribute(new Constant("//value"));
             tag.Source = new MockAttribute(new Constant("xml"));
-            tag.Body = new TemplateAttribute(new Formatter("<x:out source=\"Item\" select=\".\"/>").ParsedTemplate);
+            tag.Body = new TemplateAttribute(new Formatter("<x:out source=\"Item\" select=\".\"/>").Parse().ParsedTemplate);
             tag.Step = new MockAttribute(new Constant("2"));
             Assert.That(tag.Evaluate(_model), Is.EqualTo("ACEGIKMOQSUWY"));
         }
@@ -201,7 +201,7 @@ namespace org.SharpTiles.Tags.Test.XmlTags
             var tag = new ForEach();
             tag.Select = new MockAttribute(new Constant("//value[@flag=\"uppercase\"]"));
             tag.Source = new MockAttribute(new Constant("xml"));
-            tag.Body = new TemplateAttribute(new Formatter("<x:out source=\"Item\" select=\".\"/>").ParsedTemplate);
+            tag.Body = new TemplateAttribute(new Formatter("<x:out source=\"Item\" select=\".\"/>").Parse().ParsedTemplate);
             Assert.That(tag.Evaluate(_model), Is.EqualTo("ACEGIKMOQSUWY"));
         }
     }

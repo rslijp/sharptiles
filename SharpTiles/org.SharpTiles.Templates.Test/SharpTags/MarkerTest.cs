@@ -78,7 +78,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         public void CheckPassThroughOfContentParsed()
         {
             new Formatter("just for init");
-            ITag tag = TagLibParser.Parse("<sharp:marker id='id'>body</sharp:marker>");
+            ITag tag = new TagLibParserFactory().Parse("<sharp:marker id='id'>body</sharp:marker>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("body"));
         }
     }
