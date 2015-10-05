@@ -254,6 +254,35 @@ namespace org.SharpTiles.Templates.Test
         }
 
         [Test]
+        public void FileTemplateWithTagsAndAttributesOnNewLine()
+        {
+            var model = new Hashtable();
+            model.Add("small", 3);
+            model.Add("large", 11);
+            model.Add("text", "some text");
+            model.Add("greet", "Hello");
+            model.Add("to", "world");
+
+            var list = new ArrayList(new[] { "H1", "H2", "H3" });
+            model.Add("list", list);
+
+            Formatter formatter = Formatter.FileBasedFormatter("templatewithtagsandattributesonnewline.htm");
+            string randomFile = Path.GetRandomFileName();
+            try
+            {
+                Encoding enc = Encoding.UTF8;
+                formatter.FormatAndSave(model, randomFile, enc);
+                string result = enc.GetString(File.ReadAllBytes(randomFile));
+                string expected = enc.GetString(File.ReadAllBytes("formattedwithtagsandattributesonnewline.htm"));
+                Assert.That(result, Is.EqualTo(expected));
+            }
+            finally
+            {
+                File.Delete(randomFile);
+            }
+        }
+
+        [Test]
         public void FileTemplateWithStrictResolveTags()
         {
             var model = new Hashtable();

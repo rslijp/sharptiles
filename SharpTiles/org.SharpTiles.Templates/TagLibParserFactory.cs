@@ -11,6 +11,9 @@ namespace org.SharpTiles.Templates
     public class TagLibParserFactory
     {
         private TagLibMode _mode;
+        private static readonly string[] WHITESPACES = new []{
+                " ","\t", "\r", "\n"
+        };
 
         public TagLibParserFactory() : this(TagLibMode.Strict)
         {

@@ -181,7 +181,7 @@ namespace org.SharpTiles.Templates
         {
             while (!_helper.IsAhead(TagLibConstants.CLOSE_TAG, TagLibConstants.CLOSE_SLASH))
             {
-                _helper.Read(TagLibConstants.TAG_FIELD_SEPERATOR);
+                _helper.Read(TokenType.Seperator);
                 ReadWhiteSpace(_helper);
                 if (_helper.IsAhead(TagLibConstants.CLOSE_SLASH, TagLibConstants.CLOSE_TAG))
                 {

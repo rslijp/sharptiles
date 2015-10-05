@@ -20,10 +20,15 @@ namespace org.SharpTiles.Templates
 
 
         public static readonly string START_TAG = "<";
-        public static readonly string TAG_FIELD_SEPERATOR = " ";
+        public static readonly string TAG_FIELD_SEPERATOR_SPACE = " ";
+        public static readonly string TAG_FIELD_SEPERATOR_TAB = "\t";
+        public static readonly string TAG_FIELD_SEPERATOR_NEWLINE = "\n";
+        public static readonly string TAG_FIELD_SEPERATOR_CARRIAGE_RETURN = "\r";
 
         public static readonly string[] SEPERATORS =
-            new[] { START_TAG, CLOSE_SLASH, CLOSE_TAG, GROUP_TAG_SEPERATOR, TAG_FIELD_SEPERATOR, FIELD_ASSIGNMENT };
+            new[] { START_TAG, CLOSE_SLASH, CLOSE_TAG, GROUP_TAG_SEPERATOR,
+                TAG_FIELD_SEPERATOR_SPACE, TAG_FIELD_SEPERATOR_TAB, TAG_FIELD_SEPERATOR_NEWLINE, TAG_FIELD_SEPERATOR_CARRIAGE_RETURN,
+                FIELD_ASSIGNMENT };
 
     }
 }
