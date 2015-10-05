@@ -402,7 +402,7 @@ namespace org.SharpTiles.Templates.Test
         {
             try
             {
-                new Formatter("abcdefg</c:out>");
+                new Formatter("abcdefg</c:out>").Parse();
                 Assert.Fail("Expected exception");
             }
             catch (ParseException Pe)
@@ -581,7 +581,7 @@ namespace org.SharpTiles.Templates.Test
             var model = new Hashtable();
             var reflection = new TagModel(model);
             reflection["text"] = "A";
-            var x = new Formatter("<c:out value=\"${text}\"/>${text}<c:out value=\"${text}\"/>");
+            var x = new Formatter("<c:out value=\"${text}\"/>${text}<c:out value=\"${text}\"/>").Parse();
             Assert.That(x.Format(reflection), Is.EqualTo("AAA"));
         }
 
@@ -591,7 +591,7 @@ namespace org.SharpTiles.Templates.Test
             var model = new Hashtable();
             var reflection = new TagModel(model);
             reflection["text"] = "A";
-            var x = new Formatter("<c:out value=\"${text}\"></c:out>${text}<c:out value=\"${text}\"></c:out>");
+            var x = new Formatter("<c:out value=\"${text}\"></c:out>${text}<c:out value=\"${text}\"></c:out>").Parse();
             Assert.That(x.Format(reflection), Is.EqualTo("AAA"));
         }
 
@@ -602,7 +602,7 @@ namespace org.SharpTiles.Templates.Test
             var model = new Hashtable();
             var reflection = new TagModel(model);
             reflection["text"] = "A";
-            var x = new Formatter("${text}${text}");
+            var x = new Formatter("${text}${text}").Parse();
             Assert.That(x.Format(reflection), Is.EqualTo("AA"));
         }
 
@@ -613,7 +613,7 @@ namespace org.SharpTiles.Templates.Test
             var model = new Hashtable();
             var reflection = new TagModel(model);
             reflection["text"] = "A";
-            var x = new Formatter("<a>${text}</a>");
+            var x = new Formatter("<a>${text}</a>").Parse(); ;
             Assert.That(x.Format(reflection), Is.EqualTo("<a>A</a>"));
         }
 
@@ -905,7 +905,7 @@ namespace org.SharpTiles.Templates.Test
                            "<a id=\"menu_to_about\" href=\"/Home/About\">About</a>" +
                            "</li>" +
                            "</ul>";
-            var tag = new Formatter(page);
+            var tag = new Formatter(page).Parse();
             Assert.That(tag.Format(reflection), Is.EqualTo(expected));
         }
 
@@ -916,7 +916,7 @@ namespace org.SharpTiles.Templates.Test
             var reflection = new TagModel(model);
             var page = "<a href=\"<c:out value='~/Index'/>\">Index</a>";
             var expected = "<a href=\"~/Index\">Index</a>";
-                var tag = new Formatter(page);
+                var tag = new Formatter(page).Parse();
                 Assert.That(tag.Format(reflection), Is.EqualTo(expected));
         }
 
@@ -927,7 +927,7 @@ namespace org.SharpTiles.Templates.Test
             var reflection = new TagModel(model);
             var page = "<a href=\"<c:out value='~/Index'/>\">Index</a>";
             var expected = "<a href=\"~/Index\">Index</a>";
-            var tag = new Formatter(page);
+            var tag = new Formatter(page).Parse();
             Assert.That(tag.Format(reflection), Is.EqualTo(expected));
         }
 
@@ -938,7 +938,7 @@ namespace org.SharpTiles.Templates.Test
             var reflection = new TagModel(model);
             var page = "<a href=\"<c:out>~/Index</c:out>\">Index</a>";
             var expected = "<a href=\"~/Index\">Index</a>";
-            var tag = new Formatter(page);
+            var tag = new Formatter(page).Parse();
             Assert.That(tag.Format(reflection), Is.EqualTo(expected));
         }
 
@@ -949,7 +949,7 @@ namespace org.SharpTiles.Templates.Test
             var reflection = new TagModel(model);
             var page = "[\"<c:out value='~/Index'/>\"]";
             var expected = "[\"~/Index\"]";
-            var tag = new Formatter(page);
+            var tag = new Formatter(page).Parse();
             Assert.That(tag.Format(reflection), Is.EqualTo(expected));
         }
 
@@ -960,7 +960,7 @@ namespace org.SharpTiles.Templates.Test
             var reflection = new TagModel(model);
             var page = "[\"'Index'\"]";
             var expected = "[\"'Index'\"]";
-            var tag = new Formatter(page);
+            var tag = new Formatter(page).Parse();
             Assert.That(tag.Format(reflection), Is.EqualTo(expected));
         }
 
@@ -970,7 +970,7 @@ namespace org.SharpTiles.Templates.Test
             var page = "<c:out value='=\"dadsjfhskfhs/>";
             try
             {
-                new Formatter(page);
+                new Formatter(page).Parse();
                 Assert.Fail("Expected error");
             } catch (TokenException Te)
             {
@@ -985,7 +985,7 @@ namespace org.SharpTiles.Templates.Test
             var page = "<c:out value='\"dadsjfhskfhs/>";
             try
             {
-                new Formatter(page);
+                new Formatter(page).Parse();
                 Assert.Fail("Expected error");
             }
             catch (TokenException Te)

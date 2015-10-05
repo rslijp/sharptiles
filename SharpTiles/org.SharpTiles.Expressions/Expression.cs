@@ -21,6 +21,7 @@ using System.Collections.Generic;
  using System.Diagnostics;
  using org.SharpTiles.Common;
  using org.SharpTiles.Expressions.Functions;
+ using org.SharpTiles.Expressions.Math;
 
 namespace org.SharpTiles.Expressions
 {
@@ -56,7 +57,7 @@ namespace org.SharpTiles.Expressions
             var operands = new List<string>();
             var whiteSpaceOperands = new List<string>();
             FunctionLib.Register(new BaseFunctionLib());
-
+       
             Register(new AddParser(), operands, whiteSpaceOperands);
             Register(new MinusParser(), operands, whiteSpaceOperands);
             Register(new MultiplyParser(), operands, whiteSpaceOperands);
@@ -73,6 +74,10 @@ namespace org.SharpTiles.Expressions
             Register(new OrParser(), operands, whiteSpaceOperands);
             Register(new NotParser(), operands, whiteSpaceOperands);
             Register(new BracketsParser(), operands, whiteSpaceOperands);
+            foreach (var func in new MathFunctionLib().Functions)
+            {
+                Register(new MathFunctionParser(func), operands, whiteSpaceOperands);
+            }
             foreach (var lib in FunctionLib.Libs())
             {
                 Register(new FunctionParser(lib), operands, whiteSpaceOperands);

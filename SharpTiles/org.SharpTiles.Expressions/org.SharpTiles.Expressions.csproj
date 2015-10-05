@@ -91,6 +91,14 @@
     <Compile Include="Functions\FunctionEvaluationException.cs" />
     <Compile Include="Functions\FunctionDefinition.cs" />
     <Compile Include="Functions\LengthFunction.cs" />
+    <Compile Include="Math\AbsFunction.cs" />
+    <Compile Include="Math\CeilingFunction.cs" />
+    <Compile Include="Math\FloorFunction.cs" />
+    <Compile Include="Math\MathFunctionLib.cs" />
+    <Compile Include="Math\MaxFunction.cs" />
+    <Compile Include="Math\MinFunction.cs" />
+    <Compile Include="Math\RoundFunction.cs" />
+    <Compile Include="Misc\MathFunctionParser.cs" />
     <Compile Include="Misc\Constant.cs" />
     <Compile Include="Misc\ConstantParser.cs" />
     <Compile Include="Misc\Brackets.cs" />

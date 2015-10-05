@@ -28,6 +28,7 @@ namespace org.SharpTiles.Expressions.Test
     [TestFixture]
     public class ExpressionTest
     {
+        [Test]
         public void TestSimpleFormulaNestedBracketWithModel()
         {
             Assert.That(Expression.ParseAndEvaluate(
@@ -1324,6 +1325,79 @@ namespace org.SharpTiles.Expressions.Test
             Assert.That(e.ReturnType, Is.Not.Null);
             Assert.That(e.ReturnType, Is.EqualTo(typeof(bool)));
 
+        }
+
+        [Test]
+        public void TestMathMaxFunction()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "max('3','2')",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo(3)
+                );
+        }
+        [Test]
+        public void TestMathMaxMinimalSyntaxFunction()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "max(3,2)",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo(3)
+                );
+        }
+        [Test]
+        public void TestMathMinMinimalSyntaxFunction()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "min(3,2)",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo(2)
+                );
+        }
+        [Test]
+        public void TestMathAbsMinimalSyntaxFunction()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "abs('-3')",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo(3)
+                );
+        }
+        [Test]
+        public void TestMatRoundMinimalSyntaxFunction()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "round(3.2)",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo(3)
+                );
+        }
+        [Test]
+        public void TestMatFloorMinimalSyntaxFunction()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "floor(3.2)",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo(3)
+                );
+        }
+        [Test]
+        public void TestMatCeilMinimalSyntaxFunction()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "ceil(3.2)",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo(4)
+                );
+        }
+        [Test]
+        public void TestMathMaxFunctionWithProperty()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "max(3,FirstInt)",
+                            new Reflection(new SampleModel() )),
+                        Is.EqualTo(42)
+                );
         }
     }
 }

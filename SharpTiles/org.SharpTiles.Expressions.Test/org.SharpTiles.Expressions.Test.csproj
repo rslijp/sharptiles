@@ -69,6 +69,12 @@
   <ItemGroup>
     <Compile Include="Functions\CustomFunctionLibTest.cs" />
     <Compile Include="Functions\ReverseFunctionTest.cs" />
+    <Compile Include="Math\AbsFunctionTest.cs" />
+    <Compile Include="Math\CeilingFuncitonTest.cs" />
+    <Compile Include="Math\FloorFunctionTest.cs" />
+    <Compile Include="Math\MaxFunctionTest.cs" />
+    <Compile Include="Math\MinFunctionTest.cs" />
+    <Compile Include="Math\RoundFunctionTest.cs" />
     <Compile Include="ModuloTest.cs" />
     <Compile Include="Functions\ContainsFunctionTest.cs" />
     <Compile Include="Functions\ContainsIgnoreCaseFunctionTest.cs" />

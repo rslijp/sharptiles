@@ -38,7 +38,7 @@ namespace org.SharpTiles.Expressions
         {
             var lhsValue = (double) TypeConverter.To(_lhs.Evaluate(model), typeof (double));
             var rhsValue = (double) TypeConverter.To(_rhs.Evaluate(model), typeof (double));
-            var result = (decimal) Math.Pow(lhsValue, rhsValue);
+            var result = (decimal) System.Math.Pow(lhsValue, rhsValue);
             return result;
         }
     }
