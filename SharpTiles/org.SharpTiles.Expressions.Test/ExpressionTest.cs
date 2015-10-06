@@ -1394,6 +1394,16 @@ namespace org.SharpTiles.Expressions.Test
         }
 
         [Test]
+        public void Should_Not_Slobber_Up_Operators()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "administrator eq 'piet'",
+                            new Reflection(new Hashtable() { { "administrator", "piet" } })),
+                        Is.EqualTo(true)
+                );
+        }
+
+        [Test]
         public void Should_FallBackTo_Property_If_Min_Misses_Bracket()
         {
             Assert.That(Expression.ParseAndEvaluate(

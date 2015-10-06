@@ -60,8 +60,10 @@ namespace org.SharpTiles.Expressions
             Token start = parseHelper.Current;
             parseHelper.Expect(FunctionSign);
             Token token = parseHelper.Next();
+            parseHelper.PushNewTokenConfiguration(true, true, '\\', _lib.Functions.Select(f=>f.Name).ToArray(), Expression.WHITESPACE_OPERANDS, null, ResetIndex.CurrentAndLookAhead);
             parseHelper.Next();
             var function = _lib.Obtain(token.Contents);
+            parseHelper.PopTokenConfiguration(ResetIndex.CurrentAndLookAhead);
             function.Token = start;
             parseHelper.Push(function);
             if (function.Arguments.Length == 0)

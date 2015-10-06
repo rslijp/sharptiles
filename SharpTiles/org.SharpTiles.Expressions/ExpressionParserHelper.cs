@@ -35,7 +35,7 @@ namespace org.SharpTiles.Expressions
         public Token Expand()
         {
             var current = Current;
-            while (Lookahead!=null&&(Lookahead.IsTextOrSpace))
+            while (Lookahead!=null&& Lookahead.Type!=TokenType.Seperator&& (Lookahead.IsTextOrSpace))
             {
                 var part = Lookahead.Contents;
                 current.Append(part);
