@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- using org.SharpTiles.Common;
+
+using System;
+using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
 
 namespace org.SharpTiles.Templates
@@ -188,7 +190,7 @@ namespace org.SharpTiles.Templates
                     return;
                 }
                 var keyToken = _helper.Read(TokenType.Regular);
-                var key = keyToken.Contents;
+                var key = LanguageHelper.CamelCaseAttribute(keyToken.Contents);
                 _helper.Read(TagLibConstants.FIELD_ASSIGNMENT);
                 var value = _helper.Read(TokenType.Literal).Contents;
                 if (tagReflection[key] != null)

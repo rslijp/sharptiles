@@ -36,5 +36,30 @@ namespace org.SharpTiles.Common
             }
             return r;
         }
+
+        public static string CamelCaseAttribute(string input)
+        {
+            var r = "";
+            var capitalize = true;
+            for (var i = 0; i < input.Length; i++)
+            {
+                if (input[i] == '-')
+                {
+                    capitalize = true;
+                    continue;
+                }
+                if (capitalize)
+                {
+                    r += (input[i]).ToString().ToUpperInvariant();
+                    capitalize = false;
+                }
+                else
+                {
+                    r += input[i];
+                }
+
+            }
+            return r;
+        }
     }
 }

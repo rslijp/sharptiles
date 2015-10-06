@@ -304,6 +304,13 @@ namespace org.SharpTiles.Templates.Test
         }
 
         [Test]
+        public void TestParseWithCamelCaseAttributeNames()
+        {
+            ITag tag = new TagLibParserFactory().Parse("<c:out escape-xml=\"true\"><c:out value=\"<br/>\"/></c:out>");
+            Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("&amp;lt;br/&amp;gt;"));
+        }
+
+        [Test]
         public void TestParseAndEvaluationOfNonFreeTag()
         {
             var model = new Hashtable();
