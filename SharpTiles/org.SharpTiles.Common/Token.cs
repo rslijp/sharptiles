@@ -17,11 +17,16 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
  using System;
+ using System.Net.Mime;
+ using System.Text.RegularExpressions;
 
 namespace org.SharpTiles.Common
 {
     public class Token
     {
+        private static readonly Regex TEXT_REGEX=new Regex("^[A-Za-z]+$");
+        private static readonly Regex TEXT_OR_SPACE_REGEX = new Regex("^[A-Za-z ]+$");
+
         private readonly int _index;
         private readonly string _text;
         private readonly TokenType _type;
@@ -56,6 +61,20 @@ namespace org.SharpTiles.Common
             get { return !String.IsNullOrEmpty((_contents??"").Trim()); }
         }
 
+        public bool IsText
+        {
+            get { return TEXT_REGEX.Match(_contents).Success; }
+        }
+
+        public bool IsTextOrSpace
+        {
+            get { return TEXT_OR_SPACE_REGEX.Match(_contents).Success; }
+        }
+        public bool IsSingleSpace
+        {
+            get { return " ".Equals(_contents); }
+        }
+
         public int Index
         {
             get { return _index; }
@@ -79,6 +98,11 @@ namespace org.SharpTiles.Common
         public override string ToString()
         {
             return _type + "[" + Index + "]:" + _contents;
+        }
+
+        public void Append(string part)
+        {
+            _contents = _contents + part;
         }
     }
 }

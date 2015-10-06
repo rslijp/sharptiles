@@ -41,8 +41,9 @@ namespace org.SharpTiles.Expressions
 
         public void Parse(ExpressionParserHelper parseHelper)
         {
-            var property = new PropertyOrConstant(parseHelper.CurrentTrimmed.Contents);
-            property.Token = parseHelper.Current;
+            var token=parseHelper.Expand();
+            var property = new PropertyOrConstant(token.Contents.Trim());
+            property.Token = token;
             parseHelper.Push(property);
         }
 

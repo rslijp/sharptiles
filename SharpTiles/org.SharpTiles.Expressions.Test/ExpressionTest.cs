@@ -17,6 +17,7 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
  using System;
+ using System.Collections;
  using System.Globalization;
  using System.Linq;
  using NUnit.Framework;
@@ -1370,6 +1371,35 @@ namespace org.SharpTiles.Expressions.Test
                             "round(3.2)",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(3)
+                );
+        }
+        [Test]
+        public void Should_Slobber_Up_Whole_PropertyName()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "Administrator",
+                            new Reflection(new Hashtable() {{"Administrator", true}})),
+                        Is.EqualTo(true)
+                );
+        }
+
+        [Test]
+        public void Should_Slobber_Up_Whole_PropertyName_LowerCase()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "administrator",
+                            new Reflection(new Hashtable() { { "administrator", true } })),
+                        Is.EqualTo(true)
+                );
+        }
+
+        [Test]
+        public void Should_Slobber_Up_Whole_PropertyName_With_Spaces()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "as administrator op in",
+                            new Reflection(new Hashtable() { { "as administrator op in", true } })),
+                        Is.EqualTo(true)
                 );
         }
         [Test]

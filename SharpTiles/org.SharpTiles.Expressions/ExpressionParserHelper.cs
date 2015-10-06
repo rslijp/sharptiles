@@ -18,7 +18,8 @@
  */
  using System;
 using System.Collections.Generic;
-using org.SharpTiles.Common;
+ using System.Runtime.InteropServices.WindowsRuntime;
+ using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Expressions
 {
@@ -29,6 +30,18 @@ namespace org.SharpTiles.Expressions
 
         public ExpressionParserHelper(Tokenizer tokenizer) : base(tokenizer)
         {
+        }
+
+        public Token Expand()
+        {
+            var current = Current;
+            while (Lookahead!=null&&(Lookahead.IsTextOrSpace))
+            {
+                var part = Lookahead.Contents;
+                current.Append(part);
+                Next();
+            }
+            return current;
         }
 
         public Expression Top

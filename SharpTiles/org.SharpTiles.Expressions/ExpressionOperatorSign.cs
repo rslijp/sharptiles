@@ -30,11 +30,11 @@
             _token = token;
         }
 
+
         public bool SurroundedWithWhiteSpace
         {
             get { return _surroundedWithWhiteSpace; }
         }
-
 
         public string Token
         {
