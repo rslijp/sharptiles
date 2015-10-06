@@ -1431,6 +1431,16 @@ namespace org.SharpTiles.Expressions.Test
                 );
         }
         [Test]
+        public void TestNestedMathFunctions()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "max(3.2, min(2.0, 4.0))",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo(3.2m)
+                );
+        }
+        
+        [Test]
         public void TestMathMaxFunctionWithProperty()
         {
             Assert.That(Expression.ParseAndEvaluate(
