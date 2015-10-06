@@ -43,7 +43,7 @@ namespace org.SharpTiles.Expressions
             Init();
         }
 
-        protected static void Clear()
+        public static void Clear()
         {
             OPERANDS = new String[0];
             WHITESPACE_OPERANDS = new String[0];
@@ -52,7 +52,12 @@ namespace org.SharpTiles.Expressions
             FunctionLib.Clear();
         }
 
-        protected static void Init()
+        public static void Reinit()
+        {
+            Init();
+        }
+
+        public static void Init()
         {
             var operands = new List<string>();
             var whiteSpaceOperands = new List<string>();

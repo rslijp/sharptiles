@@ -112,6 +112,7 @@
     <Compile Include="MultliplyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyTest.cs" />
+    <Compile Include="TokenIsolationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\org.SharpTiles.Common\org.SharpTiles.Common.csproj">

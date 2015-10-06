@@ -1459,5 +1459,6 @@ namespace org.SharpTiles.Expressions.Test
                         Is.EqualTo(42)
                 );
         }
+
     }
 }

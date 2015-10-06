@@ -22,6 +22,7 @@
     {
         No,
         LookAhead,
+        MaintainPosition,
         CurrentAndLookAhead
     }
 }

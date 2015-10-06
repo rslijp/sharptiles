@@ -140,7 +140,7 @@ namespace org.SharpTiles.Expressions.Test
                 Assert.Fail("Expected exception");
             } catch (FunctionEvaluationException FEe)
             {
-                Assert.That(FEe.MessageWithOutContext, Is.EqualTo(FunctionEvaluationException.UnkownFunction("unkown").Message));
+                Assert.That(FEe.MessageWithOutContext, Is.EqualTo(FunctionEvaluationException.UnkownFunction("fn:unkown('abcd','ef')").Message));
             }
         }
 

@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- using System.Collections.Generic;
+
+using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace org.SharpTiles.Common
@@ -206,6 +208,10 @@ namespace org.SharpTiles.Common
         {
             switch (mode)
             {
+                case Common.ResetIndex.MaintainPosition:
+                    _tokenizer.SetIndexTo(Lookahead.Index);
+                    ReinitLookAhead();
+                    break;
                 case Common.ResetIndex.LookAhead:
                     if (Lookahead != null)
                     {
@@ -232,6 +238,13 @@ namespace org.SharpTiles.Common
             {
                 _previous = _current;
                 _current = _lookahead;
+                _lookahead = _tokenizer.Token;
+            }
+        }
+        private void ReinitLookAhead()
+        {
+            if (_tokenizer.MoveNext())
+            {
                 _lookahead = _tokenizer.Token;
             }
         }
