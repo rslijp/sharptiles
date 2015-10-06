@@ -36,7 +36,7 @@ namespace org.SharpTiles.Expressions
         private static readonly IDictionary<Type, IExpressionParser> PARSERS_BY_TYPE =
             new Dictionary<Type, IExpressionParser>();
 
-        private static string[] WHITESPACE_OPERANDS;
+        internal static string[] WHITESPACE_OPERANDS;
 
         static Expression()
         {

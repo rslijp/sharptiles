@@ -1394,6 +1394,16 @@ namespace org.SharpTiles.Expressions.Test
         }
 
         [Test]
+        public void Should_FallBackTo_Property_If_Min_Misses_Bracket()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "minPrice",
+                            new Reflection(new Hashtable() { { "minPrice", true } })),
+                        Is.EqualTo(true)
+                );
+        }
+
+        [Test]
         public void Should_Slobber_Up_Whole_PropertyName_With_Spaces()
         {
             Assert.That(Expression.ParseAndEvaluate(

@@ -359,6 +359,8 @@ namespace org.SharpTiles.Common
             _index = _commitPoint;
         }
 
+        
+
         public void PushConfiguration(bool returnTokens, bool returnLiterals, char? escapeChar, string[] seperators,
                                       string[] whiteSpaceSeperators, char[] literals)
         {

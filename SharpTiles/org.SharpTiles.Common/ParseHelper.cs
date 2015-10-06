@@ -248,6 +248,8 @@ namespace org.SharpTiles.Common
             ReInit();
         }
 
+      
+
         public void Commit()
         {
             _tokenizer.Commit();

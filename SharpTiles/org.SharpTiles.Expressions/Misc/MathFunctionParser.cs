@@ -47,7 +47,7 @@ namespace org.SharpTiles.Expressions
 
         private string FunctionSign
         {
-            get { return _func.Name; }
+            get { return _func.Name+BracketsParser.BRACKETS_OPEN; }
         }
 
         public ExpressionOperatorSign[] AdditionalTokens
@@ -59,7 +59,10 @@ namespace org.SharpTiles.Expressions
         public void Parse(ExpressionParserHelper parseHelper)
         {
             Token start = parseHelper.Current;
-            parseHelper.Expect(FunctionSign);
+            parseHelper.Rollback();
+            parseHelper.PushNewTokenConfiguration(true, true,'\\', new string[] {_func.Name}, Expression.WHITESPACE_OPERANDS, null, ResetIndex.CurrentAndLookAhead);
+            parseHelper.Expect(_func.Name);
+            parseHelper.PopTokenConfiguration(ResetIndex.LookAhead);
             var function = new Function(_func);
             function.Token = start;
             parseHelper.Push(function);
