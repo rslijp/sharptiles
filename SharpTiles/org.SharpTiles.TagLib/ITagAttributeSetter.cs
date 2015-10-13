@@ -19,6 +19,7 @@
 {
     public interface ITagAttributeSetter
     {
+        bool SupportNaturalLanguage { get; }
         ITagAttribute this[string property] { get; set; }
         void InitComplete();
     }

@@ -30,6 +30,11 @@ namespace org.SharpTiles.Tags
 
         #region ITagAttributeSetter Members
 
+        public bool SupportNaturalLanguage
+        {
+            get { return true; }
+        }
+
         public ITagAttribute this[string property]
         {
             get { return (ITagAttribute)_tag[StringUtils.FormatAsProperty(property)]; }

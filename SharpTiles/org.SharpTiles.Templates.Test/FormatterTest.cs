@@ -162,7 +162,18 @@ namespace org.SharpTiles.Templates.Test
             string formatted = formatter.Format(model);
             Assert.That(formatted, Is.EqualTo(FORMATTED));
         }
-        
+
+        [Test]
+        public void Setting_Empty_String_Should_Be_Parsed_Correctly()
+        {
+            const string TEMPLATE = "<c:set value='' var='Text' scope='Model'/>";
+            var model = new TestModel();
+            model.Text = "aaa";
+            var formatter = new Formatter(TEMPLATE).Parse();
+            formatter.Format(model);
+            Console.WriteLine($"[{model.Text}]");
+        }
+
 
         [Test]
         public void Setting_Local_Affects_Formatting_Of_Number_EN_After_Cout()

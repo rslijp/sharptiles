@@ -95,6 +95,7 @@ namespace org.SharpTiles.Tags.Test.CoreTags
             }
         }
 
+       
         [Test]
         public void TestAutoValueOfDecimal()
         {
@@ -141,6 +142,17 @@ namespace org.SharpTiles.Tags.Test.CoreTags
         }
 
         [Test]
+        public void DateAutoValueTestTag_Should_Pass_Date()
+        {
+            var _model = new TagModel(new Hashtable() {
+                { "SomeDate", new DateTime(1979,10,2)}
+            });
+            var tag = new DateAutoValueTestTag();
+            tag.SomeDateValue = new MockAttribute(new Property("SomeDate"));
+            Assert.That(tag.Evaluate(_model), Is.EqualTo("date=02|10|1979"));
+        }
+
+        [Test]
         public void DateAutoValueTestTag_Should_Be_Null_Safe_And_Return_Default()
         {
             var _model = new TagModel(new Hashtable());
@@ -166,6 +178,38 @@ namespace org.SharpTiles.Tags.Test.CoreTags
             tag.SomeDateValue = new MockAttribute(new Property("SomeDate"));
             Assert.That(tag.Evaluate(_model), Is.EqualTo("date=02|10|1979|11|55|44"));
         }
+
+        [Test]
+        public void DateTimeAutoValueTestTag_Should_Include_Value_And_Pattern_Into_Exception()
+        {
+            var _model = new TagModel(new Hashtable() {
+                { "SomeDate", "pindakaas"}
+            });
+            try
+            {
+                var tag = new DateTimeAutoValueTestTag();
+                tag.SomeDateValue = new MockAttribute(new Property("SomeDate"));
+                tag.Evaluate(_model);
+                Assert.Fail("Exception expected");
+            } catch (FormatException Fe)
+            {
+                Console.WriteLine(Fe.Message);
+                Assert.That(Fe.Message.Contains("pindakaas"));
+                Assert.That(Fe.Message.Contains(PatternStrings.DATETIME_FORMAT));
+            }
+        }
+
+        [Test]
+        public void DateTimeAutoValueTestTag_Should_Pass_Date()
+        {
+            var _model = new TagModel(new Hashtable() {
+                { "SomeDate", new DateTime(1979,10,2,11,55,44)}
+            });
+            var tag = new DateTimeAutoValueTestTag();
+            tag.SomeDateValue = new MockAttribute(new Property("SomeDate"));
+            Assert.That(tag.Evaluate(_model), Is.EqualTo("date=02|10|1979|11|55|44"));
+        }
+
 
         [Test]
         public void DateTimeAutoValueTestTag_Should_Be_Null_Safe_And_Return_Default()

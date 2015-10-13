@@ -70,7 +70,7 @@ namespace org.SharpTiles.Templates
             ITag tag = ParseTagType();
             if (tag == null) return null;
             var tagReflection = tag.AttributeSetter;
-            AddAttributes(tagReflection);
+            AddAttributes(tagReflection, tag);
             tagReflection.InitComplete();
             
             TagState state = TagState.Opened;
@@ -179,7 +179,7 @@ namespace org.SharpTiles.Templates
             RequiredAttribute.Check(tag);
         }
 
-        private void AddAttributes(ITagAttributeSetter tagReflection)
+        private void AddAttributes(ITagAttributeSetter tagReflection, ITag tag)
         {
             while (!_helper.IsAhead(TagLibConstants.CLOSE_TAG, TagLibConstants.CLOSE_SLASH))
             {
@@ -190,12 +190,17 @@ namespace org.SharpTiles.Templates
                     return;
                 }
                 var keyToken = _helper.Read(TokenType.Regular);
-                var key = LanguageHelper.CamelCaseAttribute(keyToken.Contents);
+                var key = tagReflection.SupportNaturalLanguage?LanguageHelper.CamelCaseAttribute(keyToken.Contents): keyToken.Contents;
                 _helper.Read(TagLibConstants.FIELD_ASSIGNMENT);
                 var value = _helper.Read(TokenType.Literal).Contents;
                 if (tagReflection[key] != null)
                 {
                     throw TagException.PropertyAlReadySet(key).Decorate(keyToken.Context);
+                }
+                if (string.IsNullOrEmpty(value))
+                {
+                    tagReflection[key] =new ConstantAttribute("", tag);
+                    continue;
                 }
                 tagReflection[key] = new TemplateAttribute(new InternalFormatter(value, false, _locator, Mode).Parse());
             }

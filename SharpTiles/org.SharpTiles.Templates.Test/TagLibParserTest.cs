@@ -480,7 +480,7 @@ namespace org.SharpTiles.Templates.Test
             }
             catch (TagException Te)
             {
-                Assert.That(Te.MessageWithOutContext, Is.EqualTo(TagException.PropertyAlReadySet("test").Message));
+                Assert.That(Te.MessageWithOutContext, Is.EqualTo(TagException.PropertyAlReadySet("Test").Message));
             }
         }
 

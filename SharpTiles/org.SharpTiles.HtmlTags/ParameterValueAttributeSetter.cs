@@ -36,6 +36,11 @@ namespace org.SharpTiles.HtmlTags
             _attributes = new List<ParameterValue>();
         }
 
+        public bool SupportNaturalLanguage
+        {
+            get { return false; }
+        }
+
         #region ITagAttributeSetter Members
 
         public ITagAttribute this[string property]

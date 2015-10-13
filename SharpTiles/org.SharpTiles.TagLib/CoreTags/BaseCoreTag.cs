@@ -119,22 +119,32 @@ namespace org.SharpTiles.Tags.CoreTags
 
         protected DateTime? GetAutoValueAsDateTime(string propertyName, TagModel model)
         {
-            var dateStr = GetAutoValueAsString(propertyName, model);
+            return ResolveToDate(propertyName, PatternStrings.DATETIME_FORMAT, model);
+        }
+
+        private DateTime? ResolveToDate(string propertyName, string pattern, TagModel model)
+        {
+            object result = GetAutoValue(propertyName, model);
+            if (result == null) return default(DateTime?);
+            if ((result as DateTime?) != null) return (DateTime?) result;
+            var dateStr = result.ToString();
             if (string.IsNullOrEmpty(dateStr))
             {
                 return default(DateTime?);
             }
-            return DateTime.ParseExact(dateStr, PatternStrings.DATETIME_FORMAT, CultureInfo.CurrentCulture);
+            try
+            {
+                return DateTime.ParseExact(dateStr, pattern, CultureInfo.CurrentCulture);
+            }
+            catch (FormatException Fe)
+            {
+                throw new FormatException($"Can't parse '{dateStr}' to date using pattern {pattern}.",Fe);
+            }
         }
 
         protected DateTime? GetAutoValueAsDate(string propertyName, TagModel model)
         {
-            var dateStr = GetAutoValueAsString(propertyName, model);
-            if (string.IsNullOrEmpty(dateStr))
-            {
-                return default(DateTime?);
-            }
-            return DateTime.ParseExact(dateStr, PatternStrings.DATE_FORMAT, CultureInfo.CurrentCulture);
+            return ResolveToDate(propertyName, PatternStrings.DATE_FORMAT, model);
         }
 
         protected bool GetAutoValueAsBool(string propertyName, TagModel model)

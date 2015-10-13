@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTagGroup.cs" />
+    <Compile Include="ConstantAttribute.cs" />
     <Compile Include="Creators\IResourceLocatorFactory.cs" />
     <Compile Include="Creators\ITemplate.cs" />
     <Compile Include="Creators\ITemplatePart.cs" />

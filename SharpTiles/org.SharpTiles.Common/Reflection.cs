@@ -91,6 +91,11 @@ namespace org.SharpTiles.Common
             return GetProperty(_subject, property, 0);
         }
 
+        public bool Exist(string property)
+        {
+            return GetProperty(_subject, property, 0).ReflectionException == null;
+        }
+
         public object TryGet(string property)
         {
             try
