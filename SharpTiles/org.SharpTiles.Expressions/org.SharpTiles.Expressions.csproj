@@ -66,6 +66,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArithmeticExpressions\ArithmeticExpression.cs" />
+    <Compile Include="BooleanLogicExpressions\BooleanTernaryExpressionParser.cs" />
+    <Compile Include="BooleanLogicExpressions\BooleanTernaryExpression.cs" />
     <Compile Include="ComparisionException.cs" />
     <Compile Include="Functions\BaseFunctionLib.cs" />
     <Compile Include="Functions\FunctionLib.cs" />
@@ -152,7 +154,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Misc\Property.cs" />
     <Compile Include="Misc\StringConstant.cs" />
+    <Compile Include="TernaryExpression.cs" />
     <Compile Include="TupleExpression.cs" />
+    <Compile Include="TernaryExpressionParser.cs" />
     <Compile Include="TupleExpressionParser.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -105,19 +105,19 @@ namespace org.SharpTiles.Tags.CoreTags
             return value;
         }
 
-        protected int? GetAutoValueAsInt(string propertyName, TagModel model)
+        public int? GetAutoValueAsInt(string propertyName, TagModel model)
         {
             object result = GetAutoValue(propertyName, model);
             return (int?) TypeConverter.To(result, typeof (int?));
         }
 
-        protected decimal? GetAutoValueAsDecimal(string propertyName, TagModel model)
+        public decimal? GetAutoValueAsDecimal(string propertyName, TagModel model)
         {
             object result = GetAutoValue(propertyName, model);
             return (decimal?)TypeConverter.To(result, typeof(decimal?));
         }
 
-        protected DateTime? GetAutoValueAsDateTime(string propertyName, TagModel model)
+        public DateTime? GetAutoValueAsDateTime(string propertyName, TagModel model)
         {
             return ResolveToDate(propertyName, PatternStrings.DATETIME_FORMAT, model);
         }
@@ -142,12 +142,12 @@ namespace org.SharpTiles.Tags.CoreTags
             }
         }
 
-        protected DateTime? GetAutoValueAsDate(string propertyName, TagModel model)
+        public DateTime? GetAutoValueAsDate(string propertyName, TagModel model)
         {
             return ResolveToDate(propertyName, PatternStrings.DATE_FORMAT, model);
         }
 
-        protected bool GetAutoValueAsBool(string propertyName, TagModel model)
+        public bool GetAutoValueAsBool(string propertyName, TagModel model)
         {
             object result = GetAutoValue(propertyName, model);
             return (bool)TypeConverter.To(result, typeof(bool));
@@ -160,7 +160,7 @@ namespace org.SharpTiles.Tags.CoreTags
         }
 
 
-        protected internal object GetAutoValue(string propertyName, TagModel model)
+        public object GetAutoValue(string propertyName, TagModel model)
         {
             PropertyInfo property = CollectionUtils.SafeGet(PROPERTY_CACHE, propertyName);
             var attribute = (ITagAttribute)property.GetValue(this, null);

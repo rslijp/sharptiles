@@ -42,6 +42,8 @@ namespace org.SharpTiles.Templates
             return _resultParts.Count > 1 ? EvaluateMulti(model) : EvaluateSingle(model);
         }
 
+        public ParsedTemplate TemplateParsed => _resultParts;
+
         public object ConstantValue
         {
             get

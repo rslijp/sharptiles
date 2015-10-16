@@ -62,7 +62,8 @@ namespace org.SharpTiles.Expressions
             var operands = new List<string>();
             var whiteSpaceOperands = new List<string>();
             FunctionLib.Register(new BaseFunctionLib());
-       
+
+            Register(new BooleanTernaryExpressionParser(), operands, whiteSpaceOperands);
             Register(new AddParser(), operands, whiteSpaceOperands);
             Register(new MinusParser(), operands, whiteSpaceOperands);
             Register(new MultiplyParser(), operands, whiteSpaceOperands);

@@ -18,6 +18,7 @@
  */
  using System;
 using System.Collections.Generic;
+ using System.Linq;
  using System.Runtime.InteropServices.WindowsRuntime;
  using org.SharpTiles.Common;
 
@@ -49,6 +50,10 @@ namespace org.SharpTiles.Expressions
             get { return _top; }
         }
 
+        public Expression PeekOnStack 
+        {
+            get { return _stack.Count>0?_stack.Peek():null; }
+        }
         private int Count
         {
             get
@@ -120,6 +125,14 @@ namespace org.SharpTiles.Expressions
                 throw ExpressionParseException.ExpressionStackNotEmptyOnYield(Top).Decorate(_current);
             }
             return result;
+        }
+
+        public bool AnyOnStack(Type[] parsedTypes)
+        {
+            return _stack.Any(partial =>
+            {
+                return parsedTypes.Contains(partial.GetType());
+            });
         }
     }
 }

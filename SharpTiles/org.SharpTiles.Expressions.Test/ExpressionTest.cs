@@ -1460,5 +1460,92 @@ namespace org.SharpTiles.Expressions.Test
                 );
         }
 
+        [Test]
+        public void TestSimpleTernaryExpression()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "'true'?'then':'else'",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo("then")
+                );
+        }
+
+        [Test]
+        public void TestSimpleTernaryExpressionWithoutQuotes()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "true?'then':'else'",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo("then")
+                );
+        }
+
+        [Test]
+        public void TestSimpleTernaryExpressionWithoutQuotesWithNestedExpressionsInCondition()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "true&&false?'then':'else'",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo("else")
+                );
+        }
+
+        [Test]
+        public void TestSimpleTernaryExpressionWithoutQuotesWithNestedComplexExpressionsInCondition()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "true||(true&&false)?'then':'else'",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo("then")
+                );
+        }
+
+        [Test]
+        public void TestSimpleTernaryExpressionWithoutExpressionInThen()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "true?fn:trim(' then'):'else'",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo("then")
+                );
+        }
+
+
+        [Test]
+        public void TestSimpleTernaryExpressionWithoutExpressionInElse()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "false?fn:trim(' then'):1+1",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo(2)
+                );
+        }
+
+        [Test]
+        public void TestNestedTernaryExpressions()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "true ? true?'then':'no then' :'else'",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo("then")
+                );
+            Assert.That(Expression.ParseAndEvaluate(
+                           "false ? true?'then':'no then' :false?'no else':'else'",
+                           new Reflection(new SampleModel())),
+                       Is.EqualTo("else")
+               );
+            Assert.That(Expression.ParseAndEvaluate(
+                          "false ? true?'then':'no then' :true?false:true?'no else':'else'",
+                          new Reflection(new SampleModel())),
+                      Is.EqualTo("else")
+              );
+            Assert.That(Expression.ParseAndEvaluate(
+                          "false ? (true?'then':'no then') :((true?false:true)?'no else':'else')",
+                          new Reflection(new SampleModel())),
+                      Is.EqualTo("else")
+              );
+        }
+
+        
     }
 }

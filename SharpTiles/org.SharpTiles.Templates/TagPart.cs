@@ -33,6 +33,8 @@ namespace org.SharpTiles.Templates
             _tag = tag;
         }
 
+        public ITag Tag => _tag;
+
         #region ITemplatePart Members
 
         public object Evaluate(TagModel model)
