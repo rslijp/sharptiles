@@ -74,13 +74,9 @@ namespace org.SharpTiles.Common
 
         public static V SafeGet<K,V>(IDictionary<K, V> cache, K key)
         {
-            try
-            {
-                return cache[key];
-            } catch
-            {
-                return default(V);
-            }
+            V result;
+            cache.TryGetValue(key, out result);
+            return result;
         }
     }
 }
