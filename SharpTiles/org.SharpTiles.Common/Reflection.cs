@@ -144,7 +144,9 @@ namespace org.SharpTiles.Common
                 {
                     return temp;
                 }
-                return GetProperty(temp.Result, tail, level+1);
+                var result = GetProperty(temp.Result, tail, level+1);
+                if(temp.Result != null) result.Partial=true;
+                return result;
             }
             return GetCurrentProperty(subject, property, level);
         }
@@ -168,7 +170,14 @@ namespace org.SharpTiles.Common
                 return new ReflectionResult {ReflectionException = propertyHandler.ReflectionException};
             }
             ReflectionResult result = propertyHandler.PropertyHandler.Get(property, source, level);
-            if(result.Result!=null) { result.Result=Resolve(result.Result); }
+            if (result.Result != null)
+            {
+                result.Result=Resolve(result.Result);
+            }
+            if (result.Result != null)
+            {
+                result.Full = true;
+            }
             return result;
         }
 

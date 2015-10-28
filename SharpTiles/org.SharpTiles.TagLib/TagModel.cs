@@ -44,7 +44,7 @@ namespace org.SharpTiles.Tags
         
         private Encoding _encoding;
         private bool _hasTags;
-        private Stack<IModel> _tagVariables = new Stack<IModel>();
+        private Stack<TagStackModel> _tagVariables = new Stack<TagStackModel>();
         
         static TagModel()
         {
@@ -101,7 +101,7 @@ namespace org.SharpTiles.Tags
             _factory = factory;
         }
 
-        public Stack<IModel> TagVariables
+        public Stack<TagStackModel> TagVariables
         {
             get { return _tagVariables; }
             set { _tagVariables = value; }
@@ -188,9 +188,10 @@ namespace org.SharpTiles.Tags
 
         #endregion
 
-        public void PushTagStack()
+        public void PushTagStack(bool peekInParent = false)
         {
-            _tagVariables.Push(new Reflection(new Hashtable()));
+            peekInParent &= _tagVariables.Count > 0;
+            _tagVariables.Push(new TagStackModel(peekInParent?_tagVariables.Peek():null));
             _hasTags = true;
         }
 
@@ -221,7 +222,7 @@ namespace org.SharpTiles.Tags
                 if (model != null)
                 {
                     ReflectionResult reflectionResult = model.Get(property);
-                    if (reflectionResult.Result != null)
+                    if (reflectionResult.Partial|| reflectionResult.Full)
                     {
                         return reflectionResult;
                     }

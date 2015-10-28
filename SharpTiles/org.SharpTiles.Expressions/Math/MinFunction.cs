@@ -1,10 +1,12 @@
 using System;
-using org.SharpTiles.Common;
+using System.ComponentModel;
 using org.SharpTiles.Expressions.Functions;
+using TypeConverter = org.SharpTiles.Common.TypeConverter;
 
 
 namespace org.SharpTiles.Expressions.Math
 {
+    [Category("MathExpression")]
     public class MinFunction : IFunctionDefinition
     {
         private static readonly FunctionArgument[] ARGUMENTS = new[]

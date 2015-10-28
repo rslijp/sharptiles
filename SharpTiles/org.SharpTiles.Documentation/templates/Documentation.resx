@@ -815,7 +815,10 @@ Hi &amp;lt;x:out source="${{user}}" select="/first-name"/&amp;gt; !
   <data name="expression_Header_Description" xml:space="preserve">
     <value>Description</value>
   </data>
-  <data name="description_AddParser" xml:space="preserve">
+  <data name="description_MathParser" xml:space="preserve">
+    <value>Math</value>
+  </data>
+ <data name="description_AddParser" xml:space="preserve">
     <value>Addition</value>
   </data>
   <data name="description_MinusParser" xml:space="preserve">

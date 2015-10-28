@@ -55,6 +55,7 @@ namespace org.SharpTiles.Documentation
         private void GatherTokens(IExpressionParser expr)
         {
             _tokens = new List<ExpressionOperatorSign>();
+            if (expr.DistinctToken == null) return;
             _tokens.Add(expr.DistinctToken);
             if(expr.AdditionalTokens!=null)
             {

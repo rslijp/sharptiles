@@ -4,5 +4,9 @@ namespace org.SharpTiles.Common
     {
         public ReflectionException ReflectionException { get; set; }
         public object Result { get; set; }
+
+        public bool Partial { get; set; }
+
+        public bool Full { get; set; }
     }
 }

@@ -355,5 +355,102 @@ namespace org.SharpTiles.Tags.Test
             Assert.That(model["NewValue"], Is.EqualTo("abc"));
         }
 
+        public class Level1 
+        {
+            public Level2 Level2
+            {
+                get;
+                set;
+            }
+        }
+
+        public class Level2
+        {
+            public Level3 Level3
+            {
+                get;
+                set;
+            }
+        }
+
+        public class Level3
+        {
+            public int? Value
+            {
+                get;
+                set;
+            }
+        }
+        [Test]
+        public void TagDeepNestedResolveTest()
+        {
+            var level1 = new Level1
+            {
+                Level2 = new Level2
+                {
+                    Level3 = new Level3
+                    {
+                        Value = 42
+                    }
+
+                }
+            };
+            var model = new TagModel(level1);
+            model.PushTagStack();
+
+            Assert.That(model["Level2.Level3.Value"], Is.EqualTo(42));
+        }
+
+        [Test]
+        public void TagDeepNestedResolveWithNullValueTest()
+        {
+            var level1 = new Level1
+            {
+                Level2 = new Level2
+                {
+                    Level3 = new Level3
+                    {
+                        Value = default(int?)
+                    }
+
+                }
+            };
+            var model = new TagModel(level1);
+            model.PushTagStack();
+
+            Assert.That(model["Level2.Level3.Value"], Is.EqualTo(default(int?)));
+        }
+
+        [Test]
+        public void PushTagWithPeekInParentShouldResolveParentValues()
+        {
+            var model = new TagModel(new Reflection(new Hashtable()));
+            model.PushTagStack(true);
+            model["Tag.NewValue"] = "abc";
+            Assert.That(model["NewValue"], Is.EqualTo("abc"));
+            model.PushTagStack(true);
+            Assert.That(model["NewValue"], Is.EqualTo("abc"));
+            model["Tag.NewValue"] = "def";
+            Assert.That(model["NewValue"], Is.EqualTo("def"));
+            model.PopTagStack();
+            Assert.That(model["NewValue"], Is.EqualTo("abc"));
+        }
+
+        [Test]
+        public void PushTagWithPeekInParentShouldResolveParentValuesWithOutTrhowinngReflectionExceptionsOnUnknownPathsOnChild()
+        {
+            var model = new TagModel(new Reflection(new Hashtable()));
+            model.PushTagStack(true);
+            model["Tag.NewValue"] = "abc";
+            Assert.That(model["NewValue"], Is.EqualTo("abc"));
+            Assert.That(model["OtherValue"], Is.Null);
+            model.PushTagStack(true);
+            model["Tag.OtherValue"] = "def";
+            Assert.That(model["OtherValue"], Is.EqualTo("def"));
+            Assert.That(model["NewValue"], Is.EqualTo("abc"));
+            model.PopTagStack();
+            Assert.That(model["NewValue"], Is.EqualTo("abc"));
+            Assert.That(model["OtherValue"], Is.Null);
+        }
     }
 }

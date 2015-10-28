@@ -137,6 +137,7 @@
     <Compile Include="TagExceptions.cs" />
     <Compile Include="TagLib.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TagStackModel.cs" />
     <Compile Include="TagState.cs" />
     <Compile Include="TagModel.cs" />
     <Compile Include="VariableScope.cs" />

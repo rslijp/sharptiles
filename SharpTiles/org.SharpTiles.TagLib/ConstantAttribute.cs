@@ -16,42 +16,43 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- using System;
 
-namespace org.SharpTiles.Expressions
+using System;
+using org.SharpTiles.Common;
+
+namespace org.SharpTiles.Tags
 {
-    public class PropertyOrConstantParser : IExpressionParser
+    public class ConstantAttribute : ITagAttribute
     {
-        #region IExpressionParser Members
-
-        public Type[] ParsedTypes
+        public ConstantAttribute()
         {
-            get { return new[] {typeof (PropertyOrConstant)}; }
+            
         }
 
-        public ExpressionOperatorSign DistinctToken
+        public ConstantAttribute(object value, ITag tag)
         {
-            get { return null; }
+            ConstantValue = value;
+            Context = tag.Context;
         }
 
-        public ExpressionOperatorSign[] AdditionalTokens
+        public object ConstantValue
         {
-            get { return null; }
+            get; set;
         }
 
-        public void Parse(ExpressionParserHelper parseHelper)
+        public ParseContext Context
         {
-            var token=parseHelper.Expand();
-            var property = new PropertyOrConstant(token.Contents.Trim());
-            property.Token = token;
-            parseHelper.Push(property);
+            get; set;
         }
 
-        public bool Reduce(ExpressionParserHelper parseHelper, Expression you, int priorty)
+        public IResourceLocator ResourceLocator
         {
-            return false;
+            get { throw new NotSupportedException(); }
         }
 
-        #endregion
+        public object Evaluate(TagModel model)
+        {
+            return ConstantValue;
+        }
     }
 }
