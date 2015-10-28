@@ -22,8 +22,8 @@ namespace org.SharpTiles.Tags
 {
     public interface ITagAttribute
     {
+        string AttributeName { get; set;  }
         object ConstantValue { get; }
-
         ParseContext Context { get; }
         IResourceLocator ResourceLocator { get; }
         object Evaluate(TagModel model);

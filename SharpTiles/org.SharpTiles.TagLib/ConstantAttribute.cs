@@ -35,6 +35,8 @@ namespace org.SharpTiles.Tags
             Context = tag.Context;
         }
 
+        public string AttributeName { get; set; }
+
         public object ConstantValue
         {
             get; set;

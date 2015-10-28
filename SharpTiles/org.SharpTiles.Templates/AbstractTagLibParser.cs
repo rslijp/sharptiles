@@ -199,10 +199,10 @@ namespace org.SharpTiles.Templates
                 }
                 if (string.IsNullOrEmpty(value))
                 {
-                    tagReflection[key] =new ConstantAttribute("", tag);
+                    tagReflection[key] =new ConstantAttribute("", tag) {AttributeName = key};
                     continue;
                 }
-                tagReflection[key] = new TemplateAttribute(new InternalFormatter(value, false, _locator, Mode).Parse());
+                tagReflection[key] = new TemplateAttribute(new InternalFormatter(value, false, _locator, Mode).Parse()) { AttributeName = key }; ;
             }
         }
 

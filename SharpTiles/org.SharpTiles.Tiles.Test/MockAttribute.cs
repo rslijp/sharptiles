@@ -31,6 +31,8 @@ namespace org.SharpTiles.Tiles.Test
         {
             _expression = expression;
         }
+        public string AttributeName { get; set; }
+
 
         #region ITagAttribute Members
 

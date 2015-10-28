@@ -34,6 +34,9 @@ namespace org.SharpTiles.HtmlTags.Form
             Context = tag.Context;
         }
 
+        public string AttributeName { get; set; }
+
+
         public object ConstantValue
         {
             get; set;

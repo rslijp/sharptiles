@@ -35,6 +35,8 @@ namespace org.SharpTiles.Templates
             _resultParts = resultParts;
         }
 
+        public string AttributeName { get; set; }
+
         #region ITagAttribute Members
 
         public object Evaluate(TagModel model)

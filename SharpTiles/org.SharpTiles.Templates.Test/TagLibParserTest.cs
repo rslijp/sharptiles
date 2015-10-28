@@ -59,6 +59,7 @@ namespace org.SharpTiles.Templates.Test
                 Is.EqualTo(String.Empty));
         }
 
+
         [Test]
         public void TestOfDifferentClosingTag()
         {
@@ -111,6 +112,22 @@ namespace org.SharpTiles.Templates.Test
             reflection["Model.list"] = list;
             ITag tag = new TagLibParserFactory().Parse("<c:forEach items=\"${Model.list}\">.</c:forEach>");
             Assert.That(tag.Evaluate(reflection), Is.EqualTo("......"));
+        }
+
+        [Test]
+        public void ParseShouldHarvastAttributePropertyName_Template()
+        {
+            var tag = new TagLibParserFactory().Parse("<c:forEach items=\"${Model.list}\">.</c:forEach>") as ForEach;
+            Assert.That(tag.Items.AttributeName, Is.EqualTo("Items"));
+            Assert.That(tag.Items.GetType(), Is.EqualTo(typeof(TemplateAttribute)));
+        }
+
+        [Test]
+        public void ParseShouldHarvastAttributePropertyName_Constant()
+        {
+            var tag = new TagLibParserFactory().Parse("<c:out value='' escapeXml='true'/>") as Out;
+            Assert.That(tag.Value.AttributeName, Is.EqualTo("Value"));
+            Assert.That(tag.Value.GetType(), Is.EqualTo(typeof(ConstantAttribute)));
         }
 
         [Test]

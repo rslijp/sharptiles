@@ -32,6 +32,7 @@ namespace org.SharpTiles.Tags.Test
         }
 
         #region ITagAttribute Members
+        public string AttributeName { get; set; }
 
         public object Evaluate(TagModel model)
         {
