@@ -20,6 +20,7 @@
 using System.Collections;
 using System.Collections.Generic;
  using System.Collections.Specialized;
+ using System.Linq;
  using System.Text;
 using System.Threading;
 using org.SharpTiles.Common;
@@ -109,7 +110,7 @@ namespace org.SharpTiles.Tags
 
         public IModel Tag
         {
-            get { return _tagVariables.Peek(); }
+            get { return _tagVariables.Any()?_tagVariables.Peek():null; }
         }
 
         public IModel Model

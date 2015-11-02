@@ -71,7 +71,7 @@ namespace org.SharpTiles.Tags.CoreTags
         }
 
 
-        public ITagAttributeSetter AttributeSetter
+        public virtual ITagAttributeSetter AttributeSetter
         {
             get { return new ReflectionAttributeSetter(this); }
         }
