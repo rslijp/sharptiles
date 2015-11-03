@@ -61,5 +61,19 @@ namespace org.SharpTiles.Common
             }
             return r;
         }
+
+        public static string DashProperty(string input)
+        {
+            var r = "";
+            foreach (char t in input)
+            {
+                if (char.IsUpper(t) && r.Length>0)
+                {
+                    r += "-";
+                }
+                r += (t).ToString().ToLowerInvariant();            
+            }
+            return r;
+        }
     }
 }
