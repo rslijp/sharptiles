@@ -283,6 +283,6 @@ namespace org.SharpTiles.Common
             return _ignoreUnkownTags.Count > 0 ? _ignoreUnkownTags.Peek() : false;
         }
 
-        
+        public override string ToString() => $"Parser[Current={_current},Previous={_previous},Lookahead={_lookahead}]";
     }
 }

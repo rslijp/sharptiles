@@ -82,11 +82,22 @@ namespace org.SharpTiles.Templates
 
         public ParsedTemplate Parse()
         {
-            _parser.Init();
-            _templateParsed = new List<ITemplatePart>();
-            ParseNode();
-            GuardCloseTag();
-            return new ParsedTemplate(_locator, _templateParsed);
+            try
+            {
+                _parser.Init();
+                _templateParsed = new List<ITemplatePart>();
+                ParseNode();
+                GuardCloseTag();
+                return new ParsedTemplate(_locator, _templateParsed);
+            }
+            catch (ExceptionWithContext)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                throw ParseException.UnexpectedError(e).Decorate(_parser.Current?.Context);
+            }
         }
 
         internal ParsedTemplate ParseNested()

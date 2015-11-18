@@ -26,6 +26,10 @@ namespace org.SharpTiles.Common
         {
         }
 
+        public ParseException(string msg, Exception e) : base(msg, e)
+        {
+        }
+
         public static PartialExceptionWithContext<ParseException> ExpectedToken()
         {
             String msg = String.Format("Expected more tokens");
@@ -65,6 +69,11 @@ namespace org.SharpTiles.Common
         public static PartialExceptionWithContext<ParseException> ExpectedCloseTag()
         {
             return MakePartial(new ParseException("Expected a closing tag but none was found."));
+        }
+
+        public static PartialExceptionWithContext<ParseException> UnexpectedError(Exception e)
+        {
+            return MakePartial(new ParseException("Unexpected error: "+e.Message, e));
         }
     }
 }
