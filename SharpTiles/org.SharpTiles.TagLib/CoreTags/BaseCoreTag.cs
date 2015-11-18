@@ -58,7 +58,7 @@ namespace org.SharpTiles.Tags.CoreTags
         }
 
         [Internal]
-        public ITagAttribute Id
+        public virtual ITagAttribute Id
         {
             get { return _id; }
             set { _id = value; }
