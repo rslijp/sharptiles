@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- using System.Collections;
+
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using org.SharpTiles.Common;
 
@@ -73,6 +75,12 @@ namespace org.SharpTiles.Tags
         public static void Register<T>() where T : ITag, new()
         {
             ITagFactory factory = new GenericTagFactory<T>();
+            REGISTERED_TAGS.Add(factory.Name, factory);
+        }
+
+        public static void Register(Type type)
+        {
+            ITagFactory factory = new GenericTagFactory(type);
             REGISTERED_TAGS.Add(factory.Name, factory);
         }
     }

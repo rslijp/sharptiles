@@ -16,7 +16,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- namespace org.SharpTiles.Tags
+
+using System;
+
+namespace org.SharpTiles.Tags
 {
     public class GenericTagFactory<T> : ITagFactory where T : ITag, new()
     {
@@ -34,4 +37,23 @@
 
         #endregion
     }
+
+    public class GenericTagFactory: ITagFactory
+    {
+        private readonly Type _type;
+
+        public GenericTagFactory(Type type)
+        {
+            _type = type;
+        }
+
+        public ITag NewInstance()
+        {
+            return (ITag)Activator.CreateInstance(_type);
+        }
+
+        public string Name => NewInstance().TagName;
+    }
+
+
 }
