@@ -27,10 +27,10 @@ namespace org.SharpTiles.Tiles
 {
     public class TilesSet : RefreshableResource
     {
-        static TilesSet()
-        {
-            if (!TagLib.Exists(Tags.Tiles.TILES_GROUP_NAME)) TagLib.Register(new Tags.Tiles());
-        }
+//        static TilesSet()
+//        {
+//            if (!TagLib.Exists(Tags.Tiles.TILES_GROUP_NAME)) TagLib.Register(new Tags.Tiles());
+//        }
         
         private readonly IConfiguration _configuration;
         private TilesMap _map = new TilesMap();

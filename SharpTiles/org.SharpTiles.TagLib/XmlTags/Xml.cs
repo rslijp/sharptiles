@@ -21,15 +21,15 @@
     [HasExample]
     public class Xml : BaseTagGroup<Xml>
     {
-        static Xml()
+        public Xml()
         {
             Register<Parse>();
             Register<Out>();
             Register<Set>();
             Register<If>();
             Register<Choose>();
-            Register<When>();
-            Register<Otherwise>();
+//            Register<When>();
+//            Register<Otherwise>();
             Register<ForEach>();
             Register<Transform>();
             Register<Param>();

@@ -65,7 +65,7 @@ namespace org.SharpTiles.Connectors
         {
             if (_cache == null)
             {
-                _cache = new TilesSet(new TileXmlConfigurator(_factory));
+                _cache = new TilesSet(new TileXmlConfigurator(_lib, _factory));
                 
             }
         }

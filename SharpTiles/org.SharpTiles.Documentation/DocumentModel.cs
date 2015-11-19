@@ -23,18 +23,15 @@ using System.Collections.Generic;
  using org.SharpTiles.Expressions.Functions;
  using org.SharpTiles.HtmlTags;
  using org.SharpTiles.Tags;
- using org.SharpTiles.Tiles;
+using org.SharpTiles.Tags.Templates.SharpTags;
+using org.SharpTiles.Tiles;
  using Expression=org.SharpTiles.Expressions.Expression;
 
 namespace org.SharpTiles.Documentation
 {
     public class DocumentModel
     {
-        static DocumentModel()
-        {
-            TagLib.Register(new Html());
-        }
-
+      
         private IList<ExpressionDocumentation> _expressions;
         private IList<FunctionDocumentation> _functions;
         private IList<TagGroupDocumentation> _groups;
@@ -52,8 +49,11 @@ namespace org.SharpTiles.Documentation
         private void GatherGroups()
         {
             _groups = new List<TagGroupDocumentation>();
-            new TilesSet(); //Register Tiles tag
-            foreach (ITagGroup tag in TagLib.Libs)
+            var lib = new TagLib();
+            lib.Register(new Tiles.Tags.Tiles());
+            lib.Register(new Sharp());
+//            new TilesSet(); //Register Tiles tag
+            foreach (ITagGroup tag in lib)
             {
                 _groups.Add(new TagGroupDocumentation(_resouceKey, tag));
             }

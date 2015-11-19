@@ -32,7 +32,7 @@ namespace org.SharpTiles.Common
         private int _lineIndex;
         private int _lineNumber;
         private string _lineWithPosition;
-
+      
         public ParseContext(string contents, int index, string text)
         {
             _contents = contents;

@@ -30,13 +30,10 @@ namespace org.SharpTiles.Tags.Test
         [Test]
         public void TestPresenceOfCategories()
         {
-            foreach (var taggroup in TagLib.Libs)
+            foreach (var taggroup in new TagLib())
             {
-                if (!taggroup.Name.Equals("sharp"))
-                {
                     Console.WriteLine(taggroup.Name);
                     GuardPresenceOfCategoriesOnTagGroup(taggroup);
-                }
             }
             
         }

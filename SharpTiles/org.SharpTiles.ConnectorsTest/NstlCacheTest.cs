@@ -151,10 +151,11 @@ namespace org.SharpTiles.ConnectorsTest
         public void GetView_Should_Update_Locator_Correct()
         {
             //Given
-            if (!TagLib.Exists(Html.HTML_GROUP_NAME)) TagLib.Register(new Html());
-            if (!TagLib.Exists(Tiles.Tags.Tiles.TILES_GROUP_NAME)) TagLib.Register(new Tiles.Tags.Tiles());
+            var lib = new TagLib();
+            lib.Register(new Html());
+            lib.Register(new Tiles.Tags.Tiles());
 
-            var factory = new FileLocatorFactory("Views");
+            var factory = new FileLocatorFactory("Views").CloneForTagLib(lib);
             var cache = new NstlCache { Factory = factory };
             var view = cache.GetView("Home/Index.htm");
             Assert.That(view, Is.Not.Null);

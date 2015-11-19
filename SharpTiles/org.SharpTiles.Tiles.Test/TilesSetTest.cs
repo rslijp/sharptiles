@@ -34,13 +34,15 @@ namespace org.SharpTiles.Tiles.Test
     [TestFixture]
     public class TilesSetTest
     {
-        [Test]
-        public void TestAddingOfTagLib()
-        {
-            new TilesSet();
-            Assert.That(TagLib.Exists("tiles"));
-        }
 
+        private ITagLib _lib;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _lib = new TagLib();
+            _lib.Register(new Tags.Tiles());
+        }
 
         [Test]
         public void TestCache()
@@ -114,7 +116,7 @@ namespace org.SharpTiles.Tiles.Test
             try
             {
 
-                var config = new TileXmlConfigurator(tempTile);
+                var config = new TileXmlConfigurator(_lib, tempTile);
                 var ts = new TilesSet(config);
 
                 Assert.That(ts.Contains("a"));

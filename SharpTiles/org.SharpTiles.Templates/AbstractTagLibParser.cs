@@ -20,6 +20,7 @@
 using System;
 using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
+using org.SharpTiles.Tags.Creators;
 
 namespace org.SharpTiles.Templates
 {
@@ -27,12 +28,16 @@ namespace org.SharpTiles.Templates
     {
         protected readonly ParseHelper _helper;
         private readonly IResourceLocator _locator;
+        protected TagLibForParsing _lib;
 
-        public AbstractTagLibParser(ParseHelper helper, IResourceLocator locator)
+        public AbstractTagLibParser(TagLibForParsing lib, ParseHelper helper, IResourceLocator locator)
         {
+            _lib = lib;
             _helper = helper;
             _locator = locator;
         }
+
+
 
         public ITag Parse()
         {
@@ -68,6 +73,8 @@ namespace org.SharpTiles.Templates
                 return null;
             }
             ITag tag = ParseTagType();
+            PushTagLibExtension(tag);
+            DecorateFactory(tag);
             if (tag == null) return null;
             var tagReflection = tag.AttributeSetter;
             AddAttributes(tagReflection, tag);
@@ -89,8 +96,31 @@ namespace org.SharpTiles.Templates
                 HandleBody(tag, tagReflection);
             }
             tag.State = TagState.OpenedAndClosed;
+            PopTagLibExtension(tag);
             return tag;
         }
+
+        private void DecorateFactory(ITag tag)
+        {
+            var t = tag as ITagRequiringTagLib;
+            if (t == null) return;
+            t.TagLib = _lib;
+        }
+
+        private void PushTagLibExtension(ITag tag)
+        {
+            var t = tag as ITagExtendTagLib;
+            if (t == null) return;
+            _lib.Push(t.TagLibExtension);
+        }
+
+        private void PopTagLibExtension(ITag tag)
+        {
+            var t = tag as ITagExtendTagLib;
+            if (t == null) return;
+            _lib.Pop();
+        }
+
 
         protected abstract ITag ParseTagType();
         protected abstract TagLibMode Mode { get;  }
@@ -126,7 +156,7 @@ namespace org.SharpTiles.Templates
             do
             {
                 ReadWhiteSpace(_helper);
-                ITag nested = Parse();
+                var nested = Parse();
                 if (nested.State == TagState.Closed)
                 {
                     GuardClosingOfTag(nested, tag);
@@ -145,14 +175,14 @@ namespace org.SharpTiles.Templates
             }
             if (!Equals(close.GetType(), open.GetType()))
             {
-                throw TagException.UnbalancedCloseingTag(open.GetType(), close.GetType()).Decorate(open.Context);
+                throw TagException.UnbalancedCloseingTag(open, close).Decorate(open.Context);
             }
         }
 
         private void HandleFreeNestedBody(ITagAttributeSetter tagReflection)
         {
             _helper.PushIgnoreUnkownTag(false);
-            var attribute = new TemplateAttribute(Formatter.ParseNested(_helper, _locator, Mode));
+            var attribute = new TemplateAttribute(ParseNested(_helper, _locator, Mode));
             tagReflection["Body"] = attribute;
             _helper.PopIgnoreUnkownTag();
         }
@@ -160,9 +190,29 @@ namespace org.SharpTiles.Templates
         private void HandleFreeWithIgnoredUnkownTagsNestedBody(ITagAttributeSetter tagReflection)
         {
             _helper.PushIgnoreUnkownTag(true);
-            var attribute = new TemplateAttribute(Formatter.ParseNested(_helper, _locator, Mode));
+            var attribute = new TemplateAttribute(ParseNested(_helper, _locator, Mode));
             tagReflection["Body"] = attribute;
             _helper.PopIgnoreUnkownTag();
+        }
+
+        public ParsedTemplate ParseNested(ParseHelper helper, IResourceLocator locator, TagLibMode mode)
+        {
+            try
+            {
+                helper.PushNewTokenConfiguration(
+                    true,
+                    false,
+                    InternalFormatter.COMMENT,
+                    InternalFormatter.SEPERATORS,
+                    null,
+                    null, //InternalFormatter.LITERALS, 
+                    ResetIndex.LookAhead);
+                return new InternalFormatter(_lib, helper, true, true, locator, mode).ParseNested();
+            }
+            finally
+            {
+                helper.PopTokenConfiguration(ResetIndex.CurrentAndLookAhead);
+            }
         }
 
         private static void ReadWhiteSpace(ParseHelper helper)
@@ -202,7 +252,7 @@ namespace org.SharpTiles.Templates
                     tagReflection[key] =new ConstantAttribute("", tag) {AttributeName = key};
                     continue;
                 }
-                tagReflection[key] = new TemplateAttribute(new InternalFormatter(value, false, _locator, Mode).Parse()) { AttributeName = key }; ;
+                tagReflection[key] = new TemplateAttribute(new InternalFormatter(_lib,value, false, _locator, Mode).Parse()) { AttributeName = key }; ;
             }
         }
 

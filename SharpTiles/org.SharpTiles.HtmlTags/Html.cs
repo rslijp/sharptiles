@@ -39,7 +39,7 @@ namespace org.SharpTiles.HtmlTags
         public static readonly string PAGE_MODEL_HTMLHELPER_INSTANCE = "htmlHelperInstance";
         public static readonly string PAGE_MODEL_URLHELPER_INSTANCE = "urlHelperInstance";
         
-        static Html()
+        public Html()
         {
             Register<ActionTag>();
             Register<FormTag>();

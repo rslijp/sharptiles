@@ -115,6 +115,10 @@
       <Project>{0A831F61-1BBF-4223-BA3C-6C686C043056}</Project>
       <Name>org.SharpTiles.Tags</Name>
     </ProjectReference>
+    <ProjectReference Include="..\org.SharpTiles.Tiles\org.SharpTiles.Tiles.csproj">
+      <Project>{71975cd0-4bf3-4100-940f-1478b352b5a2}</Project>
+      <Name>org.SharpTiles.Tiles</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

@@ -48,8 +48,15 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         [Test]
         public void CheckPassThroughOfContentParsed()
         {
-            ITag tag = new TagLibParserFactory().Parse("<sharp:scope>aa</sharp:scope>");
+            ITag tag = CreateFactory().Parse("<sharp:scope>aa</sharp:scope>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("aa"));
+        }
+
+        private static TagLibParserFactory CreateFactory()
+        {
+            var lib = new TagLib();
+            lib.Register(new Sharp());
+            return new TagLibParserFactory(new TagLibForParsing(lib));
         }
 
         [Test]
@@ -57,7 +64,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         {
             Hashtable table = new Hashtable();
             table.Add("niceValue", "Hello");
-            ITag tag = new TagLibParserFactory().Parse("<sharp:scope><c:out value=\"${niceValue}\"/></sharp:scope>");
+            ITag tag = CreateFactory().Parse("<sharp:scope><c:out value=\"${niceValue}\"/></sharp:scope>");
             Assert.That(tag.Evaluate(new TagModel(table)), Is.EqualTo("Hello"));
         }
 
@@ -66,7 +73,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         {
             Hashtable table = new Hashtable();
             table.Add("niceValue", "Hello");
-            ITag tag = new TagLibParserFactory().Parse("<sharp:scope><c:set value=\"Hi\" var=\"niceValue\" scope=\"Tag\"/><c:out value=\"${niceValue}\"/></sharp:scope>");
+            ITag tag = CreateFactory().Parse("<sharp:scope><c:set value=\"Hi\" var=\"niceValue\" scope=\"Tag\"/><c:out value=\"${niceValue}\"/></sharp:scope>");
             Assert.That(tag.Evaluate(new TagModel(table)), Is.EqualTo("Hi"));
             Assert.That(table["niceValue"], Is.EqualTo("Hello"));
         }

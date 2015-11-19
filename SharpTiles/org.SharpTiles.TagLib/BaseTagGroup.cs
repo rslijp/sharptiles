@@ -26,7 +26,7 @@ namespace org.SharpTiles.Tags
 {
     public abstract class BaseTagGroup<G> : ITagGroup
     {
-        public static IDictionary<string, ITagFactory> REGISTERED_TAGS = new Dictionary<string, ITagFactory>();
+        public IDictionary<string, ITagFactory> REGISTERED_TAGS = new Dictionary<string, ITagFactory>();
 
         #region ITagGroup Members
 
@@ -49,6 +49,7 @@ namespace org.SharpTiles.Tags
             {
                 ITag tag = REGISTERED_TAGS[name].NewInstance();
                 tag.Context = context;
+                tag.Group = this;
                 return tag;
             }
             throw TagException.UnkownTag(name).Decorate(context);
@@ -65,20 +66,22 @@ namespace org.SharpTiles.Tags
             IList<ITag> list = new List<ITag>();
             foreach (ITagFactory value in REGISTERED_TAGS.Values)
             {
-                list.Add(value.NewInstance());
+                var t = value.NewInstance();
+                t.Group = this;
+                list.Add(t);
             }
             return list.GetEnumerator();
         }
 
         #endregion
 
-        public static void Register<T>() where T : ITag, new()
+        public void Register<T>() where T : ITag, new()
         {
             ITagFactory factory = new GenericTagFactory<T>();
             REGISTERED_TAGS.Add(factory.Name, factory);
         }
 
-        public static void Register(Type type)
+        public void Register(Type type)
         {
             ITagFactory factory = new GenericTagFactory(type);
             REGISTERED_TAGS.Add(factory.Name, factory);

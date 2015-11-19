@@ -24,9 +24,10 @@ using org.SharpTiles.Tags.CoreTags;
 namespace org.SharpTiles.Tags.XmlTags
 {
     [Category("Conditional"), HasExample]
-    public class Choose : BaseCoreTag, ITagWithNestedTags
+    public class Choose : BaseCoreTag, ITagWithNestedTags, ITagExtendTagLib
     {
         public static readonly string NAME = "choose";
+        private static Type[] EXTENSION =  new[] {typeof (When), typeof (Otherwise)};
 
         private readonly IList<ITag> _nestedTags = new List<ITag>();
 
@@ -75,5 +76,10 @@ namespace org.SharpTiles.Tags.XmlTags
         }
 
         #endregion
+
+        public ITagGroup TagLibExtension
+        {
+            get { return new NestedTagGroup(Group.Name,EXTENSION); }
+        }
     }
 }

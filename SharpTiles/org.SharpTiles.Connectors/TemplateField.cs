@@ -38,13 +38,16 @@ namespace org.SharpTiles.Connectors
         private object _model;
         private string _view;
         private static TileXmlConfigurator _configuration;
-
+        
         static TemplateField()
         {
+            TagLib = new TagLib();
+
             TilesConfigurationSection config = TilesConfigurationSection.Get();
             var prefix = TemplateFieldPrefixHelper.BuildPrefix(HostingEnvironment.ApplicationPhysicalPath, config.FilePrefix);
             RefreshJob.REFRESH_INTERVAL = config.RefreshIntervalSeconds;
             _configuration = new TileXmlConfigurator(
+                TagLib,
                 config.ConfigFilePath,
                 prefix
                 );
@@ -52,7 +55,11 @@ namespace org.SharpTiles.Connectors
             
         }
 
-      
+        public static ITagLib TagLib
+        {
+            get;
+        }
+
         [Bindable(true)]
         [Category("Appearance")]
         [DefaultValue("")]

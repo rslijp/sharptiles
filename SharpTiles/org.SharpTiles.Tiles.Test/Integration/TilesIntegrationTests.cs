@@ -29,10 +29,13 @@ namespace org.SharpTiles.Tiles.Test.Integration
     public class TileXmlConfiguratorTest
     {
         #region Setup/Teardown
+        private ITagLib _lib;
 
         [SetUp]
         public void SetUp()
         {
+            _lib = new TagLib();
+            _lib.Register(new Tags.Tiles());
             book = new Dictionary<string, object>
                        {
                            {"title", "SharpTiles integration test"},
@@ -97,7 +100,7 @@ namespace org.SharpTiles.Tiles.Test.Integration
         [Test]
         public void GenerationFirstDifferentRunsWithOutErrors()
         {
-            var set = new TilesSet(new TileXmlConfigurator("tiles.config.xml", "Integration/"));
+            var set = new TilesSet(new TileXmlConfigurator(_lib,"tiles.config.xml", "Integration/"));
             string result = set["firstdifferent"].Render(new TagModel(book));
             //            Console.WriteLine(result);
             OutputEquals(result, "Integration\\expected.result.firstdifferent.html");
@@ -106,7 +109,7 @@ namespace org.SharpTiles.Tiles.Test.Integration
         [Test]
         public void GenerationFirstPageRunsWithOutErrors()
         {
-            var set = new TilesSet(new TileXmlConfigurator("tiles.config.xml", "Integration/"));
+            var set = new TilesSet(new TileXmlConfigurator(_lib, "tiles.config.xml", "Integration/"));
             string result = set["firstpage"].Render(new TagModel(book));
             OutputEquals(result, "Integration\\expected.result.firstpage.html");
         }
@@ -114,7 +117,7 @@ namespace org.SharpTiles.Tiles.Test.Integration
         [Test]
         public void GenerationOtherPageRunsWithOutErrors()
         {
-            var set = new TilesSet(new TileXmlConfigurator("tiles.config.xml", "Integration/"));
+            var set = new TilesSet(new TileXmlConfigurator(_lib, "tiles.config.xml", "Integration/"));
             string result = set["otherpage"].Render(new TagModel(book));
             OutputEquals(result, "Integration\\expected.result.otherpage.html");
         }
@@ -122,7 +125,7 @@ namespace org.SharpTiles.Tiles.Test.Integration
         [Test]
         public void LoadingOfConfigFile()
         {
-            var set = new TilesSet(new TileXmlConfigurator("tiles.config.xml", "Integration/"));
+            var set = new TilesSet(new TileXmlConfigurator(_lib, "tiles.config.xml", "Integration/"));
             Assert.That(set.Contains("base.html.book.page"));
             Assert.That(set.Contains("firstpage"));
             Assert.That(set.Contains("otherpage"));

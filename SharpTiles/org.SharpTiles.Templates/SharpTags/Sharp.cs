@@ -22,7 +22,7 @@ namespace org.SharpTiles.Tags.Templates.SharpTags
 {
     public class Sharp : BaseTagGroup<Sharp>
     {
-        static Sharp()
+        public Sharp()
         {
             Register<Marker>();
             Register<Include>();

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
 
@@ -10,9 +7,8 @@ namespace org.SharpTiles.Templates
 {
     public class RelaxedResolveTagLibParser : AbstractTagLibParser
     {
-        public RelaxedResolveTagLibParser(ParseHelper helper, IResourceLocator locator) : base(helper, locator)
+        public RelaxedResolveTagLibParser(TagLibForParsing lib, ParseHelper helper, IResourceLocator locator) : base(lib,helper, locator)
         {
-
         }
         
         protected override ITag ParseTagType()
@@ -24,18 +20,18 @@ namespace org.SharpTiles.Templates
             {
                 _helper.Read(TagLibConstants.GROUP_TAG_SEPERATOR);
                 name = _helper.Read(TokenType.Regular);
-                if (_helper.IgnoreUnkownTag() && !TagLib.Exists(group.Contents))
+                if (_helper.IgnoreUnkownTag() && !_lib.Exists(group.Contents))
                 {
                     return null;
                 }
-                ITagGroup tagGroup = TagLib.Libs.Get(group);
+                ITagGroup tagGroup = _lib.Get(group.Contents, group.Context);
                 return tagGroup.Get(name);
             }
             
             name = group;
             var hits = new List<ITag>();
             var libs = new HashSet<ITagGroup>();
-            foreach (var lib in TagLib.Libs)
+            foreach (var lib in _lib)
             {
                 if (!lib.Exist(name)) continue;
                 hits.Add(lib.Get(name));
@@ -48,12 +44,6 @@ namespace org.SharpTiles.Templates
             return hits.First();
         }
 
-        protected override TagLibMode Mode
-        {
-            get
-            {
-                return TagLibMode.RelaxedResolve;  
-            } 
-        }
+        protected override TagLibMode Mode => TagLibMode.RelaxedResolve;
     }
 }

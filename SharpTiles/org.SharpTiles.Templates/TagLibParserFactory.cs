@@ -10,26 +10,27 @@ namespace org.SharpTiles.Templates
 {
     public class TagLibParserFactory
     {
-        private TagLibMode _mode;
+        private readonly TagLibForParsing _lib;
+        private readonly TagLibMode _mode;
         private static readonly string[] WHITESPACES = new []{
                 " ","\t", "\r", "\n"
         };
 
-        public TagLibParserFactory() : this(TagLibMode.Strict)
+        public TagLibParserFactory(TagLibForParsing lib) : this(lib,TagLibMode.Strict)
         {
-            
         }
 
-        public TagLibParserFactory(TagLibMode mode)
+        public TagLibParserFactory(TagLibForParsing lib, TagLibMode mode)
         {
+            _lib = lib;
             _mode = mode;
         }
 
         public ITagLibParser Construct(ParseHelper helper, IResourceLocator locator)
         {
-            if(_mode==TagLibMode.Strict) return new StrictTagLibParser(helper, locator);
-            if (_mode == TagLibMode.StrictResolve) return new StrictResolveTagLibParser(helper, locator);
-            if (_mode == TagLibMode.RelaxedResolve) return new RelaxedResolveTagLibParser(helper, locator);
+            if(_mode==TagLibMode.Strict) return new StrictTagLibParser(_lib,helper, locator);
+            if (_mode == TagLibMode.StrictResolve) return new StrictResolveTagLibParser(_lib,helper, locator);
+            if (_mode == TagLibMode.RelaxedResolve) return new RelaxedResolveTagLibParser(_lib,helper, locator);
             return null;
         }
 
@@ -53,6 +54,11 @@ namespace org.SharpTiles.Templates
             {
                 helper.PopTokenConfiguration(ResetIndex.LookAhead);
             }
+        }
+
+        public static TagLibParserFactory Base()
+        {
+            return new TagLibParserFactory(new TagLibForParsing(new TagLib()));
         }
     }
 }

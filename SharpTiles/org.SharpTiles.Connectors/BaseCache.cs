@@ -20,6 +20,7 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using org.SharpTiles.Common;
+using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 using org.SharpTiles.Templates.Templates;
 using org.SharpTiles.Tiles;
@@ -31,10 +32,21 @@ namespace org.SharpTiles.Connectors
     {
         protected Assembly _assembly;
         protected IResourceLocatorFactory _factory;
+        protected ITagLib _lib=new TagLib();
 
         public Assembly Of
         {
             get { return _assembly; }
+        }
+
+        public void Register(ITagGroup group)
+        {
+            _lib.Register(group);
+        }
+
+        public bool IsRegisterd(string group)
+        {
+            return _lib.Exists(group);
         }
 
         public abstract ITile GetView(string view);
@@ -67,9 +79,9 @@ namespace org.SharpTiles.Connectors
                 }
                 _factory = factoryType == null
                                ?
-                                   new AssemblyLocatorFactory(_assembly, prefix)
+                                   new AssemblyLocatorFactory(_assembly, prefix).CloneForTagLib(_lib)
                                :
-                                   TileXmlConfigurator.GetCustomFactory(factoryType);
+                                   TileXmlConfigurator.GetCustomFactory(_lib,factoryType);
             }
         }
 

@@ -20,6 +20,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using org.SharpTiles.Common;
+using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 
 namespace org.SharpTiles.Templates.Templates
@@ -29,9 +30,11 @@ namespace org.SharpTiles.Templates.Templates
         private const string CONFIG_FILE = "tiles.xml";
         private readonly String _filePrefix;
         private readonly Assembly _inAssembly;
+        private ITagLib _lib;
 
         public AssemblyLocatorFactory(Assembly inAssembly, string filePrefix)
         {
+            _lib = new TagLib();
             _inAssembly = inAssembly;
             _filePrefix = filePrefix;
         }
@@ -63,9 +66,21 @@ namespace org.SharpTiles.Templates.Templates
         {
             if (throwException || locator.Exists(entry))
             {
-                return new ResourceTemplate(locator, this, entry);
+                return new ResourceTemplate(_lib,locator, this, entry);
             }
             return null;
+        }
+
+        public ITagLib Lib
+        {
+            get { return _lib; } 
+        }
+
+
+        public IResourceLocatorFactory CloneForTagLib(ITagLib lib)
+        {
+            var f = new AssemblyLocatorFactory(_inAssembly, _filePrefix){ _lib = lib };
+            return f;
         }
 
         public DateTime? ConfigurationLastModified

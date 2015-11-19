@@ -35,19 +35,26 @@ namespace org.SharpTiles.Templates
         private readonly string _template;
         private ParsedTemplate _templateParsed;
         private TagLibMode _mode = TagLibMode.Strict;
+        private ITagLib _lib = null;
 
-        static Formatter()
+        public Formatter()
         {
-            TagLib.Register(new Sharp());
+            _lib = new TagLib();
+            _lib.Register(new Sharp());
         }
 
-        public Formatter(string template)
+        public Formatter(string template) : this()
 
         {
             _template = template;
         }
 
-        
+        public Formatter OverrideLib(ITagLib lib)
+        {
+            if (lib == null) return this;
+            _lib = lib;
+            return this;
+        }
 
         public Formatter SetLocatorFactory(IResourceLocatorFactory locatorFactory)
         {
@@ -75,11 +82,12 @@ namespace org.SharpTiles.Templates
 
         public Formatter Parse()
         {
+            var f = _locatorFactory.CloneForTagLib(_lib);
             if (_initialLocator == null)
             {
-                _initialLocator = _locatorFactory.GetNewLocator();
+                _initialLocator = f.GetNewLocator();
             }
-            _templateParsed = new InternalFormatter(_template, _allowTags, _initialLocator, _mode).Parse();
+            _templateParsed = new InternalFormatter(new TagLibForParsing(_lib), _template, _allowTags, _initialLocator, _mode).Parse();
 
             return this;
         }
@@ -97,14 +105,15 @@ namespace org.SharpTiles.Templates
 
         #region static constructors
 
-        public static Formatter FileBasedFormatter(string path)
+        public static Formatter FileBasedFormatter(string path, ITagLib lib=null)
         {
-            return FileBasedFormatter(path, TagLibMode.Strict);
+            return FileBasedFormatter(path, TagLibMode.Strict, lib);
         }
-        public static Formatter FileBasedFormatter(string path, TagLibMode mode)
+        public static Formatter FileBasedFormatter(string path, TagLibMode mode, ITagLib lib=null)
         {
             var locator = new FileBasedResourceLocator();
             return new Formatter(locator.GetDataAsString(path)).
+                        OverrideLib(lib).
                         AllowTags(true).
                         SetLocatorFactory(new FileLocatorFactory()).
                         SetInitialLocator(locator.Update(path)).
@@ -112,10 +121,11 @@ namespace org.SharpTiles.Templates
                         Parse();
         }
 
-        public static Formatter FileBasedFormatter(string path, Encoding encoding)
+        public static Formatter FileBasedFormatter(string path, Encoding encoding,ITagLib lib=null)
         {
             var locator = new FileBasedResourceLocator();
             return new Formatter(locator.GetDataAsString(path)).
+                        OverrideLib(lib).
                         AllowTags(true).
                         SetLocatorFactory(new FileLocatorFactory()).
                         SetInitialLocator(locator.Update(path)).
@@ -123,10 +133,11 @@ namespace org.SharpTiles.Templates
                         Parse();
         }
 
-        public static Formatter LocatorBasedFormatter(String path, IResourceLocator locator, IResourceLocatorFactory factory)
+        public static Formatter LocatorBasedFormatter(ITagLib lib, string path, IResourceLocator locator, IResourceLocatorFactory factory)
         {
             var template = locator.GetDataAsString(path);
             return new Formatter(template).
+                        OverrideLib(lib).
                         AllowTags(true).
                         SetLocatorFactory(factory).
                         SetInitialLocator(locator.Update(path)).
@@ -175,24 +186,6 @@ namespace org.SharpTiles.Templates
             return _templateParsed.Evaluate(model.UpdateFactory(_locatorFactory));
         }
 
-        public static ParsedTemplate ParseNested(ParseHelper helper, IResourceLocator locator, TagLibMode mode)
-        {
-            try
-            {
-                helper.PushNewTokenConfiguration(
-                    true,
-                    false,
-                    InternalFormatter.COMMENT,
-                    InternalFormatter.SEPERATORS,
-                    null,
-                    null, //InternalFormatter.LITERALS, 
-                    ResetIndex.LookAhead);
-                return new InternalFormatter(helper, true, true, locator,mode).ParseNested();
-            }
-            finally
-            {
-                helper.PopTokenConfiguration(ResetIndex.CurrentAndLookAhead);
-            }
-        }
+        
     }
 }

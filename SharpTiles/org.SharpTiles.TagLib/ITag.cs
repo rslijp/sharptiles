@@ -25,6 +25,7 @@ namespace org.SharpTiles.Tags
         ParseContext Context { get; set; }
 
         string TagName { get; }
+        ITagGroup Group { get; set; }
 
         ITagAttribute Id { get; set; }
 

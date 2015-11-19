@@ -85,6 +85,13 @@ namespace org.SharpTiles.Tags
             return MakePartial(new TagException(msg));
         }
 
+        public static PartialExceptionWithContext<TagException> UnbalancedCloseingTag(ITag expected, ITag found)
+        {
+            String msg =
+                String.Format("Found a different closing tag, {0}:{1} than expected {2}:{3}.", expected.Group.Name, expected.TagName, found.Group.Name, found.TagName);
+            return MakePartial(new TagException(msg));
+        }
+
         public static PartialExceptionWithContext<TagException> ExpectedCloseTag(Type type)
         {
             return MakePartial(new TagException("Expected a closing tag but none was found."));

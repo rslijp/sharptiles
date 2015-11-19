@@ -16,21 +16,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 using System;
-using System.IO;
-using org.SharpTiles.Common;
+using System.Collections.Generic;
 
-namespace org.SharpTiles.Tags.Creators
+namespace org.SharpTiles.Tags
 {
-    public interface IResourceLocatorFactory
+    public interface ITagExtendTagLib : ITag
     {
-        ITagLib Lib { get; }
-        IResourceLocatorFactory CloneForTagLib(ITagLib lib);
-
-        DateTime? ConfigurationLastModified { get; }
-        Stream GetConfiguration();
-        IResourceLocator GetNewLocator();
-        ITemplate Handle(String entry, bool throwException);
-        ITemplate Handle(String entry, IResourceLocator locator, bool throwException);
+        ITagGroup TagLibExtension { get; }
     }
 }

@@ -26,35 +26,28 @@ using org.SharpTiles.Tags.XmlTags;
 
 namespace org.SharpTiles.Tags
 {
-    public class TagLib : IEnumerable<ITagGroup>
+    public class TagLib : ITagLib
     {
-        private static readonly TagLib lib = new TagLib();
-        private static readonly IDictionary<string, ITagGroup> TAGS = new Dictionary<string, ITagGroup>();
+        private readonly IDictionary<string, ITagGroup> TAGS = new Dictionary<string, ITagGroup>();
 
-        static TagLib()
+        public TagLib()
         {
             Register(new Core());
             Register(new Format());
             Register(new Xml());
         }
 
-        public static TagLib Libs
+        public TagLib(params ITagGroup[] groups)
         {
-            get { return lib; }
-        }
-
-        public static ITagGroup Get(String group)
-        {
-            if (TAGS.ContainsKey(group))
+            foreach (var group in groups)
             {
-                return TAGS[group];
-            } 
-            return null;
+                Register(group);
+            }
         }
 
         #region IEnumerable<ITagGroup> Members
 
-        IEnumerator IEnumerable.GetEnumerator()
+            IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable<ITagGroup>) this).GetEnumerator();
         }
@@ -66,29 +59,26 @@ namespace org.SharpTiles.Tags
 
         #endregion
 
-        public static void Register(ITagGroup group)
+        public ITagLib Register(ITagGroup group)
         {
-                TAGS.Add(group.Name, group);
+            TAGS.Add(group.Name, group);
+            return this;
         }
 
-        public ITagGroup Get(Token group)
-        {
-            return Get(group.Contents, group.Context);
-        }
-
-        public ITagGroup Get(string group, ParseContext context)
+ 
+        public ITagGroup Get(string group, ParseContext context=null)
         {
             if (TAGS.ContainsKey(group))
             {
                 return TAGS[group];
             }
-            else
-            {
+            if (context != null) {
                 throw TagException.UnkownTagGroup(group).Decorate(context);
             }
+            return null;;
         }
 
-        public static bool Exists(string group)
+        public bool Exists(string group)
         {
             return TAGS.ContainsKey(group);
         }

@@ -20,7 +20,7 @@
 {
     public class Core : BaseTagGroup<Core>
     {
-        static Core()
+        public Core()
         {
             Register<Out>();
             Register<Set>();
@@ -28,8 +28,8 @@
             Register<Catch>();
             Register<If>();
             Register<Choose>();
-            Register<When>();
-            Register<Otherwise>();
+//            Register<When>();
+//            Register<Otherwise>();
             Register<ForEach>();
             Register<ForTokens>();
             Register<Url>();

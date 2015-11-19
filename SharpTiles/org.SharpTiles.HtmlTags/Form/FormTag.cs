@@ -49,6 +49,8 @@ namespace org.SharpTiles.HtmlTags.Form
         [Internal]
         public ITagAttribute Body { get; set; }
 
+        public ITagGroup Group { get; set; }
+
         public HtmlAttributesParameterValue HtmlAttributes
         {
             get

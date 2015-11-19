@@ -44,11 +44,7 @@ namespace org.SharpTiles.HtmlTags.Test
         public static double BENCHMARK_RATIO;
         private static bool _benchMarkSet = false;
 
-        static HtmlParserTest()
-        {
-            TagLib.Register(new Html());
-        }
-
+        
         [SetUp]
         public void SetUp()
         {
@@ -86,13 +82,26 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["name"] = "name";
             try
             {
-                new TagLibParserFactory().Parse("<html:textBox name=\"${Model.name}\" name=\"${Model.name}\"/>");
+                CreateFactory().Parse("<html:textBox name=\"${Model.name}\" name=\"${Model.name}\"/>");
                 Assert.Fail("Expected exception");
             }
             catch (TagException Te)
             {
                 Assert.That(Te.MessageWithOutContext, Is.EqualTo(TagException.PropertyAlReadySet("name").Message));
             }
+        }
+
+        private static TagLibParserFactory CreateFactory()
+        {
+            var lib = BuildTagLib();
+            return new TagLibParserFactory(new TagLibForParsing(lib));
+        }
+
+        private static TagLib BuildTagLib()
+        {
+            var tagLib = new TagLib();
+            tagLib.Register(new Html());
+            return tagLib;
         }
 
 
@@ -104,7 +113,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["name"] = "name";
             try
             {
-                ITag tag = new TagLibParserFactory().Parse("<html:radioButton name=\"${Model.name}\"/>");
+                ITag tag = CreateFactory().Parse("<html:radioButton name=\"${Model.name}\"/>");
                 tag.Evaluate(model);
                 Assert.Fail("Expected exception");
             }
@@ -141,7 +150,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["name"] = "name";
             model.Model["value"] = "false";
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:checkBox name=\"${Model.name}\" isChecked=\"${Model.value}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo(
                                                  "<input id=\"name\" name=\"name\" type=\"checkbox\" value=\"true\" /><input name=\"name\" type=\"hidden\" value=\"false\" />"
@@ -155,7 +164,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Page[Html.PAGE_MODEL_HTMLHELPER_INSTANCE] = GetHtmlHelper();
             model.Model["name"] = "name";
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:checkBox name=\"${Model.name}\" isChecked=\"true\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo(
                                                  "<input checked=\"checked\" id=\"name\" name=\"name\" type=\"checkbox\" value=\"true\" /><input name=\"name\" type=\"hidden\" value=\"false\" />"
@@ -171,7 +180,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["value"] = "true";
             model.Model["style"] = "nice";
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:checkBox name=\"${Model.name}\" isChecked=\"${Model.value}\" class=\"${Model.style}\"/>");
             Assert.That(tag.Evaluate(model),
                         Is.EqualTo(
@@ -186,7 +195,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Page[Html.PAGE_MODEL_HTMLHELPER_INSTANCE] = GetHtmlHelper();
             model.Model["name"] = "name";
             model.Model["value"] = "value";
-            ITag tag = new TagLibParserFactory().Parse("<html:hidden name=\"${Model.name}\" value=\"${Model.value}\"/>");
+            ITag tag = CreateFactory().Parse("<html:hidden name=\"${Model.name}\" value=\"${Model.value}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo(
                                                  "<input id=\"name\" name=\"name\" type=\"hidden\" value=\"value\" />"
                                                  ));
@@ -198,7 +207,7 @@ namespace org.SharpTiles.HtmlTags.Test
             var model = new TagModel(new Hashtable());
             model.Page[Html.PAGE_MODEL_HTMLHELPER_INSTANCE] = GetHtmlHelper();
             model.Model["name"] = "name";
-            ITag tag = new TagLibParserFactory().Parse("<html:hidden name=\"${Model.name}\"/>");
+            ITag tag = CreateFactory().Parse("<html:hidden name=\"${Model.name}\"/>");
             Assert.That(tag.Evaluate(model),
                         Is.EqualTo("<input id=\"name\" name=\"name\" type=\"hidden\" value=\"\" />"));
         }
@@ -213,7 +222,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["style"] = "nice";
 
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:hidden name=\"${Model.name}\" value=\"${Model.value}\" class=\"${Model.style}\"/>");
             Assert.That(tag.Evaluate(model),
                         Is.EqualTo("<input class=\"nice\" id=\"name\" name=\"name\" type=\"hidden\" value=\"true\" />"));
@@ -226,7 +235,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Page[Html.PAGE_MODEL_HTMLHELPER_INSTANCE] = GetHtmlHelper();
             model.Model["name"] = "name";
             model.Model["value"] = "value";
-            ITag tag = new TagLibParserFactory().Parse("<html:password name=\"${Model.name}\" value=\"${Model.value}\"/>");
+            ITag tag = CreateFactory().Parse("<html:password name=\"${Model.name}\" value=\"${Model.value}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo(
                                                  "<input id=\"name\" name=\"name\" type=\"password\" value=\"value\" />"
                                                  ));
@@ -238,7 +247,7 @@ namespace org.SharpTiles.HtmlTags.Test
             var model = new TagModel(new Hashtable());
             model.Page[Html.PAGE_MODEL_HTMLHELPER_INSTANCE] = GetHtmlHelper();
             model.Model["name"] = "name";
-            ITag tag = new TagLibParserFactory().Parse("<html:password name=\"${Model.name}\"/>");
+            ITag tag = CreateFactory().Parse("<html:password name=\"${Model.name}\"/>");
             Assert.That(tag.Evaluate(model),
                         Is.EqualTo("<input id=\"name\" name=\"name\" type=\"password\" />"));
         }
@@ -253,7 +262,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["style"] = "nice";
 
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:password name=\"${Model.name}\" value=\"${Model.value}\" class=\"${Model.style}\"/>");
             Assert.That(tag.Evaluate(model),
                         Is.EqualTo("<input class=\"nice\" id=\"name\" name=\"name\" type=\"password\" value=\"true\" />"));
@@ -268,7 +277,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["value"] = "value";
             model.Model["isChecked"] = "false";
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:radioButton name=\"${Model.name}\" value=\"${Model.value}\" isChecked=\"${Model.isChecked}\"/>");
             Assert.That(tag.Evaluate(model),
                         Is.EqualTo("<input id=\"name\" name=\"name\" type=\"radio\" value=\"value\" />"));
@@ -281,7 +290,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Page[Html.PAGE_MODEL_HTMLHELPER_INSTANCE] = GetHtmlHelper();
             model.Model["name"] = "name";
             model.Model["value"] = "value";
-            ITag tag = new TagLibParserFactory().Parse("<html:radioButton name=\"${Model.name}\" value=\"${Model.value}\"/>");
+            ITag tag = CreateFactory().Parse("<html:radioButton name=\"${Model.name}\" value=\"${Model.value}\"/>");
             Assert.That(tag.Evaluate(model),
                         Is.EqualTo("<input id=\"name\" name=\"name\" type=\"radio\" value=\"value\" />"));
         }
@@ -296,7 +305,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["style"] = "nice";
 
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:radioButton name=\"${Model.name}\" value=\"${Model.value}\" class=\"${Model.style}\"/>");
             //Console.WriteLine(tag.Evaluate(model).Replace("\"", "\\\""));
             Assert.That(tag.Evaluate(model),
@@ -315,7 +324,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["isChecked"] = "false";
 
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:textArea name=\"${Model.name}\" value=\"${Model.value}\" columns=\"${Model.columns}\" rows=\"${Model.rows}\" isChecked=\"${Model.isChecked}\"/>");
             Assert.That(tag.Evaluate(model),
                         Is.EqualTo(
@@ -328,7 +337,7 @@ namespace org.SharpTiles.HtmlTags.Test
             var model = new TagModel(new Hashtable());
             model.Page[Html.PAGE_MODEL_HTMLHELPER_INSTANCE] = GetHtmlHelper();
             model.Model["name"] = "name";
-            ITag tag = new TagLibParserFactory().Parse("<html:textArea name=\"${Model.name}\"/>");
+            ITag tag = CreateFactory().Parse("<html:textArea name=\"${Model.name}\"/>");
             Assert.That(tag.Evaluate(model),
                         Is.EqualTo("<textarea cols=\"20\" id=\"name\" name=\"name\" rows=\"2\">\r\n</textarea>"));
         }
@@ -343,7 +352,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["style"] = "nice";
 
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:textArea name=\"${Model.name}\" value=\"${Model.value}\" class=\"${Model.style}\"/>");
             Assert.That(tag.Evaluate(model),
                         Is.EqualTo(
@@ -357,7 +366,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Page[Html.PAGE_MODEL_HTMLHELPER_INSTANCE] = GetHtmlHelper();
             model.Model["name"] = "name";
             model.Model["value"] = "value";
-            ITag tag = new TagLibParserFactory().Parse("<html:textBox name=\"${Model.name}\" value=\"${Model.value}\"/>");
+            ITag tag = CreateFactory().Parse("<html:textBox name=\"${Model.name}\" value=\"${Model.value}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo(
                                                  "<input id=\"name\" name=\"name\" type=\"text\" value=\"value\" />"
                                                  ));
@@ -369,7 +378,7 @@ namespace org.SharpTiles.HtmlTags.Test
             var model = new TagModel(new Hashtable());
             model.Page[Html.PAGE_MODEL_HTMLHELPER_INSTANCE] = GetHtmlHelper();
             model.Model["name"] = "name";
-            ITag tag = new TagLibParserFactory().Parse("<html:textBox name=\"${Model.name}\"/>");
+            ITag tag = CreateFactory().Parse("<html:textBox name=\"${Model.name}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo("<input id=\"name\" name=\"name\" type=\"text\" value=\"\" />"));
         }
 
@@ -383,7 +392,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["style"] = "nice";
 
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:textBox name=\"${Model.name}\" value=\"${Model.value}\" class=\"${Model.style}\"/>");
             Assert.That(tag.Evaluate(model),
                         Is.EqualTo("<input class=\"nice\" id=\"name\" name=\"name\" type=\"text\" value=\"true\" />"));
@@ -397,7 +406,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["modelName"] = "modelName";
             model.Model["validationMessage"] = "message";
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:validationMessage modelName=\"${Model.modelName}\" validationMessage=\"${Model.validationMessage}\"/>");
             Assert.That(tag.Evaluate(model), Is.Null);
         }
@@ -410,7 +419,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["modelName"] = "errorName";
             model.Model["validationMessage"] = "alternative message";
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:validationMessage modelName=\"${Model.modelName}\" validationMessage=\"${Model.validationMessage}\"/>");
             Assert.That(tag.Evaluate(model),
                         Is.EqualTo("<span class=\"field-validation-error\">alternative message</span>"));
@@ -422,7 +431,7 @@ namespace org.SharpTiles.HtmlTags.Test
             var model = new TagModel(new Hashtable());
             model.Page[Html.PAGE_MODEL_HTMLHELPER_INSTANCE] = GetHelperWithValidation();
             model.Model["modelName"] = "errorName";
-            ITag tag = new TagLibParserFactory().Parse("<html:validationMessage modelName=\"${Model.modelName}\"/>");
+            ITag tag = CreateFactory().Parse("<html:validationMessage modelName=\"${Model.modelName}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo("<span class=\"field-validation-error\">error</span>"));
         }
 
@@ -435,7 +444,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["modelName"] = "name";
             model.Model["validationMessage"] = "message";
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:validationMessage modelName=\"${Model.modelName}\" validationMessage=\"${Model.validationMessage}\"/>");
             Assert.That(tag.Evaluate(model), Is.Null);
         }
@@ -450,7 +459,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["style"] = "nice";
 
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:validationMessage modelName=\"${Model.name}\" value=\"${Model.value}\" class=\"${Model.style}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo("<span class=\"nice\" value=\"true\">error</span>"));
         }
@@ -462,7 +471,7 @@ namespace org.SharpTiles.HtmlTags.Test
             var model = new TagModel(new Hashtable());
             model.Page[Html.PAGE_MODEL_HTMLHELPER_INSTANCE] = GetHelperWithValidation();
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:validationSummary/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo("<ul class=\"validation-summary-errors\"><li>error</li>\r\n</ul>"));
         }
@@ -474,7 +483,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Page[Html.PAGE_MODEL_HTMLHELPER_INSTANCE] = GetHelperWithValidation();
             model.Model["class"] = "nice";
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:validationSummary message=\"msg\" class=\"${Model.class}\"/>");
             
             Assert.That(tag.Evaluate(model), Is.EqualTo("<ul class=\"nice\" message=\"msg\"><li>error</li>\r\n</ul>"));
@@ -489,7 +498,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Page[Html.PAGE_MODEL_HTMLHELPER_INSTANCE] = helper;
             model.Model["name"] = "name";
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:listBox name=\"${Model.name}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo(
                 "<select id=\"name\" multiple=\"multiple\" name=\"name\"><option selected=\"selected\">a</option>\r\n<option>b</option>\r\n<option selected=\"selected\">c</option>\r\n<option>d</option>\r\n</select>"));
@@ -506,7 +515,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["name"] = "name";
             model.Model["class"] = "nice";
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:listBox class=\"${Model.class}\" name=\"${Model.name}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo(
                 "<select class=\"nice\" id=\"name\" multiple=\"multiple\" name=\"name\"><option selected=\"selected\">a</option>\r\n<option>b</option>\r\n<option selected=\"selected\">c</option>\r\n<option>d</option>\r\n</select>"));
@@ -523,7 +532,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["list"] = new MultiSelectList(new[] { "a", "b", "c", "d" }, null, null, new[] { "a", "c" });
             
            ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:listBox name=\"${Model.name}\" selectList=\"${Model.list}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo(
                 "<select id=\"name\" multiple=\"multiple\" name=\"name\"><option>a</option>\r\n<option>b</option>\r\n<option>c</option>\r\n<option>d</option>\r\n</select>"));
@@ -538,7 +547,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Page[Html.PAGE_MODEL_HTMLHELPER_INSTANCE] = helper;
             model.Model["name"] = "name";
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:dropDownList name=\"${Model.name}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo(
                 "<select id=\"name\" name=\"name\"><option>a</option>\r\n<option>b</option>\r\n<option selected=\"selected\">c</option>\r\n<option>d</option>\r\n</select>"));
@@ -555,7 +564,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["name"] = "name";
             model.Model["class"] = "nice";
             ITag tag =
-                new TagLibParserFactory().Parse(
+                CreateFactory().Parse(
                     "<html:dropDownList class=\"${Model.class}\" name=\"${Model.name}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo(
                 "<select class=\"nice\" id=\"name\" name=\"name\"><option>a</option>\r\n<option>b</option>\r\n<option selected=\"selected\">c</option>\r\n<option>d</option>\r\n</select>"));
@@ -571,7 +580,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["controller"] = "LogOut";
 
             ITag tag =
-                 new TagLibParserFactory().Parse(
+                 CreateFactory().Parse(
                      "<html:action action=\"${Model.action}\" controller=\"${Model.controller}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo("/SharpTiles/LogOut/Bye"));
         }
@@ -586,7 +595,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["controller"] = "Welcome";
 
             ITag tag =
-                 new TagLibParserFactory().Parse(
+                 CreateFactory().Parse(
                      "<html:form action=\"${Model.action}\" controller=\"${Model.controller}\" method=\"post\">abc</html:form>");
             Assert.That(tag.Evaluate(model), Is.EqualTo("<form action=\"/SharpTiles/Welcome/Bye\" method=\"post\">abc</form>"));
         }
@@ -600,7 +609,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["action"] = "Bye";
             
             ITag tag =
-                 new TagLibParserFactory().Parse(
+                 CreateFactory().Parse(
                      "<html:form action=\"${Model.action}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo("<form action=\"/SharpTiles/Welcome/Bye\" method=\"post\" />"));
         }
@@ -614,7 +623,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["action"] = "Bye";
 
             ITag tag =
-                 new TagLibParserFactory().Parse(
+                 CreateFactory().Parse(
                      "<html:form/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo("<form method=\"post\" />"));
         }
@@ -629,7 +638,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["action"] = "Bye";
         
             ITag tag =
-                 new TagLibParserFactory().Parse(
+                 CreateFactory().Parse(
                      "<html:action action=\"${Model.action}\" controller=\"${Model.controller}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo("/SharpTiles/Welcome/Bye"));
         }
@@ -644,7 +653,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["controller"] = "LogOut";
 
             ITag tag =
-                 new TagLibParserFactory().Parse(
+                 CreateFactory().Parse(
                      "<html:action action=\"${Model.action}\" controller=\"${Model.controller}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo("/SharpTiles/LogOut/Bye"));
         }
@@ -684,7 +693,7 @@ namespace org.SharpTiles.HtmlTags.Test
             model.Model["list"] = new SelectList(new[] { "a", "b", "c", "d" }, null, null, "c");
 
             ITag tag =
-                 new TagLibParserFactory().Parse(
+                 CreateFactory().Parse(
                      "<html:dropDownList name=\"${Model.name}\" selectList=\"${Model.list}\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo(
                 "<select id=\"name\" name=\"name\"><option>a</option>\r\n<option>b</option>\r\n<option selected=\"selected\">c</option>\r\n<option>d</option>\r\n</select>"));
@@ -695,7 +704,7 @@ namespace org.SharpTiles.HtmlTags.Test
         {
             var model = GetModel();
 
-            Formatter formatter = Formatter.FileBasedFormatter("templatehtml.htm");
+            Formatter formatter = Formatter.FileBasedFormatter("templatehtml.htm", BuildTagLib());
             string randomFile = Path.GetRandomFileName();
             try
             {
@@ -716,7 +725,8 @@ namespace org.SharpTiles.HtmlTags.Test
         public void PerformanceHtmlTagsNoReUse()
         {
             const int RUN = 100;
-            BenchMarkNoReUse("templatehtml.htm", GetModel(), RUN);
+            var lib=BuildTagLib();
+            BenchMarkNoReUse("templatehtml.htm", GetModel(), lib, RUN);
         }
 
         private static TagModel GetModel()
@@ -755,13 +765,13 @@ namespace org.SharpTiles.HtmlTags.Test
         public void PerformanceHtmlTagseReUse()
         {
             const int RUN = 160;
-            BenchMarkReUse("templatehtml.htm", GetModel(), RUN);
+            BenchMarkReUse("templatehtml.htm", GetModel(), BuildTagLib(), RUN);
         }
 
 
-        private static void BenchMarkReUse(string fileNameTemplate, TagModel model, int run)
+        private static void BenchMarkReUse(string fileNameTemplate, TagModel model, ITagLib lib, int run)
         {
-            Formatter formatter = Formatter.FileBasedFormatter(fileNameTemplate);
+            Formatter formatter = Formatter.FileBasedFormatter(fileNameTemplate, lib);
             formatter.Format(model);
 
             DateTime start = DateTime.Now;
@@ -778,15 +788,15 @@ namespace org.SharpTiles.HtmlTags.Test
             Console.WriteLine(fileNameTemplate + ": " + avg + " average formats per second no one parse");
         }
 
-        private static void BenchMarkNoReUse(string fileNameTemplate, TagModel model, int run)
+        private static void BenchMarkNoReUse(string fileNameTemplate, TagModel model, ITagLib lib, int run)
         {
-            Formatter formatter = Formatter.FileBasedFormatter(fileNameTemplate);
+            Formatter formatter = Formatter.FileBasedFormatter(fileNameTemplate, lib);
             formatter.Format(model);
 
             DateTime start = DateTime.Now;
             for (int i = 0; i < run; i++)
             {
-                formatter = Formatter.FileBasedFormatter(fileNameTemplate);
+                formatter = Formatter.FileBasedFormatter(fileNameTemplate,lib);
                 formatter.Format(model);
             }
             DateTime end = DateTime.Now;

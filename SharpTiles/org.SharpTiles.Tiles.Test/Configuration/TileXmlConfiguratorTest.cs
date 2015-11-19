@@ -23,6 +23,7 @@ using System.Xml.Serialization;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using org.SharpTiles.Common;
+using org.SharpTiles.Tags;
 using org.SharpTiles.Templates;
 using org.SharpTiles.Tiles.Configuration;
 using org.SharpTiles.Tiles.Tile;
@@ -32,16 +33,25 @@ namespace org.SharpTiles.Tiles.Test.Configuration
     [TestFixture]
     public class TileXmlConfiguratorTest
     {
+        private ITagLib _lib;
+
         private static string GetPath(ITile tile)
         {
             var templateTile = (TemplateTile)tile;
             return templateTile.Template.Path;
         }
 
+        [SetUp]
+        public void SetUp()
+        {
+            _lib=new TagLib();
+            _lib.Register(new Tags.Tiles());
+        }
+
         [Test]
         public void Deserialize()
         {
-            var set = new TilesSet(new TileXmlConfigurator("Configuration/tiles.config.xml"));
+            var set = new TilesSet(new TileXmlConfigurator(_lib,"Configuration/tiles.config.xml"));
 
             Assert.That(set.Tiles.Count, Is.EqualTo(3));
             Assert.That(GetPath(set["a"]), Is.EqualTo(Path.GetFullPath("a.htm")));
@@ -55,7 +65,7 @@ namespace org.SharpTiles.Tiles.Test.Configuration
         {
             try
             {
-                new TilesSet(new TileXmlConfigurator("Configuration/tiles.double.config.xml"));
+                new TilesSet(new TileXmlConfigurator(_lib,"Configuration/tiles.double.config.xml"));
                 Assert.Fail("Expected exception");
             }
             catch (TileException e)
@@ -76,7 +86,7 @@ namespace org.SharpTiles.Tiles.Test.Configuration
         {
             try
             {
-                new TileXmlConfigurator(
+                new TileXmlConfigurator(_lib,
                     Assembly.GetAssembly(typeof(String)));
                 Assert.Fail("Expected exception");
             }
@@ -98,6 +108,7 @@ namespace org.SharpTiles.Tiles.Test.Configuration
         public void DeserializeFromAssemlbyWithTilesConfigurationFileShouldLoadTilesSet()
         {
             var configurator = new TileXmlConfigurator(
+                _lib,
                 Assembly.GetAssembly(typeof(TileXmlConfiguratorTest)));
             var set = new TilesSet(configurator);
 
@@ -112,7 +123,7 @@ namespace org.SharpTiles.Tiles.Test.Configuration
         {
             try
             {
-                new TileXmlConfigurator("Configuration/tiles.config.half.xml");
+                new TileXmlConfigurator(_lib, "Configuration/tiles.config.half.xml");
                 Assert.Fail("Expected exceptions");
             }
             catch (Exception e)
@@ -126,7 +137,7 @@ namespace org.SharpTiles.Tiles.Test.Configuration
         {
             try
             {
-                new TileXmlConfigurator("Configuration/tiles.config.invalidtag.xml");
+                new TileXmlConfigurator(_lib, "Configuration/tiles.config.invalidtag.xml");
                 Assert.Fail("Expected exceptions");
             }
             catch (Exception e)
@@ -140,7 +151,7 @@ namespace org.SharpTiles.Tiles.Test.Configuration
         {
             try
             {
-                new TileXmlConfigurator("Configuration/tiles.config.incorrect.attribute.xml");
+                new TileXmlConfigurator(_lib, "Configuration/tiles.config.incorrect.attribute.xml");
                 Assert.Fail("Expected exceptions");
             }
             catch (Exception e)
@@ -152,7 +163,7 @@ namespace org.SharpTiles.Tiles.Test.Configuration
         [Test]
         public void FilePrefixOnTilesDefinitionsWrong()
         {
-            var xmlConfig = new TileXmlConfigurator("tiles.config.xml", "Configuration/");
+            var xmlConfig = new TileXmlConfigurator(_lib, "tiles.config.xml", "Configuration/");
             try
             {
                 new TilesSet(xmlConfig);
@@ -170,7 +181,7 @@ namespace org.SharpTiles.Tiles.Test.Configuration
         {
             try
             {
-                new TilesSet(new TileXmlConfigurator("Configuration/tiles.config.xml", "fileprefix/"));
+                new TilesSet(new TileXmlConfigurator(_lib, "Configuration/tiles.config.xml", "fileprefix/"));
                 Assert.Fail("Should fail");
             }
             catch (DirectoryNotFoundException DNFe)
@@ -210,7 +221,7 @@ namespace org.SharpTiles.Tiles.Test.Configuration
         [Test]
         public void TilesWithAttributesShouldLoadCorrectly()
         {
-            var xmlConfig = new TileXmlConfigurator("Configuration/tiles.with.properties.xml");
+            var xmlConfig = new TileXmlConfigurator(_lib, "Configuration/tiles.with.properties.xml");
             var set = new TilesSet(xmlConfig);
             Assert.That(set.Tiles.Count, Is.EqualTo(3));
             Assert.That(set["a"], Is.Not.Null);
@@ -219,7 +230,7 @@ namespace org.SharpTiles.Tiles.Test.Configuration
         [Test]
         public void TilesWithAutoAttributesShouldLoadCorrectly()
         {
-            var xmlConfig = new TileXmlConfigurator("Configuration/tiles.with.auto.properties.xml");
+            var xmlConfig = new TileXmlConfigurator(_lib, "Configuration/tiles.with.auto.properties.xml");
             var set = new TilesSet(xmlConfig);
             Assert.That(set.Tiles.Count, Is.EqualTo(3));
             Assert.That(set["a"], Is.Not.Null);
@@ -229,7 +240,7 @@ namespace org.SharpTiles.Tiles.Test.Configuration
         [Test]
         public void TilesWithExtendsReltionssAttributesShouldLoadCorrectly()
         {
-            var xmlConfig = new TileXmlConfigurator("Configuration/tiles.with.extends.xml");
+            var xmlConfig = new TileXmlConfigurator(_lib, "Configuration/tiles.with.extends.xml");
             var set = new TilesSet(xmlConfig);
             Assert.That(set.Tiles.Count, Is.EqualTo(4));
             Assert.That(set["a"], Is.Not.Null);

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */using System.Reflection;
+using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 using org.SharpTiles.Tiles;
 
@@ -28,6 +29,9 @@ namespace org.SharpTiles.Connectors
         IViewCache GuardInit(Assembly assembly);
         IResourceLocatorFactory Factory { get; }
         string PathSeperator { get;  }
+        void Register(ITagGroup group);
+
+        bool IsRegisterd(string group);
 
     }
 }

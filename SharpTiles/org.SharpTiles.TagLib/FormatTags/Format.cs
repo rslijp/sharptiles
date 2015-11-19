@@ -20,7 +20,7 @@
 {
     public class Format : BaseTagGroup<Format>
     {
-        static Format()
+        public Format()
         {
             Register<SetLocale>();
             Register<RequestEncoding>();

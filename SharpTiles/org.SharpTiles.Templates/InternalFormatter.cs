@@ -57,23 +57,23 @@ namespace org.SharpTiles.Templates
         private readonly bool _expectCloseTag;
         private readonly ParseHelper _parser;
         private readonly IResourceLocator _locator;
-
+        
         private ITag _closeTag;
         private IList<ITemplatePart> _templateParsed;
         private TagLibParserFactory _tagLibHelper;
 
-        public InternalFormatter(string template, bool allowTags, IResourceLocator locator, TagLibMode mode)
+        public InternalFormatter(TagLibForParsing lib, string template, bool allowTags, IResourceLocator locator, TagLibMode mode)
         {
-            _tagLibHelper = new TagLibParserFactory(mode);
+            _tagLibHelper = new TagLibParserFactory(lib, mode);
             _locator = locator;
             _expectCloseTag = false;
             _allowTags = allowTags;
             _parser = new ParseHelper(new Tokenizer(template, true, COMMENT, SEPERATORS, null /*LITERALS*/));
         }
 
-        public InternalFormatter(ParseHelper parser, bool allowTags, bool expectCloseTag, IResourceLocator locator, TagLibMode mode)
+        public InternalFormatter(TagLibForParsing lib, ParseHelper parser, bool allowTags, bool expectCloseTag, IResourceLocator locator, TagLibMode mode)
         {
-            _tagLibHelper = new TagLibParserFactory(mode);
+            _tagLibHelper = new TagLibParserFactory(lib, mode);
             _locator = locator;
             _allowTags = allowTags;
             _expectCloseTag = expectCloseTag;

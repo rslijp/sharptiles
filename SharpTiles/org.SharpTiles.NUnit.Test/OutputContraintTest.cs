@@ -18,6 +18,7 @@
  */using System.Collections;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using NUnit.Framework;
 using org.SharpTiles.Connectors;
 using org.SharpTiles.NUnit;
@@ -32,7 +33,9 @@ namespace org.SharpTiles.NUnit.Test
         [SetUp]
         public void SetUp()
         {
-            _cache = new TilesCache().GuardInit(Assembly.GetAssembly(typeof(OutputConstraintTest)));
+            _cache = new TilesCache();
+            _cache.Register(new Tiles.Tags.Tiles());
+            _cache.GuardInit(Assembly.GetAssembly(typeof(OutputConstraintTest)));
         }
 
         [Test]

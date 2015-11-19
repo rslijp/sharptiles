@@ -22,6 +22,7 @@ using System.IO;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Serialization;
+using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 using org.SharpTiles.Templates.Templates;
 
@@ -33,36 +34,36 @@ namespace org.SharpTiles.Tiles.Configuration
         private DateTime? _lastModified;
         private IResourceLocatorFactory _factory;
 
-        public TileXmlConfigurator(Assembly assembly)
-            : this(new AssemblyLocatorFactory(assembly, null))
+        public TileXmlConfigurator(ITagLib lib,Assembly assembly)
+            : this(lib, new AssemblyLocatorFactory(assembly, null))
         {
             
         }
 
-        public TileXmlConfigurator(Assembly assembly, string prefix)
-            : this(new AssemblyLocatorFactory(assembly, prefix))
+        public TileXmlConfigurator(ITagLib lib, Assembly assembly, string prefix)
+            : this(lib, new AssemblyLocatorFactory(assembly, prefix))
         {
 
         }
 
-        public TileXmlConfigurator(string filePath)
-            : this(new FileLocatorFactory(filePath, null))
+        public TileXmlConfigurator(ITagLib lib, string filePath)
+            : this(lib, new FileLocatorFactory(filePath, null))
         {
         }
 
-        public TileXmlConfigurator(string filePath, string filePrefix)
-            : this(new FileLocatorFactory(filePath, filePrefix))
+        public TileXmlConfigurator(ITagLib lib, string filePath, string filePrefix)
+            : this(lib,new FileLocatorFactory(filePath, filePrefix))
         {
         }
 
-        public TileXmlConfigurator(Type factoryType)
-            : this(GetCustomFactory(factoryType))
+        public TileXmlConfigurator(ITagLib lib, Type factoryType)
+            : this(lib, GetCustomFactory(lib,factoryType))
         {
         }
 
-        public TileXmlConfigurator(IResourceLocatorFactory factory)
+        public TileXmlConfigurator(ITagLib lib, IResourceLocatorFactory factory)
         {
-            _factory = factory;
+            _factory = factory.CloneForTagLib(lib);
             Load();
         }
 
@@ -82,12 +83,16 @@ namespace org.SharpTiles.Tiles.Configuration
                        
         }
 
-        public static IResourceLocatorFactory GetCustomFactory(Type factoryType)
+        public static IResourceLocatorFactory GetCustomFactory(ITagLib lib, Type factoryType)
         {
             if(factoryType==null) return null;
             var factory = Activator.CreateInstance(factoryType);
-            if(factory is IResourceLocatorFactory) return (IResourceLocatorFactory) factory;
-            throw new XmlException(String.Format("Configured factory {0} doesn't implement IResourceLocatorFactory.", factoryType.FullName));
+            if(factory is IResourceLocatorFactory) 
+            {
+                var resourceFactory=(IResourceLocatorFactory) factory;
+                return resourceFactory.CloneForTagLib(lib);
+            }
+            throw new XmlException(string.Format("Configured factory {0} doesn't implement IResourceLocatorFactory.", factoryType.FullName));
         }
 
         public DateTime? ConfigurationLastModified

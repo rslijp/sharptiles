@@ -31,6 +31,7 @@ namespace org.SharpTiles.Tags.Templates.SharpTags
         #region ITag Members
 
         public ParseContext Context { get; set; }
+        public ITagGroup Group { get; set; }
 
         public string TagName
         {

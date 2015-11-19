@@ -18,6 +18,7 @@
  */using System;
 using System.IO;
 using org.SharpTiles.Common;
+using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 using org.SharpTiles.Templates;
 
@@ -29,9 +30,11 @@ namespace org.SharpTiles.Templates.Templates
         private ParsedTemplate _template;
         private readonly IResourceLocator _resource;
         private IResourceLocatorFactory _factory;
+        private ITagLib _lib;
 
-        public ResourceTemplate(IResourceLocator resource, IResourceLocatorFactory factory, string path)
+        public ResourceTemplate(ITagLib lib, IResourceLocator resource, IResourceLocatorFactory factory, string path)
         {
+            _lib = lib;
             _path = path;
             _resource = resource;
             _factory = factory;
@@ -58,7 +61,7 @@ namespace org.SharpTiles.Templates.Templates
         {
             try
             {
-                _template = Formatter.LocatorBasedFormatter(_path, _resource, _factory).ParsedTemplate;
+                _template = Formatter.LocatorBasedFormatter(_lib, _path, _resource, _factory).ParsedTemplate;
             }
             catch (ResourceException FNFe)
             {

@@ -24,7 +24,7 @@ namespace org.SharpTiles.Tiles.Tags
     {
         public static readonly string TILES_GROUP_NAME = "tiles";
         
-        static Tiles()
+        public Tiles()
         {
             Register<Insert>();
             Register<InsertTemplate>();

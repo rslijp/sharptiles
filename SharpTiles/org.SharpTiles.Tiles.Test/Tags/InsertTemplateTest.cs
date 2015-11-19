@@ -36,11 +36,14 @@ namespace org.SharpTiles.Tiles.Test
     public class InsertTemplateTest
     {
         #region Setup/Teardown
+        private ITagLib _lib;
 
         [SetUp]
         public void SetUp()
         {
-            new TilesSet();
+            _lib = new TagLib();
+            _lib.Register(new Tags.Tiles());
+
             _map = new TilesMap();
             _data = new Hashtable();
             _model = new TagModel(_data);
@@ -235,7 +238,8 @@ namespace org.SharpTiles.Tiles.Test
         [Test]
         public void HandNestedIncludeWithPrefixDirs()
         {
-            var template = new ResourceTemplate(new FileBasedResourceLocator("Views"), new FileLocatorFactory(), "Home/Index.htm");
+
+            var template = new ResourceTemplate(_lib,new FileBasedResourceLocator("Views"), new FileLocatorFactory(), "Home/Index.htm");
             ITile a = new TemplateTile("a", template, new List<TileAttribute>());
             var result = a.Render(new TagModel(new Dictionary<string, string> { { "Message", "Test" } }).UpdateFactory(new FileLocatorFactory()));
             string expected = File.ReadAllText("expected_insert_template.htm");

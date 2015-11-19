@@ -75,7 +75,7 @@ namespace org.SharpTiles.Templates.Templates
         {
             try
             {
-                _template = Formatter.LocatorBasedFormatter(_name, _locator, _factory).ParsedTemplate;
+                _template = Formatter.LocatorBasedFormatter(_factory.Lib, _name, _locator, _factory).ParsedTemplate;
             }
             catch (ResourceException FNFe)
             {

@@ -18,6 +18,7 @@
  */using System;
 using System.IO;
 using org.SharpTiles.Common;
+using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 
 namespace org.SharpTiles.Templates.Templates
@@ -26,20 +27,26 @@ namespace org.SharpTiles.Templates.Templates
     {
         protected String _filePrefix;
         private readonly String _filePath;
+        private ITagLib _lib;
 
         public FileLocatorFactory()
         {
+            _lib=new TagLib();
         }
 
-        public FileLocatorFactory(string filePrefix)
+        public FileLocatorFactory(string filePrefix) : this()
         {
             _filePrefix = filePrefix;
         }
 
-        public FileLocatorFactory(string filePath, string filePrefix)
+        public FileLocatorFactory(string filePath, string filePrefix) : this(filePrefix)
         {
             _filePath = filePath;
-            _filePrefix = filePrefix;
+        }
+
+        public ITagLib Lib
+        {
+            get { return _lib; }
         }
 
         public ITemplate Handle(String entry, bool throwException)
@@ -58,6 +65,12 @@ namespace org.SharpTiles.Templates.Templates
         public Stream GetConfiguration()
         {
             return GetNewLocator().GetStream(_filePath);
+        }
+
+        public IResourceLocatorFactory CloneForTagLib(ITagLib lib)
+        {
+            var f = new FileLocatorFactory(_filePath,_filePrefix) {_lib=lib};
+            return f;
         }
 
         public DateTime? ConfigurationLastModified

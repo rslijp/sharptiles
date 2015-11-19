@@ -24,6 +24,7 @@ using NUnit.Framework.SyntaxHelpers;
 using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
+using org.SharpTiles.Tags.Templates.SharpTags;
 using org.SharpTiles.Templates.SharpTags;
 using org.SharpTiles.Templates.Templates;
 
@@ -76,7 +77,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         public void CheckPassThroughOfContentException()
         {
             new Formatter("just for init");
-            ITag tag = new TagLibParserFactory().Parse("<sharp:include file='SharpTags/error.htm'/>");
+            ITag tag = CreateFactory().Parse("<sharp:include file='SharpTags/error.htm'/>");
             try
             {
                 tag.Evaluate(new TagModel(this).UpdateFactory(new FileLocatorFactory("SharpTags/")));
@@ -88,19 +89,24 @@ namespace org.SharpTiles.Templates.Test.SharpTags
             }
         }
 
+        private static TagLibParserFactory CreateFactory()
+        {
+            ITagLib lib = new TagLib();
+            lib.Register(new Sharp());
+            return new TagLibParserFactory(new TagLibForParsing(lib));
+        }
+
         [Test]
         public void CheckPassThroughOfContentParsed()
         {
-            new Formatter("just for init");
-            ITag tag = new TagLibParserFactory().Parse("<sharp:include file='SharpTags/a.htm'/>");
+            ITag tag = CreateFactory().Parse("<sharp:include file='SharpTags/a.htm'/>");
             Assert.That(tag.Evaluate(new TagModel(this).UpdateFactory(new FileLocatorFactory("SharpTags/"))), Is.EqualTo("aa"));
         }
 
         [Test]
         public void CheckPassThroughOfNestedException()
         {
-            new Formatter("just for init");
-            ITag tag = new TagLibParserFactory().Parse("<sharp:include file='SharpTags/nestederror.htm'/>");
+            ITag tag = CreateFactory().Parse("<sharp:include file='SharpTags/nestederror.htm'/>");
             try
             {
                 tag.Evaluate(new TagModel(this).UpdateFactory(new FileLocatorFactory("SharpTags/")));

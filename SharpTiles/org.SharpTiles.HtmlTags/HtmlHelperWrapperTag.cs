@@ -33,6 +33,7 @@ namespace org.SharpTiles.HtmlTags
         {
             InitHelper();
         }
+        public ITagGroup Group { get; set; }
 
         public abstract string MethodName { get; }
 

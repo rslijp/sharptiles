@@ -71,6 +71,7 @@
     <Compile Include="Creators\IResourceLocatorFactory.cs" />
     <Compile Include="Creators\ITemplate.cs" />
     <Compile Include="Creators\ITemplatePart.cs" />
+    <Compile Include="NestedTagGroup.cs" />
     <Compile Include="Creators\ParsedTemplate.cs" />
     <Compile Include="DefaultPropertyValues\TagDefaultProperty.cs" />
     <Compile Include="DefaultPropertyValues\TagDefaultValue.cs" />
@@ -78,7 +79,10 @@
     <Compile Include="HasExampleAttribute.cs" />
     <Compile Include="HasNoteAttribute.cs" />
     <Compile Include="EnumProperyType.cs" />
+    <Compile Include="ITagRequiringTagLib.cs" />
     <Compile Include="ITagAttributeSetter.cs" />
+    <Compile Include="ITagLib.cs" />
+    <Compile Include="ITagExtendTagLib.cs" />
     <Compile Include="ReflectionAttributeSetter.cs" />
     <Compile Include="RequiredAttribute.cs" />
     <Compile Include="CoreTags\BaseCoreTag.cs" />

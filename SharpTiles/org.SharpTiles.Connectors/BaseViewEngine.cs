@@ -35,7 +35,7 @@ namespace org.SharpTiles.Connectors
         public static bool UseHttpErrors { get; set; }
         public static IViewCache Cache { get; set; }
         private static readonly object _cacheLock = new object();
-
+        
         #region IViewEngine Members
 
         public ViewEngineResult FindPartialView(ControllerContext controllerContext, string partialViewName,
@@ -76,9 +76,9 @@ namespace org.SharpTiles.Connectors
             lock (_cacheLock)
             {
                 if (Cache != null) return;
-                if (!TagLib.Exists(Html.HTML_GROUP_NAME)) TagLib.Register(new Html());
-                if (!TagLib.Exists(Tiles.Tags.Tiles.TILES_GROUP_NAME)) TagLib.Register(new Tiles.Tags.Tiles());
                 Cache = new T().GuardInit(assembly);
+                if (!Cache.IsRegisterd(Html.HTML_GROUP_NAME)) Cache.Register(new Html());
+                if (!Cache.IsRegisterd(Tiles.Tags.Tiles.TILES_GROUP_NAME)) Cache.Register(new Tiles.Tags.Tiles());
             }
         }
 
@@ -93,7 +93,7 @@ namespace org.SharpTiles.Connectors
             try
             {
                 var controllerStr = controller.RouteData.Values[ROUTEDATE_KEY_CONTROLLER];
-                return String.Format("{0}{1}{2}", controllerStr, Cache.PathSeperator, viewName);
+                return string.Format("{0}{1}{2}", controllerStr, Cache.PathSeperator, viewName);
             }
             catch
             {
