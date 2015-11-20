@@ -61,6 +61,8 @@ namespace org.SharpTiles.Tags
 
         public ITagLib Register(ITagGroup group)
         {
+            if (TAGS.ContainsKey(group.Name))
+                throw new ArgumentException($"Group '{group.Name}' is already registered. Currently registered groups are: {string.Join(", ", TAGS.Keys)}.");
             TAGS.Add(group.Name, group);
             return this;
         }
