@@ -26,7 +26,7 @@ namespace org.SharpTiles.Tags
 {
     public abstract class BaseTagGroup<G> : ITagGroup
     {
-        public IDictionary<string, ITagFactory> REGISTERED_TAGS = new Dictionary<string, ITagFactory>();
+        private readonly IDictionary<string, ITagFactory> REGISTERED_TAGS = new Dictionary<string, ITagFactory>();
 
         #region ITagGroup Members
 
@@ -84,6 +84,11 @@ namespace org.SharpTiles.Tags
         public void Register(Type type)
         {
             ITagFactory factory = new GenericTagFactory(type);
+            REGISTERED_TAGS.Add(factory.Name, factory);
+        }
+
+        public void Register(ITagFactory factory)
+        {
             REGISTERED_TAGS.Add(factory.Name, factory);
         }
     }
