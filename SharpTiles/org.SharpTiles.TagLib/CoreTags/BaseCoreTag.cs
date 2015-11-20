@@ -57,7 +57,7 @@ namespace org.SharpTiles.Tags.CoreTags
             }
         }
 
-        public ITagGroup Group { get; set; }
+        public virtual ITagGroup Group { get; set; }
 
         [Internal]
         public virtual ITagAttribute Id

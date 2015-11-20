@@ -69,12 +69,10 @@ namespace org.SharpTiles.Templates
         {
             var dish = new TagLib(extension);
             stack.Push(dish);
-            Console.WriteLine("PUSH");
         }
 
         public void Pop()
         {
-            Console.WriteLine("POP");
             stack.Pop();
         }
 
