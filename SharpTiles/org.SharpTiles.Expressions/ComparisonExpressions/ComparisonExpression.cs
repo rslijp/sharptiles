@@ -62,6 +62,9 @@ namespace org.SharpTiles.Expressions
 
         protected int Compare(IComparable lhs, IComparable rhs)
         {
+            if (lhs == null || rhs == null)
+                return lhs?.CompareTo(rhs) ?? (-1*rhs?.CompareTo(lhs) ?? 0);
+
             if(TypeConverter.IsNumeric(lhs) && TypeConverter.IsNumeric(rhs))
             {
                 lhs = (decimal) TypeConverter.To(lhs, typeof(decimal));
