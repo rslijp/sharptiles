@@ -28,6 +28,8 @@ namespace org.SharpTiles.Tags
         private static readonly IDictionary<Type, IDictionary<PropertyInfo, RequiredAttribute>> CACHE =
             new Dictionary<Type, IDictionary<PropertyInfo, RequiredAttribute>>();
 
+        private static readonly object _sempahore = new object();
+
         public bool IsSet(PropertyInfo property, Object obj)
         {
             Object value = property.GetValue(obj, null);
@@ -64,7 +66,11 @@ namespace org.SharpTiles.Tags
             Type type = tag.GetType();
             if (!CACHE.ContainsKey(type))
             {
-                CACHE.Add(type, AssembleProperties(tag));
+                lock (_sempahore)
+                {
+                    if (!CACHE.ContainsKey(type))
+                        CACHE.Add(type, AssembleProperties(tag));
+                }
             }
             return CACHE[type];
         }
