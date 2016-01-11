@@ -8,7 +8,7 @@ namespace org.SharpTiles.Common
 {
     public static class IModelExtensions
     {
-        public static IModel AdeptToNaturalLanguage(this IModel model)
+        public static IModel AdaptToNaturalLanguage(this IModel model)
         {
             return new NaturalLanguageModelWrapper(model);
         }

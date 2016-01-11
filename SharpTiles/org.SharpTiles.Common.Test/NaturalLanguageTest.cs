@@ -46,7 +46,7 @@ namespace org.SharpTiles.Common.Test
         public void TestGetsByIndexerShouldBeCamelCased()
         {
             var subject = new TestSubject();
-            var reflection = new Reflection(subject).AdeptToNaturalLanguage();
+            var reflection = new Reflection(subject).AdaptToNaturalLanguage();
             subject.ComplexArray = new TestSubject[3];
             subject.ComplexArray[0] = new TestSubject();
             subject.ComplexArray[1] = new TestSubject();
@@ -64,7 +64,7 @@ namespace org.SharpTiles.Common.Test
         public void TestSetsByIndexerShouldBeCamelCased()
         {
             var subject = new TestSubject();
-            var reflection = new Reflection(subject).AdeptToNaturalLanguage();
+            var reflection = new Reflection(subject).AdaptToNaturalLanguage();
             subject.ComplexArray = new TestSubject[3];
             subject.ComplexArray[0] = new TestSubject();
             subject.ComplexArray[1] = new TestSubject();
@@ -86,7 +86,7 @@ namespace org.SharpTiles.Common.Test
         public void TestGetsShouldBeCamelCased()
         {
             var subject = new TestSubject();
-            var reflection = new Reflection(subject).AdeptToNaturalLanguage();
+            var reflection = new Reflection(subject).AdaptToNaturalLanguage();
             subject.ComplexArray = new TestSubject[3];
             subject.ComplexArray[0] = new TestSubject();
             subject.ComplexArray[1] = new TestSubject();
@@ -104,7 +104,7 @@ namespace org.SharpTiles.Common.Test
         public void TestTryGetsShouldBeCamelCased()
         {
             var subject = new TestSubject();
-            var reflection = new Reflection(subject).AdeptToNaturalLanguage();
+            var reflection = new Reflection(subject).AdaptToNaturalLanguage();
             subject.ComplexArray = new TestSubject[3];
             subject.ComplexArray[0] = new TestSubject();
             subject.ComplexArray[1] = new TestSubject();
