@@ -21,6 +21,7 @@ using System.Text;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using org.SharpTiles.Tags;
+using org.SharpTiles.Tags.Templates.SharpTags;
 using org.SharpTiles.Tiles.Configuration;
 
 namespace org.SharpTiles.Tiles.Test.Integration
@@ -36,6 +37,8 @@ namespace org.SharpTiles.Tiles.Test.Integration
         {
             _lib = new TagLib();
             _lib.Register(new Tags.Tiles());
+            _lib.Register(new Sharp());
+
             book = new Dictionary<string, object>
                        {
                            {"title", "SharpTiles integration test"},

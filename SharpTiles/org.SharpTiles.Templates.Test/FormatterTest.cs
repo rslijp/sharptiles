@@ -30,7 +30,7 @@ namespace org.SharpTiles.Templates.Test
     [TestFixture]
     public class FormatterTest
     {
-        public const long BENCHMARK_FIX = 500000;
+        public const long BENCHMARK_FIX = 560000;
         public static double BENCHMARK_RATIO;
         private static bool _benchMarkSet = false;
 
@@ -174,6 +174,22 @@ namespace org.SharpTiles.Templates.Test
             Console.WriteLine($"[{model.Text}]");
         }
 
+        [Test]
+        public void Should_Throw_Correct_Error_Message_On_Unknown_Tag()
+        {
+            const string TEMPLATE = "<choose><unknown></unknown><otherwise></otherwise></choose>";
+            var model = new TestModel();
+            try
+            {
+                var formatter = new Formatter(TEMPLATE).SwitchToMode(TagLibMode.RelaxedResolve).Parse();
+                Assert.Fail("Expected exception");
+            }
+            catch (TagException Te)
+            {
+                Assert.That(Te.MessageWithOutContext, Is.EqualTo(TagException.UnkownTag("unknown").Message));
+            }
+            
+        }
 
         [Test]
         public void Setting_Local_Affects_Formatting_Of_Number_EN_After_Cout()
@@ -323,7 +339,7 @@ namespace org.SharpTiles.Templates.Test
             }
         }
 
-        [Test]
+        [Test,Ignore]
         public void FileTemplateWithRelaxedResolveTags()
         {
             var model = new Hashtable();

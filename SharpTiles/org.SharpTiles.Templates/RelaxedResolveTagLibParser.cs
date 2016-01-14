@@ -39,7 +39,8 @@ namespace org.SharpTiles.Templates
             }
             if (hits.Count==0)
             {
-                return null;
+                if (_helper.IgnoreUnkownTag()) return null;
+                throw TagException.UnkownTag(name.Contents).Decorate(name.Context);
             }
             return hits.First();
         }

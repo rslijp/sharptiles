@@ -24,6 +24,7 @@ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
+using org.SharpTiles.Tags.Templates.SharpTags;
 using org.SharpTiles.Templates;
 using org.SharpTiles.Tiles.Configuration;
 using org.SharpTiles.Tiles.Tile;
@@ -46,6 +47,7 @@ namespace org.SharpTiles.Tiles.Test.Configuration
         {
             _lib=new TagLib();
             _lib.Register(new Tags.Tiles());
+            _lib.Register(new Sharp());
         }
 
         [Test]

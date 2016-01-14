@@ -26,6 +26,7 @@ using org.SharpTiles.Common;
 using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.CoreTags;
+using org.SharpTiles.Tags.Templates.SharpTags;
 using org.SharpTiles.Templates.Templates;
 using org.SharpTiles.Tiles.Tags;
 using org.SharpTiles.Tiles.Tile;
@@ -43,6 +44,7 @@ namespace org.SharpTiles.Tiles.Test
         {
             _lib = new TagLib();
             _lib.Register(new Tags.Tiles());
+            _lib.Register(new Sharp());
 
             _map = new TilesMap();
             _data = new Hashtable();

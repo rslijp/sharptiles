@@ -39,6 +39,16 @@ namespace org.SharpTiles.Expressions.Test
                 );
         }
 
+        [Test]
+        public void MinusOne()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                            "'-1'",
+                            new Reflection(new SampleModel())),
+                        Is.EqualTo(-1)
+                );
+        }
+
         public class SampleModel
         {
             public string Name

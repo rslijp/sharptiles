@@ -40,7 +40,7 @@ namespace org.SharpTiles.HtmlTags.Test
     public class HtmlParserTest
     {
 
-        public const long BENCHMARK_FIX = 400000;
+        public const long BENCHMARK_FIX = 450000;
         public static double BENCHMARK_RATIO;
         private static bool _benchMarkSet = false;
 
