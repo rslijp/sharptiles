@@ -318,8 +318,10 @@
 	<call target="clean" />
 	<call target="lgpl" />
 	<call target="build" />
+	<!--
 	<call target="test" />
 	<call target="documentation" />
+     -->
   </target>
 
   <target name="distribution" description="- performs runs clean, build, documents and makes a distribution">

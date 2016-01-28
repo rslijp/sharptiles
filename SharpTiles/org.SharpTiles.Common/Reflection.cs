@@ -90,7 +90,7 @@ namespace org.SharpTiles.Common
             }
         }
 
-        public ReflectionResult Get(string property)
+        public virtual ReflectionResult Get(string property)
         {
             return GetProperty(_subject, property, 0);
         }
