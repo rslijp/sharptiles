@@ -51,11 +51,16 @@ namespace org.SharpTiles.Expressions
 
         public decimal LhsTyped(IModel model)
         {
+            if (Lhs == null)
+                throw ExpressionParseException.MissingExpression("lhs").Decorate(Token);
+
             return (decimal) TypeConverter.To(Lhs.Evaluate(model), ParameterType);
         }
 
         public decimal RhsTyped(IModel model)
         {
+            if (Rhs == null)
+                throw ExpressionParseException.MissingExpression("rhs").Decorate(Token);
             return (decimal) TypeConverter.To(Rhs.Evaluate(model), ParameterType);
         }
     }
