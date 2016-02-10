@@ -19,6 +19,8 @@
 using System.IO;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
+using org.SharpTiles.Tags;
+using org.SharpTiles.Tags.Templates.SharpTags;
 using org.SharpTiles.Templates.Templates;
 using org.SharpTiles.Tiles.Configuration;
 using org.SharpTiles.Tiles.Factory;
@@ -30,6 +32,18 @@ namespace org.SharpTiles.Tiles.Test.Factory
     [TestFixture]
     public class TemplateTileAttributeCreatorTest
     {
+        private TagLib _lib;
+        private FileLocatorFactory _locatorFactory;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _lib = new TagLib();
+            _lib.Register(new Tags.Tiles());
+            _lib.Register(new Sharp());
+            _locatorFactory = new FileLocatorFactory().CloneForTagLib(_lib) as FileLocatorFactory;
+        }
+
         [Test]
         public void CreatorShouldApplyWhenAttributeTileTypeIsSetToFile()
         {
@@ -49,7 +63,7 @@ namespace org.SharpTiles.Tiles.Test.Factory
                                 Value = "a.htm",
                                 Type = TileType.File.ToString()
                             };
-            var factory = new TilesFactory(new MockConfiguration("a.htm", DateTime.Now));
+            var factory = new TilesFactory(new MockConfiguration("a.htm", DateTime.Now) {Factory = _locatorFactory });
             var tile = new TemplateTileAttributeCreator().Create(entry, factory);
             Assert.That(tile, Is.Not.Null);
             Assert.That(tile.Name, Is.EqualTo("name"));
@@ -69,7 +83,7 @@ namespace org.SharpTiles.Tiles.Test.Factory
                 Value = "a.htm",
                 Type = TileType.File.ToString()
             };
-            var config = new MockConfiguration("a.htm", DateTime.Now);
+            var config = new MockConfiguration("a.htm", DateTime.Now) { Factory = _locatorFactory };
             var factory = new TilesFactory(config);
             var tile = new TemplateTileAttributeCreator().Create(entry, factory);
             Assert.That(tile, Is.Not.Null);

@@ -18,6 +18,8 @@
  */using System;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
+using org.SharpTiles.Tags;
+using org.SharpTiles.Tags.Templates.SharpTags;
 using org.SharpTiles.Templates.Templates;
 using org.SharpTiles.Tiles.Configuration;
 using org.SharpTiles.Tiles.Factory;
@@ -65,7 +67,11 @@ namespace org.SharpTiles.Tiles.Test.Factory
         [Test]
         public void CreateShouldAssembleFileTileWithCorrectExtendsAndPath()
         {
-            var factory = new TilesFactory( new MockConfiguration("a", DateTime.Now));
+            var lib = new TagLib();
+            lib.Register(new Tags.Tiles());
+            lib.Register(new Sharp());
+            var locatorFactory = new FileLocatorFactory().CloneForTagLib(lib) as FileLocatorFactory;
+            var factory = new TilesFactory( new MockConfiguration("a", DateTime.Now) {Factory = locatorFactory });
 
             var entry = new MockTileEntry
                             {

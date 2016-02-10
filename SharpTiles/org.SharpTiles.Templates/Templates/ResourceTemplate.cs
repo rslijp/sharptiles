@@ -46,6 +46,11 @@ namespace org.SharpTiles.Templates.Templates
             get { return _template; }
         }
 
+        public string Evaluate(TagModel model)
+        {
+            return Template.Evaluate(model);
+        }
+
         public string Description
         {
             get { return _path; }

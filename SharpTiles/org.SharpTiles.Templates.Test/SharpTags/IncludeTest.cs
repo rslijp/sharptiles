@@ -76,11 +76,12 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         [Test]
         public void CheckPassThroughOfContentException()
         {
+            //new FileLocatorFactory("SharpTags/")
             new Formatter("just for init");
             ITag tag = CreateFactory().Parse("<sharp:include file='SharpTags/error.htm'/>");
             try
             {
-                tag.Evaluate(new TagModel(this).UpdateFactory(new FileLocatorFactory("SharpTags/")));
+                tag.Evaluate(new TagModel(this));
                 Assert.Fail("Expected exception");
             }
             catch (Include.IncludeException IIe)
@@ -93,14 +94,14 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         {
             ITagLib lib = new TagLib();
             lib.Register(new Sharp());
-            return new TagLibParserFactory(new TagLibForParsing(lib));
+            return new TagLibParserFactory(new TagLibForParsing(lib), new FileLocatorFactory());
         }
 
         [Test]
         public void CheckPassThroughOfContentParsed()
         {
             ITag tag = CreateFactory().Parse("<sharp:include file='SharpTags/a.htm'/>");
-            Assert.That(tag.Evaluate(new TagModel(this).UpdateFactory(new FileLocatorFactory("SharpTags/"))), Is.EqualTo("aa"));
+            Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("aa"));
         }
 
         [Test]
@@ -109,7 +110,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
             ITag tag = CreateFactory().Parse("<sharp:include file='SharpTags/nestederror.htm'/>");
             try
             {
-                tag.Evaluate(new TagModel(this).UpdateFactory(new FileLocatorFactory("SharpTags/")));
+                tag.Evaluate(new TagModel(this));
                 Assert.Fail("Expected exception");
             }
             catch (Include.IncludeException IIe)
@@ -127,7 +128,8 @@ namespace org.SharpTiles.Templates.Test.SharpTags
                           {
                               File = new TemplateAttribute(new ParsedTemplate(new FileBasedResourceLocator(), new TextPart("SharpTags\\a.htm", null)))
                           };
-            Assert.That(tag.Evaluate(new TagModel(this).UpdateFactory(new FileLocatorFactory("SharpTags/"))), Is.EqualTo("aa"));
+            tag.Factory=new FileLocatorFactory();
+            Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("aa"));
         }
 
         [Test]
@@ -138,7 +140,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
 
             var formatter = new Formatter("<sharp:include file='SharpTags/d.htm'/>").Parse();
             Assert.That(
-                formatter.Format(new TagModel(table).UpdateFactory(new FileLocatorFactory("SharpTags/"))),
+                formatter.Format(new TagModel(table)),
                 Is.EqualTo("|bb##bb|bb##bb|bb##bb|")
             );
         }
@@ -147,7 +149,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         public void HandNestedIncludeWithDirs()
         {
             var formatter = new Formatter("<sharp:include file='SharpTags/withnested.htm'/>").Parse(); 
-            Assert.That(formatter.Format(new TagModel(new Hashtable()).UpdateFactory(new FileLocatorFactory("SharpTags/"))),
+            Assert.That(formatter.Format(new TagModel(new Hashtable())),
                         Is.EqualTo("FILE IN DIR"));
         }
 
@@ -155,7 +157,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         public void HandNestedIncludeWithNestedParentDirs()
         {
             var formatter = new Formatter("<sharp:include file='SharpTags/nested/withparent.htm'/>").Parse();
-            Assert.That(formatter.Format(new TagModel(new Hashtable()).UpdateFactory(new FileLocatorFactory("SharpTags/"))),
+            Assert.That(formatter.Format(new TagModel(new Hashtable())),
                         Is.EqualTo("parent aa"));
         }
 
@@ -163,7 +165,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         public void HandNestedIncludeWithParentDirs()
         {
             var formatter = new Formatter("<sharp:include file='SharpTags/withparent.htm'/>").Parse(); 
-            Assert.That(formatter.Format(new TagModel(new Hashtable()).UpdateFactory(new FileLocatorFactory("SharpTags/"))),
+            Assert.That(formatter.Format(new TagModel(new Hashtable())),
                         Is.EqualTo("parent aa"));
         }
 
@@ -174,7 +176,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
             table.Add("some", new Hashtable());
             var formatter =
                 new Formatter("<c:set var='some.a' scope='Model'>AA</c:set><sharp:include file='SharpTags/c.htm'/>").Parse();
-            Assert.That(formatter.Format(new TagModel(table).UpdateFactory(new FileLocatorFactory("SharpTags/"))),
+            Assert.That(formatter.Format(new TagModel(table)),
                         Is.EqualTo("bbAAbb"));
         }
 
@@ -188,7 +190,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
             table.Add("some", some);
 
             var formatter = new Formatter("<sharp:include file='SharpTags/b.htm'/>").Parse();
-            Assert.That(formatter.Format(new TagModel(table).UpdateFactory(new FileLocatorFactory("SharpTags/"))),
+            Assert.That(formatter.Format(new TagModel(table)),
                         Is.EqualTo("bb##bb"));
         }
 
@@ -203,7 +205,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
 
             var formatter = new Formatter("<sharp:include file='SharpTags/d.htm'/>").Parse();
             string fileName = Path.GetTempFileName();
-            formatter.FormatAndSave(new TagModel(table).UpdateFactory(new FileLocatorFactory("SharpTags/")), fileName);
+            formatter.FormatAndSave(new TagModel(table), fileName);
             byte[] generated = File.ReadAllBytes(fileName);
             byte[] expected = File.ReadAllBytes("SharpTags/expected.htm");
             //"|bb##bb|bb##bb|bb##bb|"
@@ -222,7 +224,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
             var formatter = new Formatter("<sharp:include file='SharpTags/e.htm'/>").Parse();
             string fileName = Path.GetTempFileName();
             formatter.FormatAndSave(
-                new TagModel(table).UpdateFactory(new FileLocatorFactory("SharpTags/")).UpdateFactory(new FileLocatorFactory("SharpTags/")),
+                new TagModel(table),
                 fileName);
             byte[] generated = File.ReadAllBytes(fileName);
             byte[] expected = File.ReadAllBytes("SharpTags/expected2.htm");

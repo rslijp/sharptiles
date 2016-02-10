@@ -19,12 +19,13 @@
 using System.Linq;
 using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
+using org.SharpTiles.Tags.Creators;
 
 namespace org.SharpTiles.Templates
 {
     public class RelaxedResolveTagLibParser : AbstractTagLibParser
     {
-        public RelaxedResolveTagLibParser(TagLibForParsing lib, ParseHelper helper, IResourceLocator locator) : base(lib,helper, locator)
+        public RelaxedResolveTagLibParser(TagLibForParsing lib, ParseHelper helper, IResourceLocator locator, IResourceLocatorFactory factory) : base(lib,helper, locator,factory)
         {
         }
         

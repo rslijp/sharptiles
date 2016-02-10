@@ -87,7 +87,7 @@ namespace org.SharpTiles.Templates
             {
                 _initialLocator = f.GetNewLocator();
             }
-            _templateParsed = new InternalFormatter(new TagLibForParsing(_lib), _template, _allowTags, _initialLocator, _mode).Parse();
+            _templateParsed = new InternalFormatter(new TagLibParserFactory(new TagLibForParsing(_lib),f, _mode), _template, _allowTags, _initialLocator).Parse();
 
             return this;
         }
@@ -155,7 +155,7 @@ namespace org.SharpTiles.Templates
 
         public void FormatAndSave(object source, string path, Encoding fallBack)
         {
-            var model = new TagModel(source).UpdateFactory(_locatorFactory);
+            var model = new TagModel(source);
             var formatted = _templateParsed.Evaluate(model);
             var data = (model.Encoding ?? fallBack).GetBytes(formatted);
             File.WriteAllBytes(path, data);
@@ -169,7 +169,6 @@ namespace org.SharpTiles.Templates
 
         public void FormatAndSave(TagModel model, string path, Encoding fallBack)
         {
-            model.UpdateFactory(_locatorFactory);
             string formatted = _templateParsed.Evaluate(model);
             byte[] data = (model.Encoding ?? fallBack).GetBytes(formatted);
             File.WriteAllBytes(path, data);
@@ -177,13 +176,13 @@ namespace org.SharpTiles.Templates
 
         public string Format(object source)
         {
-            TagModel model = new TagModel(source).UpdateFactory(_locatorFactory);
+            TagModel model = new TagModel(source);
             return _templateParsed.Evaluate(model);
         }
 
         public string Format(TagModel model)
         {
-            return _templateParsed.Evaluate(model.UpdateFactory(_locatorFactory));
+            return _templateParsed.Evaluate(model);
         }
 
         

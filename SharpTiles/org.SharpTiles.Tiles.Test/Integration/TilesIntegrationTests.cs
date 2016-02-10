@@ -86,7 +86,8 @@ namespace org.SharpTiles.Tiles.Test.Integration
         private static void OutputEquals(string result, string expectedFile)
         {
             result = CleanUp(result);
-            string expected = CleanUp(Encoding.UTF8.GetString(File.ReadAllBytes(expectedFile)));
+//            string expected = CleanUp(Encoding.UTF8.GetString(File.ReadAllBytes(expectedFile)));
+            string expected = CleanUp(File.ReadAllText(expectedFile));
             Assert.That(result, Is.EqualTo(expected));
         }
 

@@ -68,9 +68,8 @@ namespace org.SharpTiles.Connectors
             var tagModel = new TagModel(model.Model ?? model,
                                         new SimpleHttpSessionState(),
                                         new HttpRequestBaseWrapper(request),
-                                        new HttpContextBaseResponseWrapper(context, request.ApplicationPath),
-                                        _cache.Factory
-                                        ).UpdateFactory(_cache.Factory);
+                                        new HttpContextBaseResponseWrapper(context, request.ApplicationPath)
+                                        );
 
             tagModel.Page[Html.PAGE_MODEL_HTMLHELPER_INSTANCE] = new HtmlHelper(viewContext,
                                                                                 new SimpleViewDataContainer

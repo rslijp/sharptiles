@@ -26,6 +26,7 @@ using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.CoreTags;
 using org.SharpTiles.Tags.Templates.SharpTags;
 using org.SharpTiles.Templates.SharpTags;
+ using org.SharpTiles.Templates.Templates;
 
 namespace org.SharpTiles.Templates.Test.SharpTags
 {
@@ -56,7 +57,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         {
             var lib = new TagLib();
             lib.Register(new Sharp());
-            return new TagLibParserFactory(new TagLibForParsing(lib));
+            return new TagLibParserFactory(new TagLibForParsing(lib), new FileLocatorFactory());
         }
 
         [Test]

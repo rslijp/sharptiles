@@ -21,6 +21,9 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
+using org.SharpTiles.Tags;
+using org.SharpTiles.Tags.Templates.SharpTags;
+using org.SharpTiles.Templates.Templates;
 using org.SharpTiles.Tiles.Configuration;
 using org.SharpTiles.Tiles.Factory;
 using org.SharpTiles.Tiles.Test.Configuration;
@@ -31,10 +34,21 @@ namespace org.SharpTiles.Tiles.Test.Factory
     [TestFixture]
     public class TilesFactoryTest
     {
+        private TagLib _lib;
+        private FileLocatorFactory _locatorFactory;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _lib = new TagLib();
+            _lib.Register(new Tags.Tiles());
+            _lib.Register(new Sharp());
+            _locatorFactory = new FileLocatorFactory().CloneForTagLib(_lib) as FileLocatorFactory;
+        }
         [Test]
         public void DecorateOfOnlyOneFileTiles()
         {
-            var config = new MockConfiguration("a", DateTime.Now);
+            var config = new MockConfiguration("a", DateTime.Now) {Factory = _locatorFactory};
             config.Entries.Add(new MockTileEntry
                                    {
                                        Name = "a",
@@ -48,7 +62,7 @@ namespace org.SharpTiles.Tiles.Test.Factory
         [Test]
         public void DecorateOfTwoFileTiles()
         {
-            var config = new MockConfiguration("a", DateTime.Now);
+            var config = new MockConfiguration("a", DateTime.Now) { Factory = _locatorFactory };
             config.Entries.Add(new MockTileEntry
             {
                 Name = "a",
@@ -69,7 +83,7 @@ namespace org.SharpTiles.Tiles.Test.Factory
         [Test]
         public void DecorateOfOneFileOneAttributeTiles()
         {
-            var config = new MockConfiguration("a", DateTime.Now);
+            var config = new MockConfiguration("a", DateTime.Now) { Factory = _locatorFactory };
             config.Entries.Add(new MockTileEntry
             {
                 Name = "a",

@@ -41,7 +41,6 @@ namespace org.SharpTiles.Tags
         private readonly IResponse _response;
         private readonly IModel _request;
         private readonly IModel _session;
-        private IResourceLocatorFactory _factory;
         
         private Encoding _encoding;
         private bool _hasTags;
@@ -66,7 +65,7 @@ namespace org.SharpTiles.Tags
         }
 
         public TagModel(object model)
-            : this(new Reflection(model), null, null, null, null)
+            : this(new Reflection(model), null, null, null)
         {
         }
 
@@ -77,21 +76,21 @@ namespace org.SharpTiles.Tags
         }
 
         public TagModel(IModel model)
-            : this(model, null, null, null, null)
+            : this(model, null, null, null)
         {
         }
 
         public TagModel(object model, ISimpleSessionState session)
-            : this(new Reflection(model), session, null, null, null)
+            : this(new Reflection(model), session, null, null)
         {
         }
 
-        public TagModel(object model, ISimpleSessionState session, IModel request, IResponse response, IResourceLocatorFactory factory)
-            : this(new Reflection(model), session, request, response, factory)
+        public TagModel(object model, ISimpleSessionState session, IModel request, IResponse response)
+            : this(new Reflection(model), session, request, response)
         {
         }
 
-        public TagModel(IModel model, ISimpleSessionState session, IModel request, IResponse response, IResourceLocatorFactory factory)
+        public TagModel(IModel model, ISimpleSessionState session, IModel request, IResponse response)
         {
             _model = model;
             _page = new Reflection(new Hashtable());
@@ -99,7 +98,6 @@ namespace org.SharpTiles.Tags
             _session = session != null ? new Reflection(session) : null;
             _internal = new Reflection(this);
             _response = response;
-            _factory = factory;
         }
 
         public Stack<TagStackModel> TagVariables
@@ -143,10 +141,10 @@ namespace org.SharpTiles.Tags
             get { return GLOBAL; }
         }
 
-        public IResourceLocatorFactory Factory
-        {
-            get { return _factory; }
-        }
+//        public IResourceLocatorFactory Factory
+//        {
+//            get { return _factory; }
+//        }
 
         public Encoding Encoding
         {
@@ -306,12 +304,12 @@ namespace org.SharpTiles.Tags
                 throw TagException.HttpResponseNotAvailable();
             }
         }
+        
+//        public TagModel UpdateFactory(IResourceLocatorFactory factory)
+//        {
+//            _factory = factory;
+//            return this;
+//        }
 
-
-        public TagModel UpdateFactory(IResourceLocatorFactory factory)
-        {
-            _factory = factory;
-            return this;
-        }
     }
 }

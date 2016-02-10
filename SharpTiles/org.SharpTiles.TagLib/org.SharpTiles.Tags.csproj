@@ -71,6 +71,7 @@
     <Compile Include="Creators\IResourceLocatorFactory.cs" />
     <Compile Include="Creators\ITemplate.cs" />
     <Compile Include="Creators\ITemplatePart.cs" />
+    <Compile Include="ITagWithResourceFactory.cs" />
     <Compile Include="NestedTagGroup.cs" />
     <Compile Include="Creators\ParsedTemplate.cs" />
     <Compile Include="DefaultPropertyValues\TagDefaultProperty.cs" />

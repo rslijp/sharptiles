@@ -23,6 +23,7 @@ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
+using org.SharpTiles.Tags.Templates.SharpTags;
 using org.SharpTiles.Templates;
 using org.SharpTiles.Templates.Templates;
 using org.SharpTiles.Tiles.Configuration;
@@ -36,20 +37,23 @@ namespace org.SharpTiles.Tiles.Test
     {
 
         private ITagLib _lib;
+        private FileLocatorFactory _factory;
 
         [SetUp]
         public void SetUp()
         {
             _lib = new TagLib();
             _lib.Register(new Tags.Tiles());
+            _lib.Register(new Sharp());
+            _factory = new FileLocatorFactory().CloneForTagLib(_lib) as FileLocatorFactory;
         }
 
         [Test]
         public void TestCache()
         {
             var ts = new TilesSet();
-            ITile a = new TemplateTile("a", new FileTemplate("a.htm"), new List<TileAttribute>());
-            ITile b = new TemplateTile("b", new FileTemplate("b.htm"), new List<TileAttribute>());
+            ITile a = new TemplateTile("a", _factory.Handle("a.htm",true), new List<TileAttribute>());
+            ITile b = new TemplateTile("b", _factory.Handle("b.htm",true), new List<TileAttribute>());
 
             ts.Map.AddTile(a);
             ts.Map.AddTile(b);
@@ -65,7 +69,7 @@ namespace org.SharpTiles.Tiles.Test
             File.Copy("a.htm", tempTile, true);
             try
             {
-                var config = new MockConfiguration(tempTile, new DateTime(2007, 1, 1));
+                var config = new MockConfiguration(tempTile, new DateTime(2007, 1, 1)) {Factory = _factory };
                 var ts = new TilesSet(config);
 
                 Assert.That(RequiresRefresh(ts, "a"), Is.False);
@@ -91,7 +95,7 @@ namespace org.SharpTiles.Tiles.Test
         [Test]
         public void TestRefreshConfig()
         {
-            var config = new MockConfiguration(new DateTime(2007, 1, 1));
+            var config = new MockConfiguration(new DateTime(2007, 1, 1)) { Factory = _factory };
             var ts = new TilesSet(config);
 
             Assert.That(ts.Contains("a"));
@@ -148,9 +152,9 @@ namespace org.SharpTiles.Tiles.Test
         {
             var set = new TilesSet();
             IList<ITile> list = new List<ITile>();
-            ITile a = new TemplateTile("a", new FileTemplate("a.htm"), new List<TileAttribute>());
-            ITile b = new TemplateTile("b", new FileTemplate("b.htm"), new List<TileAttribute>());
-            ITile c = new TemplateTile("c", new FileTemplate("c.htm"), new List<TileAttribute>());
+            ITile a = new TemplateTile("a", _factory.Handle("a.htm",true), new List<TileAttribute>());
+            ITile b = new TemplateTile("b", _factory.Handle("b.htm",true), new List<TileAttribute>());
+            ITile c = new TemplateTile("c", _factory.Handle("c.htm",true), new List<TileAttribute>());
             list.Add(b);
             list.Add(c);
 

@@ -20,6 +20,7 @@ using System.IO;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using org.SharpTiles.Common;
+using org.SharpTiles.Tags;
 using org.SharpTiles.Templates;
 using org.SharpTiles.Templates.Templates;
 using org.SharpTiles.Tiles.Tile;
@@ -37,8 +38,7 @@ namespace org.SharpTiles.Tiles.Test.Tile
                 new FileTemplate("a.htm"),
                 null
                 );
-            Assert.That(tile.ParsedTemplate.Count, Is.EqualTo(1));
-            Assert.That(tile.ParsedTemplate.TemplateParsed[0].ConstantValue, Is.EqualTo(File.ReadAllText("a.htm")));
+            Assert.That(tile.Template.Evaluate(new TagModel(new object())), Is.EqualTo(File.ReadAllText("a.htm")));
         }
 
 

@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ITagLibParserFactory.cs" />
     <Compile Include="RelaxedResolveTagLibParser.cs" />
     <Compile Include="StrictResolveTagLibParser.cs" />
     <Compile Include="StrictTagLibParser.cs" />

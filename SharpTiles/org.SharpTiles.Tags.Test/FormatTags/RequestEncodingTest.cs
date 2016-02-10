@@ -62,7 +62,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
         {
             var tag = new RequestEncoding();
             var response = new MockResponse();
-            var model = new TagModel(this, new MockSessionState(), null, response, null);
+            var model = new TagModel(this, new MockSessionState(), null, response);
             tag.Value = new MockAttribute(new Constant("UTF-7"));
             Assert.IsNull(response.ResponseEncoding);
             tag.Evaluate(model);

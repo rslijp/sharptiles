@@ -55,7 +55,7 @@ namespace org.SharpTiles.Documentation
             {
                 Console.WriteLine("Generting documentation");
                 var formatter = Formatter.FileBasedFormatter(templatePath + "/index.htm");
-                formatter.FormatAndSave(new TagModel(new DocumentModel()).UpdateFactory(new FileLocatorFactory()), targetPath + "/reference.html");
+                formatter.FormatAndSave(new TagModel(new DocumentModel()), targetPath + "/reference.html");
             }
             catch (ExceptionWithContext EWC)
             {

@@ -21,6 +21,7 @@ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
+using org.SharpTiles.Tags.Templates.SharpTags;
 using org.SharpTiles.Templates.Templates;
 using org.SharpTiles.Tiles.Tags;
 using org.SharpTiles.Tiles.Tile;
@@ -35,6 +36,10 @@ namespace org.SharpTiles.Tiles.Test
         [SetUp]
         public void SetUp()
         {
+            _lib = new TagLib();
+            _lib.Register(new Tags.Tiles());
+            _lib.Register(new Sharp());
+            _factory = new FileLocatorFactory().CloneForTagLib(_lib) as FileLocatorFactory;
             new TilesSet();
             _map = new TilesMap();
             _data = new Hashtable();
@@ -43,12 +48,12 @@ namespace org.SharpTiles.Tiles.Test
                 "nested",
                 new TileAttribute("aAttribute", new StringTile("aAttributeValue"))
                 );
-            _map.AddTile(new TemplateTile("fileWithAttributes", new FileTemplate("filewithtileattributes.htm"), _nestedAttributes));
+            _map.AddTile(new TemplateTile("fileWithAttributes", _factory.Handle("filewithtileattributes.htm",true), _nestedAttributes));
             _attributes = new AttributeSet(
                 "main",
                 new TileAttribute("simple", new StringTile("simpleValue")),
-                new TileAttribute("file", new TemplateTile(null, new FileTemplate("a.htm"), null)),
-                new TileAttribute("fileWithVars", new TemplateTile(null, new FileTemplate("b.htm"), null)),
+                new TileAttribute("file", new TemplateTile(null, _factory.Handle("a.htm",true), null)),
+                new TileAttribute("fileWithVars", new TemplateTile(null, _factory.Handle("b.htm",true), null)),
                 new TileAttribute("fileWithTilesAttributes", new TileReference("fileWithAttributes", _map))
                 );
             _model.Decorate().With(_attributes);
@@ -73,6 +78,8 @@ namespace org.SharpTiles.Tiles.Test
         private TagModel _model;
         private AttributeSet _attributes;
         private AttributeSet _nestedAttributes;
+        private FileLocatorFactory _factory;
+        private TagLib _lib;
 
         [Test]
         public void CheckWhenRequired()

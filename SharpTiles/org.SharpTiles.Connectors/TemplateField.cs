@@ -84,7 +84,7 @@ namespace org.SharpTiles.Connectors
         protected override void Render(HtmlTextWriter writer)
         {
             ITile tile = TILES[_view];
-            var model = new TagModel(_model, new SimpleHttpSessionState(), null, new PageWrapper(Page), _configuration.GetFactory());
+            var model = new TagModel(_model, new SimpleHttpSessionState(), null, new PageWrapper(Page));
             model.Page["Request"] = Page.Request.Params;
             writer.Write(tile.Render(model));
         }

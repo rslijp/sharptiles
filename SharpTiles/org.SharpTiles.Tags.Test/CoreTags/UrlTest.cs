@@ -67,7 +67,7 @@ namespace org.SharpTiles.Tags.Test.CoreTags
         public void CheckUrlWithTildeRequired()
         {
             var url = new Url {Value = new MockAttribute(new Constant("~/info"))};
-            var model = new TagModel(this, new MockSessionState(), null, new MockResponse { ApplicationPath = "/SharpTiles" }, null);
+            var model = new TagModel(this, new MockSessionState(), null, new MockResponse { ApplicationPath = "/SharpTiles" });
             Assert.That(url.Evaluate(model), Is.EqualTo("/SharpTiles/info"));
 
         }
@@ -76,7 +76,7 @@ namespace org.SharpTiles.Tags.Test.CoreTags
         public void CheckUrlWithTildeRequiredNoAppName()
         {
             var url = new Url { Value = new MockAttribute(new Constant("~/info")) };
-            var model = new TagModel(this, new MockSessionState(), null, new MockResponse { ApplicationPath = "/" }, null);
+            var model = new TagModel(this, new MockSessionState(), null, new MockResponse { ApplicationPath = "/" });
             //            CHANGE DOCUMENTATIE
             Assert.That(url.Evaluate(model), Is.EqualTo("/info"));
 

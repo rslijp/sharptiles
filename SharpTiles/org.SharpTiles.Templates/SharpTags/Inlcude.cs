@@ -24,7 +24,7 @@ using org.SharpTiles.Tags.Creators;
 
 namespace org.SharpTiles.Templates.SharpTags
 {
-    public class Include : BaseCoreTag, ITag, ITagRequiringTagLib
+    public class Include : BaseCoreTag, ITag, ITagWithResourceFactory, ITagRequiringTagLib
     {
         public static readonly string NAME = "include";
 
@@ -52,12 +52,12 @@ namespace org.SharpTiles.Templates.SharpTags
         public string Evaluate(TagModel model)
         {
             var fileName = _file.Evaluate(model);
-                
+                    
             try
             {
                 if (fileName == null) return String.Empty;
                 LoadTile(model, fileName.ToString());
-                return _body.Template.Evaluate(model);
+                return _body.Evaluate(model);
             }
             catch (Exception e)
             {
@@ -74,7 +74,9 @@ namespace org.SharpTiles.Templates.SharpTags
             {
                 if (_body == null || !Equals(fileName, _body.Path))
                 {
-                    _body = model.Factory.CloneForTagLib(TagLib).Handle(fileName, _file.ResourceLocator, true);
+                    var locator = _file.ResourceLocator;//for relative path
+                    _body = this.Factory.CloneForTagLib(TagLib).Handle(fileName, locator, true);
+//                      _body = _file.ResourceLocator.Update(fileName);
                 }
             }
         }

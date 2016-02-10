@@ -24,6 +24,7 @@ using System.Collections.Generic;
  using System.Globalization;
  using org.SharpTiles.Common;
  using org.SharpTiles.Expressions;
+ using org.SharpTiles.Tags.Creators;
  using org.SharpTiles.Tags.DefaultPropertyValues;
  using org.SharpTiles.Tags.FormatTags;
 
@@ -35,7 +36,6 @@ namespace org.SharpTiles.Tags.CoreTags
         private IDictionary<string, IDefaultPropertyValue> DEFAULT_CACHE;
         protected ITagAttribute _id;
         protected TagState _state;
-
         protected BaseCoreTag()
         {
                 InitCache();
@@ -58,6 +58,7 @@ namespace org.SharpTiles.Tags.CoreTags
         }
 
         public virtual ITagGroup Group { get; set; }
+        public virtual IResourceLocatorFactory Factory { get; set; }
 
         [Internal]
         public virtual ITagAttribute Id

@@ -29,7 +29,7 @@ using org.SharpTiles.Tiles.Tile;
 namespace org.SharpTiles.Tiles.Tags
 {
     [HasExample]
-    public class InsertTemplate : BaseCoreTag, ITagWithNestedTags
+    public class InsertTemplate : BaseCoreTag, ITagWithResourceFactory, ITagWithNestedTags
     {
         public static readonly string NAME = "insertTemplate";
 
@@ -90,11 +90,11 @@ namespace org.SharpTiles.Tiles.Tags
             {
                 if (_tile == null || !Equals(tileName, _tile.Name))
                 {
-                    var template = model.Factory.Handle(tileName, ResourceLocator, true);
+                    var template = Factory.Handle(tileName, ResourceLocator, true);
                     _tile = new TemplateTile(
                         tileName, 
                         template,  
-                        new TilesFactory(model.Factory).CreateAttributes(AsAttributeEntries(model)));
+                        new TilesFactory(Factory).CreateAttributes(AsAttributeEntries(model)));
                 }
             } 
         }

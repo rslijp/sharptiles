@@ -17,13 +17,14 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
+using org.SharpTiles.Tags.Creators;
 
 namespace org.SharpTiles.Templates
 {
     public class StrictTagLibParser : AbstractTagLibParser
     {
 
-        public StrictTagLibParser(TagLibForParsing lib,ParseHelper helper, IResourceLocator locator) : base(lib,helper, locator)
+        public StrictTagLibParser(TagLibForParsing lib,ParseHelper helper, IResourceLocator locator, IResourceLocatorFactory factory) : base(lib,helper, locator, factory)
         {
         }
         

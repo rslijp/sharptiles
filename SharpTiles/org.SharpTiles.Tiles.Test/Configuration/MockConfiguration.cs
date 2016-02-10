@@ -54,9 +54,9 @@ namespace org.SharpTiles.Tiles.Test.Configuration
             get; set;
         }
 
-        public Assembly InAssembly
-        { get; set; }
-      
+//        public Assembly InAssembly
+//        { get; set; }
+//      
         public DateTime? ConfigurationLastModified { get; set; }
 
         public IList<ITileEntry> Entries
@@ -96,11 +96,13 @@ namespace org.SharpTiles.Tiles.Test.Configuration
             _addC = true;
         }
 
+        public IResourceLocatorFactory Factory { get; set; }
+
         public IResourceLocatorFactory GetFactory()
         {
-            return InAssembly != null
-                       ? new AssemblyLocatorFactory(InAssembly, FilePrefix)
-                       : (IResourceLocatorFactory)new FileLocatorFactory(FilePrefix);
+//            return InAssembly != null
+//                       ? new AssemblyLocatorFactory(InAssembly, FilePrefix)
+            return Factory;
         }
 
         #endregion

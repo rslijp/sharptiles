@@ -45,7 +45,7 @@ namespace org.SharpTiles.Tiles.Test
             _lib = new TagLib();
             _lib.Register(new Tags.Tiles());
             _lib.Register(new Sharp());
-
+            _factory = new FileLocatorFactory().CloneForTagLib(_lib) as FileLocatorFactory;
             _map = new TilesMap();
             _data = new Hashtable();
             _model = new TagModel(_data);
@@ -53,19 +53,18 @@ namespace org.SharpTiles.Tiles.Test
                 "nested",
                 new TileAttribute("aAttribute", new StringTile("aAttributeValue"))
                 );
-            _map.AddTile(new TemplateTile("fileWithAttributes", new FileTemplate("filewithtileattributes.htm"),
+            _map.AddTile(new TemplateTile("fileWithAttributes", _factory.Handle("filewithtileattributes.htm", true),
                                           _nestedAttributes));
             _attributes = new AttributeSet(
                 "main",
                 new TileAttribute("simple", new StringTile("simpleValue")),
-                new TileAttribute("file", new TemplateTile(null, new FileTemplate("a.htm"), null)),
-                new TileAttribute("fileWithVars", new TemplateTile(null, new FileTemplate("b.htm"), null)),
+                new TileAttribute("file", new TemplateTile(null, _factory.Handle("a.htm", true), null)),
+                new TileAttribute("fileWithVars", new TemplateTile(null, _factory.Handle("b.htm",true), null)),
                 new TileAttribute("fileWithTilesAttributes", new TileReference("fileWithAttributes", _map))
                 );
             _model.Decorate().With(_attributes);
             _data["simpleAsProperty"] = "simple";
             _data["some"] = new Hashtable {{"a", "AA"}};
-            _model.UpdateFactory(new FileLocatorFactory());
         }
 
         [TearDown]
@@ -85,6 +84,7 @@ namespace org.SharpTiles.Tiles.Test
         private TagModel _model;
         private AttributeSet _attributes;
         private AttributeSet _nestedAttributes;
+        private FileLocatorFactory _factory;
 
         [Test]
         public void CheckWhenRequired()
@@ -101,6 +101,7 @@ namespace org.SharpTiles.Tiles.Test
                             Is.EqualTo(
                                 TagException.MissingRequiredAttribute(typeof (InsertTemplate), "Template").Message));
             }
+            tag.Factory=new FileLocatorFactory().CloneForTagLib(new TagLib().Register(new Tags.Tiles()));
             tag.Template = new MockAttribute(new Property("tiles"));
             RequiredAttribute.Check(tag);
         }
@@ -112,6 +113,7 @@ namespace org.SharpTiles.Tiles.Test
                           {
                               Template = new MockAttribute(new Constant("insertAMaster.htm"))
                           };
+            tag.Factory = _factory;
             string expected = (new StreamReader("insertAExpected.htm")).ReadToEnd();
             string value = tag.Evaluate(_model);
             Assert.That(value, Is.EqualTo(expected));
@@ -124,6 +126,7 @@ namespace org.SharpTiles.Tiles.Test
                           {
                               Template = new MockAttribute(new Constant("insertEMaster.htm"))
                           };
+            tag.Factory = _factory;
             var bodyAttribute = new PutAttribute()
                                     {
                                         Name = new MockAttribute(new Constant("body")),
@@ -142,6 +145,7 @@ namespace org.SharpTiles.Tiles.Test
             {
                 Template = new MockAttribute(new Constant("insertEMaster.htm"))
             };
+            tag.Factory = _factory;
             var bodyAttribute = new PutAttribute()
             {
                 Name = new MockAttribute(new Constant("body")),
@@ -161,6 +165,7 @@ namespace org.SharpTiles.Tiles.Test
                           {
                               Template = new MockAttribute(new Constant("insertEMaster.htm"))
                           };
+            tag.Factory = _factory;
             var setAttribute = new Set
                                    {
                                        Var = new MockAttribute(new Constant("body")),
@@ -189,6 +194,7 @@ namespace org.SharpTiles.Tiles.Test
                           {
                               Template = new MockAttribute(new Constant("insertBMaster.htm"))
                           };
+            tag.Factory = _factory;
             var titleAttribute = new PutAttribute()
                                      {
                                          Name = new MockAttribute(new Constant("title")),
@@ -207,6 +213,7 @@ namespace org.SharpTiles.Tiles.Test
                           {
                               Template = new MockAttribute(new Constant("insertCMaster.htm"))
                           };
+            tag.Factory = _factory;
             var titleAttribute = new PutAttribute()
                                      {
                                          Name = new MockAttribute(new Constant("title")),
@@ -227,8 +234,8 @@ namespace org.SharpTiles.Tiles.Test
         [Test]
         public void HandNestedIncludeWithParentDirs()
         {
-            ITile a = new TemplateTile("a", new FileTemplate("Home/Index.htm"), new List<TileAttribute>());
-            var result = a.Render(new TagModel(new Dictionary<string, string> { { "Message", "Test" } }).UpdateFactory(new FileLocatorFactory()));
+            ITile a = new TemplateTile("a", _factory.Handle("Home/Index.htm",true), new List<TileAttribute>());
+            var result = a.Render(new TagModel(new Dictionary<string, string> { { "Message", "Test" } }));
             string expected = File.ReadAllText("expected_insert_template.htm");
             result = CleanUp(result);
             expected = CleanUp(expected);
@@ -243,7 +250,7 @@ namespace org.SharpTiles.Tiles.Test
 
             var template = new ResourceTemplate(_lib,new FileBasedResourceLocator("Views"), new FileLocatorFactory(), "Home/Index.htm");
             ITile a = new TemplateTile("a", template, new List<TileAttribute>());
-            var result = a.Render(new TagModel(new Dictionary<string, string> { { "Message", "Test" } }).UpdateFactory(new FileLocatorFactory()));
+            var result = a.Render(new TagModel(new Dictionary<string, string> { { "Message", "Test" } }));
             string expected = File.ReadAllText("expected_insert_template.htm");
             result = CleanUp(result);
             expected = CleanUp("VIEWS" + expected);
@@ -267,6 +274,7 @@ namespace org.SharpTiles.Tiles.Test
                           {
                               Template = new MockAttribute(new Constant("insertDMaster.htm"))
                           };
+            tag.Factory = _factory;
             var moduleAttribute = new PutAttribute()
                                       {
                                           Name = new MockAttribute(new Constant("modules")),

@@ -107,8 +107,7 @@ namespace org.SharpTiles.NUnit
                 new TagModel(model, 
                 new MockSessionState(),
                 null,
-                new MockResponse(AppPath),
-                _cache!=null ? _cache.Factory : null)
+                new MockResponse(AppPath))
              );
         }
 
@@ -224,7 +223,6 @@ namespace org.SharpTiles.NUnit
 
         public OutputEqualsConstraint From(IViewCache cache)
         {
-            if (_model != null) _model.UpdateFactory(cache.Factory);
             _cache = cache;
             return this;
         }

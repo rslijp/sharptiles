@@ -17,6 +17,8 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
+using org.SharpTiles.Tags;
+using org.SharpTiles.Tags.Templates.SharpTags;
 using org.SharpTiles.Templates.Templates;
 using org.SharpTiles.Tiles.Configuration;
 using org.SharpTiles.Tiles.Factory;
@@ -29,21 +31,27 @@ namespace org.SharpTiles.Tiles.Test.Factory
     public class AutoTileAttributeCreatorTest
     {
 
-        private TilesFactory factory;
+        private FileLocatorFactory _locatorFactory;
+        private TagLib _lib;
+        private TilesFactory _factory;
 
         #region Setup/Teardown
 
         [SetUp]
         public void SetUp()
         {
-            var config = new MockConfiguration();
-            factory = new TilesFactory(config);
+            _lib = new TagLib();
+            _lib.Register(new Tags.Tiles());
+            _lib.Register(new Sharp());
+            _locatorFactory = new FileLocatorFactory().CloneForTagLib(_lib) as FileLocatorFactory;
+            var config = new MockConfiguration() {Factory = _locatorFactory };
+            _factory = new TilesFactory(config);
         }
 
         [TearDown]
         public void TearDown()
         {
-            factory = null;
+            _factory = null;
         }
 
         #endregion
@@ -66,7 +74,7 @@ namespace org.SharpTiles.Tiles.Test.Factory
                                 Name = "name",
                                 Value = "string",
                             };
-            TileAttribute tile = new AutoTileAttributeCreator().Create(entry, factory);
+            TileAttribute tile = new AutoTileAttributeCreator().Create(entry, _factory);
             Assert.That(tile, Is.Not.Null);
             Assert.That(tile.Name, Is.EqualTo("name"));
             Assert.That(tile.Value, Is.Not.Null);
@@ -85,7 +93,7 @@ namespace org.SharpTiles.Tiles.Test.Factory
                                 Name = "name",
                                 Value = "definition",
                             };
-            TileAttribute tile = new AutoTileAttributeCreator().Create(entry, factory);
+            TileAttribute tile = new AutoTileAttributeCreator().Create(entry, _factory);
             Assert.That(tile, Is.Not.Null);
             Assert.That(tile.Name, Is.EqualTo("name"));
             Assert.That(tile.Value, Is.Not.Null);
@@ -104,7 +112,7 @@ namespace org.SharpTiles.Tiles.Test.Factory
                                 Name = "name",
                                 Value = "a.htm",
                             };
-            TileAttribute tile = new AutoTileAttributeCreator().Create(entry, factory);
+            TileAttribute tile = new AutoTileAttributeCreator().Create(entry, _factory);
             Assert.That(tile, Is.Not.Null);
             Assert.That(tile.Name, Is.EqualTo("name"));
             Assert.That(tile.Value, Is.Not.Null);
@@ -117,19 +125,19 @@ namespace org.SharpTiles.Tiles.Test.Factory
         [Test]
         public void CreatorShouldAssembleFileTileWhenTileIsFilledShouldTakePrefixIntoAccount()
         {
-            var config = new MockConfiguration();
-            factory = new TilesFactory(config);
+            var config = new MockConfiguration() {Factory = _locatorFactory};
+            _factory = new TilesFactory(config);
             var entry = new XmlAttributeEntry
             {
                 Name = "name",
                 Value = "a.htm",
             };
-            var tile = new AutoTileAttributeCreator().Create(entry, factory);
+            var tile = new AutoTileAttributeCreator().Create(entry, _factory);
             Assert.That(tile, Is.Not.Null);
             config.FilePrefix = @"nonexisting\";
             try
             {
-                new AutoTileAttributeCreator().Create(entry, factory);
+                new AutoTileAttributeCreator().Create(entry, _factory);
             }
             catch (TileException Te)
             {

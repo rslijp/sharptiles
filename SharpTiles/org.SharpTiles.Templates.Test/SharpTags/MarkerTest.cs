@@ -24,6 +24,7 @@ using NUnit.Framework.SyntaxHelpers;
 using org.SharpTiles.Tags;
  using org.SharpTiles.Tags.Creators;
  using org.SharpTiles.Tags.Templates.SharpTags;
+ using org.SharpTiles.Templates.Templates;
 
 namespace org.SharpTiles.Templates.Test.SharpTags
 {
@@ -78,7 +79,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         public void CheckPassThroughOfContentParsed()
         {
             var lib = new TagLib().Register(new Sharp());
-            ITag tag = new TagLibParserFactory(new TagLibForParsing(lib)).Parse("<sharp:marker id='id'>body</sharp:marker>");
+            ITag tag = new TagLibParserFactory(new TagLibForParsing(lib), new FileLocatorFactory()).Parse("<sharp:marker id='id'>body</sharp:marker>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("body"));
         }
     }

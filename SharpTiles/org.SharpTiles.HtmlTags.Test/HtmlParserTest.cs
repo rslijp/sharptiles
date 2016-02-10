@@ -33,6 +33,7 @@ using org.SharpTiles.Connectors;
 using org.SharpTiles.HtmlTags.Input;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Templates;
+using org.SharpTiles.Templates.Templates;
 
 namespace org.SharpTiles.HtmlTags.Test
 {
@@ -94,7 +95,7 @@ namespace org.SharpTiles.HtmlTags.Test
         private static TagLibParserFactory CreateFactory()
         {
             var lib = BuildTagLib();
-            return new TagLibParserFactory(new TagLibForParsing(lib));
+            return new TagLibParserFactory(new TagLibForParsing(lib),new FileLocatorFactory());
         }
 
         private static TagLib BuildTagLib()

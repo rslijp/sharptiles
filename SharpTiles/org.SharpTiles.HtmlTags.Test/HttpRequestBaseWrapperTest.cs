@@ -41,7 +41,7 @@ namespace org.SharpTiles.HtmlTags.Test
         {
             var request = new MockContextBase.MockRequestBase();
             var requestBase = new HttpRequestBaseWrapper(request);
-            var model = new TagModel(null, null, requestBase, null, null);
+            var model = new TagModel(null, null, requestBase, null);
             Assert.That(model["Request.IsAuthenticated"], Is.False);
             request.ManualAuthenticated = true;
             Assert.That(model["Request.IsAuthenticated"], Is.True);
@@ -63,7 +63,7 @@ namespace org.SharpTiles.HtmlTags.Test
         {
             var request = new MockContextBase.MockRequestBase();
             var requestBase = new HttpRequestBaseWrapper(request);
-            var model = new TagModel(null, null, requestBase, null, null);
+            var model = new TagModel(null, null, requestBase, null);
             request.Params["X"] = "1";
             Assert.That(model["Request.X"], Is.EqualTo("1"));
             request.Params["X"] = "2";

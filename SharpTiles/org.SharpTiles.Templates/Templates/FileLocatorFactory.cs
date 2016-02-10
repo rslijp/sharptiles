@@ -69,7 +69,7 @@ namespace org.SharpTiles.Templates.Templates
 
         public IResourceLocatorFactory CloneForTagLib(ITagLib lib)
         {
-            var f = new FileLocatorFactory(_filePath,_filePrefix) {_lib=lib};
+            var f = new FileLocatorFactory(_filePath,_filePrefix) {_lib=lib??_lib};
             return f;
         }
 

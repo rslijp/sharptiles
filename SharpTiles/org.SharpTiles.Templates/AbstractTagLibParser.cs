@@ -27,14 +27,16 @@ namespace org.SharpTiles.Templates
     public abstract class AbstractTagLibParser : ITagLibParser
     {
         protected readonly ParseHelper _helper;
-        private readonly IResourceLocator _locator;
+        private IResourceLocator _locator;
         protected TagLibForParsing _lib;
+        protected IResourceLocatorFactory _factory;
 
-        public AbstractTagLibParser(TagLibForParsing lib, ParseHelper helper, IResourceLocator locator)
+        public AbstractTagLibParser(TagLibForParsing lib, ParseHelper helper, IResourceLocator locator, IResourceLocatorFactory factory)
         {
             _lib = lib;
             _helper = helper;
             _locator = locator;
+            _factory = factory;
         }
 
 
@@ -102,9 +104,10 @@ namespace org.SharpTiles.Templates
 
         private void DecorateFactory(ITag tag)
         {
-            var t = tag as ITagRequiringTagLib;
-            if (t == null) return;
-            t.TagLib = _lib;
+            var requireTagLib = tag as ITagRequiringTagLib;
+            if (requireTagLib!=null) requireTagLib.TagLib = _lib;
+            var requireFactory = tag as ITagWithResourceFactory;
+            if (requireFactory != null) requireFactory.Factory = _factory;
         }
 
         private void PushTagLibExtension(ITag tag)
@@ -207,7 +210,7 @@ namespace org.SharpTiles.Templates
                     null,
                     null, //InternalFormatter.LITERALS, 
                     ResetIndex.LookAhead);
-                return new InternalFormatter(_lib, helper, true, true, locator, mode).ParseNested();
+                return new InternalFormatter(new TagLibParserFactoryAdapter(this), helper, true, true, locator).ParseNested();
             }
             finally
             {
@@ -252,10 +255,18 @@ namespace org.SharpTiles.Templates
                     tagReflection[key] =new ConstantAttribute("", tag) {AttributeName = key};
                     continue;
                 }
-                tagReflection[key] = new TemplateAttribute(new InternalFormatter(_lib,value, false, _locator, Mode).Parse()) { AttributeName = key }; ;
+                tagReflection[key] = new TemplateAttribute(new InternalFormatter(new TagLibParserFactoryAdapter(this), value, false, _locator).Parse()) { AttributeName = key }; ;
             }
         }
 
-       
+        public class TagLibParserFactoryAdapter : TagLibParserFactory
+        {
+           
+            public TagLibParserFactoryAdapter(AbstractTagLibParser parser) : base(parser._lib, parser._factory, parser.Mode) 
+            {
+            }
+
+         
+        }
     }
 }

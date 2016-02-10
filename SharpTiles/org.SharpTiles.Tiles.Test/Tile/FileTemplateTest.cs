@@ -23,6 +23,7 @@ using NUnit.Framework.SyntaxHelpers;
 using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.CoreTags;
+using org.SharpTiles.Tags.Templates.SharpTags;
 using org.SharpTiles.Templates;
 using org.SharpTiles.Templates.Templates;
 using org.SharpTiles.Tiles.Tile;
@@ -35,12 +36,16 @@ namespace org.SharpTiles.Tiles.Test.Tile
         [Test]
         public void ErrorFileShouldSaveParseContext()
         {
+            var lib = new TagLib();
+            lib.Register(new Tags.Tiles());
+            lib.Register(new Sharp());
+            var factory = new FileLocatorFactory().CloneForTagLib(lib) as FileLocatorFactory;
             try
             {
                 new TilesSet();
                 var tile = new TemplateTile(
                     "test",
-                    new FileTemplate("errorinfile.htm"),
+                    factory.Handle("errorinfile.htm",true),
                     null
                     );
             }
@@ -50,7 +55,7 @@ namespace org.SharpTiles.Tiles.Test.Tile
                 Assert.That(TEWC.Context.LineNumber, Is.EqualTo(2));
                 string fullPath = Path.GetFullPath("errorinfile.htm");
                 TagException tagException =
-                    TagException.UnbalancedCloseingTag(typeof (ForEach), typeof (If)).Decorate(TEWC.Context);
+                    TagException.UnbalancedCloseingTag(new ForEach() {Group = new Core()}, new If() { Group = new Core() }).Decorate(TEWC.Context);
                 Assert.That(TEWC.Message,
                             Is.EqualTo(TemplateExceptionWithContext.ErrorInTemplate(fullPath, tagException).Message));
             }
@@ -189,7 +194,7 @@ namespace org.SharpTiles.Tiles.Test.Tile
         {
             try
             {
-                new FileTemplate("nestedbroken.htm").Template.Evaluate(new TagModel(new Hashtable()).UpdateFactory(new FileLocatorFactory()));
+                new FileTemplate("nestedbroken.htm").Template.Evaluate(new TagModel(new Hashtable()));
                 Assert.Fail("Expected an exception");
             }
             catch (Exception e)

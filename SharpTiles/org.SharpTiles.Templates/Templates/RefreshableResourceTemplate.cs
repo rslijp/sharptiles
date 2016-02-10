@@ -18,6 +18,7 @@
  */
 using System;
 using org.SharpTiles.Common;
+using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 
 namespace org.SharpTiles.Templates.Templates
@@ -56,6 +57,11 @@ namespace org.SharpTiles.Templates.Templates
                 if (RefreshException != null) throw RefreshException;
                 return _template;
             }
+        }
+
+        public string Evaluate(TagModel model)
+        {
+            return Template.Evaluate(model);
         }
 
 

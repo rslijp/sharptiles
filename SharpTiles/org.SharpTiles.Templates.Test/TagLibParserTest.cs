@@ -26,6 +26,7 @@ using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.CoreTags;
 using org.SharpTiles.Tags.FormatTags;
+using org.SharpTiles.Templates.Templates;
 
 namespace org.SharpTiles.Templates.Test
 {
@@ -47,15 +48,15 @@ namespace org.SharpTiles.Templates.Test
             var reflection = new TagModel(model);
             model.Add(VariableScope.Model.ToString(), new Hashtable());
             Assert.That(
-                TagLibParserFactory.Base().Parse("<c:out value=\"${" + VariableScope.Model + ".text}\"/>").Evaluate(reflection),
+                Base().Parse("<c:out value=\"${" + VariableScope.Model + ".text}\"/>").Evaluate(reflection),
                 Is.EqualTo(String.Empty));
-            TagLibParserFactory.Base().Parse("<c:set var=\"text\" value=\"Hello world\"/>").Evaluate(reflection);
+            Base().Parse("<c:set var=\"text\" value=\"Hello world\"/>").Evaluate(reflection);
             Assert.That(
-                TagLibParserFactory.Base().Parse("<c:out value=\"${" + VariableScope.Page + ".text}\"/>").Evaluate(reflection),
+                Base().Parse("<c:out value=\"${" + VariableScope.Page + ".text}\"/>").Evaluate(reflection),
                 Is.EqualTo("Hello world"));
-            TagLibParserFactory.Base().Parse("<c:remove var=\"text\"/>").Evaluate(reflection);
+            Base().Parse("<c:remove var=\"text\"/>").Evaluate(reflection);
             Assert.That(
-                TagLibParserFactory.Base().Parse("<c:out value=\"${" + VariableScope.Page + ".text}\"/>").Evaluate(reflection),
+                Base().Parse("<c:out value=\"${" + VariableScope.Page + ".text}\"/>").Evaluate(reflection),
                 Is.EqualTo(String.Empty));
         }
 
@@ -65,7 +66,7 @@ namespace org.SharpTiles.Templates.Test
         {
             try
             {
-                TagLibParserFactory.Base().Parse("<c:forTokens step='2' items=\"1,2,3,4,5,6\" delims=\",\">${Item}</c:forEach>");
+                Base().Parse("<c:forTokens step='2' items=\"1,2,3,4,5,6\" delims=\",\">${Item}</c:forEach>");
                 Assert.Fail("Expected exception");
             }
             catch (TagException Te)
@@ -86,7 +87,7 @@ namespace org.SharpTiles.Templates.Test
             var reflection = new TagModel(model);
             var list = new ArrayList(new[] {1, 2, 3, 4, 5, 6});
             reflection["Model.list"] = list;
-            ITag tag = TagLibParserFactory.Base().Parse("<c:forEach items=\"${Model.list}\">${Item}</c:forEach>");
+            ITag tag = Base().Parse("<c:forEach items=\"${Model.list}\">${Item}</c:forEach>");
             Assert.That(tag.Evaluate(reflection), Is.EqualTo("123456"));
         }
 
@@ -99,7 +100,7 @@ namespace org.SharpTiles.Templates.Test
             var list = new ArrayList(new[] {1, 2, 3, 4, 5, 6});
             reflection["Model.list"] = list;
             ITag tag =
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<c:forEach items=\"${Model.list}\"><c:set value=\"${Item}\" var=\"last\"/></c:forEach>");
             Assert.That(tag.Evaluate(reflection), Is.EqualTo(String.Empty));
             Assert.That(reflection["Page.last"], Is.EqualTo(6));
@@ -113,14 +114,14 @@ namespace org.SharpTiles.Templates.Test
             var reflection = new TagModel(model);
             var list = new ArrayList(new[] {1, 2, 3, 4, 5, 6});
             reflection["Model.list"] = list;
-            ITag tag = TagLibParserFactory.Base().Parse("<c:forEach items=\"${Model.list}\">.</c:forEach>");
+            ITag tag = Base().Parse("<c:forEach items=\"${Model.list}\">.</c:forEach>");
             Assert.That(tag.Evaluate(reflection), Is.EqualTo("......"));
         }
 
         [Test]
         public void ParseShouldHarvastAttributePropertyName_Template()
         {
-            var tag = TagLibParserFactory.Base().Parse("<c:forEach items=\"${Model.list}\">.</c:forEach>") as ForEach;
+            var tag = Base().Parse("<c:forEach items=\"${Model.list}\">.</c:forEach>") as ForEach;
             Assert.That(tag.Items.AttributeName, Is.EqualTo("Items"));
             Assert.That(tag.Items.GetType(), Is.EqualTo(typeof(TemplateAttribute)));
         }
@@ -128,7 +129,7 @@ namespace org.SharpTiles.Templates.Test
         [Test]
         public void ParseShouldHarvastAttributePropertyName_Constant()
         {
-            var tag = TagLibParserFactory.Base().Parse("<c:out value='' escapeXml='true'/>") as Out;
+            var tag = Base().Parse("<c:out value='' escapeXml='true'/>") as Out;
             Assert.That(tag.Value.AttributeName, Is.EqualTo("Value"));
             Assert.That(tag.Value.GetType(), Is.EqualTo(typeof(ConstantAttribute)));
         }
@@ -141,7 +142,7 @@ namespace org.SharpTiles.Templates.Test
             var reflection = new TagModel(model);
             var list = new ArrayList(new[] {1, 2, 3, 4, 5, 6});
             reflection["Model.list"] = list;
-            ITag tag = TagLibParserFactory.Base().Parse("<c:forEach step=\"2\" items=\"${Model.list}\">${Item}</c:forEach>");
+            ITag tag = Base().Parse("<c:forEach step=\"2\" items=\"${Model.list}\">${Item}</c:forEach>");
             Assert.That(tag.Evaluate(reflection), Is.EqualTo("135"));
         }
 
@@ -152,7 +153,7 @@ namespace org.SharpTiles.Templates.Test
             model.Add(VariableScope.Model.ToString(), new Hashtable());
             var reflection = new TagModel(model);
 
-            ITag tag = TagLibParserFactory.Base().Parse("<c:forTokens items=\"1,2,3,4,5,6\" delims=\",\">${Item}</c:forTokens>");
+            ITag tag = Base().Parse("<c:forTokens items=\"1,2,3,4,5,6\" delims=\",\">${Item}</c:forTokens>");
             Assert.That(tag.Evaluate(reflection), Is.EqualTo("123456"));
         }
 
@@ -163,7 +164,7 @@ namespace org.SharpTiles.Templates.Test
             model.Add(VariableScope.Model.ToString(), new Hashtable());
             var reflection = new TagModel(model);
             ITag tag =
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<c:forTokens items=\"1,2,3,4,5,6\" delims=\",\"><c:set value=\"${Item}\" var=\"last\"/></c:forTokens>");
             Assert.That(tag.Evaluate(reflection), Is.EqualTo(String.Empty));
             Assert.That(reflection["Page.last"], Is.EqualTo("6"));
@@ -176,7 +177,7 @@ namespace org.SharpTiles.Templates.Test
             model.Add(VariableScope.Model.ToString(), new Hashtable());
             var reflection = new TagModel(model);
 
-            ITag tag = TagLibParserFactory.Base().Parse("<c:forTokens items=\"1,2,3,4,5,6\" delims=\",\">.</c:forTokens>");
+            ITag tag = Base().Parse("<c:forTokens items=\"1,2,3,4,5,6\" delims=\",\">.</c:forTokens>");
             Assert.That(tag.Evaluate(reflection), Is.EqualTo("......"));
         }
 
@@ -188,28 +189,28 @@ namespace org.SharpTiles.Templates.Test
             var reflection = new TagModel(model);
 
             ITag tag =
-                TagLibParserFactory.Base().Parse("<c:forTokens step='2' items=\"1,2,3,4,5,6\" delims=\",\">${Item}</c:forTokens>");
+                Base().Parse("<c:forTokens step='2' items=\"1,2,3,4,5,6\" delims=\",\">${Item}</c:forTokens>");
             Assert.That(tag.Evaluate(reflection), Is.EqualTo("135"));
         }
 
         [Test]
         public void TestOfParseOfIfComplexBody()
         {
-            ITag tag = TagLibParserFactory.Base().Parse("<c:if test=\"true\"><c:out value=\"'bla'\"></c:out></c:if>");
+            ITag tag = Base().Parse("<c:if test=\"true\"><c:out value=\"'bla'\"></c:out></c:if>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("&apos;bla&apos;"));
         }
 
         [Test]
         public void TestOfParseOfIfSimpleBodyFalse()
         {
-            ITag tag = TagLibParserFactory.Base().Parse("<c:if test=\"false\">XYZ</c:if>");
+            ITag tag = Base().Parse("<c:if test=\"false\">XYZ</c:if>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo(String.Empty));
         }
 
         [Test]
         public void TestOfParseOfIfSimpleBodyTrue()
         {
-            ITag tag = TagLibParserFactory.Base().Parse("<c:if test=\"true\">XYZ</c:if>");
+            ITag tag = Base().Parse("<c:if test=\"true\">XYZ</c:if>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("XYZ"));
         }
 
@@ -221,7 +222,7 @@ namespace org.SharpTiles.Templates.Test
             var reflection = new TagModel(model);
 
             ITag tag =
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<c:forTokens step='2' items=\"1,2,3,4,5,6\" delims=\",\">${Status.Index}.[<c:forTokens step='2' begin='1' items=\"1,2,3,4,5,6\" delims=\",\">${Status.Index}</c:forTokens>]</c:forTokens>");
             Assert.That(tag.Evaluate(reflection), Is.EqualTo("0.[135]2.[135]4.[135]"));
         }
@@ -230,7 +231,7 @@ namespace org.SharpTiles.Templates.Test
         public void TestParseAndEvaluationOfChooseOtherwise()
         {
             ITag tag =
-                TagLibParserFactory.Base().Parse("<c:choose><c:when test=\"false\">a</c:when><c:otherwise>b</c:otherwise></c:choose>");
+                Base().Parse("<c:choose><c:when test=\"false\">a</c:when><c:otherwise>b</c:otherwise></c:choose>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("b"));
         }
 
@@ -238,7 +239,7 @@ namespace org.SharpTiles.Templates.Test
         public void TestParseAndEvaluationOfChooseTwoWhenOneOtherwise()
         {
             ITag tag =
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<c:choose><c:when test=\"true\">a</c:when><c:when test=\"true\">b</c:when><c:otherwise>c</c:otherwise></c:choose>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("a"));
         }
@@ -247,7 +248,7 @@ namespace org.SharpTiles.Templates.Test
         public void TestParseAndEvaluationOfChooseTwoWhenTrueFalseOneOtherwise()
         {
             ITag tag =
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<c:choose><c:when test=\"false\">a</c:when><c:when test=\"true\">b</c:when><c:otherwise>c</c:otherwise></c:choose>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("b"));
         }
@@ -256,7 +257,7 @@ namespace org.SharpTiles.Templates.Test
         public void TestParseAndEvaluationOfChooseWhen()
         {
             ITag tag =
-                TagLibParserFactory.Base().Parse("<c:choose><c:when test=\"true\">a</c:when><c:otherwise>b</c:otherwise></c:choose>");
+                Base().Parse("<c:choose><c:when test=\"true\">a</c:when><c:otherwise>b</c:otherwise></c:choose>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("a"));
         }
 
@@ -266,7 +267,7 @@ namespace org.SharpTiles.Templates.Test
         {
             try
             {
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<c:choose>X<c:when test=\"true\">a</c:when>\t<c:otherwise>b</c:otherwise>\r</c:choose>");
                 Assert.Fail("Expected exception");
             }
@@ -280,7 +281,7 @@ namespace org.SharpTiles.Templates.Test
         public void TestParseAndEvaluationOfChooseWhenWithWhiteSpaces()
         {
             ITag tag =
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<c:choose> <c:when test=\"true\">a</c:when> <c:otherwise>b</c:otherwise> </c:choose>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("a"));
         }
@@ -289,7 +290,7 @@ namespace org.SharpTiles.Templates.Test
         public void TestParseAndEvaluationOfChooseWhenWithWhiteSpecials()
         {
             ITag tag =
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<c:choose>\n<c:when test=\"true\">a</c:when>\t<c:otherwise>b</c:otherwise>\r</c:choose>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("a"));
         }
@@ -297,7 +298,7 @@ namespace org.SharpTiles.Templates.Test
         [Test]
         public void TestParseAndEvaluationOfCoreOutTagWithBody()
         {
-            ITag tag = TagLibParserFactory.Base().Parse("<c:out>the nested body</c:out>");
+            ITag tag = Base().Parse("<c:out>the nested body</c:out>");
             Assert.IsTrue(tag is Out);
             Assert.That(tag.State, Is.EqualTo(TagState.OpenedAndClosed));
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("the nested body"));
@@ -306,7 +307,7 @@ namespace org.SharpTiles.Templates.Test
         [Test]
         public void TestParseAndEvaluationOfNestedTags()
         {
-            ITag tag = TagLibParserFactory.Base().Parse("<c:out><c:out value=\"12\"/></c:out>");
+            ITag tag = Base().Parse("<c:out><c:out value=\"12\"/></c:out>");
             Assert.IsTrue(tag is Out);
             Assert.That(tag.State, Is.EqualTo(TagState.OpenedAndClosed));
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("12"));
@@ -315,18 +316,18 @@ namespace org.SharpTiles.Templates.Test
         [Test]
         public void TestParseAndEvaluationOfNestedTagsWithXmlEscape()
         {
-            ITag tag = TagLibParserFactory.Base().Parse("<c:out escapeXml=\"true\"><c:out value=\"<br/>\"/></c:out>");
+            ITag tag = Base().Parse("<c:out escapeXml=\"true\"><c:out value=\"<br/>\"/></c:out>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("&amp;lt;br/&amp;gt;"));
-            tag = TagLibParserFactory.Base().Parse("<c:out escapeXml=\"false\"><c:out value=\"<br/>\"/></c:out>");
+            tag = Base().Parse("<c:out escapeXml=\"false\"><c:out value=\"<br/>\"/></c:out>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("&lt;br/&gt;"));
-            tag = TagLibParserFactory.Base().Parse("<c:out><c:out escapeXml=\"false\" value=\"<br/>\"/></c:out>");
+            tag = Base().Parse("<c:out><c:out escapeXml=\"false\" value=\"<br/>\"/></c:out>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("&lt;br/&gt;"));
         }
 
         [Test]
         public void TestParseWithCamelCaseAttributeNames()
         {
-            ITag tag = TagLibParserFactory.Base().Parse("<c:out escape-xml=\"true\"><c:out value=\"<br/>\"/></c:out>");
+            ITag tag = Base().Parse("<c:out escape-xml=\"true\"><c:out value=\"<br/>\"/></c:out>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("&amp;lt;br/&amp;gt;"));
         }
 
@@ -337,15 +338,15 @@ namespace org.SharpTiles.Templates.Test
             var reflection = new TagModel(model);
             model.Add(VariableScope.Model.ToString(), new Hashtable());
             Assert.That(
-                TagLibParserFactory.Base().Parse("<c:out value=\"${" + VariableScope.Page + ".text}\"></c:out>").Evaluate(reflection),
+                Base().Parse("<c:out value=\"${" + VariableScope.Page + ".text}\"></c:out>").Evaluate(reflection),
                 Is.EqualTo(String.Empty));
-            TagLibParserFactory.Base().Parse("<c:set var=\"text\" value=\"Hello world\"></c:set>").Evaluate(reflection);
+            Base().Parse("<c:set var=\"text\" value=\"Hello world\"></c:set>").Evaluate(reflection);
             Assert.That(
-                TagLibParserFactory.Base().Parse("<c:out value=\"${" + VariableScope.Page + ".text}\"></c:out>").Evaluate(reflection),
+                Base().Parse("<c:out value=\"${" + VariableScope.Page + ".text}\"></c:out>").Evaluate(reflection),
                 Is.EqualTo("Hello world"));
-            TagLibParserFactory.Base().Parse("<c:remove var=\"text\"></c:remove>").Evaluate(reflection);
+            Base().Parse("<c:remove var=\"text\"></c:remove>").Evaluate(reflection);
             Assert.That(
-                TagLibParserFactory.Base().Parse("<c:out value=\"${" + VariableScope.Page + ".text}\"></c:out>").Evaluate(reflection),
+                Base().Parse("<c:out value=\"${" + VariableScope.Page + ".text}\"></c:out>").Evaluate(reflection),
                 Is.EqualTo(String.Empty));
         }
 
@@ -354,7 +355,7 @@ namespace org.SharpTiles.Templates.Test
         {
             try
             {
-                TagLibParserFactory.Base().Parse("<c:remove var=\"text\">x</c:remove>");
+                Base().Parse("<c:remove var=\"text\">x</c:remove>");
                 Assert.Fail("Expected exception");
             }
             catch (ParseException Pe)
@@ -368,7 +369,7 @@ namespace org.SharpTiles.Templates.Test
         {
             try
             {
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<c:choose>Slip<c:when test=\"true\">a</c:when><c:when test=\"true\">b</c:when><c:otherwise>c</c:otherwise></c:choose>");
                 Assert.Fail("Expected exception");
             }
@@ -383,7 +384,7 @@ namespace org.SharpTiles.Templates.Test
         {
             try
             {
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<c:choose><c:when test=\"true\">a</c:when><c:when test=\"true\">b</c:when><c:out>c</c:out></c:choose>");
                 Assert.Fail("Expected exception");
             }
@@ -401,7 +402,7 @@ namespace org.SharpTiles.Templates.Test
         {
             try
             {
-                TagLibParserFactory.Base().Parse("<c:remove var=\"text\"><c:remove var=\"text\"/></c:remove>");
+                Base().Parse("<c:remove var=\"text\"><c:remove var=\"text\"/></c:remove>");
                 Assert.Fail("Expected exception");
             }
             catch (TagException Te)
@@ -415,7 +416,7 @@ namespace org.SharpTiles.Templates.Test
         {
             try
             {
-                TagLibParserFactory.Base().Parse("<c:remove var=\"text\">x");
+                Base().Parse("<c:remove var=\"text\">x");
                 Assert.Fail("Expected exception");
             }
             catch (ParseException Pe)
@@ -442,7 +443,7 @@ namespace org.SharpTiles.Templates.Test
         [Test]
         public void TestParseNoParams()
         {
-            ITag tag = TagLibParserFactory.Base().Parse("<c:out/>");
+            ITag tag = Base().Parse("<c:out/>");
             Assert.IsTrue(tag is Out);
             Assert.That(tag.State, Is.EqualTo(TagState.OpenedAndClosed));
         }
@@ -450,14 +451,14 @@ namespace org.SharpTiles.Templates.Test
         [Test]
         public void TestParseOfCapitalizedAttribute()
         {
-            ITag tag = TagLibParserFactory.Base().Parse("<c:if Test=\"true\">XYZ</c:if>");
+            ITag tag = Base().Parse("<c:if Test=\"true\">XYZ</c:if>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("XYZ"));
         }
 
         [Test]
         public void TestParseOfCoreOutTag()
         {
-            ITag tag = TagLibParserFactory.Base().Parse("<c:out value=\"12\"/>");
+            ITag tag = Base().Parse("<c:out value=\"12\"/>");
             Assert.IsTrue(tag is Out);
             Assert.That(tag.State, Is.EqualTo(TagState.OpenedAndClosed));
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("12"));
@@ -468,7 +469,7 @@ namespace org.SharpTiles.Templates.Test
         {
             try
             {
-                ITag tag = TagLibParserFactory.Base().Parse("<c:out  value=\"12\"  escapeXml=\"false\" />");
+                ITag tag = Base().Parse("<c:out  value=\"12\"  escapeXml=\"false\" />");
                 Assert.IsTrue(tag is Out);
                 Assert.That(tag.State, Is.EqualTo(TagState.OpenedAndClosed));
                 Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("12"));
@@ -483,7 +484,7 @@ namespace org.SharpTiles.Templates.Test
         [Test]
         public void TestParseOfCoreOutTagWithBody()
         {
-            ITag tag = TagLibParserFactory.Base().Parse("<c:out value=\"12\">the nested body</c:out>");
+            ITag tag = Base().Parse("<c:out value=\"12\">the nested body</c:out>");
             Assert.IsTrue(tag is Out);
             Assert.That(tag.State, Is.EqualTo(TagState.OpenedAndClosed));
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("12"));
@@ -494,7 +495,7 @@ namespace org.SharpTiles.Templates.Test
         {
             try
             {
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<c:if test=\"true\" test=\"true\">Y</c:if>");
                 Assert.Fail("Expected exception");
             }
@@ -511,7 +512,7 @@ namespace org.SharpTiles.Templates.Test
             var reflection = new TagModel(model);
             model.Add(VariableScope.Page.ToString(), new Hashtable());
             string fileUrl = GetUrl("formatted.htm");
-            ITag tag = TagLibParserFactory.Base().Parse("<c:import url='" + fileUrl + "' var='file'></c:import>");
+            ITag tag = Base().Parse("<c:import url='" + fileUrl + "' var='file'></c:import>");
             Assert.That(tag.Evaluate(reflection), Is.EqualTo(String.Empty));
             string expected = File.ReadAllText("formatted.htm");
             Assert.That(reflection["Page.file"], Is.EqualTo(expected));
@@ -522,7 +523,7 @@ namespace org.SharpTiles.Templates.Test
         {
             try
             {
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<c:if>Y</c:if>");
                 Assert.Fail("Expected exception");
             }
@@ -536,7 +537,7 @@ namespace org.SharpTiles.Templates.Test
         [Test]
         public void TestParseOfRedirect()
         {
-            ITag tag = TagLibParserFactory.Base().Parse("<c:redirect url='www.google.com'/>");
+            ITag tag = Base().Parse("<c:redirect url='www.google.com'/>");
             Assert.IsTrue(tag is Redirect);
             var redirect = (Redirect) tag;
             Assert.That(redirect.Url.ConstantValue, Is.EqualTo("www.google.com"));
@@ -547,7 +548,7 @@ namespace org.SharpTiles.Templates.Test
         {
             try
             {
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<c:if someTest=\"true\">Y</c:if>");
                 Assert.Fail("Expected exception");
             }
@@ -562,7 +563,7 @@ namespace org.SharpTiles.Templates.Test
         public void TestParseOfUrl()
         {
             ITag tag =
-                TagLibParserFactory.Base().Parse("<c:url value='www.google.com'><c:param name='search'>banana</c:param></c:url>");
+                Base().Parse("<c:url value='www.google.com'><c:param name='search'>banana</c:param></c:url>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("www.google.com?search=banana"));
         }
 
@@ -573,9 +574,9 @@ namespace org.SharpTiles.Templates.Test
             var reflection = new TagModel(model);
             model.Add(VariableScope.Page.ToString(), new Hashtable());
             string fileUrl = GetUrl("cd_catalog.xml");
-            TagLibParserFactory.Base().Parse("<c:import url='" + fileUrl + "' var='file'></c:import>").Evaluate(reflection);
-            TagLibParserFactory.Base().Parse("<x:parse doc='${file}' var='fileAsXml'></x:parse>").Evaluate(reflection);
-            ITag tag = TagLibParserFactory.Base().Parse("<x:out source='fileAsXml' select='//CD[position()=2]/TITLE'/>");
+            Base().Parse("<c:import url='" + fileUrl + "' var='file'></c:import>").Evaluate(reflection);
+            Base().Parse("<x:parse doc='${file}' var='fileAsXml'></x:parse>").Evaluate(reflection);
+            ITag tag = Base().Parse("<x:out source='fileAsXml' select='//CD[position()=2]/TITLE'/>");
             Assert.That(tag.Evaluate(reflection), Is.EqualTo("Hide your heart"));
         }
 
@@ -585,11 +586,11 @@ namespace org.SharpTiles.Templates.Test
             var model = new Hashtable();
             var reflection = new TagModel(model);
             model.Add(VariableScope.Page.ToString(), new Hashtable());
-            TagLibParserFactory.Base().Parse(
+            Base().Parse(
                 "<x:parse var='fileAsXml'><CATALOG><CD><TITLE>Empire Burlesque</TITLE></CD><CD><TITLE>Hide your heart</TITLE></CD></CATALOG></x:parse>")
                 .Evaluate(reflection);
             ITag tag =
-                TagLibParserFactory.Base().Parse("<x:set var='result' source='fileAsXml' select='//CD[position()=last()]/TITLE'/>");
+                Base().Parse("<x:set var='result' source='fileAsXml' select='//CD[position()=last()]/TITLE'/>");
             tag.Evaluate(reflection);
             Assert.That(((XPathNavigator) reflection["result"]).Value, Is.EqualTo("Hide your heart"));
         }
@@ -597,7 +598,7 @@ namespace org.SharpTiles.Templates.Test
         [Test]
         public void TestParsePartialClose()
         {
-            ITag tag = TagLibParserFactory.Base().Parse("</c:out>");
+            ITag tag = Base().Parse("</c:out>");
             Assert.IsTrue(tag is Out);
             Assert.That(tag.State, Is.EqualTo(TagState.Closed));
         }
@@ -650,7 +651,7 @@ namespace org.SharpTiles.Templates.Test
             try
             {
 
-                TagLibParserFactory.Base().Parse("<c:out value=\"${Model.Text}\">");
+                Base().Parse("<c:out value=\"${Model.Text}\">");
                 Assert.Fail("Expected exception");
             }
             catch (ParseException Pe)
@@ -666,7 +667,7 @@ namespace org.SharpTiles.Templates.Test
         {
             try
             {
-                TagLibParserFactory.Base().Parse("<c:out value=\"12\">something");
+                Base().Parse("<c:out value=\"12\">something");
                 Assert.Fail("Expected exception");
             }
             catch (ParseException Pe)
@@ -678,7 +679,7 @@ namespace org.SharpTiles.Templates.Test
         [Test]
         public void TestParseWithWhiteSpacesAndNewLines()
         {
-            ITag tag = TagLibParserFactory.Base().Parse(
+            ITag tag = Base().Parse(
                 "<c:choose>\n\r" +
                 "\t <c:when test=\"false\">a</c:when>\n\r" +
                 "\t <c:when test=\"true\">b</c:when>\n\r" +
@@ -692,7 +693,7 @@ namespace org.SharpTiles.Templates.Test
         public void TestParsingOfEncoding() //Formatting is handled by page model
         {
             var model = new TagModel(this);
-            ITag tag = TagLibParserFactory.Base().Parse("<fmt:requestEncoding value=\"ISO-8859-1\"/>/>");
+            ITag tag = Base().Parse("<fmt:requestEncoding value=\"ISO-8859-1\"/>/>");
             Assert.That(tag is RequestEncoding);
         }
 
@@ -700,10 +701,10 @@ namespace org.SharpTiles.Templates.Test
         public void TestPaseAndFormatNumbers()
         {
             var model = new TagModel(this);
-            TagLibParserFactory.Base().Parse("<fmt:setLocale scope=\"Page\" Value=\"en-US\"/>").Evaluate(model);
-            TagLibParserFactory.Base().Parse("<fmt:parseNumber var=\"result\" scope=\"Page\">0.33</fmt:parseNumber>").Evaluate(model);
-            TagLibParserFactory.Base().Parse("<fmt:setLocale scope=\"Page\" Value=\"nl-NL\"/>").Evaluate(model);
-            ITag tag = TagLibParserFactory.Base().Parse("<fmt:formatNumber value=\"${result}\" Type=\"Percentage\"/>");
+            Base().Parse("<fmt:setLocale scope=\"Page\" Value=\"en-US\"/>").Evaluate(model);
+            Base().Parse("<fmt:parseNumber var=\"result\" scope=\"Page\">0.33</fmt:parseNumber>").Evaluate(model);
+            Base().Parse("<fmt:setLocale scope=\"Page\" Value=\"nl-NL\"/>").Evaluate(model);
+            ITag tag = Base().Parse("<fmt:formatNumber value=\"${result}\" Type=\"Percentage\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo("33,00 %"));
         }
 
@@ -711,11 +712,11 @@ namespace org.SharpTiles.Templates.Test
         public void TestPaseAndFormatOfDates()
         {
             var model = new TagModel(this);
-            TagLibParserFactory.Base().Parse("<fmt:setLocale scope=\"Page\" Value=\"en-US\"/>").Evaluate(model);
-            TagLibParserFactory.Base().Parse("<fmt:parseDate var=\"result\" Type=\"Time\" scope=\"Page\">4:55 PM</fmt:parseDate>").
+            Base().Parse("<fmt:setLocale scope=\"Page\" Value=\"en-US\"/>").Evaluate(model);
+            Base().Parse("<fmt:parseDate var=\"result\" Type=\"Time\" scope=\"Page\">4:55 PM</fmt:parseDate>").
                 Evaluate(model);
-            TagLibParserFactory.Base().Parse("<fmt:setLocale scope=\"Page\" Value=\"nl-NL\"/>").Evaluate(model);
-            ITag tag = TagLibParserFactory.Base().Parse("<fmt:formatDate Value=\"${result}\" Type=\"Time\"/>");
+            Base().Parse("<fmt:setLocale scope=\"Page\" Value=\"nl-NL\"/>").Evaluate(model);
+            ITag tag = Base().Parse("<fmt:formatDate Value=\"${result}\" Type=\"Time\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo("16:55"));
         }
 
@@ -723,7 +724,7 @@ namespace org.SharpTiles.Templates.Test
         public void TestResourceBundle()
         {
             ITag tag =
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<fmt:bundle baseName=\"compiled\" prefix=\"pre_\"><fmt:message key=\"b\"/></fmt:bundle>");
             Assert.That(tag.Evaluate(new TagModel(this)), Is.EqualTo("prefixedB"));
         }
@@ -732,8 +733,8 @@ namespace org.SharpTiles.Templates.Test
         public void TestResourceBundleDifferentLanguage()
         {
             var model = new TagModel(this);
-            TagLibParserFactory.Base().Parse("<fmt:setLocale scope=\"Page\" Value=\"nl-NL\"/>").Evaluate(model);
-            ITag tag = TagLibParserFactory.Base().Parse(
+            Base().Parse("<fmt:setLocale scope=\"Page\" Value=\"nl-NL\"/>").Evaluate(model);
+            ITag tag = Base().Parse(
                 "<fmt:bundle baseName=\"compiled\" prefix=\"pre_\"><fmt:message key=\"b\"/></fmt:bundle>");
             Assert.That(tag.Evaluate(model), Is.EqualTo("bMetVoorvoegsel"));
         }
@@ -742,9 +743,9 @@ namespace org.SharpTiles.Templates.Test
         public void TestResourceBundleInStoredVariable()
         {
             var model = new TagModel(this);
-            TagLibParserFactory.Base().Parse("<fmt:setBundle baseName=\"compiled\" var=\"tilesMessages\" scope=\"Page\"/>").Evaluate(
+            Base().Parse("<fmt:setBundle baseName=\"compiled\" var=\"tilesMessages\" scope=\"Page\"/>").Evaluate(
                 model);
-            ITag tag = TagLibParserFactory.Base().Parse("<fmt:message key=\"b\" bundle=\"tilesMessages\"/>");
+            ITag tag = Base().Parse("<fmt:message key=\"b\" bundle=\"tilesMessages\"/>");
             Assert.That(tag.Evaluate(model), Is.EqualTo("defaultB"));
         }
 
@@ -752,10 +753,10 @@ namespace org.SharpTiles.Templates.Test
         public void TestResourceBundleWithParams()
         {
             var model = new TagModel(this);
-            TagLibParserFactory.Base().Parse("<fmt:setBundle baseName=\"complex\" var=\"tilesMessages\" scope=\"Page\"/>").Evaluate(
+            Base().Parse("<fmt:setBundle baseName=\"complex\" var=\"tilesMessages\" scope=\"Page\"/>").Evaluate(
                 model);
             ITag tag =
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<fmt:message key=\"twovars\" bundle=\"tilesMessages\"><fmt:param>A</fmt:param><fmt:param>B</fmt:param></fmt:message>");
             Assert.That(tag.Evaluate(model), Is.EqualTo("two A, B vars"));
         }
@@ -766,9 +767,9 @@ namespace org.SharpTiles.Templates.Test
             var model = new Hashtable();
             var reflection = new TagModel(model);
             model.Add(VariableScope.Model.ToString(), new Hashtable());
-            TagLibParserFactory.Base().Parse("<c:set var=\"text\"><c:out value=\"the nested body\"/></c:set>").Evaluate(reflection);
+            Base().Parse("<c:set var=\"text\"><c:out value=\"the nested body\"/></c:set>").Evaluate(reflection);
             Assert.That(
-                TagLibParserFactory.Base().Parse("<c:out value=\"${" + VariableScope.Page + ".text}\"/>").Evaluate(reflection),
+                Base().Parse("<c:out value=\"${" + VariableScope.Page + ".text}\"/>").Evaluate(reflection),
                 Is.EqualTo("the nested body"));
         }
 
@@ -778,13 +779,13 @@ namespace org.SharpTiles.Templates.Test
             var model = new Hashtable();
             var reflection = new TagModel(model);
             model.Add(VariableScope.Model.ToString(), new Hashtable());
-            TagLibParserFactory.Base().Parse("<c:set var=\"text\" value=\"Hello world\"/>").Evaluate(reflection);
+            Base().Parse("<c:set var=\"text\" value=\"Hello world\"/>").Evaluate(reflection);
             Assert.That(
-                TagLibParserFactory.Base().Parse("<c:out value=\"${" + VariableScope.Page + ".text}\"/>").Evaluate(reflection),
+                Base().Parse("<c:out value=\"${" + VariableScope.Page + ".text}\"/>").Evaluate(reflection),
                 Is.EqualTo("Hello world"));
-            TagLibParserFactory.Base().Parse("<c:set var=\"text\" value=\"Hi there\"/>").Evaluate(reflection);
+            Base().Parse("<c:set var=\"text\" value=\"Hi there\"/>").Evaluate(reflection);
             Assert.That(
-                TagLibParserFactory.Base().Parse("<c:out value=\"${" + VariableScope.Page + ".text}\"/>").Evaluate(reflection),
+                Base().Parse("<c:out value=\"${" + VariableScope.Page + ".text}\"/>").Evaluate(reflection),
                 Is.EqualTo("Hi there"));
         }
 
@@ -793,7 +794,7 @@ namespace org.SharpTiles.Templates.Test
         {
             var model = new Hashtable();
             var reflection = new TagModel(model);
-            Assert.That(TagLibParserFactory.Base().Parse("<c:catch>[<c:out value=\"'Hi'\"/>]</c:catch>").Evaluate(reflection),
+            Assert.That(Base().Parse("<c:catch>[<c:out value=\"'Hi'\"/>]</c:catch>").Evaluate(reflection),
                         Is.EqualTo("[&apos;Hi&apos;]"));
         }
 
@@ -804,7 +805,7 @@ namespace org.SharpTiles.Templates.Test
             var model = new Hashtable();
             var reflection = new TagModel(model).BecomeStrict();
             Assert.That(
-                TagLibParserFactory.Base().Parse("<c:catch>[<c:out value=\"${" + VariableScope.Model + ".a.text}\"/>]</c:catch>").
+                Base().Parse("<c:catch>[<c:out value=\"${" + VariableScope.Model + ".a.text}\"/>]</c:catch>").
                     Evaluate(reflection), Is.EqualTo(""));
         }
 
@@ -815,7 +816,7 @@ namespace org.SharpTiles.Templates.Test
             model.Add(VariableScope.Model.ToString(), new Hashtable());
             var reflection = new TagModel(model).BecomeStrict(); ;
             Assert.That(
-                TagLibParserFactory.Base().Parse("<c:catch var=\"error\"><c:out value=\"${Model.asa.bb.text}\"/></c:catch>").Evaluate(
+                Base().Parse("<c:catch var=\"error\"><c:out value=\"${Model.asa.bb.text}\"/></c:catch>").Evaluate(
                     reflection), Is.EqualTo(String.Empty));
             Assert.IsNotNull(reflection[VariableScope.Model + ".error"]);
             Assert.IsTrue(
@@ -828,11 +829,11 @@ namespace org.SharpTiles.Templates.Test
             var model = new Hashtable();
             var reflection = new TagModel(model);
             model.Add(VariableScope.Page.ToString(), new Hashtable());
-            TagLibParserFactory.Base().Parse(
+            Base().Parse(
                 "<x:parse var='fileAsXml'><VALUES><TRUE>true</TRUE><FALSE>false</FALSE></VALUES></x:parse>").Evaluate(
                 reflection);
             ITag tag =
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<x:choose><x:when source='fileAsXml' select='//FALSE'>Yeah</x:when><x:otherwise>Nope</x:otherwise></x:choose>");
             Assert.That(tag.Evaluate(reflection), Is.EqualTo("Nope"));
         }
@@ -844,10 +845,10 @@ namespace org.SharpTiles.Templates.Test
             var reflection = new TagModel(model);
             model.Add(VariableScope.Page.ToString(), new Hashtable());
             string fileUrl = GetUrl("cd_catalog.xml");
-            TagLibParserFactory.Base().Parse("<c:import url='" + fileUrl + "' var='file'></c:import>").Evaluate(reflection);
-            TagLibParserFactory.Base().Parse("<x:parse doc='${file}' var='fileAsXml'></x:parse>").Evaluate(reflection);
+            Base().Parse("<c:import url='" + fileUrl + "' var='file'></c:import>").Evaluate(reflection);
+            Base().Parse("<x:parse doc='${file}' var='fileAsXml'></x:parse>").Evaluate(reflection);
             ITag tag =
-                TagLibParserFactory.Base().Parse(
+                Base().Parse(
                     "<x:forEach source='fileAsXml' select='//CD'>[<x:out source='Item' select='./YEAR'/>]</x:forEach>");
             Assert.That(tag.Evaluate(reflection),
                         Is.EqualTo(
@@ -860,10 +861,10 @@ namespace org.SharpTiles.Templates.Test
             var model = new Hashtable();
             var reflection = new TagModel(model);
             model.Add(VariableScope.Page.ToString(), new Hashtable());
-            TagLibParserFactory.Base().Parse(
+            Base().Parse(
                 "<x:parse var='fileAsXml'><VALUES><TRUE>true</TRUE><FALSE>false</FALSE></VALUES></x:parse>").Evaluate(
                 reflection);
-            ITag tag = TagLibParserFactory.Base().Parse("<x:if source='fileAsXml' select='//TRUE'>Yeah</x:if>");
+            ITag tag = Base().Parse("<x:if source='fileAsXml' select='//TRUE'>Yeah</x:if>");
             Assert.That(tag.Evaluate(reflection), Is.EqualTo("Yeah"));
         }
 
@@ -874,9 +875,9 @@ namespace org.SharpTiles.Templates.Test
             var reflection = new TagModel(model);
             model.Add(VariableScope.Page.ToString(), new Hashtable());
             string fileUrl = GetUrl("cd_catalog.xml");
-            TagLibParserFactory.Base().Parse("<c:import url='" + fileUrl + "' var='file'></c:import>").Evaluate(reflection);
-            TagLibParserFactory.Base().Parse("<x:parse doc='${file}' var='fileAsXml'></x:parse>").Evaluate(reflection);
-            TagLibParserFactory.Base().Parse("<c:set var='xsltAsString'>" +
+            Base().Parse("<c:import url='" + fileUrl + "' var='file'></c:import>").Evaluate(reflection);
+            Base().Parse("<x:parse doc='${file}' var='fileAsXml'></x:parse>").Evaluate(reflection);
+            Base().Parse("<c:set var='xsltAsString'>" +
                                "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" +
                                "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">" +
                                "<xsl:output method=\"text\" media-type=\"text/plain\" omit-xml-declaration=\"yes\"/>" +
@@ -888,7 +889,7 @@ namespace org.SharpTiles.Templates.Test
                                "</xsl:stylesheet>" +
                                "</c:set>"
                 ).Evaluate(reflection);
-            ITag tag = TagLibParserFactory.Base().Parse("<x:transform Doc='${file}' Xslt='${xsltAsString}'></x:transform>");
+            ITag tag = Base().Parse("<x:transform Doc='${file}' Xslt='${xsltAsString}'></x:transform>");
             Assert.That(tag.Evaluate(reflection),
                         Is.EqualTo(
                             "Bob Dylan.Bonnie Tyler.Dolly Parton.Gary Moore.Eros Ramazzotti.Bee Gees.Dr.Hook.Rod Stewart.Andrea Bocelli.Percy Sledge.Savage Rose.Many.Kenny Rogers.Will Smith."));
@@ -902,11 +903,11 @@ namespace org.SharpTiles.Templates.Test
             model.Add(VariableScope.Page.ToString(), new Hashtable());
             string fileUrl = GetUrl("cd_catalog.xml");
             string fileUrl2 = GetUrl("cd_catalog.xsl");
-            TagLibParserFactory.Base().Parse("<c:import url='" + fileUrl + "' var='xmlFile'></c:import>").Evaluate(reflection);
-            TagLibParserFactory.Base().Parse("<c:import url='" + fileUrl2 + "' var='xslFile'></c:import>").Evaluate(reflection);
-            TagLibParserFactory.Base().Parse("<x:parse doc='${xmlFile}' var='xml'></x:parse>").Evaluate(reflection);
-            TagLibParserFactory.Base().Parse("<x:parse doc='${xslFile}' var='xslt'></x:parse>").Evaluate(reflection);
-            ITag tag = TagLibParserFactory.Base().Parse("<x:transform Doc='${xml}' Xslt='${xslt}'></x:transform>");
+            Base().Parse("<c:import url='" + fileUrl + "' var='xmlFile'></c:import>").Evaluate(reflection);
+            Base().Parse("<c:import url='" + fileUrl2 + "' var='xslFile'></c:import>").Evaluate(reflection);
+            Base().Parse("<x:parse doc='${xmlFile}' var='xml'></x:parse>").Evaluate(reflection);
+            Base().Parse("<x:parse doc='${xslFile}' var='xslt'></x:parse>").Evaluate(reflection);
+            ITag tag = Base().Parse("<x:transform Doc='${xml}' Xslt='${xslt}'></x:transform>");
             string result = File.ReadAllText("cd_catalog.html");
             Assert.That(tag.Evaluate(reflection), Is.EqualTo(result));
         }
@@ -1020,6 +1021,11 @@ namespace org.SharpTiles.Templates.Test
                 Assert.That(Te.Context.Index, Is.EqualTo(13));
             }
 
+        }
+
+        public static TagLibParserFactory Base()
+        {
+            return new TagLibParserFactory(new TagLibForParsing(new TagLib()), new FileLocatorFactory());
         }
     }
 }

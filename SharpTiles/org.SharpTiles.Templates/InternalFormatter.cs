@@ -60,20 +60,20 @@ namespace org.SharpTiles.Templates
         
         private ITag _closeTag;
         private IList<ITemplatePart> _templateParsed;
-        private TagLibParserFactory _tagLibHelper;
+        private ITagLibParserFactory _tagLibHelper;
 
-        public InternalFormatter(TagLibForParsing lib, string template, bool allowTags, IResourceLocator locator, TagLibMode mode)
+        public InternalFormatter(ITagLibParserFactory tagLibHelper, string template, bool allowTags, IResourceLocator locator)
         {
-            _tagLibHelper = new TagLibParserFactory(lib, mode);
+            _tagLibHelper = tagLibHelper;
             _locator = locator;
             _expectCloseTag = false;
             _allowTags = allowTags;
             _parser = new ParseHelper(new Tokenizer(template, true, COMMENT, SEPERATORS, null /*LITERALS*/));
         }
 
-        public InternalFormatter(TagLibForParsing lib, ParseHelper parser, bool allowTags, bool expectCloseTag, IResourceLocator locator, TagLibMode mode)
+        public InternalFormatter(ITagLibParserFactory tagLibHelper, ParseHelper parser, bool allowTags, bool expectCloseTag, IResourceLocator locator)
         {
-            _tagLibHelper = new TagLibParserFactory(lib, mode);
+            _tagLibHelper = tagLibHelper;
             _locator = locator;
             _allowTags = allowTags;
             _expectCloseTag = expectCloseTag;

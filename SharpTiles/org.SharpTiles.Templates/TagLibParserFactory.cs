@@ -22,10 +22,11 @@ using System.Text;
 using System.Threading.Tasks;
 using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
+using org.SharpTiles.Tags.Creators;
 
 namespace org.SharpTiles.Templates
 {
-    public class TagLibParserFactory
+    public class TagLibParserFactory : ITagLibParserFactory
     {
         private readonly TagLibForParsing _lib;
         private readonly TagLibMode _mode;
@@ -33,21 +34,21 @@ namespace org.SharpTiles.Templates
                 " ","\t", "\r", "\n"
         };
 
-        public TagLibParserFactory(TagLibForParsing lib) : this(lib,TagLibMode.Strict)
-        {
-        }
+        private readonly IResourceLocatorFactory _factory;
 
-        public TagLibParserFactory(TagLibForParsing lib, TagLibMode mode)
+       
+        public TagLibParserFactory(TagLibForParsing lib, IResourceLocatorFactory factory, TagLibMode mode= TagLibMode.Strict)
         {
             _lib = lib;
+            _factory = factory;
             _mode = mode;
         }
 
         public ITagLibParser Construct(ParseHelper helper, IResourceLocator locator)
         {
-            if(_mode==TagLibMode.Strict) return new StrictTagLibParser(_lib,helper, locator);
-            if (_mode == TagLibMode.StrictResolve) return new StrictResolveTagLibParser(_lib,helper, locator);
-            if (_mode == TagLibMode.RelaxedResolve) return new RelaxedResolveTagLibParser(_lib,helper, locator);
+            if(_mode==TagLibMode.Strict) return new StrictTagLibParser(_lib,helper, locator, _factory);
+            if (_mode == TagLibMode.StrictResolve) return new StrictResolveTagLibParser(_lib,helper, locator, _factory);
+            if (_mode == TagLibMode.RelaxedResolve) return new RelaxedResolveTagLibParser(_lib,helper, locator, _factory);
             return null;
         }
 
@@ -56,7 +57,7 @@ namespace org.SharpTiles.Templates
             var tokenizer = new Tokenizer(tag, true, true, null, TagLibConstants.SEPERATORS, TagLibConstants.LITERALS, null);
             var helper = new ParseHelper(tokenizer);
             helper.Init();
-            return Construct(helper, new FileBasedResourceLocator()).Parse();
+            return Construct(helper,_factory.GetNewLocator()).Parse();
         }
 
         public ITag Parse(ParseHelper helper, IResourceLocator locator)
@@ -73,9 +74,6 @@ namespace org.SharpTiles.Templates
             }
         }
 
-        public static TagLibParserFactory Base()
-        {
-            return new TagLibParserFactory(new TagLibForParsing(new TagLib()));
-        }
+       
     }
 }

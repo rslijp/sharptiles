@@ -21,7 +21,7 @@ namespace org.SharpTiles.Tags.Creators
 {
     public interface ITemplate
     {
-        ParsedTemplate Template { get; }
+        string Evaluate(TagModel model);
         string Description { get; }
         string Path { get; }
     }

@@ -50,10 +50,10 @@ namespace org.SharpTiles.Tiles.Tile
             get { return _template; }
         }
 
-        public ParsedTemplate ParsedTemplate
-        {
-            get { return _template.Template; }
-        }
+//        public ParsedTemplate ParsedTemplate
+//        {
+//            get { return _template.Template; }
+//        }
 
         #region ITile Members
 
@@ -73,7 +73,7 @@ namespace org.SharpTiles.Tiles.Tile
             {
                 using (model.Decorate().With(attributes))
                 {
-                    return ParsedTemplate.Evaluate(model);
+                    return _template.Evaluate(model);
                 }
             }
             catch (TileExceptionWithContext)

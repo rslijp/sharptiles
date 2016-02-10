@@ -65,7 +65,7 @@ namespace org.SharpTiles.Tags.Test.CoreTags
         {
             var url = new Redirect();
             var response = new MockResponse();
-            var model = new TagModel(this, new MockSessionState(), null, response, null);
+            var model = new TagModel(this, new MockSessionState(), null, response);
             url.Url = new MockAttribute(new Constant("www.sharptiles.org"));
             Assert.IsNull(response.LastRedirectUrl);
             url.Evaluate(model);

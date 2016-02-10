@@ -92,7 +92,7 @@ namespace org.SharpTiles.Tags.Creators
         public string Evaluate(TagModel model)
         {
             var sb = new StringBuilder();
-            foreach (var part in _templateParsed)
+           foreach (var part in _templateParsed)
             {
                 var raw = part.Evaluate(model);
                 var value = BaseCoreTag.ValueOfWithi18N(model, raw);

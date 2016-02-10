@@ -159,7 +159,7 @@ namespace org.SharpTiles.ConnectorsTest
             var cache = new NstlCache { Factory = factory };
             var view = cache.GetView("Home/Index.htm");
             Assert.That(view, Is.Not.Null);
-            var model = new TagModel(new Dictionary<string, string> { { "Message", "Test" } }).UpdateFactory(factory);
+            var model = new TagModel(new Dictionary<string, string> { { "Message", "Test" } });
             Assert.That(view.Render(model).Contains("VIEWS"));
             //Then
         }
