@@ -30,5 +30,6 @@ namespace org.SharpTiles.Tags
 
         ITagLib Register(ITagGroup sharp);
         bool Exists(string group);
+        TagLibMode Mode { get; }
     }
 }

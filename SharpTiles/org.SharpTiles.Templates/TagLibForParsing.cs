@@ -82,9 +82,11 @@ namespace org.SharpTiles.Templates
             return false;
         }
 
+        public TagLibMode Mode => _top.Mode;
+
         public void Push(params ITagGroup[] extension)
         {
-            var dish = new TagLib(extension);
+            var dish = new TagLib(Mode,extension);
             stack.Push(dish);
         }
 

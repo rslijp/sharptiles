@@ -18,6 +18,7 @@
  */
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
@@ -34,7 +35,7 @@ namespace org.SharpTiles.Templates
         private bool _allowTags = true;
         private readonly string _template;
         private ParsedTemplate _templateParsed;
-        private TagLibMode _mode = TagLibMode.Strict;
+//        private TagLibMode _mode = TagLibMode.Strict;
         private ITagLib _lib = null;
 
         public Formatter()
@@ -70,7 +71,8 @@ namespace org.SharpTiles.Templates
 
         public Formatter SwitchToMode(TagLibMode mode)
         {
-            _mode = mode;
+            var lib=new TagLib(mode,_lib.ToArray());
+            _lib = lib;
             return this;
         }
 
@@ -87,7 +89,7 @@ namespace org.SharpTiles.Templates
             {
                 _initialLocator = f.GetNewLocator();
             }
-            _templateParsed = new InternalFormatter(new TagLibParserFactory(new TagLibForParsing(_lib),f, _mode), _template, _allowTags, _initialLocator).Parse();
+            _templateParsed = new InternalFormatter(new TagLibParserFactory(new TagLibForParsing(_lib),f), _template, _allowTags, _initialLocator).Parse();
 
             return this;
         }
@@ -129,7 +131,6 @@ namespace org.SharpTiles.Templates
                         AllowTags(true).
                         SetLocatorFactory(new FileLocatorFactory()).
                         SetInitialLocator(locator.Update(path)).
-                        SwitchToMode(TagLibMode.Strict).
                         Parse();
         }
 
@@ -141,7 +142,6 @@ namespace org.SharpTiles.Templates
                         AllowTags(true).
                         SetLocatorFactory(factory).
                         SetInitialLocator(locator.Update(path)).
-                        SwitchToMode(TagLibMode.Strict).
                         Parse();
         }
 

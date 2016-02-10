@@ -15,13 +15,9 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
- */using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+ */
 
-namespace org.SharpTiles.Templates
+namespace org.SharpTiles.Tags
 {
     public enum TagLibMode
     {

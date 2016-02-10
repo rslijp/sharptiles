@@ -262,7 +262,7 @@ namespace org.SharpTiles.Templates
         public class TagLibParserFactoryAdapter : TagLibParserFactory
         {
            
-            public TagLibParserFactoryAdapter(AbstractTagLibParser parser) : base(parser._lib, parser._factory, parser.Mode) 
+            public TagLibParserFactoryAdapter(AbstractTagLibParser parser) : base(parser._lib, parser._factory) 
             {
             }
 

@@ -79,7 +79,6 @@
     <Compile Include="SharpTags\Marker.cs" />
     <Compile Include="TagLibConstants.cs" />
     <Compile Include="TagLibForParsing.cs" />
-    <Compile Include="TagLibMode.cs" />
     <Compile Include="TagLibParserFactory.cs" />
     <Compile Include="TemplateAttribute.cs" />
     <Compile Include="AbstractTagLibParser.cs" />

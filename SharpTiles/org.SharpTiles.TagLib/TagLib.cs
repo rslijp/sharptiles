@@ -29,16 +29,18 @@ namespace org.SharpTiles.Tags
     public class TagLib : ITagLib
     {
         private readonly IDictionary<string, ITagGroup> TAGS = new Dictionary<string, ITagGroup>();
-
-        public TagLib()
+        
+        public TagLib(TagLibMode mode=TagLibMode.Strict)
         {
+            Mode = mode;
             Register(new Core());
             Register(new Format());
             Register(new Xml());
         }
 
-        public TagLib(params ITagGroup[] groups)
+        public TagLib(TagLibMode mode,params ITagGroup[] groups)
         {
+            Mode = mode;
             foreach (var group in groups)
             {
                 Register(group);
@@ -84,5 +86,7 @@ namespace org.SharpTiles.Tags
         {
             return TAGS.ContainsKey(group);
         }
+
+        public TagLibMode Mode { get; set; }
     }
 }

@@ -29,7 +29,6 @@ namespace org.SharpTiles.Templates
     public class TagLibParserFactory : ITagLibParserFactory
     {
         private readonly TagLibForParsing _lib;
-        private readonly TagLibMode _mode;
         private static readonly string[] WHITESPACES = new []{
                 " ","\t", "\r", "\n"
         };
@@ -37,18 +36,18 @@ namespace org.SharpTiles.Templates
         private readonly IResourceLocatorFactory _factory;
 
        
-        public TagLibParserFactory(TagLibForParsing lib, IResourceLocatorFactory factory, TagLibMode mode= TagLibMode.Strict)
+        public TagLibParserFactory(TagLibForParsing lib, IResourceLocatorFactory factory)
         {
             _lib = lib;
             _factory = factory;
-            _mode = mode;
         }
 
         public ITagLibParser Construct(ParseHelper helper, IResourceLocator locator)
         {
-            if(_mode==TagLibMode.Strict) return new StrictTagLibParser(_lib,helper, locator, _factory);
-            if (_mode == TagLibMode.StrictResolve) return new StrictResolveTagLibParser(_lib,helper, locator, _factory);
-            if (_mode == TagLibMode.RelaxedResolve) return new RelaxedResolveTagLibParser(_lib,helper, locator, _factory);
+            var mode = _lib.Mode;
+            if(mode==TagLibMode.Strict) return new StrictTagLibParser(_lib,helper, locator, _factory);
+            if (mode == TagLibMode.StrictResolve) return new StrictResolveTagLibParser(_lib,helper, locator, _factory);
+            if (mode == TagLibMode.RelaxedResolve) return new RelaxedResolveTagLibParser(_lib,helper, locator, _factory);
             return null;
         }
 
