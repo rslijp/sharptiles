@@ -135,6 +135,8 @@ namespace org.SharpTiles.Expressions
         {
             foreach (var type in types)
             {
+                if (PARSERS_BY_TYPE.ContainsKey(type))
+                    throw new ArgumentException($"{parser}: PARSERS_BY_TYPE already contains key '{type.Name}' with value '{PARSERS_BY_TYPE[type]}'");
                 PARSERS_BY_TYPE.Add(type, parser);
             }
         }
