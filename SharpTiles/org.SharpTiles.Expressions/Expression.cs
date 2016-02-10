@@ -16,18 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- using System;
+using System;
 using System.Collections.Generic;
- using System.Diagnostics;
- using org.SharpTiles.Common;
- using org.SharpTiles.Expressions.Functions;
- using org.SharpTiles.Expressions.Math;
+using org.SharpTiles.Common;
+using org.SharpTiles.Expressions.Functions;
+using org.SharpTiles.Expressions.Math;
 
 namespace org.SharpTiles.Expressions
 {
     public abstract class Expression
     {
-        private static bool TRY_RESOLVE_PROPERTY_INTO_CONSTANT=true;
+        private static bool TRY_RESOLVE_PROPERTY_INTO_CONSTANT = true;
         private static string[] OPERANDS;
 
         private static readonly IDictionary<string, IExpressionParser> PARSERS_BY_STR =
@@ -38,6 +37,8 @@ namespace org.SharpTiles.Expressions
 
         internal static string[] WHITESPACE_OPERANDS;
 
+        private static readonly object _sempaphore = new object();
+
         static Expression()
         {
             Init();
@@ -45,11 +46,14 @@ namespace org.SharpTiles.Expressions
 
         public static void Clear()
         {
-            OPERANDS = new String[0];
-            WHITESPACE_OPERANDS = new String[0];
-            PARSERS_BY_STR.Clear();
-            PARSERS_BY_TYPE.Clear();
-            FunctionLib.Clear();
+            lock (_sempaphore)
+            {
+                OPERANDS = new String[0];
+                WHITESPACE_OPERANDS = new String[0];
+                PARSERS_BY_STR.Clear();
+                PARSERS_BY_TYPE.Clear();
+                FunctionLib.Clear();
+            }
         }
 
         public static void Reinit()
@@ -59,48 +63,51 @@ namespace org.SharpTiles.Expressions
 
         public static void Init()
         {
-            var operands = new List<string>();
-            var whiteSpaceOperands = new List<string>();
-            FunctionLib.Register(new BaseFunctionLib());
+            lock (_sempaphore)
+            {
+                var operands = new List<string>();
+                var whiteSpaceOperands = new List<string>();
+                FunctionLib.Register(new BaseFunctionLib());
 
-            Register(new BooleanTernaryExpressionParser(), operands, whiteSpaceOperands);
-            Register(new AddParser(), operands, whiteSpaceOperands);
-            Register(new MinusParser(), operands, whiteSpaceOperands);
-            Register(new MultiplyParser(), operands, whiteSpaceOperands);
-            Register(new DivideParser(), operands, whiteSpaceOperands);
-            Register(new ModuloParser(), operands, whiteSpaceOperands);
-            Register(new PowerParser(), operands, whiteSpaceOperands);
-            Register(new LessThanParser(), operands, whiteSpaceOperands);
-            Register(new GreaterThanParser(), operands, whiteSpaceOperands);
-            Register(new LessThanOrEqualParser(), operands, whiteSpaceOperands);
-            Register(new GreaterThanOrEqualParser(), operands, whiteSpaceOperands);
-            Register(new EqualToParser(), operands, whiteSpaceOperands);
-            Register(new NotEqualToParser(), operands, whiteSpaceOperands);
-            Register(new AndParser(), operands, whiteSpaceOperands);
-            Register(new OrParser(), operands, whiteSpaceOperands);
-            Register(new NotParser(), operands, whiteSpaceOperands);
-            Register(new BracketsParser(), operands, whiteSpaceOperands);
-            foreach (var func in new MathFunctionLib().Functions)
-            {
-                Register(new MathFunctionParser(func), operands, whiteSpaceOperands);
+                Register(new BooleanTernaryExpressionParser(), operands, whiteSpaceOperands);
+                Register(new AddParser(), operands, whiteSpaceOperands);
+                Register(new MinusParser(), operands, whiteSpaceOperands);
+                Register(new MultiplyParser(), operands, whiteSpaceOperands);
+                Register(new DivideParser(), operands, whiteSpaceOperands);
+                Register(new ModuloParser(), operands, whiteSpaceOperands);
+                Register(new PowerParser(), operands, whiteSpaceOperands);
+                Register(new LessThanParser(), operands, whiteSpaceOperands);
+                Register(new GreaterThanParser(), operands, whiteSpaceOperands);
+                Register(new LessThanOrEqualParser(), operands, whiteSpaceOperands);
+                Register(new GreaterThanOrEqualParser(), operands, whiteSpaceOperands);
+                Register(new EqualToParser(), operands, whiteSpaceOperands);
+                Register(new NotEqualToParser(), operands, whiteSpaceOperands);
+                Register(new AndParser(), operands, whiteSpaceOperands);
+                Register(new OrParser(), operands, whiteSpaceOperands);
+                Register(new NotParser(), operands, whiteSpaceOperands);
+                Register(new BracketsParser(), operands, whiteSpaceOperands);
+                foreach (var func in new MathFunctionLib().Functions)
+                {
+                    Register(new MathFunctionParser(func), operands, whiteSpaceOperands);
+                }
+                foreach (var lib in FunctionLib.Libs())
+                {
+                    Register(new FunctionParser(lib), operands, whiteSpaceOperands);
+                }
+                Register(new StringConstantParser(), operands, whiteSpaceOperands);
+                Register(new ConstantParser(), operands, whiteSpaceOperands);
+                if (TRY_RESOLVE_PROPERTY_INTO_CONSTANT)
+                {
+                    AddParserByTypes(new PropertyOrConstantParser().ParsedTypes, new PropertyOrConstantParser());
+                }
+                else
+                {
+                    AddParserByTypes(new PropertyParser().ParsedTypes, new PropertyParser());
+                }
+
+                OPERANDS = operands.ToArray();
+                WHITESPACE_OPERANDS = whiteSpaceOperands.ToArray();
             }
-            foreach (var lib in FunctionLib.Libs())
-            {
-                Register(new FunctionParser(lib), operands, whiteSpaceOperands);
-            }
-            Register(new StringConstantParser(), operands, whiteSpaceOperands);
-            Register(new ConstantParser(), operands, whiteSpaceOperands);
-            if (TRY_RESOLVE_PROPERTY_INTO_CONSTANT)
-            {
-                AddParserByTypes(new PropertyOrConstantParser().ParsedTypes, new PropertyOrConstantParser());
-            }
-            else
-            {
-                AddParserByTypes(new PropertyParser().ParsedTypes, new PropertyParser());
-            }
-     
-            OPERANDS = operands.ToArray();
-            WHITESPACE_OPERANDS = whiteSpaceOperands.ToArray();
         }
 
         public abstract Type ReturnType { get; }
@@ -132,7 +139,7 @@ namespace org.SharpTiles.Expressions
             }
         }
 
-        private static void RegisterToken(ExpressionOperatorSign token, 
+        private static void RegisterToken(ExpressionOperatorSign token,
                                           ICollection<string> operands,
                                           ICollection<string> whiteSpaceOperands)
         {
@@ -157,12 +164,12 @@ namespace org.SharpTiles.Expressions
             var parseHelper = new ExpressionParserHelper(tokenizer);
             parseHelper.Init();
             Parse(parseHelper);
-            var result= parseHelper.Yield();
+            var result = parseHelper.Yield();
             result.GuardTypeSafety();
             return result;
         }
 
-        
+
         internal static void Parse(ExpressionParserHelper parseHelper)
         {
             IgnoreSpaces(parseHelper);
@@ -179,7 +186,7 @@ namespace org.SharpTiles.Expressions
             }
             else
             {
-                parser = PARSERS_BY_TYPE[typeof (PropertyOrConstant)];
+                parser = PARSERS_BY_TYPE[typeof(PropertyOrConstant)];
             }
             parser.Parse(parseHelper);
             if (parseHelper.HasMore())
