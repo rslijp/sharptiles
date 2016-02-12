@@ -43,6 +43,12 @@ namespace org.SharpTiles.Common
             get { return _context; }
         }
 
+        public void Update(ParseContext context)
+        {
+            _context = context;
+        }
+
+
         public static PartialExceptionWithContext<T> MakePartial<T>(T partial) where T : ExceptionWithContext
         {
             return new PartialExceptionWithContext<T>(partial);

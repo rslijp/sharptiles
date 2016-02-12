@@ -56,7 +56,7 @@ namespace org.SharpTiles.Common
 
         public static PartialExceptionWithContext<ParseException> CantResolveTag(string tagName, string libs)
         {
-            string msg = $"This tag '{tagName}' is found in multiple tag libs({libs}), a hint is required prefix with the '<tag group name>:'";
+            string msg = $"A tag with name '{tagName}' is found in multiple tag libs({libs}), a hint is required prefix with the '<tag group name>:'";
             return MakePartial(new ParseException(msg));
         }
 

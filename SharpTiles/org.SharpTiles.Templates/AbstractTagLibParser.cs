@@ -185,7 +185,7 @@ namespace org.SharpTiles.Templates
         private void HandleFreeNestedBody(ITagAttributeSetter tagReflection)
         {
             _helper.PushIgnoreUnkownTag(false);
-            var attribute = new TemplateAttribute(ParseNested(_helper, _locator, Mode));
+            var attribute = new TemplateAttribute(ParseNested(_helper, _locator));
             tagReflection["Body"] = attribute;
             _helper.PopIgnoreUnkownTag();
         }
@@ -193,12 +193,12 @@ namespace org.SharpTiles.Templates
         private void HandleFreeWithIgnoredUnkownTagsNestedBody(ITagAttributeSetter tagReflection)
         {
             _helper.PushIgnoreUnkownTag(true);
-            var attribute = new TemplateAttribute(ParseNested(_helper, _locator, Mode));
+            var attribute = new TemplateAttribute(ParseNested(_helper, _locator));
             tagReflection["Body"] = attribute;
             _helper.PopIgnoreUnkownTag();
         }
 
-        public ParsedTemplate ParseNested(ParseHelper helper, IResourceLocator locator, TagLibMode mode)
+        public ParsedTemplate ParseNested(ParseHelper helper, IResourceLocator locator)
         {
             try
             {

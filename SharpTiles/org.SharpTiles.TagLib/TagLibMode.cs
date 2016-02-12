@@ -23,7 +23,8 @@ namespace org.SharpTiles.Tags
     {
         Strict,
         StrictResolve,
+        IgnoreResolve,
         RelaxedResolve
-        
+
     }
 }

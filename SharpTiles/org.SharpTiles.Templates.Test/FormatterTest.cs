@@ -24,6 +24,8 @@ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using org.SharpTiles.Common;
  using org.SharpTiles.Tags;
+ using org.SharpTiles.Tags.CoreTags;
+ using org.SharpTiles.Tags.FormatTags;
 
 namespace org.SharpTiles.Templates.Test
 {
@@ -281,6 +283,20 @@ namespace org.SharpTiles.Templates.Test
         }
 
         [Test]
+        public void NestedParseContext()
+        {
+            try
+            {
+                new Formatter("<c:out>${math:max(a)}</c:out>").Parse();
+                Assert.Fail();
+            }
+            catch (ExceptionWithContext ewc)
+            {
+                Assert.That(ewc.Context.Index, Is.EqualTo(13));
+            }
+        }
+
+        [Test]
         public void FileTemplateWithTagsAndAttributesOnNewLine()
         {
             var model = new Hashtable();
@@ -330,6 +346,66 @@ namespace org.SharpTiles.Templates.Test
                 formatter.FormatAndSave(model, randomFile, enc);
                 string result = enc.GetString(File.ReadAllBytes(randomFile));
                 string expected = enc.GetString(File.ReadAllBytes("formattedwithstrictresolvetags.txt"));
+                Assert.That(result, Is.EqualTo(expected));
+            }
+            finally
+            {
+                //Console.WriteLine(randomFile);
+                File.Delete(randomFile);
+            }
+        }
+
+        [Test]
+        public void BugSequenceContainsNo()
+        {
+            var model = new Hashtable();
+            model.Add("small", 3);
+            model.Add("large", 11);
+            model.Add("text", "some text");
+            model.Add("greet", "Hello");
+            model.Add("to", "world");
+
+            var list = new ArrayList(new[] { "H1", "H2", "H3" });
+            model.Add("list", list);
+
+            
+            try
+            {
+                Formatter formatter = Formatter.FileBasedFormatter("bugsequencenoelement.htm",
+                TagLibMode.StrictResolve,
+                new TagLib(TagLibMode.StrictResolve, new Core(), new Format()));
+            }
+            catch (ExceptionWithContext Pe)
+            {
+                Assert.That(Pe.MessageWithOutContext, Is.EqualTo(TagException.UnkownTag("h1").Message));
+            }            
+        }
+
+        [Test]
+        public void IgnoreResolve()
+        {
+            var model = new Hashtable();
+            model.Add("small", 3);
+            model.Add("large", 11);
+            model.Add("text", "some text");
+            model.Add("greet", "Hello");
+            model.Add("to", "world");
+
+            var list = new ArrayList(new[] { "H1", "H2", "H3" });
+            model.Add("list", list);
+
+            Formatter formatter = Formatter.FileBasedFormatter("bugsequencenoelement.htm",
+                TagLibMode.IgnoreResolve,
+                new TagLib(TagLibMode.IgnoreResolve, new Core(), new Format()));
+
+            string randomFile = Path.GetRandomFileName();
+            try
+            {
+                Encoding enc = Encoding.UTF8;
+                formatter.FormatAndSave(model, randomFile, enc);
+                string result = enc.GetString(File.ReadAllBytes(randomFile));
+                File.WriteAllText("c:\\temp\\test.txt", result);
+                string expected = enc.GetString(File.ReadAllBytes("bugsequencenoelement.txt"));
                 Assert.That(result, Is.EqualTo(expected));
             }
             finally

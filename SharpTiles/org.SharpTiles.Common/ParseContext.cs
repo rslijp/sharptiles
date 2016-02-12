@@ -24,7 +24,7 @@ namespace org.SharpTiles.Common
 {
     public class ParseContext
     {
-        private readonly object _contents;
+        private readonly string _contents;
         private readonly int _index;
         private readonly string[] _lines;
         private readonly string _text;
@@ -88,6 +88,11 @@ namespace org.SharpTiles.Common
         public IList<ContextLine> Context
         {
             get { return _context; }
+        }
+
+        public ParseContext Add(ParseContext offset)
+        {
+            return new ParseContext(offset._contents, _index + offset._index+1, _text);
         }
 
         private void CreateLineWithPosition()
@@ -181,5 +186,7 @@ namespace org.SharpTiles.Common
         }
 
         #endregion
+
+        
     }
 }

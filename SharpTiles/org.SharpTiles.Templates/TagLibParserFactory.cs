@@ -48,6 +48,7 @@ namespace org.SharpTiles.Templates
             if(mode==TagLibMode.Strict) return new StrictTagLibParser(_lib,helper, locator, _factory);
             if (mode == TagLibMode.StrictResolve) return new StrictResolveTagLibParser(_lib,helper, locator, _factory);
             if (mode == TagLibMode.RelaxedResolve) return new RelaxedResolveTagLibParser(_lib,helper, locator, _factory);
+            if (mode == TagLibMode.IgnoreResolve) return new IgnoreResolveTagLibParser(_lib, helper, locator, _factory);
             return null;
         }
 

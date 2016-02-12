@@ -1,0 +1,15 @@
+<h1>Page</h1>
+<set var="bool">${small < large}</set>
+<choose>
+	<when test="${bool}">
+	    <forTokens step='2' items="1,2,3,4,5,6" delims=",">${Status.Index}.[<forTokens step='2' begin='1' items="1,2,3,4,5,6" delims=",">${Status.Index}</forTokens>]</forTokens>
+	</when>
+	<c:otherwise>
+	    Sorry nothing to show
+	</c:otherwise>
+</choose>
+<if test="${bool}">
+	<forEach items="${Model.list}">
+	    ${Tag.Item}. ${fn:concat(greet, fn:concat(' ', to))}
+	</forEach>
+</if>

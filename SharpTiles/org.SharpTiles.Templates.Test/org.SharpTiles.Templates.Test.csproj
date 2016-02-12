@@ -117,6 +117,12 @@
     <Content Include="formattedwithstrictresolvetags.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="bugsequencenoelement.htm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="bugsequencenoelement.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="templatewithrelaxedresolvetags.htm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

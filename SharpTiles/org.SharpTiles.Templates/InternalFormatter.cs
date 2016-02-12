@@ -94,10 +94,10 @@ namespace org.SharpTiles.Templates
             {
                 throw;
             }
-            catch (Exception e)
-            {
-                throw ParseException.UnexpectedError(e).Decorate(_parser.Current?.Context);
-            }
+//            catch (Exception e)
+//            {
+//                throw ParseException.UnexpectedError(e).Decorate(_parser.Current?.Context);
+//            }
         }
 
         internal ParsedTemplate ParseNested()
@@ -213,9 +213,18 @@ namespace org.SharpTiles.Templates
         {
             _parser.Expect(SIGNRATURE_EXPRESSION);
             _parser.Read(OPEN_EXPRESSION);
+            var offset=_parser.Current.Context;
             var expression = _parser.ReadUntil(TokenType.Seperator, CLOSE_EXPRESSION);
             _parser.Expect(CLOSE_EXPRESSION);
-            _templateParsed.Add(new ExpressionPart(Expression.Parse(expression)));
+            try
+            {
+                _templateParsed.Add(new ExpressionPart(Expression.Parse(expression)));
+            }
+            catch (ExceptionWithContext ewc)
+            {
+                ewc.Update(offset.Add(ewc.Context));
+                throw ewc;
+            }
         }
 
         private void ParseComment()
