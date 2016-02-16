@@ -33,6 +33,7 @@ namespace org.SharpTiles.Expressions.Functions
             RegisterFunction(new StartsWithFunction());
             RegisterFunction(new EndsWithFunction());
             RegisterFunction(new ReplaceFunction());
+            RegisterFunction(new RegExReplaceFunction());
             RegisterFunction(new JoinFunction());
             RegisterFunction(new SplitFunction());
             RegisterFunction(new EscapeXmlFunction());

@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="BooleanTernaryExpressionTest.cs" />
     <Compile Include="Functions\CustomFunctionLibTest.cs" />
+    <Compile Include="Functions\RegExReplaceFunctionTest.cs" />
     <Compile Include="Functions\ReverseFunctionTest.cs" />
     <Compile Include="Math\AbsFunctionTest.cs" />
     <Compile Include="Math\CeilingFuncitonTest.cs" />
