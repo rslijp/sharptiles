@@ -48,6 +48,8 @@ namespace org.SharpTiles.Expressions.Test.Functions
             Assert.That(function.Evaluate("06-14664954", pattern, ""), Is.EqualTo("0614664954"));
         }
 
+
+
         [Test]
         public void TestNullAll()
         {

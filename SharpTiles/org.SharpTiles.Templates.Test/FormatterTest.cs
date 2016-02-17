@@ -928,5 +928,9 @@ namespace org.SharpTiles.Templates.Test
             var formatter = new Formatter("<!-- This file is generated at ${now} -->\n${a} ==> ${c}").Parse();
             Assert.That(formatter.Format(new TagModel(raw)), Is.EqualTo("<!-- This file is generated at 05-11-2012 05:30:2012 -->\nB ==> D"));
         }
+
+      
+
+
     }
 }

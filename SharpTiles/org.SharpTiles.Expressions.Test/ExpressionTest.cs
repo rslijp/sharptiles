@@ -83,6 +83,8 @@ namespace org.SharpTiles.Expressions.Test
             {
                 get { return new object[1]; }
             }
+
+            public string Value { get; set; }
         }
 
         [Test]
@@ -1556,6 +1558,49 @@ namespace org.SharpTiles.Expressions.Test
               );
         }
 
-        
+        [Test]
+        public void ComplexPattern()
+        {
+            Assert.That(Expression.ParseAndEvaluate(
+                        "fn:regExReplace(Value, 'a', 'A')",
+                        new Reflection(new SampleModel() { Value = "aBC" })),
+                    Is.EqualTo("ABC")
+            );
+            Assert.That(Expression.ParseAndEvaluate(
+                @"fn:regExReplace(Value, '(^\\+)|(^00)|(\ |\\(|\\)|\-)', '')",
+                new Reflection(new SampleModel() {Value = "555-1234"})),
+                Is.EqualTo("5551234")
+            );
+            Assert.That(Expression.ParseAndEvaluate(
+               @"fn:regExReplace(Value, '(^\\+)|(^00)|(\ |\\(|\\)|\-)', '')",
+               new Reflection(new SampleModel() { Value = "555-001234" })),
+               Is.EqualTo("555001234")
+           );
+            Assert.That(Expression.ParseAndEvaluate(
+                        @"fn:regExReplace(Value, '(^\\+)|(^00)|(\ |\\(|\\)|\-)', '')",
+                        new Reflection(new SampleModel() { Value = "(06) 14 66 49 54" })),
+                    Is.EqualTo("0614664954")
+            );
+            Assert.That(Expression.ParseAndEvaluate(
+                       @"fn:regExReplace(Value, '(^\\+)|(^00)|(\ |\\(|\\)|\-)', '')",
+                       new Reflection(new SampleModel() { Value = "+31614664954" })),
+                   Is.EqualTo("31614664954")
+           );
+            Assert.That(Expression.ParseAndEvaluate(
+                       @"fn:regExReplace(Value, '(^\\+)|(^00)|(\ |\\(|\\)|\-)', '')",
+                       new Reflection(new SampleModel() { Value = "061+4664954" })),
+                   Is.EqualTo("061+4664954")
+           );
+            //            var function = new RegExReplaceFunction();
+            //            var pattern = @"(^\+)|(^00)|(\ |\(|\)|\-)";
+            //            Assert.That(function.Evaluate("0614664954", pattern, ""), Is.EqualTo("0614664954"));
+            //            Assert.That(function.Evaluate("+31614664954", pattern, ""), Is.EqualTo("31614664954"));
+            //            Assert.That(function.Evaluate("061+4664954", pattern, ""), Is.EqualTo("061+4664954"));
+            //            Assert.That(function.Evaluate("0031614664954", pattern, ""), Is.EqualTo("31614664954"));
+            //            Assert.That(function.Evaluate("0031614664954", pattern, ""), Is.EqualTo("31614664954"));
+            //            Assert.That(function.Evaluate("06 14 66 49 54", pattern, ""), Is.EqualTo("0614664954"));
+            //            Assert.That(function.Evaluate("(06) 14 66 49 54", pattern, ""), Is.EqualTo("0614664954"));
+            //            Assert.That(function.Evaluate("06-14664954", pattern, ""), Is.EqualTo("0614664954"));
+        }
     }
 }
