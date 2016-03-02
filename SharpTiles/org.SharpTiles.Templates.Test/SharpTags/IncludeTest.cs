@@ -146,7 +146,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         }
 
         [Test]
-        public void HandNestedIncludeWithDirs()
+        public void HandleNestedIncludeWithDirs()
         {
             var formatter = new Formatter("<sharp:include file='SharpTags/withnested.htm'/>").Parse(); 
             Assert.That(formatter.Format(new TagModel(new Hashtable())),
@@ -154,7 +154,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         }
 
         [Test]
-        public void HandNestedIncludeWithNestedParentDirs()
+        public void HandleNestedIncludeWithNestedParentDirs()
         {
             var formatter = new Formatter("<sharp:include file='SharpTags/nested/withparent.htm'/>").Parse();
             Assert.That(formatter.Format(new TagModel(new Hashtable())),
@@ -162,7 +162,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         }
 
         [Test]
-        public void HandNestedIncludeWithParentDirs()
+        public void HandleNestedIncludeWithParentDirs()
         {
             var formatter = new Formatter("<sharp:include file='SharpTags/withparent.htm'/>").Parse(); 
             Assert.That(formatter.Format(new TagModel(new Hashtable())),

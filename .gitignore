@@ -52,3 +52,8 @@
 /WebFormSample/SharpTilesSample/obj/
 /WebFormSample/SharpTilesSampleTest/bin/
 /WebFormSample/SharpTilesSampleTest/obj/
+/distribution
+/build
+/.fake
+/TestResult.xml
+/tools/FAKE

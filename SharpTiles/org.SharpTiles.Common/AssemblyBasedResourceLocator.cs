@@ -48,7 +48,7 @@ namespace org.SharpTiles.Common
 
         public ResourceManager LoadBundle(string filePath)
         {
-            if(!Exists(filePath+".resources"))
+            if (!Exists(filePath+".resources"))
             {
                 throw ResourceException.ResourceBundleNotFound(filePath);
             }

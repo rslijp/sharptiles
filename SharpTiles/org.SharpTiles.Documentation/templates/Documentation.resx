@@ -171,6 +171,24 @@
   <data name="description_ExpressionLanguage_MapPropertyAccess" xml:space="preserve">
     <value>bean.property.&lt;i&gt;key&lt;/i&gt;</value>
   </data>
+  <data name="description_BooleanTernaryExpressionParser" xml:space="preserve">
+    <value>&lt;i&gt;boolean expression&lt;/i&gt;?&lt;i&gt;expression evalulated when true&lt;/i&gt;:?&lt;i&gt;expression evalulated when false&lt;/i&gt;</value>
+  </data>
+  <data name="description_MathFunctionParser" xml:space="preserve">
+    <value>&lt;i&gt;math function&lt;/i&gt;(&lt;i&gt;arg1&lt;,&lt;i&gt;arg2&lt;,...)</value>
+  </data>
+  <data name="description_PropertyOrConstantParser" xml:space="preserve">
+    <value>Bean or Constant Access!</value>
+  </data>
+  <data name="description_RegExReplaceFunction" xml:space="preserve">
+    <value>Regex Function!</value>
+  </data>
+  <data name="description_NowFunction" xml:space="preserve">
+    <value>Now Function!</value>
+  </data>
+  <data name="expression_MathExpression" xml:space="preserve">
+    <value>Math expression!</value>
+  </data>
   <data name="tag_Header_Attribute" xml:space="preserve">
     <value>Attribute</value>
   </data>
