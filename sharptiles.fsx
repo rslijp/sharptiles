@@ -19,7 +19,8 @@ let releaseDir = "./distribution"
 let documentationDir = "./documentation"
 let testDir  = "./build/tests/"
 let buildMode = getBuildParamOrDefault "buildMode" "Release"
-
+let license = IO.File.ReadAllText "SharpTiles/FILE.HEADER"
+ 
 let setParams defaults =
         { defaults with
             Verbosity = Some(Quiet)
@@ -106,7 +107,16 @@ let BuildSolutionForTarget (target: String)  =
    Copy releaseDir [buildDir+"org.SharpTiles.NUnit.dll"] 
    MergeAssemblies ["org.SharpTiles.Common.dll"; "org.SharpTiles.Expressions.dll"; "org.SharpTiles.HtmlTags.dll"; "org.SharpTiles.Tags.dll"; "org.SharpTiles.Templates.dll"; "org.SharpTiles.Tiles.dll"]
 
-   
+let AddLGPL (file: string)  = 
+  printf "Adding license to %s\n" file
+  let content = IO.File.ReadAllText file
+  let appended = sprintf "%s\n%s" license content
+  IO.File.WriteAllText (file,appended)
+
+let CheckLGPL (file: string)  = 
+  let content = IO.File.ReadAllText file
+  if not (content.StartsWith license) then AddLGPL file
+ 
 // Targets
 Target "Clean" (fun _ ->
     CleanDirs [testDir;buildDir;releaseDir;documentationDir] 
@@ -199,5 +209,10 @@ Target "Documentation" (fun _ ->
   RunDocumentation documentationDir
 )
 
+Target "LGPL" (fun _ ->
+  !! "SharpTiles/**/*.cs"
+  -- "SharpTiles/**/TemporaryGeneratedFile*"
+  |> Seq.iter CheckLGPL
+)
 // start build
 RunTargetOrDefault "Default"
