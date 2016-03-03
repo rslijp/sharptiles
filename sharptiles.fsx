@@ -16,6 +16,7 @@ let frameworkVersion = "v4.0.30319"
 let buildDir = "./build/"
 let buildTempDir = "./build/temp"
 let releaseDir = "./distribution"
+let documentationDir = "./documentation"
 let testDir  = "./build/tests/"
 let buildMode = getBuildParamOrDefault "buildMode" "Release"
 
@@ -87,6 +88,11 @@ let PrepareAndRunUnit3 (dllName: string, includeDocumentation: bool) =
     Copy targetDir [buildDir+"/"+dllName+".dll"] 
     RunUnit3 dllName
 
+let RunDocumentation (outputDir: string) =
+    let result = Shell.Exec("build/org.SharpTiles.Documentation.exe", "build/templates "+outputDir)
+    if result <> 0 then failwithf "Could not generate documentation\n"
+    //if result <> 0 then printf "nunit failed for %s\n" dllName
+
 let BuildSolutionForTarget (target: String)  = 
    Compile "SharpTiles/SharpTiles.sln" target 
    Copy releaseDir [buildDir+"org.SharpTiles.Common.dll"] 
@@ -103,7 +109,7 @@ let BuildSolutionForTarget (target: String)  =
    
 // Targets
 Target "Clean" (fun _ ->
-    CleanDirs [testDir;buildDir;releaseDir] 
+    CleanDirs [testDir;buildDir;releaseDir;documentationDir] 
 )
 
 Target "CreateTestDir" (fun _ ->
@@ -144,7 +150,9 @@ Target "InitReleaseDir" (fun _ ->
   CreateDir releaseDir
 )
 
-
+Target "InitDocumentationDir" (fun _ ->
+  CreateDir documentationDir
+)
 
 Target "BuildCode" (fun _ ->
   Run "Clean"  
@@ -183,6 +191,13 @@ Run "BuildReleaseCode"
 Run "Test"
 )
 
+Target "Documentation" (fun _ ->
+  Run "Clean"  
+  Run "BuildSolution"
+  Run "CopyLibs" 
+  Run "InitDocumentationDir"
+  RunDocumentation documentationDir
+)
 
 // start build
 RunTargetOrDefault "Default"

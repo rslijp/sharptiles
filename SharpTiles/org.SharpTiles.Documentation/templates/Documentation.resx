@@ -172,22 +172,25 @@
     <value>bean.property.&lt;i&gt;key&lt;/i&gt;</value>
   </data>
   <data name="description_BooleanTernaryExpressionParser" xml:space="preserve">
-    <value>&lt;i&gt;boolean expression&lt;/i&gt;?&lt;i&gt;expression evalulated when true&lt;/i&gt;:?&lt;i&gt;expression evalulated when false&lt;/i&gt;</value>
+    <value>&lt;i&gt;&amp;lt;boolean expression&amp;lt;&lt;/i&gt;?&lt;i&gt;&amp;lt;expression evalulated when true&amp;gt;&lt;/i&gt;:&lt;i&gt;&amp;lt;expression evalulated when false&amp;gt;&lt;/i&gt;</value>
   </data>
   <data name="description_MathFunctionParser" xml:space="preserve">
-    <value>&lt;i&gt;math function&lt;/i&gt;(&lt;i&gt;arg1&lt;,&lt;i&gt;arg2&lt;,...)</value>
+    <value>&lt;i&gt;math function&lt;/i&gt;(&lt;i&gt;arg1&lt;/i&gt;,&lt;i&gt;arg2&lt;/i&gt;,...)</value>
   </data>
   <data name="description_PropertyOrConstantParser" xml:space="preserve">
     <value>Bean or Constant Access!</value>
   </data>
   <data name="description_RegExReplaceFunction" xml:space="preserve">
-    <value>Regex Function!</value>
+    <value>Replaces in source, every match of the regex pattern with
+the newValue. An empty string is returned when either inputString or
+pattern are empty. If newVlaue is empty, all matched of the
+pattern are removed.</value>
   </data>
   <data name="description_NowFunction" xml:space="preserve">
-    <value>Now Function!</value>
+    <value>Returns the current time as DateTime object</value>
   </data>
   <data name="expression_MathExpression" xml:space="preserve">
-    <value>Math expression!</value>
+    <value>Supported math expressions</value>
   </data>
   <data name="tag_Header_Attribute" xml:space="preserve">
     <value>Attribute</value>
@@ -949,10 +952,10 @@ occurrence of substring. If substring is empty, 0 is returned.</value>
     <value>Returns true if source ends with the specified suffix; false, otherwise.</value>
   </data>
   <data name="description_ReplaceFunction" xml:space="preserve">
-    <value>Replaces in source, every occurrence of beforeString with
-afterString. An empty string is returned if either inputString or
-beforeString is empty. If afterString is empty, all occurences of the
-beforeString are removed.</value>
+    <value>Replaces in source, every occurrence of oldValue with
+the newValue. An empty string is returned if either inputString or
+oldValue is empty. If newVlaue is empty, all occurences of the
+oldValue are removed.</value>
   </data>
   <data name="description_JoinFunction" xml:space="preserve">
     <value>Joins all elements of the parts into a single string. Separator

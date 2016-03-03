@@ -86,6 +86,9 @@ namespace org.SharpTiles.Documentation
             get { return _expressions; }
         }
 
+        public IEnumerable<ExpressionDocumentation> CategoryOrderedExpressions => Expressions.OrderBy(e=>(e.Category?.Category??"other")+"-"+e.Name);
+
+
         public IList<FunctionDocumentation> Functions
         {
             get { return _functions; }
