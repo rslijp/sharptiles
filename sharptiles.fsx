@@ -47,7 +47,7 @@ let MergeAssemblies (dllNames: string list) =
 
     let dllNamesArg = String.Join(" ",prefixedDllNames)
   
-    let result = Shell.Exec("tools/ILMerge/ILMerge.exe", "/v4  /ndebug /target:library /out:"+releaseDir+"\\org.SharpTiles.dll /lib:library "+dllNamesArg)
+    let result = Shell.Exec("tools/ILMerge/ILMerge.exe", "/v4 /ndebug /keyfile:sharptiles.snk /target:library /out:"+releaseDir+"\\org.SharpTiles.dll /lib:library "+dllNamesArg)
     if result <> 0 then failwithf "ILMerge failed for %s based on %s\n" "org.SharpTiles.dll" dllNamesArg 
 
 let RunUnit3 (dllName: string) =
