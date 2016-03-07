@@ -52,7 +52,12 @@ namespace org.SharpTiles.Common
             {
                 throw ResourceException.ResourceBundleNotFound(filePath);
             }
-            return new ResourceManager(PreFixed(filePath), _assembly); 
+//            Console.WriteLine(_assembly.GetName().Name+"."+PreFixed(filePath));
+//            if (!Exists(filePath + ".resources"))
+//            {
+//                throw ResourceException.ResourceBundleNotFound(filePath);
+//            }
+            return new ResourceManager(_assembly.GetName().Name+"."+PreFixed(filePath), _assembly); 
         }
 
         public DateTime? LastModified(string path)

@@ -21,7 +21,8 @@ using System.Collections.Generic;
 using System.Threading;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using org.SharpTiles.Tags.CoreTags;
+ using org.SharpTiles.Tags;
+ using org.SharpTiles.Tags.CoreTags;
 using org.SharpTiles.Tags.FormatTags;
 
 namespace org.SharpTiles.Documentation.Test
@@ -29,6 +30,16 @@ namespace org.SharpTiles.Documentation.Test
     [TestFixture]
     public class DocumentModelTest
     {
+        private TagLib _lib;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _lib = new TagLib();
+//            _lib.Register(new Tiles.Tags.Tiles());
+//            _lib.Register(new Sharp());
+        }
+
         [Test]
         public void PropertyInTagsShouldBePresent()
         {
@@ -83,7 +94,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void TagGroupsInDocumentModelShouldBePresent()
         {
-            var model = new DocumentModel();
+            var model = new DocumentModel(_lib);
             Assert.That(model.TagGroups, Is.Not.Null);
             Assert.That(model.TagGroups.Count, Is.GreaterThan(0));
         }
@@ -120,7 +131,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void TestAllExpressionsHaveACategory()
         {
-            foreach (var expression in new DocumentModel().Expressions)
+            foreach (var expression in new DocumentModel(_lib).Expressions)
             {
                 Assert.That(expression.Category, Is.Not.Null, expression.Name+" should have category");
             }
@@ -130,12 +141,12 @@ namespace org.SharpTiles.Documentation.Test
         public void TestAllTranslations()
         {
             var checker = new TranslationChecker(new ResourceBundle("templates/Documentation", null));
-            foreach (var expression in new DocumentModel().Expressions)
+            foreach (var expression in new DocumentModel(_lib).Expressions)
             {
                 checker.GuardDescription(expression);
                 checker.GuardDescription(expression.CategoryDescriptionKey);
             }
-            foreach (var function in new DocumentModel().Functions)
+            foreach (var function in new DocumentModel(_lib).Functions)
             {
                 checker.GuardDescription(function);
             }
@@ -145,7 +156,7 @@ namespace org.SharpTiles.Documentation.Test
 
         private void CheckTranslationsOfTags(TranslationChecker checker)
         {
-            foreach (var group in new DocumentModel().TagGroups)
+            foreach (var group in new DocumentModel(_lib).TagGroups)
             {
                 checker.GuardDescription(group);
                 if (group.ExampleKey != null)

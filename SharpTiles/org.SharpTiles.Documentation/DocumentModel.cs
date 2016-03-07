@@ -36,10 +36,11 @@ namespace org.SharpTiles.Documentation
         private IList<FunctionDocumentation> _functions;
         private IList<TagGroupDocumentation> _groups;
         private readonly ResourceKeyStack _resouceKey;
+        private readonly TagLib _subject;
 
-        public DocumentModel()
+        public DocumentModel(TagLib subject)
         {
-            
+            _subject= subject;
             _resouceKey = new ResourceKeyStack();
             GatherExpressions();
             GatherFunctions();
@@ -49,9 +50,8 @@ namespace org.SharpTiles.Documentation
         private void GatherGroups()
         {
             _groups = new List<TagGroupDocumentation>();
-            var lib = new TagLib();
-            lib.Register(new Tiles.Tags.Tiles());
-            lib.Register(new Sharp());
+            var lib = _subject;
+           
 //            new TilesSet(); //Register Tiles tag
             foreach (ITagGroup tag in lib)
             {

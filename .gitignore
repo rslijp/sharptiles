@@ -58,3 +58,5 @@
 /TestResult.xml
 /tools/FAKE
 /documentation
+/SharpTiles/org.SharpTiles.Documentor/bin
+/SharpTiles/org.SharpTiles.Documentor/obj

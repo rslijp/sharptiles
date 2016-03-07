@@ -22,58 +22,34 @@ using System.IO;
 using System.Reflection;
 using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
+using org.SharpTiles.Tags.Templates.SharpTags;
 using org.SharpTiles.Templates;
 using org.SharpTiles.Templates.Templates;
 
 namespace org.SharpTiles.Documentation
 {
-    internal class DocumentationGenerator
+    public class DocumentationGenerator
     {
-        private static readonly string ASSEMLBY_NAME =
-            Assembly.GetAssembly(typeof (DocumentationGenerator)).GetName().FullName;
+        private TagLib _lib;
 
-        public static void Main(string[] args)
+        public DocumentationGenerator()
         {
-            Console.WriteLine("Sharptiles documentation generation");
-            if (args.Length != 2)
-            {
-                throw new ArgumentException("Usage " + ASSEMLBY_NAME +
-                                            " <path to templates> <documentation target path>");
-            }
-            var templatePath = args[0];
-            var targetPath = args[1];
-            Console.WriteLine("Generating to {0}", targetPath);
+            _lib = new TagLib();
+            _lib.Register(new Tiles.Tags.Tiles());
+            _lib.Register(new Sharp());
 
-            CopyFiles(targetPath, templatePath);
-            GenerateDocumentation(targetPath, templatePath);
-            Console.WriteLine("Finished");
+        }
+        public string GenerateDocumentation()
+        {
+            return GenerateDocumentation(_lib);
+        }
+        public string GenerateDocumentation(TagLib tablib)
+        {
+            var assembly = Assembly.GetAssembly(typeof (DocumentationGenerator));
+            var locator = new AssemblyLocatorFactory(assembly, "templates").CloneForTagLib(_lib);
+            var template = locator.Handle("index.htm",true);
+            return template.Evaluate(new TagModel(new DocumentModel(tablib)));
         }
 
-        private static void GenerateDocumentation(string targetPath, string templatePath)
-        {
-            try
-            {
-                Console.WriteLine("Generting documentation");
-                var formatter = Formatter.FileBasedFormatter(templatePath + "/index.htm");
-                formatter.FormatAndSave(new TagModel(new DocumentModel()), targetPath + "/reference.html");
-            }
-            catch (ExceptionWithContext EWC)
-            {
-                Console.WriteLine(EWC.Message);
-                Console.WriteLine(EWC.Context);
-            }
-        }
-
-        private static void CopyFiles(string targetPath, string templatePath)
-        {
-            var files = new List<string>(Directory.GetFiles(templatePath, "*.css"));
-            files.AddRange(Directory.GetFiles(templatePath, "*.gif"));
-            foreach (string file in files)
-            {
-                string fileStripped = Path.GetFileName(file);
-                Console.WriteLine("Copying " + fileStripped);
-                File.Copy(templatePath + "/" + fileStripped, targetPath + "/" + fileStripped, true);
-            }
-        }
     }
 }

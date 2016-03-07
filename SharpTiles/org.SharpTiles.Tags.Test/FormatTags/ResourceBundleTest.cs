@@ -157,7 +157,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
         [Test]
         public void TestGetTranslationsWithCompileFromAssembly()
         {
-            var bundle = new ResourceBundle("org.SharpTiles.Tags.Test.FormatTags.embedded_test", null,
+            var bundle = new ResourceBundle("FormatTags.embedded_test", null,
                                             new AssemblyBasedResourceLocator(GetType().Assembly, null));
             Assert.That(bundle.Get("a", new CultureInfo("en-US")), Is.EqualTo("defaultA"));
             Assert.That(bundle.Get("a", new CultureInfo("nl-NL")), Is.EqualTo("nederlandseA"));
@@ -176,7 +176,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
         {
             var bundle = new ResourceBundle("embedded_test", null,
                                             new AssemblyBasedResourceLocator(GetType().Assembly,
-                                                                             "org.SharpTiles.Tags.Test.FormatTags"));
+                                                                             "FormatTags"));
             Assert.That(bundle.Get("a", new CultureInfo("en-US")), Is.EqualTo("defaultA"));
             Assert.That(bundle.Get("a", new CultureInfo("nl-NL")), Is.EqualTo("nederlandseA"));
         }

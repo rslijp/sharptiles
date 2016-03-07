@@ -16,7 +16,7 @@ let frameworkVersion = "v4.0.30319"
 let buildDir = "./build/"
 let buildTempDir = "./build/temp"
 let releaseDir = "./distribution"
-let documentationDir = "./documentation"
+let documentationDir = "./build/documentation"
 let testDir  = "./build/tests/"
 let buildMode = getBuildParamOrDefault "buildMode" "Release"
 let license = IO.File.ReadAllText "SharpTiles/FILE.HEADER"
@@ -90,7 +90,7 @@ let PrepareAndRunUnit3 (dllName: string, includeDocumentation: bool) =
     RunUnit3 dllName
 
 let RunDocumentation (outputDir: string) =
-    let result = Shell.Exec("build/org.SharpTiles.Documentation.exe", "build/templates "+outputDir)
+    let result = Shell.Exec("build/org.SharpTiles.Documentor.exe", outputDir)
     if result <> 0 then failwithf "Could not generate documentation\n"
     //if result <> 0 then printf "nunit failed for %s\n" dllName
 
@@ -98,7 +98,8 @@ let BuildSolutionForTarget (target: String)  =
    Compile "SharpTiles/SharpTiles.sln" target 
    Copy releaseDir [buildDir+"org.SharpTiles.Common.dll"] 
    Copy releaseDir [buildDir+"org.SharpTiles.Connectors.dll"] 
-   Copy releaseDir [buildDir+"org.SharpTiles.Documentation.exe"] 
+   Copy releaseDir [buildDir+"org.SharpTiles.Documentation.dll"] 
+   Copy releaseDir [buildDir+"org.SharpTiles.Documentor.exe"] 
    Copy releaseDir [buildDir+"org.SharpTiles.Expressions.dll"] 
    Copy releaseDir [buildDir+"org.SharpTiles.HtmlTags.dll"] 
    Copy releaseDir [buildDir+"org.SharpTiles.Tags.dll"] 
