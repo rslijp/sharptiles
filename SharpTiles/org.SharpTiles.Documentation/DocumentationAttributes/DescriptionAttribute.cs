@@ -35,13 +35,13 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
 
         public string Value { get; private set; }
 
-        public static void Harvast(ResourceKeyStack messagePath, Type type)
+        public static void Harvest(ResourceKeyStack messagePath, Type type)
         {
             var description = type.GetCustomAttributes(typeof(DescriptionAttribute), false).Cast<DescriptionAttribute>().SingleOrDefault();
             if (description != null) messagePath.AddTranslation(description.Value);
         }
 
-        internal static void Harvast(ResourceKeyStack messagePath, PropertyInfo property)
+        internal static void Harvest(ResourceKeyStack messagePath, PropertyInfo property)
         {
             var description = property.GetCustomAttributes(typeof(DescriptionAttribute), false).Cast<DescriptionAttribute>().SingleOrDefault();
             if (description != null) messagePath.AddTranslation(description.Value);

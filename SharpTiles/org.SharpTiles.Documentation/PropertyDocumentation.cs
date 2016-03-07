@@ -36,7 +36,7 @@ namespace org.SharpTiles.Documentation
         {
             _property = property;
             _messagePath = messagePath.BranchFor(property);
-            DescriptionAttribute.Harvast(_messagePath, property);
+            DescriptionAttribute.Harvest(_messagePath, property);
             IsRequired(property);
             DetermineDefault(property);
         }

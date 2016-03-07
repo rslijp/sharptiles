@@ -35,7 +35,7 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
 
         public string Value { get; private set; }
 
-        public static void Harvast(ResourceKeyStack messagePath, Type type)
+        public static void Harvest(ResourceKeyStack messagePath, Type type)
         {
             var description = type.GetCustomAttributes(typeof(TitleAttribute), false).Cast<TitleAttribute>().SingleOrDefault();
             if (description != null) messagePath.AddTitleTranslation(description.Value);

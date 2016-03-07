@@ -34,7 +34,7 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
 
         public string Value { get; private set; }
 
-        public static bool Harvast(ResourceKeyStack messagePath, Type type)
+        public static bool Harvest(ResourceKeyStack messagePath, Type type)
         {
             var description = type.GetCustomAttributes(typeof(NoteAttribute), false).Cast<NoteAttribute>().SingleOrDefault();
             if (description == null) return false;

@@ -46,10 +46,10 @@ namespace org.SharpTiles.Documentation
             _name = tag.TagName;
 
             var tagType = tag.GetType();
-            DescriptionAttribute.Harvast(_messagePath, tagType);
+            DescriptionAttribute.Harvest(_messagePath, tagType);
             _category = CategoryHelper.GetCategory(tagType);
-            _hasExample = ExampleAttribute.Harvast(_messagePath, tagType) || HasExample.Has(tagType);
-            _hasNote = NoteAttribute.Harvast(_messagePath, tagType) || HasNote.Has(tagType);
+            _hasExample = ExampleAttribute.Harvest(_messagePath, tagType) || HasExample.Has(tagType);
+            _hasNote = NoteAttribute.Harvest(_messagePath, tagType) || HasNote.Has(tagType);
             _list = new List<PropertyDocumentation>();
             _methods = new List<FunctionDocumentation>();
             if (tag is HtmlHelperWrapperTag)

@@ -37,10 +37,10 @@ namespace org.SharpTiles.Documentation
             _name = tagGroup.Name;
             _tags = new List<TagDocumentation>();
             var tagGroupType=tagGroup.GetType();
-            DescriptionAttribute.Harvast(_messagePath, tagGroupType);
-            TitleAttribute.Harvast(_messagePath, tagGroupType);
-            _hasExample = ExampleAttribute.Harvast(_messagePath, tagGroupType) ||HasExample.Has(tagGroupType);
-            _hasNote = NoteAttribute.Harvast(_messagePath, tagGroupType)||HasNote.Has(tagGroupType);
+            DescriptionAttribute.Harvest(_messagePath, tagGroupType);
+            TitleAttribute.Harvest(_messagePath, tagGroupType);
+            _hasExample = ExampleAttribute.Harvest(_messagePath, tagGroupType) ||HasExample.Has(tagGroupType);
+            _hasNote = NoteAttribute.Harvest(_messagePath, tagGroupType)||HasNote.Has(tagGroupType);
             foreach (ITag _tag in tagGroup)
             {
                 _tags.Add(new TagDocumentation(_messagePath, _tag));
