@@ -19,7 +19,8 @@
  using System;
 using System.Linq;
 using System.Reflection;
-using org.SharpTiles.Tags;
+ using org.SharpTiles.Documentation.DocumentationAttributes;
+ using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.DefaultPropertyValues;
 
 namespace org.SharpTiles.Documentation
@@ -35,6 +36,7 @@ namespace org.SharpTiles.Documentation
         {
             _property = property;
             _messagePath = messagePath.BranchFor(property);
+            DescriptionAttribute.Harvast(_messagePath, property);
             IsRequired(property);
             DetermineDefault(property);
         }

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<fmt:bundle baseName="Documentation">
+<fmt:bundle baseName="Documentation" extension="AdditionalResources">
 <html>
 	<head>
 	    <title><fmt:message key="title_Overall"/></title>
@@ -8,6 +8,7 @@
     	</style>
 	</head>
 	<body>
+		<c:if test="${All}">
 		<h1 class="overalltitle"><fmt:message key="title_Overall"/></h1>
 		<i class="overalltitle"><fmt:message key="title_Sub"/></i>
 		<p>
@@ -18,6 +19,7 @@
 	    </p>
 		<hr />
 	    <sharp:include file="expression_language.htm"/>
+	    </c:if>
 	    <sharp:include file="taggroups.htm"/>
 	</body>
 </html>

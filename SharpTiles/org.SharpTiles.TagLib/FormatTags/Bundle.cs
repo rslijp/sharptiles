@@ -17,7 +17,8 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
  using System;
-using System.ComponentModel;
+ using System.Collections.Generic;
+ using System.ComponentModel;
 using org.SharpTiles.Tags.CoreTags;
 
 namespace org.SharpTiles.Tags.FormatTags
@@ -32,6 +33,8 @@ namespace org.SharpTiles.Tags.FormatTags
 
         public ITagAttribute Prefix { get; set; }
 
+        public ITagAttribute Extension { get; set; }
+
         [Internal]
         public ITagAttribute Body { get; set; }
 
@@ -44,11 +47,18 @@ namespace org.SharpTiles.Tags.FormatTags
 
         public string Evaluate(TagModel model)
         {
-            string baseName = GetAsString(BaseName, model);
-            string prefix = GetAsString(Prefix, model);
+            var baseName = GetAsString(BaseName, model);
+            var prefix = GetAsString(Prefix, model);
+            var extension = GetAsString(Extension, model);
+            IResourceBundle bundle = new ResourceBundle(baseName, prefix, BaseName.ResourceLocator);
             model.PushTagStack();
-            model.Tag[FormatConstants.BUNDLE] = new ResourceBundle(baseName, prefix, BaseName.ResourceLocator);
-            return GetAsString(Body, model) ?? String.Empty;
+            if (!string.IsNullOrEmpty(extension))
+            {
+                var extensionBundle = (IDictionary<string, string>) model.Resolve(extension, true);
+                bundle = new ExtendableResourceBundle(bundle, extensionBundle);
+            }
+            model.Tag[FormatConstants.BUNDLE] = bundle;
+            return GetAsString(Body, model) ?? string.Empty;
         }
 
         public TagBodyMode TagBodyMode

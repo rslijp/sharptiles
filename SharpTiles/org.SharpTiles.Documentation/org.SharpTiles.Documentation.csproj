@@ -76,6 +76,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoryHelper.cs" />
+    <Compile Include="DocumentationAttributes\TitleAttribute.cs" />
+    <Compile Include="DocumentationAttributes\ExampleAttribute .cs" />
+    <Compile Include="DocumentationAttributes\NoteAttribute.cs" />
+    <Compile Include="DocumentationAttributes\DescriptionAttribute.cs" />
     <Compile Include="FunctionDocumentation.cs" />
     <Compile Include="ExpressionDocumentation.cs" />
     <Compile Include="DocumentationGenerator.cs" />

@@ -307,6 +307,9 @@ pattern are removed.</value>
   <data name="description_Format_Bundle_BaseName" xml:space="preserve">
     <value>Fully-qualified name of the base bundle without a file type (such as ".resx").</value>
   </data>
+  <data name="description_Format_Bundle_Extension" xml:space="preserve">
+    <value>Optional dictionary to extend the loaded resource bundle.</value>
+  </data>
   <data name="description_Format_Bundle_Prefix" xml:space="preserve">
     <value>String prefix to be prepended to the value of the message key. Note that the prefix must include all characters – a separator character (e.g. ".") is not assumed.</value>
   </data>
@@ -898,6 +901,9 @@ Hi &amp;lt;x:out source="${{user}}" select="/first-name"/&amp;gt; !
   </data>
   <data name="type_String" xml:space="preserve">
     <value>string</value>
+  </data>
+  <data name="type_DateTime" xml:space="preserve">
+    <value>date time</value>
   </data>
   <data name="type_Int32" xml:space="preserve">
     <value>integer</value>

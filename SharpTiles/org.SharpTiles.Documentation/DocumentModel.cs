@@ -37,11 +37,15 @@ namespace org.SharpTiles.Documentation
         private IList<TagGroupDocumentation> _groups;
         private readonly ResourceKeyStack _resouceKey;
         private readonly TagLib _subject;
+        private IDictionary<string, string> _additionalResources;
+        private bool _all;
 
-        public DocumentModel(TagLib subject)
+        public DocumentModel(TagLib subject, bool all)
         {
             _subject= subject;
-            _resouceKey = new ResourceKeyStack();
+            _all = all;
+            _additionalResources = new Dictionary<string, string>();
+            _resouceKey = new ResourceKeyStack(_additionalResources);
             GatherExpressions();
             GatherFunctions();
             GatherGroups();
@@ -52,7 +56,6 @@ namespace org.SharpTiles.Documentation
             _groups = new List<TagGroupDocumentation>();
             var lib = _subject;
            
-//            new TilesSet(); //Register Tiles tag
             foreach (ITagGroup tag in lib)
             {
                 _groups.Add(new TagGroupDocumentation(_resouceKey, tag));
@@ -81,10 +84,9 @@ namespace org.SharpTiles.Documentation
         }
 
 
-        public IList<ExpressionDocumentation> Expressions
-        {
-            get { return _expressions; }
-        }
+        public IList<ExpressionDocumentation> Expressions => _expressions;
+        public IDictionary<string, string> AdditionalResources => _additionalResources;
+        public bool All => _all;
 
         public IEnumerable<ExpressionDocumentation> CategoryOrderedExpressions => Expressions.OrderBy(e=>(e.Category?.Category??"other")+"-"+e.Name);
 

@@ -34,6 +34,16 @@ namespace org.SharpTiles.Documentation
         private PropertyInfo _property;
         private IExpressionParser _expression;
         private IFunctionDefinition _function;
+        private IDictionary<string, string> _extensions;
+
+        public ResourceKeyStack() : this(null)
+        {
+        }
+
+        public ResourceKeyStack(IDictionary<string, string> extensions)
+        {
+            _extensions = extensions;
+        }
 
         public ITagGroup Group
         {
@@ -70,6 +80,22 @@ namespace org.SharpTiles.Documentation
                 return result.ToString();
             }
         }
+
+        public string NoteKey
+        {
+            get { return Description + "_Note"; }
+        }
+
+        public string ExampleKey
+        {
+            get { return Description + "_Example"; }
+        }
+
+        public string TitleKey
+        {
+            get { return Description + "_Title"; }
+        }
+        
 
         private void AppendExpression(StringBuilder result)
         {
@@ -172,7 +198,25 @@ namespace org.SharpTiles.Documentation
         }
 
 
-        
+        public void AddTranslation(string value)
+        {
+            _extensions.Add(Description, value);
+        }
+
+        public void AddNoteTranslation(string value)
+        {
+            _extensions.Add(NoteKey, value);
+        }
+
+        public void AddExampleTranslation(string value)
+        {
+            _extensions.Add(ExampleKey, value);
+        }
+
+        public void AddTitleTranslation(string value)
+        {
+            _extensions.Add(TitleKey, value);
+        }
     }
 }
 

@@ -94,7 +94,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void TagGroupsInDocumentModelShouldBePresent()
         {
-            var model = new DocumentModel(_lib);
+            var model = new DocumentModel(_lib, true);
             Assert.That(model.TagGroups, Is.Not.Null);
             Assert.That(model.TagGroups.Count, Is.GreaterThan(0));
         }
@@ -131,7 +131,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void TestAllExpressionsHaveACategory()
         {
-            foreach (var expression in new DocumentModel(_lib).Expressions)
+            foreach (var expression in new DocumentModel(_lib,true).Expressions)
             {
                 Assert.That(expression.Category, Is.Not.Null, expression.Name+" should have category");
             }
@@ -141,12 +141,12 @@ namespace org.SharpTiles.Documentation.Test
         public void TestAllTranslations()
         {
             var checker = new TranslationChecker(new ResourceBundle("templates/Documentation", null));
-            foreach (var expression in new DocumentModel(_lib).Expressions)
+            foreach (var expression in new DocumentModel(_lib, true).Expressions)
             {
                 checker.GuardDescription(expression);
                 checker.GuardDescription(expression.CategoryDescriptionKey);
             }
-            foreach (var function in new DocumentModel(_lib).Functions)
+            foreach (var function in new DocumentModel(_lib, true).Functions)
             {
                 checker.GuardDescription(function);
             }
@@ -156,7 +156,7 @@ namespace org.SharpTiles.Documentation.Test
 
         private void CheckTranslationsOfTags(TranslationChecker checker)
         {
-            foreach (var group in new DocumentModel(_lib).TagGroups)
+            foreach (var group in new DocumentModel(_lib, true).TagGroups)
             {
                 checker.GuardDescription(group);
                 if (group.ExampleKey != null)

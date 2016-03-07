@@ -25,10 +25,9 @@ using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Tags.FormatTags
 {
-    public class ResourceBundle
+    public class ResourceBundle : IResourceBundle
     {
         private static readonly IDictionary<string, ResourceManager> CACHE = new Dictionary<string, ResourceManager>();
-
         private readonly string _baseName;
         private readonly string _prefix;
         private readonly ResourceManager _resourceManager;
@@ -104,5 +103,15 @@ namespace org.SharpTiles.Tags.FormatTags
         {
             return (CultureInfo) model.Resolve(FormatConstants.LOCALE, false);
         }
+    }
+
+    public interface IResourceBundle
+    {
+        object Get(string key, CultureInfo info, params object[] replacements);
+
+        object Get(string key, TagModel model, params object[] replacements);
+
+        bool Contains(string key);
+
     }
 }

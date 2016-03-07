@@ -18,7 +18,9 @@
  */
  using System;
 using System.Collections.Generic;
-using org.SharpTiles.Tags;
+ using System.Linq;
+ using org.SharpTiles.Documentation.DocumentationAttributes;
+ using org.SharpTiles.Tags;
 
 namespace org.SharpTiles.Documentation
 {
@@ -34,13 +36,17 @@ namespace org.SharpTiles.Documentation
             _messagePath = messagePath.BranchFor(tagGroup);
             _name = tagGroup.Name;
             _tags = new List<TagDocumentation>();
-            _hasExample = HasExample.Has(tagGroup.GetType());
-            _hasNote = HasNote.Has(tagGroup.GetType());
+            var tagGroupType=tagGroup.GetType();
+            DescriptionAttribute.Harvast(_messagePath, tagGroupType);
+            TitleAttribute.Harvast(_messagePath, tagGroupType);
+            _hasExample = ExampleAttribute.Harvast(_messagePath, tagGroupType) ||HasExample.Has(tagGroupType);
+            _hasNote = NoteAttribute.Harvast(_messagePath, tagGroupType)||HasNote.Has(tagGroupType);
             foreach (ITag _tag in tagGroup)
             {
                 _tags.Add(new TagDocumentation(_messagePath, _tag));
             }
         }
+
 
         public IList<TagDocumentation> Tags
         {
@@ -63,7 +69,7 @@ namespace org.SharpTiles.Documentation
         {
             get
             {
-                return _hasExample ? DescriptionKey + "_Example" : null;
+                return _hasExample ? _messagePath.ExampleKey : null;
             }
         }
 
@@ -71,7 +77,7 @@ namespace org.SharpTiles.Documentation
         {
             get
             {
-                return _hasNote ? DescriptionKey + "_Note" : null;
+                return _hasNote ? _messagePath.NoteKey : null;
             }
         }
 

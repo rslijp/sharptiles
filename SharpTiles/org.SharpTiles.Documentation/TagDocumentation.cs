@@ -16,12 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
+using org.SharpTiles.Documentation.DocumentationAttributes;
 using org.SharpTiles.HtmlTags;
  using org.SharpTiles.HtmlTags.Input;
  using org.SharpTiles.Tags;
+using DescriptionAttribute = org.SharpTiles.Documentation.DocumentationAttributes.DescriptionAttribute;
 
 namespace org.SharpTiles.Documentation
 {
@@ -39,9 +44,12 @@ namespace org.SharpTiles.Documentation
         {
             _messagePath = messagePath.BranchFor(tag);
             _name = tag.TagName;
-            _category = CategoryHelper.GetCategory(tag.GetType());
-            _hasExample = HasExample.Has(tag.GetType());
-            _hasNote = HasNote.Has(tag.GetType());
+
+            var tagType = tag.GetType();
+            DescriptionAttribute.Harvast(_messagePath, tagType);
+            _category = CategoryHelper.GetCategory(tagType);
+            _hasExample = ExampleAttribute.Harvast(_messagePath, tagType) || HasExample.Has(tagType);
+            _hasNote = NoteAttribute.Harvast(_messagePath, tagType) || HasNote.Has(tagType);
             _list = new List<PropertyDocumentation>();
             _methods = new List<FunctionDocumentation>();
             if (tag is HtmlHelperWrapperTag)
@@ -54,7 +62,7 @@ namespace org.SharpTiles.Documentation
                 }
             } else 
            {
-               foreach (var property in tag.GetType().GetProperties(
+               foreach (var property in tagType.GetProperties(
                    BindingFlags.Instance |
                    BindingFlags.Public |
                    BindingFlags.SetProperty |
@@ -68,6 +76,7 @@ namespace org.SharpTiles.Documentation
            }
         }
 
+        
         public IList<PropertyDocumentation> Properties
         {
             get { return _list; }

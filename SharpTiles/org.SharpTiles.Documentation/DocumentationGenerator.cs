@@ -41,14 +41,15 @@ namespace org.SharpTiles.Documentation
         }
         public string GenerateDocumentation()
         {
-            return GenerateDocumentation(_lib);
+            return GenerateDocumentation(_lib,true);
         }
-        public string GenerateDocumentation(TagLib tablib)
+        public string GenerateDocumentation(TagLib tablib, bool all)
         {
             var assembly = Assembly.GetAssembly(typeof (DocumentationGenerator));
-            var locator = new AssemblyLocatorFactory(assembly, "templates").CloneForTagLib(_lib);
+            var prefix = assembly.GetName().Name.EndsWith("Documentation") ? "templates" : "Documentation.templates";
+            var locator = new AssemblyLocatorFactory(assembly, prefix).CloneForTagLib(_lib);
             var template = locator.Handle("index.htm",true);
-            return template.Evaluate(new TagModel(new DocumentModel(tablib)));
+            return template.Evaluate(new TagModel(new DocumentModel(tablib, all)));
         }
 
     }

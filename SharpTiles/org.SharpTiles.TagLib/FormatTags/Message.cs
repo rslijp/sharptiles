@@ -64,7 +64,7 @@ namespace org.SharpTiles.Tags.FormatTags
 
         public override object InternalEvaluate(TagModel model)
         {
-            ResourceBundle bundle = null;
+            IResourceBundle bundle = null;
             string key = GetAsString(Key, model);
             bundle = GetBundle(model);
             object[] i18nparams = GetParams(model);
@@ -87,13 +87,13 @@ namespace org.SharpTiles.Tags.FormatTags
             return i18nparams;
         }
 
-        private ResourceBundle GetBundle(TagModel model)
+        private IResourceBundle GetBundle(TagModel model)
         {
-            ResourceBundle bundle;
+            IResourceBundle bundle;
             if (Bundle != null)
             {
-                string bundleName = GetAsString(Bundle, model);
-                bundle = (ResourceBundle) model[bundleName];
+                var bundleName = GetAsString(Bundle, model);
+                bundle = (IResourceBundle) model[bundleName];
                 if (bundle == null)
                 {
                     throw TagException.NoResourceBundleFoundUnder(bundleName).Decorate(Bundle.Context);
@@ -101,8 +101,8 @@ namespace org.SharpTiles.Tags.FormatTags
             }
             else
             {
-                bundle = (ResourceBundle) model.SearchInTagScope(FormatConstants.BUNDLE);
-                bundle = bundle ?? (ResourceBundle) model.Global[FormatConstants.BUNDLE];
+                bundle = (IResourceBundle) model.SearchInTagScope(FormatConstants.BUNDLE);
+                bundle = bundle ?? (IResourceBundle) model.Global[FormatConstants.BUNDLE];
                 if (bundle == null)
                 {
                     throw TagException.NoResourceBundleFoundInTagScope().Decorate(Context);
