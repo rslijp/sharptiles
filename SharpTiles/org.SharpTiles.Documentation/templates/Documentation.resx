@@ -249,7 +249,7 @@ pattern are removed.</value>
   <data name="description_Core_If_Test" xml:space="preserve">
     <value>Condition to evaluate.</value>
   </data>
-  <data name="description_Core_When_Test" xml:space="preserve">
+  <data name="description_Core_Choose_When_Test" xml:space="preserve">
     <value>Condition to evaluate.</value>
   </data>
   <data name="description_Core_ForEach_Items" xml:space="preserve">
@@ -292,10 +292,22 @@ pattern are removed.</value>
   <data name="description_Core_Redirect_Url" xml:space="preserve">
     <value>URL of the resource to redirect to.</value>
   </data>
-  <data name="description_Core_Param_Name" xml:space="preserve">
+  <data name="description_Core_Url_Param_Name" xml:space="preserve">
     <value>Name of the query string parameter.</value>
   </data>
-  <data name="description_Core_Param_Value" xml:space="preserve">
+  <data name="description_Core_Url_Param_Value" xml:space="preserve">
+    <value>Value of the parameter. If not specified, value is taken from the tag body.</value>
+  </data>
+  <data name="description_Core_Import_Param_Name" xml:space="preserve">
+    <value>Name of the query string parameter.</value>
+  </data>
+  <data name="description_Core_Import_Param_Value" xml:space="preserve">
+    <value>Value of the parameter. If not specified, value is taken from the tag body.</value>
+  </data>
+  <data name="description_Core_Redirect_Param_Name" xml:space="preserve">
+    <value>Name of the query string parameter.</value>
+  </data>
+  <data name="description_Core_Redirect_Param_Value" xml:space="preserve">
     <value>Value of the parameter. If not specified, value is taken from the tag body.</value>
   </data>
   <data name="description_Format_SetLocale_Value" xml:space="preserve">
@@ -322,7 +334,7 @@ pattern are removed.</value>
   <data name="description_Format_Message_Bundle" xml:space="preserve">
     <value>Localization context (set by prio configuration, &amp;lt;fmt:bundle&amp;gt;, or &amp;lt;fmt:setBundle&amp;gt;, which specifies the resource bundle the message key is to be looked up in.</value>
   </data>
-  <data name="description_Format_Param_Value" xml:space="preserve">
+  <data name="description_Format_Message_Param_Value" xml:space="preserve">
     <value>Value used for parametric message format substitution.</value>
   </data>
   <data name="description_Format_RequestEncoding_Value" xml:space="preserve">
@@ -424,10 +436,10 @@ pattern are removed.</value>
   <data name="description_Xml_If_Select" xml:space="preserve">
     <value>XPath expression.</value>
   </data>
-  <data name="description_Xml_When_Source" xml:space="preserve">
+  <data name="description_Xml_Choose_When_Source" xml:space="preserve">
     <value>Var containing DOM model where the XPath expression is run over.</value>
   </data>
-  <data name="description_Xml_When_Select" xml:space="preserve">
+  <data name="description_Xml_Choose_When_Select" xml:space="preserve">
     <value>XPath expression.</value>
   </data>
   <data name="description_Xml_ForEach_Source" xml:space="preserve">
@@ -448,13 +460,13 @@ pattern are removed.</value>
   <data name="description_Xml_Transform_Xslt" xml:space="preserve">
     <value>XSLT stylesheet to use. The value must be String, Stream, TextReader, XmlReader, System.Xml.XPath.XPathDocument or any value exported &amp;lt;x:parse&amp;gt; or &amp;lt;x:set&amp;gt;.</value>
   </data>
-  <data name="description_Xml_Param_Name" xml:space="preserve">
+  <data name="description_Xml_Transform_Param_Name" xml:space="preserve">
     <value>Name of the parameter as a String. This name must match the name in the corresponding &amp;lt;xsl:param&amp;gt; XSLT tag.</value>
   </data>
-  <data name="description_Xml_Param_Value" xml:space="preserve">
+  <data name="description_Xml_Transform_Param_Value" xml:space="preserve">
     <value>Value of the parameter. If not specified, value is taken from the tag body.</value>
   </data>
-  <data name="description_Xml_Param_NameSpaceUri" xml:space="preserve">
+  <data name="description_Xml_Transform_Param_NameSpaceUri" xml:space="preserve">
     <value>Namespace uri used in the &lt;xsl:param&gt;</value>
   </data>
   <data name="description_Sharp_Marker_Id" xml:space="preserve">
@@ -550,11 +562,11 @@ demonstrate use of the XML tags for processing Rich Site Summary (RSS) feeds. RS
     <value>multiple conditions - processes the body of the &lt;b&gt;first&lt;/b&gt; enclosed &lt;i&gt;when&lt;/i&gt; tag where the test 
    condition is true. If none match then the body of the &lt;i&gt;otherwise&lt;/i&gt; tag (if present) is processed.</value>
   </data>
-  <data name="description_Core_When" xml:space="preserve">
+  <data name="description_Core_Choose_When" xml:space="preserve">
     <value>processes the body if test is true and no
 other previous &lt;i&gt;&amp;lt;c:when&amp;gt;&lt;/i&gt; tags evaluated to true.</value>
   </data>
-  <data name="description_Core_Otherwise" xml:space="preserve">
+  <data name="description_Core_Choose_Otherwise" xml:space="preserve">
     <value>processes the body if no other previous &lt;i&gt;&amp;lt;c:when&amp;gt;&lt;/i&gt; condition was matched. This tag accepts no attributes and, if present, must be the 
    last tag in the &lt;i&gt;&amp;lt;c:choose&amp;gt;&lt;/i&gt; body.</value>
   </data>
@@ -573,8 +585,14 @@ other previous &lt;i&gt;&amp;lt;c:when&amp;gt;&lt;/i&gt; tags evaluated to true.
   <data name="description_Core_Redirect" xml:space="preserve">
     <value>sends the client a response to redirect to the specified URL. This action will abort processing of the current page. Action may include nested &lt;i&gt;&amp;lt;c:param&amp;gt;&lt;/i&gt; tags to specify the query string.</value>
   </data>
-  <data name="description_Core_Param" xml:space="preserve">
-    <value>adds request parameters to a URL. This action can only be nested within &lt;i&gt;&amp;lt;c:import&amp;gt;&lt;/i&gt;, &lt;i&gt;&amp;lt;c:url&amp;gt;&lt;/i&gt;, or &lt;i&gt;&amp;lt;c:redirect&amp;gt;&lt;/i&gt;.</value>
+  <data name="description_Core_Url_Param" xml:space="preserve">
+    <value>adds request parameters to a URL.</value>
+  </data>
+  <data name="description_Core_Import_Param" xml:space="preserve">
+    <value>adds request parameters to a URL.</value>
+  </data>
+  <data name="description_Core_Redirect_Param" xml:space="preserve">
+    <value>adds request parameters to a URL.</value>
   </data>
   <data name="description_Format_SetLocale" xml:space="preserve">
     <value>Sets the default locale for the specified scope. This will override the browserbased locale.</value>
@@ -591,7 +609,7 @@ other previous &lt;i&gt;&amp;lt;c:when&amp;gt;&lt;/i&gt; tags evaluated to true.
   <data name="description_Format_Message" xml:space="preserve">
     <value>Looks up a localized message in a resource bundle. This tag can contain nested &lt;i&gt;&amp;lt;fmt:param&amp;gt;&lt;/i&gt; tags to specify message format substitution values. The resultant message is printed or stored in a scoped variable.</value>
   </data>
-  <data name="description_Format_Param" xml:space="preserve">
+  <data name="description_Format_Message_Param" xml:space="preserve">
     <value>Supplies a parameter for message  format substitution in a containing &lt;i&gt;&amp;lt;fmt:message&amp;gt;&lt;/i&gt; tag. Parameters are substituted in sequential order.</value>
   </data>
   <data name="description_Format_FormatNumber" xml:space="preserve">
@@ -622,11 +640,11 @@ other previous &lt;i&gt;&amp;lt;c:when&amp;gt;&lt;/i&gt; tags evaluated to true.
     <value>Processes the body of the &lt;b&gt;first&lt;/b&gt; enclosed &lt;i&gt;&amp;lt;x:when&amp;gt;&lt;/i&gt; tag where the select XPath expression evaluates to true. If none match then the body of the &lt;i&gt;&amp;lt;x:otherwise&amp;gt;&lt;/i&gt; tag (if present)
 is processed.</value>
   </data>
-  <data name="description_Xml_When" xml:space="preserve">
+  <data name="description_Xml_Choose_When" xml:space="preserve">
     <value>Represents an alternative in an &lt;i&gt;&amp;lt;x:choose&amp;gt;&lt;/i&gt; tag. Processes the body if the select expression evaluates to true and no other previous &lt;i&gt;&amp;lt;x:when&amp;gt;&lt;/i&gt; tags in the &lt;i&gt;&amp;lt;x:choose&amp;gt;&lt;/i&gt;
 matched.</value>
   </data>
-  <data name="description_Xml_Otherwise" xml:space="preserve">
+  <data name="description_Xml_Choose_Otherwise" xml:space="preserve">
     <value>Processes the body if no other previous &lt;i&gt;&amp;lt;x:when&amp;gt;&lt;/i&gt; condition in the &lt;i&gt;&amp;lt;x:choose&amp;gt;&lt;/i&gt; matched. This tag accepts no attributes and, if present, must be the last tag in
 &lt;i&gt;&amp;lt;x:choose&amp;gt;&lt;/i&gt; body.</value>
   </data>
@@ -637,7 +655,7 @@ matched.</value>
     <value>Conducts an XSLT transformation on source XML. The source XML is provided by the doc attribute or the body of the tag. The XSL stylesheet is specified by the  &lt;i&gt;xslt&lt;/i&gt; attribute. While in most cases, the stylesheet will be set up by back-end code - it is possible to define the stylesheet inline and make it available with &lt;i&gt;&amp;lt;c:set&amp;gt;&lt;/i&gt; as in the
 following example:</value>
   </data>
-  <data name="description_Xml_Param" xml:space="preserve">
+  <data name="description_Xml_Transform_Param" xml:space="preserve">
     <value>Sets a transformation parameter that will be passed to stylesheet which declares parameters using the &lt;i&gt;&amp;lt;xsl:param&amp;gt;&lt;/i&gt; tag. 
    The &lt;i&gt;&amp;lt;x:param&amp;gt;&lt;/i&gt; tag can only be nested within an &lt;i&gt;&amp;lt;x:transform&amp;gt;&lt;/i&gt; tag. Any &lt;i&gt;&amp;lt;x:param&amp;gt;&lt;/i&gt;
    tags must come after the XML body content of the &lt;i&gt;&amp;lt;x:transform&amp;gt;&lt;/i&gt; tag, if present.</value>
@@ -763,7 +781,7 @@ var="newsItems"/&amp;gt;</value>
 &lt;b&gt;&amp;lt;x:transform doc="${{news}}" xslt="${{xsl}}"/&amp;gt;&lt;/b&gt;&lt;br/&gt;
    </value>
   </data>
-  <data name="description_Xml_Param_Example" xml:space="preserve">
+  <data name="description_Xml_Transform_Param_Example" xml:space="preserve">
     <value>&amp;lt;x:transform doc="${{news}}" xslt="${{searchXsl}}"/&amp;gt;&lt;br/&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&amp;lt;x:param name="searchParam"&amp;gt;Web Services&amp;lt;/x:param&amp;gt;&lt;/b&gt;&lt;br/&gt;
 &amp;lt;/x:transform&amp;gt;</value>

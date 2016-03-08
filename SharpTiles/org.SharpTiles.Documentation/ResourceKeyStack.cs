@@ -30,7 +30,7 @@ namespace org.SharpTiles.Documentation
     public class ResourceKeyStack : ICloneable
     {
         private ITagGroup _group;
-        private ITag _tag;
+        private IList<ITag> _tags;
         private PropertyInfo _property;
         private IExpressionParser _expression;
         private IFunctionDefinition _function;
@@ -43,6 +43,7 @@ namespace org.SharpTiles.Documentation
         public ResourceKeyStack(IDictionary<string, string> extensions)
         {
             _extensions = extensions;
+            _tags= new List<ITag>();
         }
 
         public ITagGroup Group
@@ -50,9 +51,10 @@ namespace org.SharpTiles.Documentation
             get { return _group; }
         }
 
-        public ITag Tag
+        
+        public IEnumerable<ITag> Tags
         {
-            get { return _tag; }
+            get { return _tags; }
         }
 
         public PropertyInfo Property
@@ -117,9 +119,9 @@ namespace org.SharpTiles.Documentation
         {
             if(_group!=null)
             {
-                if (_tag == null ||
+                if (!_tags.Any() ||
                    _property == null ||
-                   Equals(_tag.GetType(), _property.DeclaringType)
+                   Equals(_tags.Last().GetType(), _property.DeclaringType)
                    )
                 {
                     result.Append("_" + _group.GetType().Name);
@@ -130,10 +132,18 @@ namespace org.SharpTiles.Documentation
 
         private void AppendTag(StringBuilder result)
         {
-            if (_tag != null)
+
+            if (_tags.Any())
             {
-                Type descriptionType = _tag.GetType();
-                if(_property!=null)
+                if (_tags.Count > 1)
+                {
+                    foreach (var tag in _tags.Take(_tags.Count - 1))
+                    {
+                        result.Append("_" + tag.GetType().Name);
+                    }
+                }
+                var descriptionType = _tags.Last().GetType();
+                if (_property != null)
                 {
                     descriptionType = _property.DeclaringType;
                 }
@@ -165,7 +175,8 @@ namespace org.SharpTiles.Documentation
         public ResourceKeyStack BranchFor(ITag tag)
         {
             var branch = (ResourceKeyStack)MemberwiseClone();
-            branch._tag = tag;
+            branch._tags = new List<ITag>(_tags);
+            branch._tags.Add(tag);
             return branch;
         }
 
@@ -193,13 +204,18 @@ namespace org.SharpTiles.Documentation
         public string DescriptionForCategory(string categoryStr)
         {
             var branch = BranchFor(Group);
-            branch._tag = null;
+            branch._tags = new List<ITag>();
             return branch.Description + "_" + categoryStr;
         }
 
 
         public void AddTranslation(string value)
         {
+            if (_extensions.ContainsKey(Description))
+            {
+                if (_extensions[Description].Equals(value)) return; //make life easy
+                throw new ArgumentException($"There's already a translation with key {Description}");
+            }
             _extensions.Add(Description, value);
         }
 
