@@ -22,6 +22,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using MarkdownDeep;
 
 namespace org.SharpTiles.Documentation.DocumentationAttributes
 {
@@ -38,13 +39,22 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
         public static void Harvest(ResourceKeyStack messagePath, Type type)
         {
             var description = type.GetCustomAttributes(typeof(DescriptionAttribute), false).Cast<DescriptionAttribute>().SingleOrDefault();
-            if (description != null) messagePath.AddTranslation(description.Value);
+            Harvest(messagePath, description);
         }
 
+        
         internal static void Harvest(ResourceKeyStack messagePath, PropertyInfo property)
         {
             var description = property.GetCustomAttributes(typeof(DescriptionAttribute), false).Cast<DescriptionAttribute>().SingleOrDefault();
-            if (description != null) messagePath.AddTranslation(description.Value);
+            Harvest(messagePath, description);
         }
+
+        private static void Harvest(ResourceKeyStack messagePath, DescriptionAttribute description)
+        {
+            if (description == null) return;
+            var html = new Markdown().Transform(description.Value);
+            messagePath.AddTranslation(html);
+        }
+
     }
 }

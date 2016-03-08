@@ -1,5 +1,5 @@
 ﻿<c:if test="${not fn:empty(Tag.Item.NoteKey)}">
     <p class="note">
-        <fmt:message key="${Tag.Item.NoteKey}"/>
+        <span><fmt:message key="${Tag.Item.NoteKey}" /></span>
     </p>
 </c:if>

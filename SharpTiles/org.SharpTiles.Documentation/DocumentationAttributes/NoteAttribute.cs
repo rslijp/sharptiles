@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MarkdownDeep;
 
 namespace org.SharpTiles.Documentation.DocumentationAttributes
 {
@@ -38,7 +39,8 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
         {
             var description = type.GetCustomAttributes(typeof(NoteAttribute), false).Cast<NoteAttribute>().SingleOrDefault();
             if (description == null) return false;
-            messagePath.AddNoteTranslation(description.Value);
+            var html = new Markdown().Transform(description.Value);
+            messagePath.AddNoteTranslation(html);
             return true;
         }
     }

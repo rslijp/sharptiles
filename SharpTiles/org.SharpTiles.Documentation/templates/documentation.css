@@ -91,29 +91,34 @@ p,li,th,td
 	font-size: 80%;
 }
 
-code 
+p.note
 {
-	margin-left: 15%;
 	display: block;
 	border: solid 1px black;
-	padding: 15px;
-	width: 70%;
-}
-
-p.note 
-{
-	margin-left: 15%;
-	display: block;
-	border: solid 1px black;
-	padding: 15px;
-	padding-left: 72px;
-	width: 70%;
+	width: 90%;
     background-image: url('data:image/gif;base64,R0lGODlhKgAqAPcAAAAAAIAAAACAAICAAAAAgIAAgACAgICAgMDAwP8AAAD/AP//AAAA//8A/wD//////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMwAAZgAAmQAAzAAA/wAzAAAzMwAzZgAzmQAzzAAz/wBmAABmMwBmZgBmmQBmzABm/wCZAACZMwCZZgCZmQCZzACZ/wDMAADMMwDMZgDMmQDMzADM/wD/AAD/MwD/ZgD/mQD/zAD//zMAADMAMzMAZjMAmTMAzDMA/zMzADMzMzMzZjMzmTMzzDMz/zNmADNmMzNmZjNmmTNmzDNm/zOZADOZMzOZZjOZmTOZzDOZ/zPMADPMMzPMZjPMmTPMzDPM/zP/ADP/MzP/ZjP/mTP/zDP//2YAAGYAM2YAZmYAmWYAzGYA/2YzAGYzM2YzZmYzmWYzzGYz/2ZmAGZmM2ZmZmZmmWZmzGZm/2aZAGaZM2aZZmaZmWaZzGaZ/2bMAGbMM2bMZmbMmWbMzGbM/2b/AGb/M2b/Zmb/mWb/zGb//5kAAJkAM5kAZpkAmZkAzJkA/5kzAJkzM5kzZpkzmZkzzJkz/5lmAJlmM5lmZplmmZlmzJlm/5mZAJmZM5mZZpmZmZmZzJmZ/5nMAJnMM5nMZpnMmZnMzJnM/5n/AJn/M5n/Zpn/mZn/zJn//8wAAMwAM8wAZswAmcwAzMwA/8wzAMwzM8wzZswzmcwzzMwz/8xmAMxmM8xmZsxmmcxmzMxm/8yZAMyZM8yZZsyZmcyZzMyZ/8zMAMzMM8zMZszMmczMzMzM/8z/AMz/M8z/Zsz/mcz/zMz///8AAP8AM/8AZv8Amf8AzP8A//8zAP8zM/8zZv8zmf8zzP8z//9mAP9mM/9mZv9mmf9mzP9m//+ZAP+ZM/+ZZv+Zmf+ZzP+Z///MAP/MM//MZv/Mmf/MzP/M////AP//M///Zv//mf//zP///ywAAAAAKgAqAAAI/wAfCBxIsKDBgwgTKlzIsKHDhxAjSpxIsaLFiwk1rdiGsaE/OGLgARDTUeE9ALEE+qPUqORBeCo4DoR5y+VAf6BwHNSU0mY/OABU1Cy4jKRLewCSBu05UJMPl8uUKr0h8x6TQy6dPujHRGpKeCmGYvzY0l4KWJqmEotZ8l7YB/ZiPPBHTKrOkszk+tN048E9OGFAJcXaEafOlWVVpCS2seRPrGBTgorBMefRxstwbPv4lCxUqg9AkURaNgVTjJqwfvzKVpnckp77OdkMqu9Pox3vsYUn9y/Je3JOX4TX9wExkjBTLhMKWzAARqBaEgOt1aUx5Yo/6rTa0iU8kssO/UZF6Zety35VZMIFQJXYa5ubxPbj8iAUSJsCixpcZhq/X0DqPaAMAJr5hxOBVg3m30ADJgXaggMtFyCEFFZo4YUYZqihQAEBADs=');
     background-position: 15px 15px;
 	
 	background-repeat: no-repeat;
 }
 
+p.note > span {
+    margin: 15px;
+	margin-left: 72px;
+    display: inline-block;     
+}
+
+p.example 
+{
+	display: block;
+	border: solid 1px black;
+	width: 90%;    
+}
+
+p.example > code {
+    margin: 15px;
+	display: inline-block;     
+}
 
 table.operatorprecedence 
 {
