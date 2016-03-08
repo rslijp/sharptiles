@@ -85,20 +85,44 @@ namespace org.SharpTiles.Documentation
             ;
         }
 
-        public Array EnumValues
+        public EnumValue[] EnumValues
         {
             get
             {
-                Array enumValues = null;
-                foreach (object attribute in _property.GetCustomAttributes(false))
-                {
-                    if(attribute is EnumProperyTypeAttribute)
-                    {
-                        enumValues = (attribute as EnumProperyTypeAttribute).EnumValues;
-                    }
-                }
-                return enumValues;
+                var attribute = _property.GetCustomAttribute<EnumProperyTypeAttribute>(false);
+
+                return attribute?.EnumValues
+                    .Cast<object>()
+                    .Select(v => EnumValue.Create(attribute.EnumType, v))
+                    .ToArray();
+
             }
         }
+
+        public class EnumValue
+        {
+            public object Value { get; }
+            public string Description { get; }
+
+            public EnumValue(object value, string description)
+            {
+                Value = value;
+                Description = description;
+            }
+
+            public static EnumValue Create(Type enumType, object value)
+            {
+                var member = GetMember(enumType, value);
+                var description = member.GetCustomAttribute<DescriptionAttribute>(false);
+                return new EnumValue(value, DescriptionAttribute.AsHtml(description)?.Value);
+            }
+
+            private static MemberInfo GetMember(Type enumType, object value)
+            {
+                return enumType.GetField(Enum.GetName(enumType, value));
+            }
+
+        }
+
     }
 }

@@ -23,7 +23,7 @@ namespace org.SharpTiles.Tags
     [AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
     public class EnumProperyTypeAttribute : Attribute
     {
-        private Type _enumType;
+        public Type EnumType { get; }
 
         public EnumProperyTypeAttribute(Type enumType)
         {
@@ -31,12 +31,9 @@ namespace org.SharpTiles.Tags
             {
                 throw new Exception("Only enums allowed");
             }
-            _enumType = enumType;
+            EnumType = enumType;
         }
 
-        public Array EnumValues
-        {
-            get { return Enum.GetValues(_enumType); }
-        }
+        public Array EnumValues => Enum.GetValues(EnumType);
     }
 }

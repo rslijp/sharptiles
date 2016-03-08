@@ -1,8 +1,10 @@
-﻿<c:forEach items="${Tag.Item.Examples}">
-    <div class="example">
-        <c:if test="${not fn:empty(Tag.Item.Description)}">
-            <div>${Tag.Item.Description}</div>
-        </c:if>
-        <code>${Tag.Item.Value}</code>
-    </div>
-</c:forEach>
+﻿<c:if test="${not fn:empty(Tag.Item.Examples)}">
+    <c:forEach items="${Tag.Item.Examples}">
+        <div class="example">
+            <c:if test="${not fn:empty(Tag.Item.Description)}">
+                <div>${Tag.Item.Description}</div>
+            </c:if>
+            <code>${Tag.Item.Value}</code>
+        </div>
+    </c:forEach>
+</c:if>

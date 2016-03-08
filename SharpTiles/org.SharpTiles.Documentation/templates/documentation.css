@@ -53,6 +53,15 @@ td.property {
 	  width: 100px;
 }
 
+table.enumvalues, table.enumvalues td {
+    border: none;
+    border-collapse: collapse;
+}
+
+.enumvalues td.value {
+    font-style: italic;
+}
+
 td.operator
 {
 	  font-weight: bold;

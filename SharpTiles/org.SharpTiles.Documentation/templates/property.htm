@@ -1,13 +1,16 @@
 <tr>
     <td class="property">${Tag.Item.Name}</td>
-    <td>
+    <td class="description">
         <fmt:message key="${Tag.Item.DescriptionKey}"></fmt:message>
         <c:if test="${fn:length(Tag.Item.EnumValues) > '0'}">
-            <ul>
+            <table class="enumvalues">
                 <c:forEach items="${Tag.Item.EnumValues}">
-                    <li>${Tag.Item}</li>
+                    <tr>
+                        <td class="value">${Tag.Item.Value}</td>
+                        <td class="descr">${Tag.Item.Description}</td>
+                    </tr>
                 </c:forEach>
-            </ul>
+            </table>
         </c:if>
     </td>
     <td class="required">${Tag.Item.Required}</td>

@@ -1,5 +1,7 @@
-﻿<c:forEach items="${Tag.Item.Notes}">
-    <div class="note">
-        ${Tag.Item.Value}
-    </div>
-</c:forEach>
+﻿<c:if test="${not fn:empty(Tag.Item.Notes)}">
+    <c:forEach items="${Tag.Item.Notes}">
+        <div class="note">
+            ${Tag.Item.Value}
+        </div>
+    </c:forEach>
+</c:if>

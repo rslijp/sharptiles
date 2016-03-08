@@ -52,14 +52,21 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
         private static void Harvest(ResourceKeyStack messagePath, DescriptionAttribute description)
         {
             if (description == null) return;
-            var html = new Markdown {ExtraMode = true}.Transform(description.Value);
-            html=html.Trim();
+            messagePath.AddTranslation(AsHtml(description).Value);
+        }
+
+        public static DescriptionAttribute AsHtml(DescriptionAttribute description)
+        {
+            if (description == null)
+                return null;
+
+            var html = new Markdown { ExtraMode = true }.Transform(description.Value);
+            html = html.Trim();
             if (INNER_CONTENT.IsMatch(html))
             {
                 html = INNER_CONTENT.Match(html).Groups[1].Value;
             }
-            messagePath.AddTranslation(html);
+            return new DescriptionAttribute(html);
         }
-
     }
 }

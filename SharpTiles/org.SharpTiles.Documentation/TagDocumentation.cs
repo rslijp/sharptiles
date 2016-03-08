@@ -52,12 +52,6 @@ namespace org.SharpTiles.Documentation
             _list = new List<PropertyDocumentation>();
             _nested = new List<TagDocumentation>();
             _methods = new List<FunctionDocumentation>();
-            if (specials.Any(s => s(tag, this)))
-            {
-                Examples = Examples??new ExampleAttribute[] { };
-                Notes = Notes??new NoteAttribute[] { };
-
-            }
             foreach (var property in tagType.GetProperties(
                 BindingFlags.Instance |
                 BindingFlags.Public |
