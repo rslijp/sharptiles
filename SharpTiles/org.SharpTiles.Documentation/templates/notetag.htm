@@ -1,5 +1,5 @@
-﻿<c:if test="${not fn:empty(Tag.Item.NoteKey)}">
+﻿<c:forEach items="${Tag.Item.Notes}">
     <div class="note">
-        <span><fmt:message key="${Tag.Item.NoteKey}" /></span>
+        ${Tag.Item.Value}
     </div>
-</c:if>
+</c:forEach>

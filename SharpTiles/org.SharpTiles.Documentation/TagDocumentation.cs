@@ -72,7 +72,11 @@ namespace org.SharpTiles.Documentation
                     _nested.Add(new TagDocumentation(_messagePath, nested, specials));
                 }
             }
+            Examples = ExampleAttribute.HarvestTags(tagType);
+            Notes = NoteAttribute.HarvestTags(tagType);
         }
+
+        public NoteAttribute[] Notes { get; set; }
 
         public ResourceKeyStack MessagePath => _messagePath;
         
@@ -116,7 +120,7 @@ namespace org.SharpTiles.Documentation
         {
             get
             {
-                return _hasExample ? DescriptionKey + "_Example" : null;
+                return _hasExample ? _messagePath.ExampleKey : null;
             }
         }
 
@@ -151,5 +155,7 @@ namespace org.SharpTiles.Documentation
             }
             return isInternal;
         }
+
+        public ExampleAttribute[] Examples { get; }
     }
 }

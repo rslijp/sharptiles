@@ -16,11 +16,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- using System;
+using System;
 using System.Collections.Generic;
- using System.Linq;
- using org.SharpTiles.Documentation.DocumentationAttributes;
- using org.SharpTiles.Tags;
+using System.Linq;
+using System.Reflection;
+using org.SharpTiles.Documentation.DocumentationAttributes;
+using org.SharpTiles.Tags;
 
 namespace org.SharpTiles.Documentation
 {
@@ -48,7 +49,14 @@ namespace org.SharpTiles.Documentation
             {
                 _tags.Add(new TagDocumentation(_messagePath, _tag, _specials));
             }
+            Examples = ExampleAttribute.HarvestTags(tagGroupType);
+            Notes = NoteAttribute.HarvestTags(tagGroupType);
+
         }
+
+        public NoteAttribute[] Notes { get; set; }
+
+        public ExampleAttribute[] Examples { get; set; }
 
 
         public IList<TagDocumentation> Tags

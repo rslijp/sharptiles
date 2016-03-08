@@ -21,31 +21,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MarkdownDeep;
 using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Documentation.DocumentationAttributes
 {
-    [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
     public class ExampleAttribute : Attribute
     {
-        public ExampleAttribute(string value)
+        public ExampleAttribute(string value, string description = null)
         {
             Value = value;
+            Description = description;
         }
 
         public string Value { get; private set; }
+        public string Description { get; set; }
 
         public static bool Harvest(ResourceKeyStack messagePath, Type type)
         {
-            var description = type.GetCustomAttributes(typeof(ExampleAttribute), false).Cast<ExampleAttribute>().SingleOrDefault();
-            if (description == null) return false;
-            var html=StringUtils.EscapeXml(description.Value);
-            html = html.Replace("\n", "<br/>")
-                .Replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
-                .Replace("{", "{{")
-                .Replace("}", "}}");
-            messagePath.AddExampleTranslation(html);
+            var example = HarvestTags(type).FirstOrDefault();
+            if (example == null) return false;
+            messagePath.AddExampleTranslation(example.Value);
             return true;
         }
+
+        public static ExampleAttribute[] HarvestTags(Type type)
+        {
+            return
+                type.GetCustomAttributes(typeof (ExampleAttribute), false)
+                    .Cast<ExampleAttribute>()
+                    .Select(AsHtml)
+                    .ToArray();
+        }
+
+        public static ExampleAttribute AsHtml(ExampleAttribute attribute)
+            => new ExampleAttribute(StringUtils.EscapeXml(attribute.Value)
+                                                .Replace("\n", "<br/>")
+                                                .Replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+                                                .Replace("{", "{{")
+                                                .Replace("}", "}}"),
+                                    attribute.Description != null
+                                        ? new Markdown().Transform(attribute.Description)
+                                        : null);
     }
 }

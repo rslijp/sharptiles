@@ -81,21 +81,12 @@ namespace org.SharpTiles.Documentation
             }
         }
 
-        public string NoteKey
-        {
-            get { return Description + "_Note"; }
-        }
+        public string NoteKey => Description + "_Note";
 
-        public string ExampleKey
-        {
-            get { return Description + "_Example"; }
-        }
+        public string ExampleKey => Description + "_Example";
 
-        public string TitleKey
-        {
-            get { return Description + "_Title"; }
-        }
-        
+        public string TitleKey => Description + "_Title";
+
 
         private void AppendExpression(StringBuilder result)
         {

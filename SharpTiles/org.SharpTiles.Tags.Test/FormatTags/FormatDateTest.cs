@@ -37,7 +37,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             base.SetUp();
             var model = new Hashtable();
             _model = new TagModel(model);
-            _model.Page[FormatConstants.LOCALE] = new CultureInfo("en-US");
+            _model.Page[FormatConstants.LOCALE] = CultureInfo.InvariantCulture;
         }
 
         #endregion
@@ -65,7 +65,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             var date = new FormatDate();
             _model.Model["DateValue"] = new DateTime(2001, 2, 3, 4, 5, 6);
             date.Value = new MockAttribute(new Property("DateValue"));
-            Assert.That(date.Evaluate(_model), Is.EqualTo("2/3/2001 4:05 AM"));
+            Assert.That(date.Evaluate(_model), Is.EqualTo("02/03/2001 04:05"));
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             _model.Model["DateValue"] = new DateTime(2001, 2, 3, 4, 5, 6);
             date.Value = new MockAttribute(new Property("DateValue"));
             date.Type = new MockAttribute(new Constant(DateType.Both.ToString()));
-            Assert.That(date.Evaluate(_model), Is.EqualTo("2/3/2001 4:05 AM"));
+            Assert.That(date.Evaluate(_model), Is.EqualTo("02/03/2001 04:05"));
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             _model.Model["DateValue"] = new DateTime(2001, 2, 3, 4, 5, 6);
             date.Value = new MockAttribute(new Property("DateValue"));
             date.Type = new MockAttribute(new Constant(DateType.Date.ToString()));
-            Assert.That(date.Evaluate(_model), Is.EqualTo("2/3/2001"));
+            Assert.That(date.Evaluate(_model), Is.EqualTo("02/03/2001"));
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             _model.Model["DateValue"] = new DateTime(2001, 2, 3, 4, 5, 6);
             date.Value = new MockAttribute(new Property("DateValue"));
             date.Type = new MockAttribute(new Constant(DateType.Time.ToString()));
-            Assert.That(date.Evaluate(_model), Is.EqualTo("4:05 AM"));
+            Assert.That(date.Evaluate(_model), Is.EqualTo("04:05"));
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             date.Value = new MockAttribute(new Property("DateValue"));
             date.Type = new MockAttribute(new Constant(DateType.Date.ToString()));
             date.DateStyle = new MockAttribute(new Constant(DateStyle.Default.ToString()));
-            Assert.That(date.Evaluate(_model), Is.EqualTo("2/3/2001"));
+            Assert.That(date.Evaluate(_model), Is.EqualTo("02/03/2001"));
         }
 
         [Test]
@@ -117,7 +117,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             date.Value = new MockAttribute(new Property("DateValue"));
             date.Type = new MockAttribute(new Constant(DateType.Date.ToString()));
             date.DateStyle = new MockAttribute(new Constant(DateStyle.Long.ToString()));
-            Assert.That(date.Evaluate(_model), Is.EqualTo("Saturday, February 03, 2001"));
+            Assert.That(date.Evaluate(_model), Is.EqualTo("Saturday, 03 February 2001"));
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             date.Value = new MockAttribute(new Property("DateValue"));
             date.Type = new MockAttribute(new Constant(DateType.Date.ToString()));
             date.DateStyle = new MockAttribute(new Constant(DateStyle.Short.ToString()));
-            Assert.That(date.Evaluate(_model), Is.EqualTo("2/3/2001"));
+            Assert.That(date.Evaluate(_model), Is.EqualTo("02/03/2001"));
         }
 
         [Test]
@@ -171,7 +171,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             date.Value = new MockAttribute(new Property("DateValue"));
             date.Type = new MockAttribute(new Constant(DateType.Time.ToString()));
             date.TimeStyle = new MockAttribute(new Constant(TimeStyle.Default.ToString()));
-            Assert.That(date.Evaluate(_model), Is.EqualTo("4:05 AM"));
+            Assert.That(date.Evaluate(_model), Is.EqualTo("04:05"));
         }
 
         [Test]
@@ -182,7 +182,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             date.Value = new MockAttribute(new Property("DateValue"));
             date.Type = new MockAttribute(new Constant(DateType.Time.ToString()));
             date.TimeStyle = new MockAttribute(new Constant(TimeStyle.Long.ToString()));
-            Assert.That(date.Evaluate(_model), Is.EqualTo("4:05:06 AM"));
+            Assert.That(date.Evaluate(_model), Is.EqualTo("04:05:06"));
         }
 
         [Test]
@@ -193,7 +193,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             date.Value = new MockAttribute(new Property("DateValue"));
             date.Type = new MockAttribute(new Constant(DateType.Time.ToString()));
             date.TimeStyle = new MockAttribute(new Constant(TimeStyle.Short.ToString()));
-            Assert.That(date.Evaluate(_model), Is.EqualTo("2:05 PM"));
+            Assert.That(date.Evaluate(_model), Is.EqualTo("14:05"));
         }
 
         [Test]
@@ -222,7 +222,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
         {
             var date = new FormatDate();
             date.Value = new MockAttribute(new Constant("1/6/2008 12:00:00"));
-            Assert.That(date.Evaluate(_model), Is.EqualTo("1/6/2008 12:00 PM"));
+            Assert.That(date.Evaluate(_model), Is.EqualTo("01/06/2008 12:00"));
         }
 
         [Test]
@@ -233,7 +233,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             date.Value = new MockAttribute(new Property("DateValue"));
             date.TimeStyle = new MockAttribute(new Constant(TimeStyle.Long.ToString()));
             date.DateStyle = new MockAttribute(new Constant(DateStyle.Long.ToString()));
-            Assert.That(date.Evaluate(_model), Is.EqualTo("Saturday, February 03, 2001 4:05:06 AM"));
+            Assert.That(date.Evaluate(_model), Is.EqualTo("Saturday, 03 February 2001 04:05:06"));
         }
 
         [Test]

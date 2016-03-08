@@ -25,7 +25,7 @@ using MarkdownDeep;
 
 namespace org.SharpTiles.Documentation.DocumentationAttributes
 {
-    [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
     public class NoteAttribute : Attribute
     {
         public NoteAttribute(string value)
@@ -43,5 +43,17 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
             messagePath.AddNoteTranslation(html);
             return true;
         }
+
+        public static NoteAttribute[] HarvestTags(Type type)
+        {
+            return
+                type.GetCustomAttributes(typeof(NoteAttribute), false)
+                    .Cast<NoteAttribute>()
+                    .Select(AsHtml)
+                    .ToArray();
+        }
+
+        public static NoteAttribute AsHtml(NoteAttribute attribute)
+            => new NoteAttribute(new Markdown().Transform(attribute.Value));
     }
 }
