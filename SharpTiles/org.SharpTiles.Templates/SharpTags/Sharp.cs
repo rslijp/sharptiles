@@ -24,6 +24,7 @@ namespace org.SharpTiles.Tags.Templates.SharpTags
     {
         public Sharp()
         {
+            Register<Console>();
             Register<Marker>();
             Register<Include>();
             Register<Scope>();

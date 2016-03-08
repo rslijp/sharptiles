@@ -59,8 +59,8 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
             => new ExampleAttribute(StringUtils.EscapeXml(attribute.Value)
                                                 .Replace("\n", "<br/>")
                                                 .Replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
-                                                .Replace("{", "{{")
-                                                .Replace("}", "}}"),
+                                                .Replace("    ", "&nbsp;&nbsp;&nbsp;&nbsp;")
+                                                ,
                                     attribute.Description != null
                                         ? new Markdown().Transform(attribute.Description)
                                         : null);

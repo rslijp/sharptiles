@@ -469,6 +469,12 @@ pattern are removed.</value>
   <data name="description_Xml_Transform_Param_NameSpaceUri" xml:space="preserve">
     <value>Namespace uri used in the &lt;xsl:param&gt;</value>
   </data>
+  <data name="description_Sharp_Console" xml:space="preserve">
+    <value>Prints a message on the console</value>
+  </data>
+  <data name="description_Sharp_Console_Value" xml:space="preserve">
+    <value>value to output</value>
+  </data>
   <data name="description_Sharp_Marker_Id" xml:space="preserve">
     <value>Marker Id which will return in the output</value>
   </data>
