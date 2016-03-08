@@ -27,7 +27,7 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
     [AttributeUsage(AttributeTargets.Class|AttributeTargets.Property|AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
     public class DescriptionAttribute : Attribute
     {
-        private static Regex INNER_CONTENT = new Regex("!^<p>(.*?)</p>$!i");
+        public static Regex INNER_CONTENT = new Regex("^<p>(.*?)</p>$");
         
         public DescriptionAttribute(string value)
         {
@@ -52,9 +52,12 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
         private static void Harvest(ResourceKeyStack messagePath, DescriptionAttribute description)
         {
             if (description == null) return;
-            var html = new Markdown().Transform(description.Value);
+            var html = new Markdown {ExtraMode = true}.Transform(description.Value);
             html=html.Trim();
-            html=INNER_CONTENT.Replace(html, "$1");
+            if (INNER_CONTENT.IsMatch(html))
+            {
+                html = INNER_CONTENT.Match(html).Groups[1].Value;
+            }
             messagePath.AddTranslation(html);
         }
 

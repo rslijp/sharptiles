@@ -54,6 +54,6 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
         }
 
         public static NoteAttribute AsHtml(NoteAttribute attribute)
-            => new NoteAttribute(new Markdown().Transform(attribute.Value));
+            => new NoteAttribute(new Markdown {ExtraMode = true}.Transform(attribute.Value));
     }
 }

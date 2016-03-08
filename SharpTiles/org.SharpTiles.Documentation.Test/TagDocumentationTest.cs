@@ -52,5 +52,14 @@ namespace org.SharpTiles.Documentation.Test
             }
             Assert.That(hasValue, Is.True);
         }
+
+//        [Test]
+//        public void TestParagraphStrip()
+//        {
+//            var x = "<p>The communication tag lib provides <em>functionality</em> to:</p>";
+//            Console.WriteLine(DocumentationAttributes.DescriptionAttribute.INNER_CONTENT.IsMatch(x));
+//            Console.WriteLine(DocumentationAttributes.DescriptionAttribute.INNER_CONTENT.Match(x).Groups[1].Value);
+//        }
+         
     }
 }
