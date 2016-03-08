@@ -28,10 +28,12 @@ h4
 	display: inline;
 }
 
-p,table,li,address
+table,li,address, div.note, div.example,p.remark
 {
 	font-family: arial, 'sans serif'; 
 	margin-left: 15pt;
+    margin-top: 10pt;
+    margin-bottom: 10pt;
 }
 
 table {
@@ -86,13 +88,14 @@ table th {
 	color: white;
 }
 
-p,li,th,td
+p.remark, li,th,td
 {
 	font-size: 80%;
 }
 
-p.note
+div.note
 {
+	font-size: 80%;
 	display: block;
 	border: solid 1px black;
 	width: 90%;
@@ -102,20 +105,21 @@ p.note
 	background-repeat: no-repeat;
 }
 
-p.note > span {
+div.note > span, div.note > p {
     margin: 15px;
 	margin-left: 72px;
     display: inline-block;     
 }
 
-p.example 
+div.example 
 {
+	font-size: 80%;
 	display: block;
 	border: solid 1px black;
 	width: 90%;    
 }
 
-p.example > code {
+div.example > code {
     margin: 15px;
 	display: inline-block;     
 }
