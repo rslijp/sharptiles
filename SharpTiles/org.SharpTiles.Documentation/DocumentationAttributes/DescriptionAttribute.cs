@@ -19,6 +19,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using MarkdownDeep;
 
 namespace org.SharpTiles.Documentation.DocumentationAttributes
@@ -26,6 +27,8 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
     [AttributeUsage(AttributeTargets.Class|AttributeTargets.Property|AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
     public class DescriptionAttribute : Attribute
     {
+        private static Regex INNER_CONTENT = new Regex("!^<p>(.*?)</p>$!i");
+        
         public DescriptionAttribute(string value)
         {
             Value = value;
@@ -50,7 +53,8 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
         {
             if (description == null) return;
             var html = new Markdown().Transform(description.Value);
-            var html=html.Trim();
+            html=html.Trim();
+            html=INNER_CONTENT.Replace(html, "$1");
             messagePath.AddTranslation(html);
         }
 
