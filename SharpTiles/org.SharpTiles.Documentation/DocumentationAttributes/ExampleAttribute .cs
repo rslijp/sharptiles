@@ -40,9 +40,10 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
             var description = type.GetCustomAttributes(typeof(ExampleAttribute), false).Cast<ExampleAttribute>().SingleOrDefault();
             if (description == null) return false;
             var html=StringUtils.EscapeXml(description.Value);
-            html=html.Replace("\n", "<br/>");
-            html = html.Replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
-            Console.WriteLine(html);
+            html = html.Replace("\n", "<br/>")
+                .Replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+                .Replace("{", "{{")
+                .Replace("}", "}}");
             messagePath.AddExampleTranslation(html);
             return true;
         }
