@@ -50,6 +50,7 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
         {
             if (description == null) return;
             var html = new Markdown().Transform(description.Value);
+            var html=html.Trim();
             messagePath.AddTranslation(html);
         }
 
