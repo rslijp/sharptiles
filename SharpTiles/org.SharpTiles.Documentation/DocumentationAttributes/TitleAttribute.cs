@@ -35,11 +35,16 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
 
         public string Value { get; private set; }
 
-        public static void Harvest(ResourceKeyStack messagePath, Type type)
+        public static void HarvestTagLibrary(ResourceKeyStack messagePath, Type type)
         {
             var description = type.GetCustomAttributes(typeof(TitleAttribute), false).Cast<TitleAttribute>().SingleOrDefault();
-            if (description != null) messagePath.AddTitleTranslation(description.Value);
+            if (description != null) messagePath.AddTitleTranslation(description.Value + " <i>Tag Library</i>");
         }
-        
+
+        public static void HarvestTag(ResourceKeyStack messagePath, Type type)
+        {
+            var description = type.GetCustomAttributes(typeof(TitleAttribute), false).Cast<TitleAttribute>().SingleOrDefault();
+            if (description != null) messagePath.AddTitleTranslation(description.Value+" <i>Tag</i>");
+        }
     }
 }

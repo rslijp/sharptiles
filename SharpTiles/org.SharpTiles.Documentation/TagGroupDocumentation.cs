@@ -38,7 +38,7 @@ namespace org.SharpTiles.Documentation
             _tags = new List<TagDocumentation>();
             var tagGroupType=tagGroup.GetType();
             DescriptionAttribute.Harvest(_messagePath, tagGroupType);
-            TitleAttribute.Harvest(_messagePath, tagGroupType);
+            TitleAttribute.HarvestTagLibrary(_messagePath, tagGroupType);
             _hasExample = ExampleAttribute.Harvest(_messagePath, tagGroupType) ||HasExample.Has(tagGroupType);
             _hasNote = NoteAttribute.Harvest(_messagePath, tagGroupType)||HasNote.Has(tagGroupType);
             foreach (ITag _tag in tagGroup)
