@@ -23,9 +23,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using org.SharpTiles.Documentation.DocumentationAttributes;
-using org.SharpTiles.HtmlTags;
- using org.SharpTiles.HtmlTags.Input;
- using org.SharpTiles.Tags;
+using org.SharpTiles.Tags;
 using DescriptionAttribute = org.SharpTiles.Documentation.DocumentationAttributes.DescriptionAttribute;
 
 namespace org.SharpTiles.Documentation
@@ -40,7 +38,7 @@ namespace org.SharpTiles.Documentation
         private readonly bool _hasNote;
         private readonly bool _hasExample;
 
-        public TagDocumentation(ResourceKeyStack messagePath, ITag tag)
+        public TagDocumentation(ResourceKeyStack messagePath, ITag tag,  IList<Func<ITag, TagDocumentation,bool>> specials)
         {
             _messagePath = messagePath.BranchFor(tag);
             _name = tag.TagName;
@@ -52,16 +50,7 @@ namespace org.SharpTiles.Documentation
             _hasNote = NoteAttribute.Harvest(_messagePath, tagType) || HasNote.Has(tagType);
             _list = new List<PropertyDocumentation>();
             _methods = new List<FunctionDocumentation>();
-            if (tag is HtmlHelperWrapperTag)
-            {
-                var htmlTag = (HtmlHelperWrapperTag)tag;
-                var htmlHelper = new HtmlReflectionHelper(htmlTag.WrappedType, htmlTag.MethodName);
-                foreach (var method in htmlHelper.AllMethods)
-                {
-                    _methods.Add(new FunctionDocumentation(_messagePath, new WrappedFunctionDocumentation(method)));
-                }
-            } else 
-           {
+            if(specials.Any(s=>s(tag, this))) return;
                foreach (var property in tagType.GetProperties(
                    BindingFlags.Instance |
                    BindingFlags.Public |
@@ -73,9 +62,9 @@ namespace org.SharpTiles.Documentation
                        _list.Add(new PropertyDocumentation(_messagePath, property));
                    }
                }
-           }
         }
 
+        public ResourceKeyStack MessagePath => _messagePath;
         
         public IList<PropertyDocumentation> Properties
         {

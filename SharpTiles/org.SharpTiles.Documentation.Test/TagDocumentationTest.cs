@@ -16,9 +16,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- using NUnit.Framework;
+
+using System;
+using System.Collections.Generic;
+using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using org.SharpTiles.Tags.CoreTags;
+ using org.SharpTiles.Tags;
+ using org.SharpTiles.Tags.CoreTags;
 
 namespace org.SharpTiles.Documentation.Test
 {
@@ -28,7 +32,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void InternalPropertyIsNotIncluded()
         {
-            var td = new TagDocumentation(new ResourceKeyStack(), new Out());
+            var td = new TagDocumentation(new ResourceKeyStack(), new Out(), new List<Func<ITag, TagDocumentation, bool>>());
             bool hasBody = false;
             foreach (PropertyDocumentation property in td.Properties)
             {
@@ -40,7 +44,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void NonInternalPropertyIsIncluded()
         {
-            var td = new TagDocumentation(new ResourceKeyStack(), new Out());
+            var td = new TagDocumentation(new ResourceKeyStack(), new Out(), new List<Func<ITag, TagDocumentation, bool>>());
             bool hasValue = false;
             foreach (PropertyDocumentation property in td.Properties)
             {

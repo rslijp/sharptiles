@@ -43,7 +43,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void PropertyInTagsShouldBePresent()
         {
-            var tag = new TagDocumentation(new ResourceKeyStack(), new Out());
+            var tag = new TagDocumentation(new ResourceKeyStack(), new Out(), new List<Func<ITag, TagDocumentation, bool>>());
             Assert.That(tag.Name, Is.EqualTo(new Out().TagName));
             Assert.That(tag.Properties, Is.Not.Null);
             Assert.That(tag.Properties.Count, Is.GreaterThan(0));
@@ -87,7 +87,7 @@ namespace org.SharpTiles.Documentation.Test
         public void TagGroupShouldReturnDescriptionKey()
         {
             
-            var taggroup = new TagGroupDocumentation(new ResourceKeyStack(), new Core());
+            var taggroup = new TagGroupDocumentation(new ResourceKeyStack(), new Core(), new List<Func<ITag, TagDocumentation, bool>>());
             Assert.That(taggroup.DescriptionKey, Is.EqualTo("description_Core"));
         }
 
@@ -102,7 +102,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void TagInTagGroupsShouldBePresent()
         {
-            var taggroup = new TagGroupDocumentation(new ResourceKeyStack(), new Core());
+            var taggroup = new TagGroupDocumentation(new ResourceKeyStack(), new Core(), new List<Func<ITag, TagDocumentation, bool>>());
             Assert.That(taggroup.Name, Is.EqualTo(new Core().Name));
             Assert.That(taggroup.Tags, Is.Not.Null);
             Assert.That(taggroup.Tags.Count, Is.GreaterThan(0));
@@ -114,7 +114,7 @@ namespace org.SharpTiles.Documentation.Test
             var key = new ResourceKeyStack();
             key = key.BranchFor(new Core());
             
-            var tag = new TagDocumentation(key, new Out());
+            var tag = new TagDocumentation(key, new Out(), new List<Func<ITag, TagDocumentation, bool>>());
             Assert.That(tag.DescriptionKey, Is.EqualTo("description_Core_Out"));
         }
 
@@ -124,7 +124,7 @@ namespace org.SharpTiles.Documentation.Test
             var key = new ResourceKeyStack();
             key = key.BranchFor(new Core());
 
-            var tag = new TagDocumentation(key, new Out());
+            var tag = new TagDocumentation(key, new Out(), new List<Func<ITag, TagDocumentation, bool>>());
             Assert.That(tag.CategoryDescriptionKey, Is.EqualTo("description_Core_GeneralPurpose"));
         }
 

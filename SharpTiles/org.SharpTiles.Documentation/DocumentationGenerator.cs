@@ -31,25 +31,32 @@ namespace org.SharpTiles.Documentation
     public class DocumentationGenerator
     {
         private TagLib _lib;
+        private IList<Func<ITag, TagDocumentation, bool>> _specials;
 
         public DocumentationGenerator()
         {
             _lib = new TagLib();
-            _lib.Register(new Tiles.Tags.Tiles());
             _lib.Register(new Sharp());
 
+            _specials = new List<Func<ITag, TagDocumentation, bool>>();
         }
         public string GenerateDocumentation()
         {
             return GenerateDocumentation(_lib,true);
         }
+
+        public void AddSpecial(Func<ITag, TagDocumentation, bool> special)
+        {
+            _specials.Add(special);
+        }
+
         public string GenerateDocumentation(TagLib tablib, bool all)
         {
             var assembly = Assembly.GetAssembly(typeof (DocumentationGenerator));
             var prefix = assembly.GetName().Name.EndsWith("Documentation") ? "templates" : "Documentation.templates";
             var locator = new AssemblyLocatorFactory(assembly, prefix).CloneForTagLib(_lib);
             var template = locator.Handle("index.htm",true);
-            return template.Evaluate(new TagModel(new DocumentModel(tablib, all)));
+            return template.Evaluate(new TagModel(new DocumentModel(tablib, all, _specials)));
         }
 
     }

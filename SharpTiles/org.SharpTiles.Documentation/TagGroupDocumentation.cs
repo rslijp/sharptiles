@@ -31,10 +31,13 @@ namespace org.SharpTiles.Documentation
         private readonly IList<TagDocumentation> _tags;
         private bool _hasExample;
         private bool _hasNote;
-        public TagGroupDocumentation(ResourceKeyStack messagePath, ITagGroup tagGroup)
+        private IList<Func<ITag, TagDocumentation, bool>> _specials;
+
+        public TagGroupDocumentation(ResourceKeyStack messagePath, ITagGroup tagGroup, IList<Func<ITag, TagDocumentation, bool>> specials)
         {
             _messagePath = messagePath.BranchFor(tagGroup);
             _name = tagGroup.Name;
+            _specials = specials;
             _tags = new List<TagDocumentation>();
             var tagGroupType=tagGroup.GetType();
             DescriptionAttribute.Harvest(_messagePath, tagGroupType);
@@ -43,7 +46,7 @@ namespace org.SharpTiles.Documentation
             _hasNote = NoteAttribute.Harvest(_messagePath, tagGroupType)||HasNote.Has(tagGroupType);
             foreach (ITag _tag in tagGroup)
             {
-                _tags.Add(new TagDocumentation(_messagePath, _tag));
+                _tags.Add(new TagDocumentation(_messagePath, _tag, _specials));
             }
         }
 

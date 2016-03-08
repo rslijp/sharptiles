@@ -104,10 +104,6 @@
       <Project>{EEC8426C-129E-4CD1-8280-2A69C6598CD9}</Project>
       <Name>org.SharpTiles.Expressions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\org.SharpTiles.HtmlTags\org.SharpTiles.HtmlTags.csproj">
-      <Project>{AB283799-DF66-4974-A3CB-2B79339DB63A}</Project>
-      <Name>org.SharpTiles.HtmlTags</Name>
-    </ProjectReference>
     <ProjectReference Include="..\org.SharpTiles.TagLib\org.SharpTiles.Tags.csproj">
       <Project>{0A831F61-1BBF-4223-BA3C-6C686C043056}</Project>
       <Name>org.SharpTiles.Tags</Name>

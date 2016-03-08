@@ -18,14 +18,11 @@
  */
 using System;
 using System.Collections.Generic;
- using System.Linq;
- using org.SharpTiles.Expressions;
- using org.SharpTiles.Expressions.Functions;
- using org.SharpTiles.HtmlTags;
- using org.SharpTiles.Tags;
-using org.SharpTiles.Tags.Templates.SharpTags;
-using org.SharpTiles.Tiles;
- using Expression=org.SharpTiles.Expressions.Expression;
+using System.Linq;
+using org.SharpTiles.Expressions;
+using org.SharpTiles.Expressions.Functions;
+using org.SharpTiles.Tags;
+using Expression=org.SharpTiles.Expressions.Expression;
 
 namespace org.SharpTiles.Documentation
 {
@@ -39,11 +36,13 @@ namespace org.SharpTiles.Documentation
         private readonly TagLib _subject;
         private IDictionary<string, string> _additionalResources;
         private bool _all;
+        private IList<Func<ITag, TagDocumentation, bool>> _specials;
 
-        public DocumentModel(TagLib subject, bool all)
+        public DocumentModel(TagLib subject, bool all, IList<Func<ITag, TagDocumentation, bool>> specials=null)
         {
             _subject= subject;
             _all = all;
+            _specials = specials??new List<Func<ITag, TagDocumentation, bool>>();
             _additionalResources = new Dictionary<string, string>();
             _resouceKey = new ResourceKeyStack(_additionalResources);
             GatherExpressions();
@@ -58,7 +57,7 @@ namespace org.SharpTiles.Documentation
            
             foreach (ITagGroup tag in lib)
             {
-                _groups.Add(new TagGroupDocumentation(_resouceKey, tag));
+                _groups.Add(new TagGroupDocumentation(_resouceKey, tag, _specials));
             }
         }
 
