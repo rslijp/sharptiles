@@ -25,9 +25,10 @@ using System.ComponentModel;
 namespace org.SharpTiles.Tags.FormatTags
 {
     [Category("Internationalization"), HasExample]
-    public class Message : BaseCoreTagWithOptionalVariable, ITagWithNestedTags
+    public class Message : BaseCoreTagWithOptionalVariable, ITagWithNestedTags, ITagExtendTagLib
     {
         public static readonly string NAME = "message";
+        private static Type[] EXTENSION = new[] { typeof(Param) };
 
         private readonly IList<Param> _nestedTags = new List<Param>();
 
@@ -109,6 +110,11 @@ namespace org.SharpTiles.Tags.FormatTags
                 }
             }
             return bundle;
+        }
+
+        public ITagGroup TagLibExtension
+        {
+            get { return new NestedTagGroup(Group.Name, EXTENSION); }
         }
     }
 }

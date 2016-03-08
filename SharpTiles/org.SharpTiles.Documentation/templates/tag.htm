@@ -33,3 +33,15 @@
    </table>
 </c:if>
 <sharp:include file="notetag.htm"/>
+<c:if test="${not fn:empty(Tag.Item.NestedTags)}">
+    <fmt:message key="tags_Nesting">
+        <fmt:param>${Tag.Item.Name}</fmt:param>
+    </fmt:message>
+    <div class="tagnesting">
+        <c:forEach items="${Tag.Item.NestedTags}">
+            <p>
+                <sharp:include file="tag.htm" />
+            </p>
+        </c:forEach>
+    </div>
+</c:if>

@@ -35,7 +35,7 @@
             Register<Url>();
             Register<Import>();
             Register<Redirect>();
-            Register<Param>();
+//            Register<Param>();
         }
 
 

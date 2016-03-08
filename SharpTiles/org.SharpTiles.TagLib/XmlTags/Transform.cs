@@ -28,11 +28,12 @@ using org.SharpTiles.Tags.CoreTags;
 namespace org.SharpTiles.Tags.XmlTags
 {
     [Category("Transformation"), HasExample]
-    public class Transform : BaseCoreTagWithOptionalVariable, ITagWithNestedTags
+    public class Transform : BaseCoreTagWithOptionalVariable, ITagWithNestedTags, ITagExtendTagLib
     {
         public const string NAME = "transform";
+        private static Type[] EXTENSION = new[] { typeof(Param) };
 
-//        private static IDictionary<string, XslCompiledTransform> XSLT_CACHE = new Dictionary<string, XslCompiledTransform>();
+        //        private static IDictionary<string, XslCompiledTransform> XSLT_CACHE = new Dictionary<string, XslCompiledTransform>();
         /*   
         private ITagAttribute _systemId;
         */
@@ -147,6 +148,11 @@ namespace org.SharpTiles.Tags.XmlTags
                 list.AddParam(param.Name, param.NameSpaceUri, param.Value);
             }
             return list;
+        }
+
+        public ITagGroup TagLibExtension
+        {
+            get { return new NestedTagGroup(Group.Name, EXTENSION); }
         }
     }
 }

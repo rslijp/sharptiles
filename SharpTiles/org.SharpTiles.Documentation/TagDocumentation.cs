@@ -30,6 +30,7 @@ namespace org.SharpTiles.Documentation
 {
     public class TagDocumentation : IDescriptionElement
     {
+        private readonly IList<TagDocumentation> _nested;
         private readonly IList<PropertyDocumentation> _list;
         private readonly IList<FunctionDocumentation> _methods;
         private readonly ResourceKeyStack _messagePath;
@@ -49,19 +50,28 @@ namespace org.SharpTiles.Documentation
             _hasExample = ExampleAttribute.Harvest(_messagePath, tagType) || HasExample.Has(tagType);
             _hasNote = NoteAttribute.Harvest(_messagePath, tagType) || HasNote.Has(tagType);
             _list = new List<PropertyDocumentation>();
+            _nested = new List<TagDocumentation>();
             _methods = new List<FunctionDocumentation>();
             if(specials.Any(s=>s(tag, this))) return;
-               foreach (var property in tagType.GetProperties(
-                   BindingFlags.Instance |
-                   BindingFlags.Public |
-                   BindingFlags.SetProperty |
-                   BindingFlags.FlattenHierarchy))
-               {
-                   if (Equals(property.PropertyType, typeof(ITagAttribute)) && !IsInternal(property))
-                   {
-                       _list.Add(new PropertyDocumentation(_messagePath, property));
-                   }
-               }
+            foreach (var property in tagType.GetProperties(
+                BindingFlags.Instance |
+                BindingFlags.Public |
+                BindingFlags.SetProperty |
+                BindingFlags.FlattenHierarchy))
+            {
+                if (Equals(property.PropertyType, typeof(ITagAttribute)) && !IsInternal(property))
+                {
+                    _list.Add(new PropertyDocumentation(_messagePath, property));
+                }
+            }
+            var extendingTag = tag as ITagExtendTagLib;
+            if (extendingTag != null)
+            {
+                foreach (var nested in extendingTag.TagLibExtension)
+                {
+                    _nested.Add(new TagDocumentation(_messagePath, nested, specials));
+                }
+            }
         }
 
         public ResourceKeyStack MessagePath => _messagePath;
@@ -69,6 +79,11 @@ namespace org.SharpTiles.Documentation
         public IList<PropertyDocumentation> Properties
         {
             get { return _list; }
+        }
+
+        public IList<TagDocumentation> NestedTags
+        {
+            get { return _nested; }
         }
 
         public IList<FunctionDocumentation> Methods

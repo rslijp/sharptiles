@@ -27,7 +27,7 @@
             Register<Bundle>();
             Register<SetBundle>();
             Register<Message>();
-            Register<Param>();
+//            Register<Param>();
             Register<FormatNumber>();
             Register<ParseNumber>();
             Register<FormatDate>();

@@ -32,7 +32,7 @@
 //            Register<Otherwise>();
             Register<ForEach>();
             Register<Transform>();
-            Register<Param>();
+//            Register<Param>();
         }
 
 

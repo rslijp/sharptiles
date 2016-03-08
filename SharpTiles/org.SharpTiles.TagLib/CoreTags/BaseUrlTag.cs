@@ -16,14 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- using System.Collections.Generic;
+
+using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace org.SharpTiles.Tags.CoreTags
 {
-    public abstract class BaseUrlTag : BaseCoreTag, ITagWithNestedTags
+    public abstract class BaseUrlTag : BaseCoreTag, ITagWithNestedTags, ITagExtendTagLib
     {
         private readonly IList<Param> _nestedTags = new List<Param>();
+        private static Type[] EXTENSION = new[] { typeof(Param) };
 
         #region ITagWithNestedTags Members
 
@@ -85,6 +88,11 @@ namespace org.SharpTiles.Tags.CoreTags
                 builder.Append(tag.EvaluateNested(model));
             }
             return builder.ToString();
+        }
+
+        public ITagGroup TagLibExtension
+        {
+            get { return new NestedTagGroup(Group.Name, EXTENSION); }
         }
     }
 }

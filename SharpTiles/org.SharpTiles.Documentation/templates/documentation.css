@@ -36,6 +36,12 @@ table,li,address, div.note, div.example,p.remark
     margin-bottom: 10pt;
 }
 
+div.tagnesting {
+    border-left: 1px dotted black;
+    margin-left: 15pt;
+    padding-left: 15pt;
+}
+
 table {
 	margin-top: 7px;
 	border-collapse: collapse;

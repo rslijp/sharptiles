@@ -512,6 +512,9 @@ pattern are removed.</value>
 			&lt;/ol&gt;
 	</value>
   </data>
+  <data name="tags_Nesting" xml:space="preserve">
+    <value>Inside the {0} tag. The following tags are defined:</value>
+  </data>
   <data name="description_Xml_XMLActions" xml:space="preserve">
     <value>&lt;h3&gt;General-Purpose Actions&lt;/h3&gt;&lt;br/&gt;Actions for parsing XML, outputting to the page, and selecting XML fragments. The examples that follow
 demonstrate use of the XML tags for processing Rich Site Summary (RSS) feeds. RSS has more or less the following format:</value>
