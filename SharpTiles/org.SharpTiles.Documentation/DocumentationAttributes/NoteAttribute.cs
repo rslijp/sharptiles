@@ -37,7 +37,7 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
 
         public static bool Harvest(ResourceKeyStack messagePath, Type type)
         {
-            var description = type.GetCustomAttributes(typeof(NoteAttribute), false).Cast<NoteAttribute>().SingleOrDefault();
+            var description = HarvestTags(type).FirstOrDefault();
             if (description == null) return false;
             var html = new Markdown().Transform(description.Value);
             messagePath.AddNoteTranslation(html);

@@ -62,7 +62,7 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
                                                 .Replace("    ", "&nbsp;&nbsp;&nbsp;&nbsp;")
                                                 ,
                                     attribute.Description != null
-                                        ? new Markdown().Transform(attribute.Description)
+                                        ? new Markdown {ExtraMode = true}.Transform(attribute.Description)
                                         : null);
     }
 }
