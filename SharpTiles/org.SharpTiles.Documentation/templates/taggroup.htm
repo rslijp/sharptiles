@@ -1,4 +1,5 @@
-<h2>${Tag.Item.Name} - <fmt:message key="${Tag.Item.DescriptionKey}_Title"/></h2>
+<a name="${Tag.Item.Id}">
+<h2 id="${Tag.Item.Id}">${Tag.Item.Name} - <fmt:message key="${Tag.Item.DescriptionKey}_Title"/></h2>
 <fmt:message key="${Tag.Item.DescriptionKey}"/>
 <sharp:include file="notetag.htm"/>
 <sharp:include file="exampletag.htm"/>
@@ -8,3 +9,4 @@
         <sharp:include file="tag.htm"/>
     </p>
 </c:forEach>
+</a>

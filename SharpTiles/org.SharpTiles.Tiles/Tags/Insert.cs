@@ -33,6 +33,7 @@ namespace org.SharpTiles.Tiles.Tags
         [Required]
         public ITagAttribute Name { get; set; }
 
+        [EnumProperyType(typeof(BooleanEnum))]
         [TagDefaultValue(true)]
         public ITagAttribute Mandatory { get; set; }
 

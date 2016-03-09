@@ -30,6 +30,7 @@ namespace org.SharpTiles.Tags.CoreTags
         [Required]
         public ITagAttribute Var { get; set; }
 
+        [EnumProperyType(typeof(VariableScope))]
         [TagDefaultValue(VariableScope.Page)]
         public ITagAttribute Scope { get; set; }
 

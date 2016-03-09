@@ -72,6 +72,18 @@ namespace org.SharpTiles.Documentation
             get { return _function; }
         }
 
+        public string Id
+        {
+            get
+            {
+                StringBuilder result = new StringBuilder("id");
+                AppendExpression(result);
+                AppendFunction(result);
+                AppendGroup(result);
+                return result.ToString();
+            }
+        }
+
         public string Description
         {
             get { 

@@ -7,20 +7,21 @@
     	    <sharp:include file="documentation.css"/>
     	</style>
 	</head>
-	<body>
-		<c:if test="${All}">
-		<h1 class="overalltitle"><fmt:message key="title_Overall"/></h1>
-		<i class="overalltitle"><fmt:message key="title_Sub"/></i>
-		<p>
-		    <fmt:message key="source_Reference"/>
-		    <br />
-		    <br />
-		    <fmt:message key="copyright_Notice"/>
-	    </p>
-		<hr />
-	    <sharp:include file="expression_language.htm"/>
-	    </c:if>
-	    <sharp:include file="taggroups.htm"/>
-	</body>
+<body>
+    <c:if test="${All}">
+        <h1 class="overalltitle">
+            <fmt:message key="title_Overall" />
+        </h1>
+        <i class="overalltitle"><fmt:message key="title_Sub" /></i>
+        <p>
+            <fmt:message key="source_Reference" />
+            <br />
+            <br />
+            <fmt:message key="copyright_Notice" />
+        </p>
+        <hr/>
+    </c:if>
+    <sharp:include file="body.htm" />
+</body>
 </html>
 </fmt:bundle>

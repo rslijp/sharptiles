@@ -75,12 +75,13 @@ namespace org.SharpTiles.Documentor
             var targetPath = args[0];
             Console.WriteLine("Generating to {0}", targetPath);
 
-            var generator = new DocumentationGenerator();
-            generator.AddSpecial(HandleHtmlTags);
+            var generator = new DocumentationGenerator()
+                .For(Scope)
+                .AddSpecial(HandleHtmlTags);
 //            generator.CopyFiles(targetPath, templatePath);
             try
             {
-                var documentation = generator.GenerateDocumentation(Scope, true);
+                var documentation = generator.GenerateDocumentation();
                 File.WriteAllText(targetPath+@"\documentation.html", documentation);
             }
             catch (ExceptionWithContext EWC)

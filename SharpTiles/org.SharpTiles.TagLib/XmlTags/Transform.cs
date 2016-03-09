@@ -44,6 +44,7 @@ namespace org.SharpTiles.Tags.XmlTags
 
         public ITagAttribute CacheVar { get; set; }
 
+        [EnumProperyType(typeof(VariableScope))]
         [TagDefaultValue(VariableScope.Session)]
         public ITagAttribute CacheScope { get; set; }
 

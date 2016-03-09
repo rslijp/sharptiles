@@ -36,6 +36,7 @@ namespace org.SharpTiles.Tags.FormatTags
 
         public ITagAttribute ParseLocale { get; set; }
 
+        [EnumProperyType(typeof(BooleanEnum))]
         [TagDefaultValue(true)]
         public ITagAttribute Exact { get; set; }
 

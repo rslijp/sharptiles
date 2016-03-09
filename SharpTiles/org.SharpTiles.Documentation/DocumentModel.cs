@@ -100,6 +100,8 @@ namespace org.SharpTiles.Documentation
             get { return _groups; }
         }
 
+        public bool ShowTagGroup => _subject.Mode == TagLibMode.Strict;
+
         public IList<IList<ExpressionDocumentation>> OperatorPrecedence
         {
             get

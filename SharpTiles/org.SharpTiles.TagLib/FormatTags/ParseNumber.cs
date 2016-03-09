@@ -45,6 +45,7 @@ namespace org.SharpTiles.Tags.FormatTags
 
         public ITagAttribute ParseLocale { get; set; }
 
+        [EnumProperyType(typeof(BooleanEnum))]
         [TagDefaultValue(INTEGER_ONLY)]
         public ITagAttribute IntegerOnly { get; set; }
 

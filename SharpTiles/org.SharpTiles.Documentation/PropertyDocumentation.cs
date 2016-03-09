@@ -55,6 +55,11 @@ namespace org.SharpTiles.Documentation
 
         #region IDescriptionElement Members
 
+        public string Id
+        {
+            get { return _messagePath.Id; }
+        }
+
         public string DescriptionKey
         {
             get { return _messagePath.Description; }

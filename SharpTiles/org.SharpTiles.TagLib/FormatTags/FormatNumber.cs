@@ -50,6 +50,7 @@ namespace org.SharpTiles.Tags.FormatTags
         [TagDefaultProperty("CurrencyCode")]
         public ITagAttribute CurrencySymbol { get; set; }
 
+        [EnumProperyType(typeof(BooleanEnum))]
         [TagDefaultValue(USE_GROUPING)]
         public ITagAttribute GroupingUsed { get; set; }
 

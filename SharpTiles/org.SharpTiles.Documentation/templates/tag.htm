@@ -1,5 +1,6 @@
 <sharp:include file="tagcategory.htm"/>
-<h4>&lt;${Page.tagGroup}:${Tag.Item.Name}&gt;</h4> - <fmt:message key="${Tag.Item.DescriptionKey}"></fmt:message>
+<a name="${Tag.Item.Id}">
+<h4 id="${Tag.Item.Id}">&lt;<c:if test="${Page.showTagGroup}">${Page.tagGroup}:</c:if>${Tag.Item.Name}&gt;</h4> - <fmt:message key="${Tag.Item.DescriptionKey}"></fmt:message>
 <sharp:include file="exampletag.htm"/>
 <c:if test="${fn:length(Tag.Item.Properties) > '0'}">
     <table>
@@ -40,8 +41,9 @@
     <div class="tagnesting">
         <c:forEach items="${Tag.Item.NestedTags}">
             <p>
-                <sharp:include file="tag.htm" />
+                <sharp:include file="tag.htm"/>
             </p>
         </c:forEach>
     </div>
 </c:if>
+</a>

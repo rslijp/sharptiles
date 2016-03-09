@@ -32,32 +32,50 @@ namespace org.SharpTiles.Documentation
     {
         private TagLib _lib;
         private IList<Func<ITag, TagDocumentation, bool>> _specials;
+        private bool _all;
+        private bool _fragment;
+        private TagLib _subject;
 
         public DocumentationGenerator()
         {
             _lib = new TagLib();
             _lib.Register(new Sharp());
-
+            _subject = _lib;
+            _all = true;
+            _fragment = false;
             _specials = new List<Func<ITag, TagDocumentation, bool>>();
         }
         public string GenerateDocumentation()
         {
-            return GenerateDocumentation(_lib,true);
-        }
-
-        public void AddSpecial(Func<ITag, TagDocumentation, bool> special)
-        {
-            _specials.Add(special);
-        }
-
-        public string GenerateDocumentation(TagLib tablib, bool all)
-        {
-            var assembly = Assembly.GetAssembly(typeof (DocumentationGenerator));
+            var assembly = Assembly.GetAssembly(typeof(DocumentationGenerator));
             var prefix = assembly.GetName().Name.EndsWith("Documentation") ? "templates" : "Documentation.templates";
             var locator = new AssemblyLocatorFactory(assembly, prefix).CloneForTagLib(_lib);
-            var template = locator.Handle("index.htm",true);
-            return template.Evaluate(new TagModel(new DocumentModel(tablib, all, _specials)));
+            var template = locator.Handle(_fragment?"fragment.html":"index.htm", true);
+            return template.Evaluate(new TagModel(new DocumentModel(_subject, _all, _specials)));
         }
 
+        public DocumentationGenerator AddSpecial(Func<ITag, TagDocumentation, bool> special)
+        {
+            _specials.Add(special);
+            return this;
+        }
+
+        public DocumentationGenerator For(TagLib subject)
+        {
+            _subject = subject;
+            return this;
+        }
+
+        public DocumentationGenerator WithoutHeader()
+        {
+            _all = false;
+            return this;
+        }
+
+        public DocumentationGenerator AsFragment()
+        {
+            _fragment = true;
+            return this;
+        }
     }
 }

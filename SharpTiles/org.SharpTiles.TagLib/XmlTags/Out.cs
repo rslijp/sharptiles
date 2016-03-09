@@ -38,6 +38,7 @@ namespace org.SharpTiles.Tags.XmlTags
         [Required]
         public ITagAttribute Select { get; set; }
 
+        [EnumProperyType(typeof(BooleanEnum))]
         [TagDefaultValue(true)]
         public ITagAttribute EscapeXml { get; set; }
 

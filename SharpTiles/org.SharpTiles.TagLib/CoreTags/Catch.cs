@@ -33,6 +33,7 @@ namespace org.SharpTiles.Tags.CoreTags
         [Internal]
         public ITagAttribute Body { get; set; }
 
+        [EnumProperyType(typeof(VariableScope))]
         [TagDefaultValue(VariableScope.Model)]
         public ITagAttribute Scope { get; set; }
 

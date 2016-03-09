@@ -1,7 +1,8 @@
 <tr>
     <td class="property">${Tag.Item.Name}</td>
     <td class="description">
-        <fmt:message key="${Tag.Item.DescriptionKey}"></fmt:message>
+        <a name="${Tag.Item.Id}">
+        <span id="${Tag.Item.Id}"><fmt:message key="${Tag.Item.DescriptionKey}"></fmt:message></span>
         <c:if test="${fn:length(Tag.Item.EnumValues) > '0'}">
             <table class="enumvalues">
                 <c:forEach items="${Tag.Item.EnumValues}">
@@ -12,6 +13,7 @@
                 </c:forEach>
             </table>
         </c:if>
+        </a>
     </td>
     <td class="required">${Tag.Item.Required}</td>
     <td class="default">${Tag.Item.Default}</td>

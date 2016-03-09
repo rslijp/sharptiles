@@ -1,4 +1,5 @@
 <h1><fmt:message key="title_Tags"/></h1>
+<c:set scope="Page" var="showTagGroup">${Model.ShowTagGroup}</c:set>
 <c:forEach items="${Model.TagGroups}">
          <sharp:include file="taggroup.htm"/>
 </c:forEach>

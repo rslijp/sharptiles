@@ -59,39 +59,19 @@ namespace org.SharpTiles.Documentation
         public ExampleAttribute[] Examples { get; set; }
 
 
-        public IList<TagDocumentation> Tags
-        {
-            get { return _tags; }
-        }
+        public IList<TagDocumentation> Tags => _tags;
 
         #region IDescriptionElement Members
 
-        public string Name
-        {
-            get { return _name; }
-        }
+        public string Name => _name;
 
-        public string DescriptionKey
-        {
-            get { return _messagePath.Description; }
-        }
+        public string Id => _messagePath.Id;
 
-        public string ExampleKey
-        {
-            get
-            {
-                return _hasExample ? _messagePath.ExampleKey : null;
-            }
-        }
+        public string DescriptionKey => _messagePath.Description;
 
-        public string NoteKey
-        {
-            get
-            {
-                return _hasNote ? _messagePath.NoteKey : null;
-            }
-        }
+        public string ExampleKey => _hasExample ? _messagePath.ExampleKey : null;
 
+        public string NoteKey => _hasNote ? _messagePath.NoteKey : null;
 
         #endregion
     }

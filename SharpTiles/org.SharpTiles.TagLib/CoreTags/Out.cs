@@ -37,6 +37,7 @@ namespace org.SharpTiles.Tags.CoreTags
         public ITagAttribute Body { get; set; }
 
         [TagDefaultValue(true)]
+        [EnumProperyType(typeof(BooleanEnum))]
         public ITagAttribute EscapeXml { get; set; }
 
         #region ITag Members

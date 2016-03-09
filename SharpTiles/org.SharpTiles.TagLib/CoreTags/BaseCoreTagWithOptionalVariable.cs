@@ -24,6 +24,7 @@ namespace org.SharpTiles.Tags.CoreTags
     {
         #region ITagWithVariable Members
 
+        [EnumProperyType(typeof(VariableScope))]
         [TagDefaultValue("Page")]
         public ITagAttribute Scope { get; set; }
 

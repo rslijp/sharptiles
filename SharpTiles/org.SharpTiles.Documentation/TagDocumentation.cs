@@ -79,49 +79,23 @@ namespace org.SharpTiles.Documentation
 
         public ResourceKeyStack MessagePath => _messagePath;
         
-        public IList<PropertyDocumentation> Properties
-        {
-            get { return _list; }
-        }
+        public IList<PropertyDocumentation> Properties => _list;
 
-        public IList<TagDocumentation> NestedTags
-        {
-            get { return _nested; }
-        }
+        public IList<TagDocumentation> NestedTags => _nested;
 
-        public IList<FunctionDocumentation> Methods
-        {
-            get { return _methods; }
-        }
+        public IList<FunctionDocumentation> Methods => _methods;
 
-        public CategoryAttribute Category
-        {
-            get { return _category; }
-        }
+        public CategoryAttribute Category => _category;
 
         #region IDescriptionElement Members
 
-        public string DescriptionKey
-        {
-            get { return _messagePath.Description; }
-        }
+        public string Id => _messagePath.Id;
 
+        public string DescriptionKey => _messagePath.Description;
 
-        public string NoteKey
-        {
-            get
-            {
-                return _hasNote ? DescriptionKey +"_Note" : null;
-            }
-        }
+        public string NoteKey => _hasNote ? DescriptionKey +"_Note" : null;
 
-        public string ExampleKey
-        {
-            get
-            {
-                return _hasExample ? _messagePath.ExampleKey : null;
-            }
-        }
+        public string ExampleKey => _hasExample ? _messagePath.ExampleKey : null;
 
         public string CategoryDescriptionKey
         {
@@ -138,10 +112,7 @@ namespace org.SharpTiles.Documentation
             }
         }
         
-        public string Name
-        {
-            get { return _name; }
-        }
+        public string Name => _name;
 
         #endregion
 
