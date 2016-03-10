@@ -2,7 +2,7 @@
     <td class="property">${Tag.Item.Name}</td>
     <td class="description">
         <a name="${Tag.Item.Id}">
-        <span id="${Tag.Item.Id}"><fmt:message key="${Tag.Item.DescriptionKey}"></fmt:message></span>
+        <span id="${Tag.Item.Id}">${Tag.Item.Description}</span>
         <c:if test="${fn:length(Tag.Item.EnumValues) > '0'}">
             <table class="enumvalues">
                 <c:forEach items="${Tag.Item.EnumValues}">
