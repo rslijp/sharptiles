@@ -5,5 +5,5 @@
             <fmt:message key="type_${Tag.Item.Type.Name}"/> <i>${Tag.Item.Name}</i><c:if test="${!Tag.Status.IsLast}">,</c:if>
         </c:forEach>) : <fmt:message key="type_${Tag.Item.ReturnType.Name}"/>
     </td>
-    <td class="description"><fmt:message key="${Tag.Item.DescriptionKey}" /></td>
+    <td class="description">${Tag.Item.Description}</td>
 </tr>

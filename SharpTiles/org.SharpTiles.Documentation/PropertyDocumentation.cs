@@ -19,35 +19,40 @@
  using System;
 using System.Linq;
 using System.Reflection;
+ using System.Runtime.Serialization;
  using org.SharpTiles.Documentation.DocumentationAttributes;
  using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.DefaultPropertyValues;
 
 namespace org.SharpTiles.Documentation
 {
+    [DataContract]
     public class PropertyDocumentation : IDescriptionElement
     {
         private readonly ResourceKeyStack _messagePath;
         private readonly PropertyInfo _property;
         private bool _required;
         private string _default;
+        private string _description;
 
         public PropertyDocumentation(ResourceKeyStack messagePath, PropertyInfo property)
         {
             _property = property;
             _messagePath = messagePath.BranchFor(property);
-            DescriptionAttribute.Harvest(_messagePath, property);
+            ;
             IsRequired(property);
             DetermineDefault(property);
+            _description = DescriptionAttribute.Harvest(property)??_messagePath.Description;
         }
 
-       
 
+        [DataMember]
         public bool Required
         {
             get { return _required; }
         }
 
+        [DataMember]
         public string Default
         {
             get { return _default; }
@@ -55,16 +60,17 @@ namespace org.SharpTiles.Documentation
 
         #region IDescriptionElement Members
 
+        [DataMember]
         public string Id
         {
             get { return _messagePath.Id; }
         }
 
-        public string DescriptionKey
-        {
-            get { return _messagePath.Description; }
-        }
+        [DataMember]
+        public string Description => _description;
+        public string DescriptionKey => _messagePath.DescriptionKey;
 
+        [DataMember]
         public string Name
         {
             get { return _property.Name; }
@@ -90,6 +96,7 @@ namespace org.SharpTiles.Documentation
             ;
         }
 
+        [DataMember]
         public EnumValue[] EnumValues
         {
             get
@@ -104,9 +111,12 @@ namespace org.SharpTiles.Documentation
             }
         }
 
+        [DataContract]
         public class EnumValue
         {
+            [DataMember]
             public object Value { get; }
+            [DataMember]
             public string Description { get; }
 
             public EnumValue(object value, string description)

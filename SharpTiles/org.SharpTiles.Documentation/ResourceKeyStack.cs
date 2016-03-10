@@ -18,12 +18,14 @@
  */
  using System;
 using System.Collections.Generic;
-using System.Linq;
+ using System.Globalization;
+ using System.Linq;
 using System.Reflection;
 using System.Text;
 using org.SharpTiles.Expressions;
 using org.SharpTiles.Expressions.Functions;
 using org.SharpTiles.Tags;
+ using org.SharpTiles.Tags.FormatTags;
 
 namespace org.SharpTiles.Documentation
 {
@@ -34,15 +36,16 @@ namespace org.SharpTiles.Documentation
         private PropertyInfo _property;
         private IExpressionParser _expression;
         private IFunctionDefinition _function;
-        private IDictionary<string, string> _extensions;
+        private ResourceBundle _bundle;
+        private static readonly CultureInfo CULTURE= CultureInfo.InvariantCulture;
 
         public ResourceKeyStack() : this(null)
         {
         }
 
-        public ResourceKeyStack(IDictionary<string, string> extensions)
+        public ResourceKeyStack(ResourceBundle bundle)
         {
-            _extensions = extensions;
+            _bundle = bundle;
             _tags= new List<ITag>();
         }
 
@@ -84,7 +87,9 @@ namespace org.SharpTiles.Documentation
             }
         }
 
-        public string Description
+        public string Description => Resource(DescriptionKey);
+
+        public string DescriptionKey
         {
             get { 
                 StringBuilder result = new StringBuilder("description");
@@ -95,11 +100,21 @@ namespace org.SharpTiles.Documentation
             }
         }
 
-        public string NoteKey => Description + "_Note";
+        public string NoteKey => DescriptionKey + "_Note";
 
-        public string ExampleKey => Description + "_Example";
+        public string ExampleKey => DescriptionKey + "_Example";
 
-        public string TitleKey => Description + "_Title";
+        public string TitleKey => DescriptionKey + "_Title";
+
+        public string Title => Resource(TitleKey);
+
+        public string Example => Resource(ExampleKey);
+        public string Note => Resource(NoteKey);
+
+        private string Resource(string key)
+        {
+            return _bundle.Get(key, CULTURE).ToString();
+        }
 
 
         private void AppendExpression(StringBuilder result)
@@ -208,34 +223,34 @@ namespace org.SharpTiles.Documentation
         {
             var branch = BranchFor(Group);
             branch._tags = new List<ITag>();
-            return branch.Description + "_" + categoryStr;
+            return Resource(branch.DescriptionKey + "_" + categoryStr);
         }
 
 
-        public void AddTranslation(string value)
-        {
-            if (_extensions.ContainsKey(Description))
-            {
-                if (_extensions[Description].Equals(value)) return; //make life easy
-                throw new ArgumentException($"There's already a translation with key {Description}");
-            }
-            _extensions.Add(Description, value);
-        }
-
-        public void AddNoteTranslation(string value)
-        {
-            _extensions.Add(NoteKey, value);
-        }
-
-        public void AddExampleTranslation(string value)
-        {
-            _extensions.Add(ExampleKey, value);
-        }
-
-        public void AddTitleTranslation(string value)
-        {
-            _extensions.Add(TitleKey, value);
-        }
+//        public void AddTranslation(string value)
+//        {
+//            if (_extensions.ContainsKey(Description))
+//            {
+//                if (_extensions[Description].Equals(value)) return; //make life easy
+//                throw new ArgumentException($"There's already a translation with key {Description}");
+//            }
+//            _extensions.Add(Description, value);
+//        }
+//
+//        public void AddNoteTranslation(string value)
+//        {
+//            _extensions.Add(NoteKey, value);
+//        }
+//
+//        public void AddExampleTranslation(string value)
+//        {
+//            _extensions.Add(ExampleKey, value);
+//        }
+//
+//        public void AddTitleTranslation(string value)
+//        {
+//            _extensions.Add(TitleKey, value);
+//        }
     }
 }
 

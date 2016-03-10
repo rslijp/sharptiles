@@ -38,11 +38,10 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
         public string Value { get; private set; }
         public string Description { get; set; }
 
-        public static bool Harvest(ResourceKeyStack messagePath, Type type)
+        public static bool Harvest(Type type)
         {
             var example = HarvestTags(type).FirstOrDefault();
             if (example == null) return false;
-            messagePath.AddExampleTranslation(example.Value);
             return true;
         }
 

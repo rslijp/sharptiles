@@ -23,16 +23,19 @@ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
  using org.SharpTiles.Tags;
  using org.SharpTiles.Tags.CoreTags;
+using org.SharpTiles.Tags.FormatTags;
 
 namespace org.SharpTiles.Documentation.Test
 {
     [TestFixture]
     public class TagDocumentationTest
     {
+        private ResourceBundle bundle = new ResourceBundle("templates/Documentation", null);
+
         [Test]
         public void InternalPropertyIsNotIncluded()
         {
-            var td = new TagDocumentation(new ResourceKeyStack(), new Out(), new List<Func<ITag, TagDocumentation, bool>>());
+            var td = new TagDocumentation(new ResourceKeyStack(bundle), new Out(), new List<Func<ITag, TagDocumentation, bool>>());
             bool hasBody = false;
             foreach (PropertyDocumentation property in td.Properties)
             {
@@ -44,7 +47,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void NonInternalPropertyIsIncluded()
         {
-            var td = new TagDocumentation(new ResourceKeyStack(), new Out(), new List<Func<ITag, TagDocumentation, bool>>());
+            var td = new TagDocumentation(new ResourceKeyStack(bundle), new Out(), new List<Func<ITag, TagDocumentation, bool>>());
             bool hasValue = false;
             foreach (PropertyDocumentation property in td.Properties)
             {

@@ -19,12 +19,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using MarkdownDeep;
 
 namespace org.SharpTiles.Documentation.DocumentationAttributes
 {
+    [DataContract]
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
     public class NoteAttribute : Attribute
     {
@@ -33,14 +35,13 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
             Value = value;
         }
 
+        [DataMember]
         public string Value { get; private set; }
 
-        public static bool Harvest(ResourceKeyStack messagePath, Type type)
+        public static bool Harvest(Type type)
         {
             var description = HarvestTags(type).FirstOrDefault();
             if (description == null) return false;
-            var html = new Markdown().Transform(description.Value);
-            messagePath.AddNoteTranslation(html);
             return true;
         }
 

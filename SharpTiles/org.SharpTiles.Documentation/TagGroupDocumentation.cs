@@ -20,19 +20,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using org.SharpTiles.Documentation.DocumentationAttributes;
 using org.SharpTiles.Tags;
 
 namespace org.SharpTiles.Documentation
 {
+    [DataContract]
     public class TagGroupDocumentation : IDescriptionElement
     {
         private readonly ResourceKeyStack _messagePath;
         private readonly string _name;
         private readonly IList<TagDocumentation> _tags;
-        private bool _hasExample;
-        private bool _hasNote;
         private IList<Func<ITag, TagDocumentation, bool>> _specials;
+        private readonly List<NoteAttribute> _notes = new List<NoteAttribute>();
+        private readonly List<ExampleAttribute> _examples = new List<ExampleAttribute>();
+        private readonly string _description;
+        private readonly string _title;
 
         public TagGroupDocumentation(ResourceKeyStack messagePath, ITagGroup tagGroup, IList<Func<ITag, TagDocumentation, bool>> specials)
         {
@@ -41,37 +45,54 @@ namespace org.SharpTiles.Documentation
             _specials = specials;
             _tags = new List<TagDocumentation>();
             var tagGroupType=tagGroup.GetType();
-            DescriptionAttribute.Harvest(_messagePath, tagGroupType);
-            TitleAttribute.HarvestTagLibrary(_messagePath, tagGroupType);
-            _hasExample = ExampleAttribute.Harvest(_messagePath, tagGroupType) ||HasExample.Has(tagGroupType);
-            _hasNote = NoteAttribute.Harvest(_messagePath, tagGroupType)||HasNote.Has(tagGroupType);
+            _description=DescriptionAttribute.Harvest(tagGroupType)?? _messagePath.Description;
+            _title=TitleAttribute.HarvestTagLibrary(tagGroupType);
             foreach (ITag _tag in tagGroup)
             {
                 _tags.Add(new TagDocumentation(_messagePath, _tag, _specials));
             }
-            Examples = ExampleAttribute.HarvestTags(tagGroupType);
-            Notes = NoteAttribute.HarvestTags(tagGroupType);
-
+            if (ExampleAttribute.Harvest(tagGroupType))
+            {
+                _examples.AddRange(ExampleAttribute.HarvestTags(tagGroupType));
+            }
+            if (HasExample.Has(tagGroupType))
+            {
+                _examples.Add(new ExampleAttribute(_messagePath.Example));
+            }
+            if (NoteAttribute.Harvest(tagGroupType))
+            {
+                _notes.AddRange(NoteAttribute.HarvestTags(tagGroupType));
+            }
+            if (HasNote.Has(tagGroupType))
+            {
+                _notes.Add(new NoteAttribute(_messagePath.Note));
+            }
         }
 
-        public NoteAttribute[] Notes { get; set; }
 
-        public ExampleAttribute[] Examples { get; set; }
+        [DataMember]
+        public ExampleAttribute[] Examples => _examples.ToArray();
 
+        [DataMember]
+        public NoteAttribute[] Notes => _notes.ToArray();
 
+        [DataMember]
         public IList<TagDocumentation> Tags => _tags;
 
         #region IDescriptionElement Members
 
+        [DataMember]
         public string Name => _name;
 
         public string Id => _messagePath.Id;
 
-        public string DescriptionKey => _messagePath.Description;
+        [DataMember]
+        public string Description => _description;
 
-        public string ExampleKey => _hasExample ? _messagePath.ExampleKey : null;
+        public string DescriptionKey => _messagePath.DescriptionKey;
 
-        public string NoteKey => _hasNote ? _messagePath.NoteKey : null;
+        [DataMember]
+        public string Title => _title;
 
         #endregion
     }

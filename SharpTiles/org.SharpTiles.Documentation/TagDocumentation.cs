@@ -22,12 +22,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using org.SharpTiles.Documentation.DocumentationAttributes;
 using org.SharpTiles.Tags;
 using DescriptionAttribute = org.SharpTiles.Documentation.DocumentationAttributes.DescriptionAttribute;
 
 namespace org.SharpTiles.Documentation
 {
+    [DataContract]
     public class TagDocumentation : IDescriptionElement
     {
         private readonly IList<TagDocumentation> _nested;
@@ -35,9 +37,10 @@ namespace org.SharpTiles.Documentation
         private readonly IList<FunctionDocumentation> _methods;
         private readonly ResourceKeyStack _messagePath;
         private readonly string _name;
-        private readonly CategoryAttribute _category;
-        private readonly bool _hasNote;
-        private readonly bool _hasExample;
+        private readonly string _category;
+        private readonly List<NoteAttribute> _notes = new List<NoteAttribute>();
+        private readonly List<ExampleAttribute> _examples = new List<ExampleAttribute>();
+        private readonly string _description;
 
         public TagDocumentation(ResourceKeyStack messagePath, ITag tag,  IList<Func<ITag, TagDocumentation,bool>> specials)
         {
@@ -45,10 +48,12 @@ namespace org.SharpTiles.Documentation
             _name = tag.TagName;
 
             var tagType = tag.GetType();
-            DescriptionAttribute.Harvest(_messagePath, tagType);
-            _category = CategoryHelper.GetCategory(tagType);
-            _hasExample = ExampleAttribute.Harvest(_messagePath, tagType) || HasExample.Has(tagType);
-            _hasNote = NoteAttribute.Harvest(_messagePath, tagType) || HasNote.Has(tagType);
+            _description = DescriptionAttribute.Harvest(tagType)??_messagePath.Description;
+            var category = CategoryHelper.GetCategory(tagType);
+            if (category != null)
+            {
+                _category= _messagePath.DescriptionForCategory(category.Category);
+            }
             _list = new List<PropertyDocumentation>();
             _nested = new List<TagDocumentation>();
             _methods = new List<FunctionDocumentation>();
@@ -71,49 +76,56 @@ namespace org.SharpTiles.Documentation
                     _nested.Add(new TagDocumentation(_messagePath, nested, specials));
                 }
             }
-            Examples = ExampleAttribute.HarvestTags(tagType);
-            Notes = NoteAttribute.HarvestTags(tagType);
-        }
-
-        public NoteAttribute[] Notes { get; set; }
-
-        public ResourceKeyStack MessagePath => _messagePath;
-        
-        public IList<PropertyDocumentation> Properties => _list;
-
-        public IList<TagDocumentation> NestedTags => _nested;
-
-        public IList<FunctionDocumentation> Methods => _methods;
-
-        public CategoryAttribute Category => _category;
-
-        #region IDescriptionElement Members
-
-        public string Id => _messagePath.Id;
-
-        public string DescriptionKey => _messagePath.Description;
-
-        public string NoteKey => _hasNote ? DescriptionKey +"_Note" : null;
-
-        public string ExampleKey => _hasExample ? _messagePath.ExampleKey : null;
-
-        public string CategoryDescriptionKey
-        {
-            get
+            if (ExampleAttribute.Harvest(tagType))
             {
-                if (Category != null)
-                {
-                    string categoryStr = Category.Category;
-                    return _messagePath.DescriptionForCategory(categoryStr);
-                } else
-                {
-                    return null;
-                }
+                _examples.AddRange(ExampleAttribute.HarvestTags(tagType));
+            }
+            if (HasExample.Has(tagType))
+            {
+                _examples.Add(new ExampleAttribute(_messagePath.Example));
+            }
+            if (NoteAttribute.Harvest(tagType))
+            {
+                _notes.AddRange(NoteAttribute.HarvestTags(tagType));
+            }
+            if (HasNote.Has(tagType))
+            {
+                _notes.Add(new NoteAttribute(_messagePath.Note));
             }
         }
+
+       
+        public ResourceKeyStack MessagePath => _messagePath;
+
+        [DataMember]
+        public IList<PropertyDocumentation> Properties => _list;
+
+        [DataMember]
+        public IList<TagDocumentation> NestedTags => _nested;
+
+        [DataMember]
+        public IList<FunctionDocumentation> Methods => _methods;
+
+        [DataMember]
+        public string Category => _category;
         
+        #region IDescriptionElement Members
+
+        [DataMember]
+        public string Id => _messagePath.Id;
+
+        [DataMember]
+        public string Description => _description;
+        public string DescriptionKey => _messagePath.DescriptionKey;
+
+        [DataMember]
         public string Name => _name;
 
+        [DataMember]
+        public ExampleAttribute[] Examples => _examples.ToArray();
+
+        [DataMember]
+        public NoteAttribute[] Notes => _notes.ToArray();
         #endregion
 
         private bool IsInternal(PropertyInfo property)
@@ -126,6 +138,7 @@ namespace org.SharpTiles.Documentation
             return isInternal;
         }
 
-        public ExampleAttribute[] Examples { get; set; }
+        
+
     }
 }

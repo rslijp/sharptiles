@@ -21,6 +21,6 @@
     public interface IDescriptionElement
     {
         string Name { get; }
-        string DescriptionKey { get; }
+        string Description { get; }
     }
 }

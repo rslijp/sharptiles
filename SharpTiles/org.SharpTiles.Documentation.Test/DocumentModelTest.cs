@@ -19,7 +19,9 @@
  using System;
 using System.Collections.Generic;
 using System.Threading;
-using NUnit.Framework;
+ using Newtonsoft.Json;
+ using Newtonsoft.Json.Converters;
+ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
  using org.SharpTiles.Tags;
  using org.SharpTiles.Tags.CoreTags;
@@ -30,6 +32,7 @@ namespace org.SharpTiles.Documentation.Test
     [TestFixture]
     public class DocumentModelTest
     {
+        private ResourceBundle bundle = new ResourceBundle("templates/Documentation", null);
         private TagLib _lib;
 
         [SetUp]
@@ -43,7 +46,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void PropertyInTagsShouldBePresent()
         {
-            var tag = new TagDocumentation(new ResourceKeyStack(), new Out(), new List<Func<ITag, TagDocumentation, bool>>());
+            var tag = new TagDocumentation(new ResourceKeyStack(bundle), new Out(), new List<Func<ITag, TagDocumentation, bool>>());
             Assert.That(tag.Name, Is.EqualTo(new Out().TagName));
             Assert.That(tag.Properties, Is.Not.Null);
             Assert.That(tag.Properties.Count, Is.GreaterThan(0));
@@ -52,7 +55,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void PropertyShouldReturnDescriptionKey()
         {
-            var key  = new ResourceKeyStack();
+            var key  = new ResourceKeyStack(bundle);
             key = key.BranchFor(new Core());
             key = key.BranchFor(new Out());
             var property = new PropertyDocumentation(key,
@@ -63,7 +66,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void PropertyShouldReturnDescriptionKeyOfDeclaringType()
         {
-            ResourceKeyStack key = new ResourceKeyStack();
+            ResourceKeyStack key = new ResourceKeyStack(bundle);
             key = key.BranchFor(new Core());
             key = key.BranchFor(new Set());
             var property = new PropertyDocumentation(key,
@@ -74,7 +77,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void PropertyShouldReturnDescriptionKeyOfDeclaringGroup()
         {
-            var key = new ResourceKeyStack();
+            var key = new ResourceKeyStack(bundle);
             key = key.BranchFor(new Format());
             key = key.BranchFor(new Message());
             
@@ -87,14 +90,14 @@ namespace org.SharpTiles.Documentation.Test
         public void TagGroupShouldReturnDescriptionKey()
         {
             
-            var taggroup = new TagGroupDocumentation(new ResourceKeyStack(), new Core(), new List<Func<ITag, TagDocumentation, bool>>());
+            var taggroup = new TagGroupDocumentation(new ResourceKeyStack(bundle), new Core(), new List<Func<ITag, TagDocumentation, bool>>());
             Assert.That(taggroup.DescriptionKey, Is.EqualTo("description_Core"));
         }
 
         [Test]
         public void TagGroupsInDocumentModelShouldBePresent()
         {
-            var model = new DocumentModel(_lib, true);
+            var model = new DocumentModel(_lib, true, bundle);
             Assert.That(model.TagGroups, Is.Not.Null);
             Assert.That(model.TagGroups.Count, Is.GreaterThan(0));
         }
@@ -102,7 +105,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void TagInTagGroupsShouldBePresent()
         {
-            var taggroup = new TagGroupDocumentation(new ResourceKeyStack(), new Core(), new List<Func<ITag, TagDocumentation, bool>>());
+            var taggroup = new TagGroupDocumentation(new ResourceKeyStack(bundle), new Core(), new List<Func<ITag, TagDocumentation, bool>>());
             Assert.That(taggroup.Name, Is.EqualTo(new Core().Name));
             Assert.That(taggroup.Tags, Is.Not.Null);
             Assert.That(taggroup.Tags.Count, Is.GreaterThan(0));
@@ -111,76 +114,38 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void TagShouldReturnDescriptionKey()
         {
-            var key = new ResourceKeyStack();
+            var key = new ResourceKeyStack(bundle);
             key = key.BranchFor(new Core());
             
             var tag = new TagDocumentation(key, new Out(), new List<Func<ITag, TagDocumentation, bool>>());
             Assert.That(tag.DescriptionKey, Is.EqualTo("description_Core_Out"));
         }
 
-        [Test]
-        public void TagShouldReturnCategoryDescriptionKey()
-        {
-            var key = new ResourceKeyStack();
-            key = key.BranchFor(new Core());
-
-            var tag = new TagDocumentation(key, new Out(), new List<Func<ITag, TagDocumentation, bool>>());
-            Assert.That(tag.CategoryDescriptionKey, Is.EqualTo("description_Core_GeneralPurpose"));
-        }
-
+       
         [Test]
         public void TestAllExpressionsHaveACategory()
         {
-            foreach (var expression in new DocumentModel(_lib,true).Expressions)
+            Assert.That(bundle, Is.Not.Null);
+            foreach (var expression in new DocumentModel(_lib,true, bundle).Expressions)
             {
                 Assert.That(expression.Category, Is.Not.Null, expression.Name+" should have category");
             }
         }
 
+        
+
         [Test]
-        public void TestAllTranslations()
+        public void Json()
         {
-            var checker = new TranslationChecker(new ResourceBundle("templates/Documentation", null));
-            foreach (var expression in new DocumentModel(_lib, true).Expressions)
-            {
-                checker.GuardDescription(expression);
-                checker.GuardDescription(expression.CategoryDescriptionKey);
-            }
-            foreach (var function in new DocumentModel(_lib, true).Functions)
-            {
-                checker.GuardDescription(function);
-            }
-            CheckTranslationsOfTags(checker);
-            checker.Guard();
+            var bundle = new ResourceBundle("templates/Documentation", null);
+            Assert.That(bundle, Is.Not.Null);
+            var dm = new DocumentModel(_lib, true, bundle);
+            var json = JsonConvert.SerializeObject(dm, new TypeJsonConverter(), new StringEnumConverter());
+            Console.WriteLine(json);
         }
 
-        private void CheckTranslationsOfTags(TranslationChecker checker)
-        {
-            foreach (var group in new DocumentModel(_lib, true).TagGroups)
-            {
-                checker.GuardDescription(group);
-                if (group.ExampleKey != null)
-                {
-                    checker.GuardDescription(group.ExampleKey);
-                }
-                foreach (var tag in group.Tags)
-                {
-                    checker.GuardDescription(tag);
-                    if(tag.Category!=null)
-                    {
-                        checker.GuardDescription(tag.CategoryDescriptionKey);
-                    }
-                    if(tag.ExampleKey!=null)
-                    {
-                        checker.GuardDescription(tag.ExampleKey);
-                    }
-                    foreach (var property in tag.Properties)
-                    {
-                        checker.GuardDescription(property);
-                    }    
-                }                
-            }
-        }
+
+      
 
         private class TranslationChecker
         {
@@ -191,12 +156,7 @@ namespace org.SharpTiles.Documentation.Test
             {
                 _bundle = bundle;
             }
-
-            public void GuardDescription(IDescriptionElement element)
-            {
-                GuardDescription(element.DescriptionKey);
-            }
-
+            
             public void GuardDescription(string key)
             {
                 if (_bundle.Contains(key))
@@ -213,5 +173,28 @@ namespace org.SharpTiles.Documentation.Test
         }
 
         
+    }
+
+    public class TypeJsonConverter : JsonConverter
+    {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+           writer.WriteValue(((Type) value).Name);
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+             throw new NotImplementedException("Unnecessary because CanRead is false. The type will skip the converter.");
+        }
+
+        public override bool CanRead
+        {
+            get { return false; }
+        }
+
+        public override bool CanConvert(Type objectType)
+        {
+            return typeof (Type).IsAssignableFrom(objectType);
+        }
     }
 }

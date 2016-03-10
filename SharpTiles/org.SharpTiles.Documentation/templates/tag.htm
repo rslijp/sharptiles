@@ -1,6 +1,6 @@
 <sharp:include file="tagcategory.htm"/>
 <a name="${Tag.Item.Id}">
-<h4 id="${Tag.Item.Id}">&lt;<c:if test="${Page.showTagGroup}">${Page.tagGroup}:</c:if>${Tag.Item.Name}&gt;</h4> - <fmt:message key="${Tag.Item.DescriptionKey}"></fmt:message>
+<h4 id="${Tag.Item.Id}">&lt;<c:if test="${Page.showTagGroup}">${Page.tagGroup}:</c:if>${Tag.Item.Name}&gt;</h4> - ${Tag.Item.Description}
 <sharp:include file="exampletag.htm"/>
 <c:if test="${fn:length(Tag.Item.Properties) > '0'}">
     <table>

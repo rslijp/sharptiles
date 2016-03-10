@@ -32,9 +32,7 @@ namespace org.SharpTiles.Tags.FormatTags
         public ITagAttribute BaseName { get; set; }
 
         public ITagAttribute Prefix { get; set; }
-
-        public ITagAttribute Extension { get; set; }
-
+        
         [Internal]
         public ITagAttribute Body { get; set; }
 
@@ -49,14 +47,8 @@ namespace org.SharpTiles.Tags.FormatTags
         {
             var baseName = GetAsString(BaseName, model);
             var prefix = GetAsString(Prefix, model);
-            var extension = GetAsString(Extension, model);
             IResourceBundle bundle = new ResourceBundle(baseName, prefix, BaseName.ResourceLocator);
             model.PushTagStack();
-            if (!string.IsNullOrEmpty(extension))
-            {
-                var extensionBundle = (IDictionary<string, string>) model.Resolve(extension, true);
-                bundle = new ExtendableResourceBundle(bundle, extensionBundle);
-            }
             model.Tag[FormatConstants.BUNDLE] = bundle;
             return GetAsString(Body, model) ?? string.Empty;
         }

@@ -19,13 +19,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using org.SharpTiles.Expressions;
 using org.SharpTiles.Expressions.Functions;
 using org.SharpTiles.Tags;
+using org.SharpTiles.Tags.FormatTags;
 using Expression=org.SharpTiles.Expressions.Expression;
 
 namespace org.SharpTiles.Documentation
 {
+    [DataContract]
     public class DocumentModel
     {
       
@@ -38,13 +41,13 @@ namespace org.SharpTiles.Documentation
         private bool _all;
         private IList<Func<ITag, TagDocumentation, bool>> _specials;
 
-        public DocumentModel(TagLib subject, bool all, IList<Func<ITag, TagDocumentation, bool>> specials=null)
+        public DocumentModel(TagLib subject, bool all, ResourceBundle bundle, IList<Func<ITag, TagDocumentation, bool>> specials=null)
         {
             _subject= subject;
             _all = all;
             _specials = specials??new List<Func<ITag, TagDocumentation, bool>>();
             _additionalResources = new Dictionary<string, string>();
-            _resouceKey = new ResourceKeyStack(_additionalResources);
+            _resouceKey = new ResourceKeyStack(bundle);
             GatherExpressions();
             GatherFunctions();
             GatherGroups();
@@ -82,7 +85,7 @@ namespace org.SharpTiles.Documentation
             }
         }
 
-
+        [DataMember]
         public IList<ExpressionDocumentation> Expressions => _expressions;
         public IDictionary<string, string> AdditionalResources => _additionalResources;
         public bool All => _all;
@@ -90,11 +93,13 @@ namespace org.SharpTiles.Documentation
         public IEnumerable<ExpressionDocumentation> CategoryOrderedExpressions => Expressions.OrderBy(e=>(e.Category?.Category??"other")+"-"+e.Name);
 
 
+        [DataMember]
         public IList<FunctionDocumentation> Functions
         {
             get { return _functions; }
         }
 
+        [DataMember]
         public IList<TagGroupDocumentation> TagGroups
         {
             get { return _groups; }
@@ -102,6 +107,7 @@ namespace org.SharpTiles.Documentation
 
         public bool ShowTagGroup => _subject.Mode == TagLibMode.Strict;
 
+        [DataMember]
         public IList<IList<ExpressionDocumentation>> OperatorPrecedence
         {
             get

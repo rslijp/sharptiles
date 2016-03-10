@@ -19,23 +19,26 @@
  using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using org.SharpTiles.Tags.CoreTags;
+ using org.SharpTiles.Tags.FormatTags;
 
 namespace org.SharpTiles.Documentation.Test
 {
     [TestFixture]
     public class PropertyDocumentationTest
     {
+        private ResourceBundle bundle = new ResourceBundle("templates/Documentation", null);
+
         [Test]
         public void NotRequiredPropertyShouldHaveNotRequiredFlag()
         {
-            var doc = new PropertyDocumentation(new ResourceKeyStack(), typeof (Out).GetProperty("EscapeXml"));
+            var doc = new PropertyDocumentation(new ResourceKeyStack(bundle), typeof (Out).GetProperty("EscapeXml"));
             Assert.That(doc.Required, Is.False);
         }
 
         [Test]
         public void RequiredPropertyShouldHaveRequiredFlag()
         {
-            var doc = new PropertyDocumentation(new ResourceKeyStack(), typeof (Set).GetProperty("Var"));
+            var doc = new PropertyDocumentation(new ResourceKeyStack(bundle), typeof (Set).GetProperty("Var"));
             Assert.That(doc.Required, Is.True);
         }
     }

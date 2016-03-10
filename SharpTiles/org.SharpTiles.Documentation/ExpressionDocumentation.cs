@@ -21,18 +21,21 @@ using System.Collections.Generic;
 using System.ComponentModel;
  using System.Linq;
  using System.Reflection;
+ using System.Runtime.Serialization;
  using System.Text;
  using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
 
 namespace org.SharpTiles.Documentation
 {
+    [DataContract]
     public class ExpressionDocumentation : IDescriptionElement
     {
         private readonly ResourceKeyStack _messagePath;
         private readonly string _name;
         private List<ExpressionOperatorSign> _tokens;
         private CategoryAttribute _category;
+        private string _description;
 
 
         public ExpressionDocumentation(ResourceKeyStack messagePath, IExpressionParser expr)
@@ -46,12 +49,9 @@ namespace org.SharpTiles.Documentation
             _name = type.Name;
             _messagePath = messagePath.BranchFor(expr);
             _category = CategoryHelper.GetCategory(type);
-            
+            _description = _messagePath.Description;
         }
-
-       
-
-
+        
         private void GatherTokens(IExpressionParser expr)
         {
             _tokens = new List<ExpressionOperatorSign>();
@@ -63,17 +63,14 @@ namespace org.SharpTiles.Documentation
             }
         }
 
+        [DataMember]
         public string Name
         {
             get { return _name; }
         }
 
-        public string DescriptionKey
-        {
-            get {
-                return _messagePath.Description;
-            }
-        }
+        [DataMember]
+        public string Description => _description;
 
         public List<ExpressionOperatorSign> Tokens
         {
@@ -85,6 +82,7 @@ namespace org.SharpTiles.Documentation
             get { return _category; }
         }
 
+        [DataMember]
         public string CategoryDescriptionKey
         {
             get

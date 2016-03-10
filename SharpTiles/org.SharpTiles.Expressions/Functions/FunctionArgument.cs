@@ -18,13 +18,17 @@
  */
  using System;
 using System.Collections.Generic;
-using System.Text;
+ using System.Runtime.Serialization;
+ using System.Text;
 
 namespace org.SharpTiles.Expressions.Functions
 {
+    [DataContract]
     public struct FunctionArgument
     {
+        [DataMember]
         public string Name { get; set; }
+        [DataMember]
         public Type Type { get; set; }
 
     }

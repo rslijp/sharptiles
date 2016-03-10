@@ -36,23 +36,23 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
 
         public string Value { get; private set; }
 
-        public static void Harvest(ResourceKeyStack messagePath, Type type)
+        public static string Harvest(Type type)
         {
             var description = type.GetCustomAttributes(typeof(DescriptionAttribute), false).Cast<DescriptionAttribute>().SingleOrDefault();
-            Harvest(messagePath, description);
+            return Harvest(description);
         }
 
         
-        internal static void Harvest(ResourceKeyStack messagePath, PropertyInfo property)
+        internal static string Harvest(PropertyInfo property)
         {
             var description = property.GetCustomAttributes(typeof(DescriptionAttribute), false).Cast<DescriptionAttribute>().SingleOrDefault();
-            Harvest(messagePath, description);
+            return Harvest(description);
         }
 
-        private static void Harvest(ResourceKeyStack messagePath, DescriptionAttribute description)
+        private static string Harvest(DescriptionAttribute description)
         {
-            if (description == null) return;
-            messagePath.AddTranslation(AsHtml(description).Value);
+            if (description == null) return null;
+            return AsHtml(description).Value;
         }
 
         public static DescriptionAttribute AsHtml(DescriptionAttribute description)

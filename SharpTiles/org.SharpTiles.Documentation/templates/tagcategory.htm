@@ -1,4 +1,4 @@
-﻿<c:if test="${(fn:empty(Page.TagCategory) or Page.TagCategory != Tag.Item.CategoryDescriptionKey) and not fn:empty(Tag.Item.CategoryDescriptionKey)}">
-    <p><fmt:message key="${Tag.Item.CategoryDescriptionKey}"/></p>
+﻿<c:if test="${(fn:empty(Page.TagCategory) or Page.TagCategory != Tag.Item.Category) and not fn:empty(Tag.Item.Category)}">
+    <p>${Tag.Item.Category}</p>
 </c:if>
-<c:set scope="Page" var="TagCategory" value="${Tag.Item.CategoryDescriptionKey}" />
+<c:set scope="Page" var="TagCategory" value="${Tag.Item.Category}" />

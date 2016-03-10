@@ -22,6 +22,7 @@ using System.IO;
 using System.Reflection;
 using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
+using org.SharpTiles.Tags.FormatTags;
 using org.SharpTiles.Tags.Templates.SharpTags;
 using org.SharpTiles.Templates;
 using org.SharpTiles.Templates.Templates;
@@ -50,10 +51,22 @@ namespace org.SharpTiles.Documentation
             var assembly = Assembly.GetAssembly(typeof(DocumentationGenerator));
             var prefix = assembly.GetName().Name.EndsWith("Documentation") ? "templates" : "Documentation.templates";
             var locator = new AssemblyLocatorFactory(assembly, prefix).CloneForTagLib(_lib);
+            var bundle =  new ResourceBundle("Documentation", null, locator.GetNewLocator());
             var template = locator.Handle(_fragment?"fragment.html":"index.htm", true);
-            return template.Evaluate(new TagModel(new DocumentModel(_subject, _all, _specials)));
+            return template.Evaluate(new TagModel(new DocumentModel(_subject, _all, bundle, _specials)));
         }
 
+        public DocumentModel BuildModel()
+        {
+            var assembly = Assembly.GetAssembly(typeof(DocumentationGenerator));
+            var prefix = assembly.GetName().Name.EndsWith("Documentation") ? "templates" : "Documentation.templates";
+            var locator = new AssemblyLocatorFactory(assembly, prefix).CloneForTagLib(_lib);
+            var bundle = new ResourceBundle("Documentation", null, locator.GetNewLocator());
+            return new DocumentModel(_subject, _all, bundle, _specials);
+
+//            var json = JsonConvert.SerializeObject(dm, new TypeJsonConverter(), new StringEnumConverter());
+        }
+    
         public DocumentationGenerator AddSpecial(Func<ITag, TagDocumentation, bool> special)
         {
             _specials.Add(special);
