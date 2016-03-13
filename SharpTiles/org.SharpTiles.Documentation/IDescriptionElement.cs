@@ -16,11 +16,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- namespace org.SharpTiles.Documentation
+
+using org.SharpTiles.Documentation.DocumentationAttributes;
+
+namespace org.SharpTiles.Documentation
 {
     public interface IDescriptionElement
     {
         string Name { get; }
-        string Description { get; }
+        DescriptionAttribute Description { get; }
     }
 }

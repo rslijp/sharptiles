@@ -38,6 +38,9 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
         [DataMember]
         public string Value { get; private set; }
 
+        public string Html => new Markdown { ExtraMode = true }.Transform(Value);
+
+
         public static bool Harvest(Type type)
         {
             var description = HarvestTags(type).FirstOrDefault();
@@ -50,11 +53,8 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
             return
                 type.GetCustomAttributes(typeof(NoteAttribute), false)
                     .Cast<NoteAttribute>()
-                    .Select(AsHtml)
                     .ToArray();
         }
 
-        public static NoteAttribute AsHtml(NoteAttribute attribute)
-            => new NoteAttribute(new Markdown {ExtraMode = true}.Transform(attribute.Value));
     }
 }

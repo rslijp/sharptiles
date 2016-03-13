@@ -40,7 +40,7 @@ namespace org.SharpTiles.Documentation
         private readonly string _category;
         private readonly List<NoteAttribute> _notes = new List<NoteAttribute>();
         private readonly List<ExampleAttribute> _examples = new List<ExampleAttribute>();
-        private readonly string _description;
+        private readonly DescriptionAttribute _description;
 
         public TagDocumentation(ResourceKeyStack messagePath, ITag tag,  IList<Func<ITag, TagDocumentation,bool>> specials)
         {
@@ -49,6 +49,7 @@ namespace org.SharpTiles.Documentation
 
             var tagType = tag.GetType();
             _description = DescriptionAttribute.Harvest(tagType)??_messagePath.Description;
+            
             var category = CategoryHelper.GetCategory(tagType);
             if (category != null)
             {
@@ -115,7 +116,7 @@ namespace org.SharpTiles.Documentation
         public string Id => _messagePath.Id;
 
         [DataMember]
-        public string Description => _description;
+        public DescriptionAttribute Description => _description;
         public string DescriptionKey => _messagePath.DescriptionKey;
 
         [DataMember]

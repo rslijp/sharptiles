@@ -1,7 +1,7 @@
 ﻿<c:if test="${not fn:empty(Tag.Item.Notes)}">
     <c:forEach items="${Tag.Item.Notes}">
         <div class="note">
-            ${Tag.Item.Value}
+            ${Tag.Item.Html}
         </div>
     </c:forEach>
 </c:if>

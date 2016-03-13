@@ -149,33 +149,33 @@
   </data>
   <data name="description_ExpressionLanguage_AttributeValues" xml:space="preserve">
     <value>&lt;ul&gt;
-	&lt;li&gt;&amp;lt;a:tag value="${{expr}}"/&amp;gt;&lt;/li&gt;
-	&lt;li&gt;&amp;lt;a:tag value="me${{expr}} ${{expr}}"/&amp;gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a:tag value="${{expr}}"/&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a:tag value="me${{expr}} ${{expr}}"/&gt;&lt;/li&gt;
   &lt;/ul&gt;</value>
   </data>
   <data name="title_ExpressionLanguage_BeanPropertyAccess" xml:space="preserve">
     <value>Bean Property Acces</value>
   </data>
   <data name="description_ExpressionLanguage_BeanPropertyAccess" xml:space="preserve">
-    <value>bean.&lt;i&gt;name&lt;/i&gt;</value>
+    <value>bean.*name*</value>
   </data>
   <data name="title_ExpressionLanguage_IndexedPropertyAccess" xml:space="preserve">
     <value>Indexed Property Access</value>
   </data>
   <data name="description_ExpressionLanguage_IndexedPropertyAccess" xml:space="preserve">
-    <value>bean.property.&lt;i&gt;index&lt;/i&gt;</value>
+    <value>bean.property.*index*</value>
   </data>
   <data name="title_ExpressionLanguage_MapPropertyAccess" xml:space="preserve">
     <value>Map Property Access</value>
   </data>
   <data name="description_ExpressionLanguage_MapPropertyAccess" xml:space="preserve">
-    <value>bean.property.&lt;i&gt;key&lt;/i&gt;</value>
+    <value>bean.property.*key*</value>
   </data>
   <data name="description_BooleanTernaryExpressionParser" xml:space="preserve">
-    <value>&lt;i&gt;&amp;lt;boolean expression&amp;lt;&lt;/i&gt;?&lt;i&gt;&amp;lt;expression evalulated when true&amp;gt;&lt;/i&gt;:&lt;i&gt;&amp;lt;expression evalulated when false&amp;gt;&lt;/i&gt;</value>
+    <value>*&lt;boolean expression&gt;*?*&lt;expression evalulated when true&gt;*:*&lt;expression evalulated when false&gt;*</value>
   </data>
   <data name="description_MathFunctionParser" xml:space="preserve">
-    <value>&lt;i&gt;math function&lt;/i&gt;(&lt;i&gt;arg1&lt;/i&gt;,&lt;i&gt;arg2&lt;/i&gt;,...)</value>
+    <value>*math function*(*arg1*,*arg2*,...)</value>
   </data>
   <data name="description_PropertyOrConstantParser" xml:space="preserve">
     <value>Bean or Constant Access!</value>
@@ -208,7 +208,7 @@ pattern are removed.</value>
     <value>Fallback data to output if value is empty</value>
   </data>
   <data name="description_Core_Out_EscapeXml" xml:space="preserve">
-    <value>&lt;i&gt;true&lt;/i&gt; to escape special characters</value>
+    <value>*true* to escape special characters</value>
   </data>
   <data name="description_Core_Set_Value" xml:space="preserve">
     <value>Data to save No Body</value>
@@ -269,12 +269,11 @@ pattern are removed.</value>
   </data>
   <data name="description_BaseIterationTag_VarStatus" xml:space="preserve">
     <value>Name of variable to hold the loop status with the following properties:
-		   &lt;ul&gt;
-				&lt;li&gt;index - position of the current item&lt;/li&gt;
-				&lt;li&gt;count - number of times through the loop (starting with 1)&lt;/li&gt;
-				&lt;li&gt;first - boolean indicator if this is the first iteration&lt;/li&gt;
-				&lt;li&gt;last - boolean indicator if this is the last iteration&lt;/li&gt;
-			&lt;/ul&gt;
+		   
+* index - position of the current item
+* count - number of times through the loop (starting with 1)
+* first - boolean indicator if this is the first iteration
+* boolean indicator if this is the last iteration
 	</value>
   </data>
   <data name="description_Core_ForTokens_Items" xml:space="preserve">
@@ -332,7 +331,7 @@ pattern are removed.</value>
     <value>Message key to be looked up.</value>
   </data>
   <data name="description_Format_Message_Bundle" xml:space="preserve">
-    <value>Localization context (set by prio configuration, &amp;lt;fmt:bundle&amp;gt;, or &amp;lt;fmt:setBundle&amp;gt;, which specifies the resource bundle the message key is to be looked up in.</value>
+    <value>Localization context (set by prio configuration, &lt;fmt:bundle&gt;, or &lt;fmt:setBundle&gt;, which specifies the resource bundle the message key is to be looked up in.</value>
   </data>
   <data name="description_Format_Message_Param_Value" xml:space="preserve">
     <value>Value used for parametric message format substitution.</value>
@@ -449,7 +448,7 @@ pattern are removed.</value>
     <value>XPath expression.</value>
   </data>
   <data name="description_Xml_Transform_Doc" xml:space="preserve">
-    <value>Source XML document for the transformation. Value can be a String, Stream, TextReader, XmlReader, System.Xml.XPath.XPathDocument or any value exported &amp;lt;x:parse&amp;gt; or &amp;lt;x:set&amp;gt;.</value>
+    <value>Source XML document for the transformation. Value can be a String, Stream, TextReader, XmlReader, System.Xml.XPath.XPathDocument or any value exported &lt;x:parse&gt; or &lt;x:set&gt;.</value>
   </data>
   <data name="description_Xml_Transform_CacheVar" xml:space="preserve">
     <value>Var to save a cached instance of the parsed xsl template in.</value>
@@ -458,10 +457,10 @@ pattern are removed.</value>
     <value>Scope of the cached instance.</value>
   </data>
   <data name="description_Xml_Transform_Xslt" xml:space="preserve">
-    <value>XSLT stylesheet to use. The value must be String, Stream, TextReader, XmlReader, System.Xml.XPath.XPathDocument or any value exported &amp;lt;x:parse&amp;gt; or &amp;lt;x:set&amp;gt;.</value>
+    <value>XSLT stylesheet to use. The value must be String, Stream, TextReader, XmlReader, System.Xml.XPath.XPathDocument or any value exported &lt;x:parse&gt; or &lt;x:set&gt;.</value>
   </data>
   <data name="description_Xml_Transform_Param_Name" xml:space="preserve">
-    <value>Name of the parameter as a String. This name must match the name in the corresponding &amp;lt;xsl:param&amp;gt; XSLT tag.</value>
+    <value>Name of the parameter as a String. This name must match the name in the corresponding &lt;xsl:param&gt; XSLT tag.</value>
   </data>
   <data name="description_Xml_Transform_Param_Value" xml:space="preserve">
     <value>Value of the parameter. If not specified, value is taken from the tag body.</value>
@@ -482,16 +481,16 @@ pattern are removed.</value>
     <value>Includes the template into current template</value>
   </data>
   <data name="description_Core_Title" xml:space="preserve">
-    <value>Core &lt;i&gt;Tag Library&lt;/i&gt;</value>
+    <value>Core *Tag Library*</value>
   </data>
   <data name="description_Format_Title" xml:space="preserve">
-    <value>Formatting  &lt;i&gt;Tag Library&lt;/i&gt;</value>
+    <value>Formatting  *Tag Library*</value>
   </data>
   <data name="description_Xml_Title" xml:space="preserve">
-    <value>XML &lt;i&gt;Tag Library&lt;/i&gt;</value>
+    <value>XML *Tag Library*</value>
   </data>
   <data name="description_Sharp_Title" xml:space="preserve">
-    <value>Sharp &lt;i&gt;Tag Library&lt;/i&gt;</value>
+    <value>Sharp *Tag Library*</value>
   </data>
   <data name="description_Core" xml:space="preserve">
     <value>The core tag lib provides basic functionality for page flow, rendering and handling variables.</value>
@@ -520,14 +519,12 @@ pattern are removed.</value>
   <data name="description_Xml" xml:space="preserve">
     <value>The XML tag library supports parsing of XML documents, selection of XML fragments, conditional and iterative processing based on XML content, and
 			XSLT transformations. A common pattern for using the XML tags is as follows:
-			&lt;ol&gt;
-				&lt;li&gt;Use &lt;i&gt;&amp;lt;x:parse&amp;gt;&lt;/i&gt; to parse XML into a scoped variable. The XML can come from the body literally, from the body via &lt;i&gt;&amp;lt;c:import&amp;gt;&lt;/i&gt;, or from the 
-				value attribute which may refer to any XML source. &lt;i&gt;&amp;lt;x:parse var="varName" ...&amp;gt;&lt;/i&gt;
-				&lt;/li&gt;
-				&lt;li&gt;Use the scoped variable from  &lt;i&gt;&amp;lt;x:parse&amp;gt;&lt;/i&gt; to specify the XML document to use in XPath expressions. &lt;i&gt;&amp;lt;x:out source="${{varName}}" select="XPathexpression"/&amp;gt;&lt;/i&gt;
-				    The following example demonstrates the above techniques.
-				&lt;/li&gt;
-			&lt;/ol&gt;
+
+1. Use *&lt;x:parse&gt;* to parse XML into a scoped variable. The XML can come from the body literally, from the body via *&lt;c:import&gt;*, or from the 
+	value attribute which may refer to any XML source. &lt;x:parse var="varName" ...&gt;
+
+2. Use the scoped variable from  *&lt;x:parse&gt;* to specify the XML document to use in XPath expressions. *&lt;x:out source="${{varName}}" select="XPathexpression"/&gt;*
+	    The following example demonstrates the above techniques.				
 	</value>
   </data>
   <data name="tags_Nesting" xml:space="preserve">
@@ -544,7 +541,7 @@ demonstrate use of the XML tags for processing Rich Site Summary (RSS) feeds. RS
     <value>&lt;h3&gt;Iterator Actions&lt;/h3&gt;&lt;br/&gt;Actions that format and parse numbers, currencies, percentages, dates and times.</value>
   </data>
   <data name="description_Xml_Transformation" xml:space="preserve">
-    <value>&lt;h3&gt;Transformation Actions&lt;/h3&gt;&lt;br/&gt;JSTL provides an &lt;i&gt;&amp;lt;x:transform&amp;gt;&lt;/i&gt; tag for performing XSLT transformations. The &lt;i&gt;&amp;lt;x:param&amp;gt;&lt;/i&gt; tag can be nested in the &lt;i&gt;&amp;lt;x:transform&amp;gt;&lt;/i&gt; tag to set a parameter that is used in the stylesheet.</value>
+    <value>&lt;h3&gt;Transformation Actions&lt;/h3&gt;&lt;br/&gt;JSTL provides an *&lt;x:transform&gt;* tag for performing XSLT transformations. The *&lt;x:param&gt;* tag can be nested in the *&lt;x:transform&gt;* tag to set a parameter that is used in the stylesheet.</value>
   </data>
   <data name="description_Sharp" xml:space="preserve">
     <value>&lt;h3&gt;Sharp Actions&lt;/h3&gt;&lt;br/&gt;Miscelanious actions.</value>
@@ -565,16 +562,16 @@ demonstrate use of the XML tags for processing Rich Site Summary (RSS) feeds. RS
     <value>processes the body if test is true</value>
   </data>
   <data name="description_Core_Choose" xml:space="preserve">
-    <value>multiple conditions - processes the body of the &lt;b&gt;first&lt;/b&gt; enclosed &lt;i&gt;when&lt;/i&gt; tag where the test 
-   condition is true. If none match then the body of the &lt;i&gt;otherwise&lt;/i&gt; tag (if present) is processed.</value>
+    <value>multiple conditions - processes the body of the &lt;b&gt;first&lt;/b&gt; enclosed *when* tag where the test 
+   condition is true. If none match then the body of the *otherwise* tag (if present) is processed.</value>
   </data>
   <data name="description_Core_Choose_When" xml:space="preserve">
     <value>processes the body if test is true and no
-other previous &lt;i&gt;&amp;lt;c:when&amp;gt;&lt;/i&gt; tags evaluated to true.</value>
+other previous *&lt;c:when&gt;* tags evaluated to true.</value>
   </data>
   <data name="description_Core_Choose_Otherwise" xml:space="preserve">
-    <value>processes the body if no other previous &lt;i&gt;&amp;lt;c:when&amp;gt;&lt;/i&gt; condition was matched. This tag accepts no attributes and, if present, must be the 
-   last tag in the &lt;i&gt;&amp;lt;c:choose&amp;gt;&lt;/i&gt; body.</value>
+    <value>processes the body if no other previous *&lt;c:when&gt;* condition was matched. This tag accepts no attributes and, if present, must be the 
+   last tag in the *&lt;c:choose&gt;* body.</value>
   </data>
   <data name="description_Core_ForEach" xml:space="preserve">
     <value>repeats the nested body content over a collection or for a fixed number of times.</value>
@@ -583,13 +580,13 @@ other previous &lt;i&gt;&amp;lt;c:when&amp;gt;&lt;/i&gt; tags evaluated to true.
     <value>repeats the nested body content for each token of a delimited string.</value>
   </data>
   <data name="description_Core_Import" xml:space="preserve">
-    <value>imports the content of a URL-based resource. Action may include nested &lt;i&gt;&amp;lt;c:param&amp;gt;&lt;/i&gt; tags to specify the query string (unless the varReader  attribute is specified).</value>
+    <value>imports the content of a URL-based resource. Action may include nested *&lt;c:param&gt;* tags to specify the query string (unless the varReader  attribute is specified).</value>
   </data>
   <data name="description_Core_Url" xml:space="preserve">
-    <value>builds a URL with the proper rewriting rules applied (only relative URLs are rewritten). Action may include nested &lt;i&gt;&amp;lt;c:param&amp;gt;&lt;/i&gt; tags to specify the query string.</value>
+    <value>builds a URL with the proper rewriting rules applied (only relative URLs are rewritten). Action may include nested *&lt;c:param&gt;* tags to specify the query string.</value>
   </data>
   <data name="description_Core_Redirect" xml:space="preserve">
-    <value>sends the client a response to redirect to the specified URL. This action will abort processing of the current page. Action may include nested &lt;i&gt;&amp;lt;c:param&amp;gt;&lt;/i&gt; tags to specify the query string.</value>
+    <value>sends the client a response to redirect to the specified URL. This action will abort processing of the current page. Action may include nested *&lt;c:param&gt;* tags to specify the query string.</value>
   </data>
   <data name="description_Core_Url_Param" xml:space="preserve">
     <value>adds request parameters to a URL.</value>
@@ -613,10 +610,10 @@ other previous &lt;i&gt;&amp;lt;c:when&amp;gt;&lt;/i&gt; tags evaluated to true.
     <value>Creates and stores in a scoped variable, a localization context based on the specified resource bundle.</value>
   </data>
   <data name="description_Format_Message" xml:space="preserve">
-    <value>Looks up a localized message in a resource bundle. This tag can contain nested &lt;i&gt;&amp;lt;fmt:param&amp;gt;&lt;/i&gt; tags to specify message format substitution values. The resultant message is printed or stored in a scoped variable.</value>
+    <value>Looks up a localized message in a resource bundle. This tag can contain nested *&lt;fmt:param&gt;* tags to specify message format substitution values. The resultant message is printed or stored in a scoped variable.</value>
   </data>
   <data name="description_Format_Message_Param" xml:space="preserve">
-    <value>Supplies a parameter for message  format substitution in a containing &lt;i&gt;&amp;lt;fmt:message&amp;gt;&lt;/i&gt; tag. Parameters are substituted in sequential order.</value>
+    <value>Supplies a parameter for message  format substitution in a containing *&lt;fmt:message&gt;* tag. Parameters are substituted in sequential order.</value>
   </data>
   <data name="description_Format_FormatNumber" xml:space="preserve">
     <value>Formats a number, currency, or percentage in a locale-sensitive manner. The formatted value is printed or stored in a scoped variable.</value>
@@ -643,208 +640,209 @@ other previous &lt;i&gt;&amp;lt;c:when&amp;gt;&lt;/i&gt; tags evaluated to true.
     <value>Processes the body if select XPath evaluates to true (following the rules of the boolean() XPath function).</value>
   </data>
   <data name="description_Xml_Choose" xml:space="preserve">
-    <value>Processes the body of the &lt;b&gt;first&lt;/b&gt; enclosed &lt;i&gt;&amp;lt;x:when&amp;gt;&lt;/i&gt; tag where the select XPath expression evaluates to true. If none match then the body of the &lt;i&gt;&amp;lt;x:otherwise&amp;gt;&lt;/i&gt; tag (if present)
+    <value>Processes the body of the &lt;b&gt;first&lt;/b&gt; enclosed *&lt;x:when&gt;* tag where the select XPath expression evaluates to true. If none match then the body of the *&lt;x:otherwise&gt;* tag (if present)
 is processed.</value>
   </data>
   <data name="description_Xml_Choose_When" xml:space="preserve">
-    <value>Represents an alternative in an &lt;i&gt;&amp;lt;x:choose&amp;gt;&lt;/i&gt; tag. Processes the body if the select expression evaluates to true and no other previous &lt;i&gt;&amp;lt;x:when&amp;gt;&lt;/i&gt; tags in the &lt;i&gt;&amp;lt;x:choose&amp;gt;&lt;/i&gt;
+    <value>Represents an alternative in an *&lt;x:choose&gt;* tag. Processes the body if the select expression evaluates to true and no other previous *&lt;x:when&gt;* tags in the *&lt;x:choose&gt;*
 matched.</value>
   </data>
   <data name="description_Xml_Choose_Otherwise" xml:space="preserve">
-    <value>Processes the body if no other previous &lt;i&gt;&amp;lt;x:when&amp;gt;&lt;/i&gt; condition in the &lt;i&gt;&amp;lt;x:choose&amp;gt;&lt;/i&gt; matched. This tag accepts no attributes and, if present, must be the last tag in
-&lt;i&gt;&amp;lt;x:choose&amp;gt;&lt;/i&gt; body.</value>
+    <value>Processes the body if no other previous *&lt;x:when&gt;* condition in the *&lt;x:choose&gt;* matched. This tag accepts no attributes and, if present, must be the last tag in
+*&lt;x:choose&gt;* body.</value>
   </data>
   <data name="description_Xml_ForEach" xml:space="preserve">
     <value>Repeats the nested body content over a node set determined by an XPath expression, setting the context node to each element in the iteration.</value>
   </data>
   <data name="description_Xml_Transform" xml:space="preserve">
-    <value>Conducts an XSLT transformation on source XML. The source XML is provided by the doc attribute or the body of the tag. The XSL stylesheet is specified by the  &lt;i&gt;xslt&lt;/i&gt; attribute. While in most cases, the stylesheet will be set up by back-end code - it is possible to define the stylesheet inline and make it available with &lt;i&gt;&amp;lt;c:set&amp;gt;&lt;/i&gt; as in the
+    <value>Conducts an XSLT transformation on source XML. The source XML is provided by the doc attribute or the body of the tag. The XSL stylesheet is specified by the  *xslt* attribute. While in most cases, the stylesheet will be set up by back-end code - it is possible to define the stylesheet inline and make it available with *&lt;c:set&gt;* as in the
 following example:</value>
   </data>
   <data name="description_Xml_Transform_Param" xml:space="preserve">
-    <value>Sets a transformation parameter that will be passed to stylesheet which declares parameters using the &lt;i&gt;&amp;lt;xsl:param&amp;gt;&lt;/i&gt; tag. 
-   The &lt;i&gt;&amp;lt;x:param&amp;gt;&lt;/i&gt; tag can only be nested within an &lt;i&gt;&amp;lt;x:transform&amp;gt;&lt;/i&gt; tag. Any &lt;i&gt;&amp;lt;x:param&amp;gt;&lt;/i&gt;
-   tags must come after the XML body content of the &lt;i&gt;&amp;lt;x:transform&amp;gt;&lt;/i&gt; tag, if present.</value>
+    <value>Sets a transformation parameter that will be passed to stylesheet which declares parameters using the *&lt;xsl:param&gt;* tag. 
+   The *&lt;x:param&gt;* tag can only be nested within an *&lt;x:transform&gt;* tag. Any *&lt;x:param&gt;*
+   tags must come after the XML body content of the *&lt;x:transform&gt;* tag, if present.</value>
   </data>
   <data name="description_Sharp_Marker" xml:space="preserve">
-    <value>Marks the nested body. The body is included inside a &lt;i&gt;&amp;lt;div&amp;gt;&lt;/i&gt; element.</value>
+    <value>Marks the nested body. The body is included inside a *&lt;div&gt;* element.</value>
   </data>
   <data name="description_Sharp_Include" xml:space="preserve">
     <value>Includes and evaluates a fragment.</value>
   </data>
   <data name="description_Core_Out_Example" xml:space="preserve">
-    <value>&amp;lt;h2&amp;gt;Welcome, &amp;lt;c:out value="${{user.name}}" default="Guest"/&amp;gt;&amp;lt;/h2&amp;gt;</value>
+    <value>&lt;h2&gt;Welcome, &lt;c:out value="${{user.name}}" default="Guest"/&gt;&lt;/h2&gt;</value>
   </data>
   <data name="description_Core_Set_Example" xml:space="preserve">
-    <value>&amp;lt;c:set var="dogAge" value="${{age div 7}}"/&amp;gt; You are &amp;lt;c:out value="${{dogAge}}"/&amp;gt; in dog years.</value>
+    <value>&lt;c:set var="dogAge" value="${{age div 7}}"/&gt; You are &lt;c:out value="${{dogAge}}"/&gt; in dog years.</value>
   </data>
   <data name="description_Core_Remove_Example" xml:space="preserve">
-    <value>&amp;lt;c:remove var="dogAge" scope="page"/&amp;gt;</value>
+    <value>&lt;c:remove var="dogAge" scope="page"/&gt;</value>
   </data>
   <data name="description_Core_Catch_Example" xml:space="preserve">
-    <value>&amp;lt;c:catch var="err"&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;c:import value="http://www.sharptiles.org"/&amp;gt;&lt;br/&gt;
-&amp;lt;/c:catch&amp;gt;&lt;br/&gt;
-&amp;lt;c:if test="${{not empty err}}"&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;Could not connect to Sharptiles web site.&lt;br/&gt;
-&amp;lt;/c:if&amp;gt;&lt;br/&gt;</value>
+    <value>&lt;c:catch var="err"&gt;
+    &lt;c:import value="http://www.sharptiles.org"/&gt;
+&lt;/c:catch&gt;
+&lt;c:if test="${{not empty err}}"&gt;
+    Could not connect to Sharptiles web site.
+&lt;/c:if&gt;</value>
   </data>
   <data name="description_Core_If_Example" xml:space="preserve">
-    <value>&amp;lt;c:if test="${{user.age ge '40'}}"&amp;gt; You are over the hill. &amp;lt;/c:if&amp;gt;</value>
+    <value>&lt;c:if test="${{user.age ge '40'}}"&gt; You are over the hill. &lt;/c:if&gt;</value>
   </data>
   <data name="description_Format_SetLocale_Example" xml:space="preserve">
-    <value>&amp;lt;fmt:setLocale scope="session" value="fr-CA"/&amp;gt;</value>
+    <value>&lt;fmt:setLocale scope="session" value="fr-CA"/&gt;</value>
   </data>
   <data name="description_Format_RequestEncoding_Example" xml:space="preserve">
-    <value>&amp;lt;fmt:requestEncoding key="UTF-7"/&amp;gt;</value>
+    <value>&lt;fmt:requestEncoding key="UTF-7"/&gt;</value>
   </data>
   <data name="description_Format_Bundle_Example" xml:space="preserve">
-    <value>&lt;b&gt;&amp;lt;fmt:bundle baseName="resources" prefix="label."&amp;gt;&lt;/b&gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;fmt:message key="userId"/&amp;gt;&lt;br/&gt;
-&lt;b&gt;&amp;lt;fmt:bundle&amp;gt;&lt;/b&gt;&lt;br/&gt;
+    <value>&lt;fmt:bundle baseName="resources" prefix="label."&gt;
+    &lt;fmt:message key="userId"/&gt;    
+&lt;fmt:bundle&gt;
   </value>
   </data>
   <data name="description_Format_SetBundle_Example" xml:space="preserve">
-    <value>&amp;lt;fmt:setBundle baseName="ApplicationResources" var="tilesMessages" scope="Application"/&amp;gt;</value>
+    <value>&lt;fmt:setBundle baseName="ApplicationResources" var="tilesMessages" scope="Application"/&gt;</value>
   </data>
   <data name="description_Format_Message_Example" xml:space="preserve">
-    <value>&amp;lt;fmt:message key="title" bundle="${{tilesMessages}}"/&amp;gt;</value>
+    <value>&lt;fmt:message key="title" bundle="${{tilesMessages}}"/&gt;</value>
   </data>
   <data name="description_Format_FormatNumber_Example" xml:space="preserve">
-    <value>&amp;lt;fmt:formatNumber type="Currency" value="3.977"&amp;gt;</value>
+    <value>&lt;fmt:formatNumber type="Currency" value="3.977"&gt;</value>
   </data>
   <data name="description_Format_ParseNumber_Example" xml:space="preserve">
-    <value>&lt;b&gt;&amp;lt;fmt:parseNumber var="num" type="Number" Styles="AllowDecimalPoint,AllowThousands" value="2,447"/&amp;gt;&lt;/b&gt;&lt;br/&gt;&amp;lt;c:out value="${{num}}"/&amp;gt;</value>
+    <value>&lt;fmt:parseNumber var="num" type="Number" Styles="AllowDecimalPoint,AllowThousands" value="2,447"/&gt;
+&lt;c:out value="${{num}}"/&gt;</value>
   </data>
   <data name="description_Format_FormatDate_Example" xml:space="preserve">
-    <value>&amp;lt;fmt:formatDate value="${{now}}" pattern="yy-MMM-dd&amp;gt;"/&gt;</value>
+    <value>&lt;fmt:formatDate value="${{now}}" pattern="yy-MMM-dd&gt;"/&gt;</value>
   </data>
   <data name="description_Format_ParseDate_Example" xml:space="preserve">
-    <value>&lt;b&gt;&amp;lt;fmt:parseDate var="bday" pattern="MM/dd/yy" value="05/10/63"/&amp;gt;&lt;/b&gt;&lt;br/&gt;&amp;lt;fmt:formatDate value="${{bday}}" dateStyle="Long"/&amp;gt;</value>
+    <value>&lt;fmt:parseDate var="bday" pattern="MM/dd/yy" value="05/10/63"/&gt;
+&lt;fmt:formatDate value="${{bday}}" dateStyle="Long"/&gt;</value>
   </data>
   <data name="description_Core_Choose_Example" xml:space="preserve">
-    <value>&amp;lt;c:choose&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;c:when test="${{a boolean expr}}"&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;// do something&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/c:when&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;c:when test="${{another boolean expr}}"&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;// do something else&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/c:when&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;c:otherwise&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;// do this when nothing else is true&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/c:otherwise&amp;gt;&lt;br/&gt;
-&amp;lt;/c:choose&amp;gt;</value>
+    <value>&lt;c:choose&gt;
+    &lt;c:when test="${{a boolean expr}}"&gt;
+        // do something
+    &lt;/c:when&gt;
+    &lt;c:when test="${{another boolean expr}}"&gt;
+        // do something else
+    &lt;/c:when&gt;
+    &lt;c:otherwise&gt;
+        // do this when nothing else is true
+    &lt;/c:otherwise&gt;
+&lt;/c:choose&gt;</value>
   </data>
   <data name="description_Xml_Parse_Example" xml:space="preserve">
-    <value>&amp;lt;c:import var="rss" url="http://news.google.com/?output=rss"/&amp;gt;&lt;br/&gt;
-&lt;b&gt;&amp;lt;x:parse var="news" xml="${{rss}}"/&amp;gt;&lt;/b&gt;</value>
+    <value>&lt;c:import var="rss" url="http://news.google.com/?output=rss"/&gt;    
+&lt;x:parse var="news" xml="${{rss}}"/&gt;</value>
   </data>
   <data name="description_Xml_Out_Example" xml:space="preserve">
-    <value>&amp;lt;x:out source="${{news}}" select="//channel/title"/&amp;gt;</value>
+    <value>&lt;x:out source="${{news}}" select="//channel/title"/&gt;</value>
   </data>
   <data name="description_Xml_Set_Example" xml:space="preserve">
-    <value>&amp;lt;x:set source="${{news}}" select="//channel/item"
-var="newsItems"/&amp;gt;</value>
+    <value>&lt;x:set source="${{news}}" select="//channel/item"
+var="newsItems"/&gt;</value>
   </data>
   <data name="description_Xml_If_Example" xml:space="preserve">
-    <value>&amp;lt;x:if source="${{news}}" select="item[contains(description,'Linux')]"&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;Linux is in the news today!&lt;br/&gt;
-&amp;lt;/x:if&amp;gt;</value>
+    <value>&lt;x:if source="${{news}}" select="item[contains(description,'Linux')]"&gt;    
+    Linux is in the news today!    
+&lt;/x:if&gt;</value>
   </data>
   <data name="description_Xml_Choose_Example" xml:space="preserve">
-    <value>&amp;lt;x:choose&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;x:when source="${{news}}" select="//item"&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;We've got news :)&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/x:when&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;x:otherwise&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;No news today :(&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/x:otherwise&amp;gt;&lt;br/&gt;
-&amp;lt;/x:choose&amp;gt;</value>
+    <value>&lt;x:choose&gt;    
+    &lt;x:when source="${{news}}" select="//item"&gt;    
+        We've got news :)    
+    &lt;/x:when&gt;    
+    &lt;x:otherwise&gt;    
+        No news today :(    
+    &lt;/x:otherwise&gt;    
+&lt;/x:choose&gt;</value>
   </data>
-  <data name="description_Xml_ForEach_Example" xml:space="preserve">
-    <value>&lt;b&gt;&amp;lt;x:forEach source="${{news}}" select="//item"&amp;gt;&lt;/b&gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;a href='&amp;lt;x:out select="link"/&amp;gt;'&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;x:out select="title"/&amp;gt;&amp;lt;/a&amp;gt;&lt;br/&gt;
-&lt;b&gt;&amp;lt;/x:forEach&amp;gt;&lt;/b&gt;</value>
+  <data name="description_Xml_ForEach_Example" xml:space="preserve"><value>&lt;x:forEach source="${{news}}" select="//item"&gt;
+    &lt;a href='&lt;x:out select="link"/&gt;'&gt;
+    &lt;x:out select="title"/&gt;&lt;/a&gt;
+&lt;/x:forEach&gt;</value>
   </data>
   <data name="description_Xml_Transform_Example" xml:space="preserve">
-    <value>
-   &amp;lt;c:set var="xsl"&amp;gt;&lt;br/&amp;gt;&lt;br/&gt;
-&amp;lt;?xml version="1.0" encoding="UTF-8"?&amp;gt;&lt;br/&gt;
-&amp;lt;xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;xsl:template match="item"&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;li&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;xsl:value-of select="title"/&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/li&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/xsl:template&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;xsl:template match="/"&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;ol&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;xsl:apply-templates select="//item"/&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/ol&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/xsl:template&amp;gt;&lt;br/&gt;
-&lt;/xsl:stylesheet&amp;gt;&lt;br/&gt;
-&lt;/c:set&amp;gt;&lt;br/&gt;
-&lt;b&gt;&amp;lt;x:transform doc="${{news}}" xslt="${{xsl}}"/&amp;gt;&lt;/b&gt;&lt;br/&gt;
+    <value>&lt;c:set var="xsl"&gt;    
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;
+        &lt;xsl:template match="item"&gt;
+            &lt;li&gt;
+                &lt;xsl:value-of select="title"/&gt;
+            &lt;/li&gt;
+    &lt;/xsl:template&gt;
+    &lt;xsl:template match="/"&gt;
+        &lt;ol&gt;
+            &lt;xsl:apply-templates select="//item"/&gt;
+        &lt;/ol&gt;
+    &lt;/xsl:template&gt;
+&lt;/xsl:stylesheet&gt;
+&lt;/c:set&gt;
+&lt;x:transform doc="${{news}}" xslt="${{xsl}}"/&gt;  
    </value>
   </data>
   <data name="description_Xml_Transform_Param_Example" xml:space="preserve">
-    <value>&amp;lt;x:transform doc="${{news}}" xslt="${{searchXsl}}"/&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&amp;lt;x:param name="searchParam"&amp;gt;Web Services&amp;lt;/x:param&amp;gt;&lt;/b&gt;&lt;br/&gt;
-&amp;lt;/x:transform&amp;gt;</value>
+    <value>&lt;x:transform doc="${{news}}" xslt="${{searchXsl}}"/&gt;    
+    &lt;x:param name="searchParam"&gt;Web Services&lt;/x:param&gt;
+&lt;/x:transform&gt;</value>
   </data>
   <data name="description_Core_ForEach_Example" xml:space="preserve">
-    <value>&amp;lt;c:forEach items="${{user.languages}}" var="lang" varStatus="status"&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;c:if test="${{status.first}}"&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;You speak these languages:&amp;lt;br/&amp;gt;&amp;lt;ul&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/c:if&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;li&amp;gt;&amp;lt;c:out value="${{lang}}"/&amp;gt;&amp;lt;/li&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;c:if test="${{status.last}}"&amp;gt;&amp;lt;/ul&amp;gt;&amp;lt;/c:if&amp;gt;&lt;br/&gt;
-&amp;lt;/c:forEach&amp;gt;</value>
+    <value>&lt;c:forEach items="${{user.languages}}" var="lang" varStatus="status"&gt;    
+    &lt;c:if test="${{status.first}}"&gt;    
+        You speak these languages:    
+        &lt;ul&gt;    
+    &lt;/c:if&gt;    
+    &lt;li&gt;&lt;c:out value="${{lang}}"/&gt;&lt;/li&gt;
+    &lt;c:if test="${{status.last}}"&gt;&lt;/ul&gt;&lt;/c:if&gt;    
+&lt;/c:forEach&gt;</value>
   </data>
   <data name="description_Core_ForTokens_Example" xml:space="preserve">
-    <value>&amp;lt;c:set var="users"&amp;gt;Fred,Joe,Mary&amp;lt;c:set&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;c:forTokens var="name" items="${{users}}" delims=","&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;c:out value="${{name}}"/&amp;gt;&amp;lt;br/&amp;gt;&lt;br/&gt;
-&amp;lt;/c:forTokens&amp;gt;</value>
+    <value>&lt;c:set var="users"&gt;Fred,Joe,Mary&lt;c:set&gt;    
+&lt;c:forTokens var="name" items="${{users}}" delims=","&gt;    
+    &lt;c:out value="${{name}}"/&gt;    
+&lt;/c:forTokens&gt;</value>
   </data>
   <data name="description_Core_Url_Example" xml:space="preserve">
-    <value>&amp;lt;c:url="editProfile.do" var="profileLnk"&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;c:param name="id" value="${{user.id}}"/&amp;gt;&lt;br/&gt;
-&amp;lt;/c:url&amp;gt;&lt;br/&gt;
-&amp;lt;a href='&amp;lt;c:out value="${{profileLnk}}"/&amp;gt;'&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Edit Profile&lt;br/&gt;
-&amp;lt;/a&amp;gt;</value>
+    <value>&lt;c:url="editProfile.do" var="profileLnk"&gt;    
+        &lt;c:param name="id" value="${{user.id}}"/&gt;    
+&lt;/c:url&gt;    
+&lt;a href='&lt;c:out value="${{profileLnk}}"/&gt;'&gt;    
+        Edit Profile    
+&lt;/a&gt;</value>
   </data>
   <data name="description_Core_Import_Example" xml:space="preserve">
-    <value>&lt;b&gt;&amp;lt;c:import url="includes/header.aspx"&amp;gt;&lt;/b&gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;c:param name="title"&amp;gt;Hello World&amp;lt;/c:param&amp;gt;&lt;br/&gt;
-&lt;b&gt;&amp;lt;/c:import&amp;gt;&lt;/b&gt;</value>
+    <value>&lt;c:import url="includes/header.aspx"&gt; 
+    &lt;c:param name="title"&gt;Hello World&lt;/c:param&gt;    
+&lt;/c:import&gt;</value>
   </data>
   <data name="description_Core_Redirect_Example" xml:space="preserve">
-    <value>&amp;lt;c:if test="${{empty user}}"&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;&amp;lt;c:redirect url="login.aspx"/&amp;gt;&lt;/b&gt;&lt;br/&gt;
-&amp;lt;/c:if&amp;gt;</value>
+    <value>&lt;c:if test="${{empty user}}"&gt;    
+    &lt;c:redirect url="login.aspx"/&gt;    
+&lt;/c:if&gt;</value>
   </data>
   <data name="description_Xml_Example" xml:space="preserve">
     <value>
-&amp;lt;x:parse var="doc"&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;users&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;user id="997"&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;first-name&amp;gt;George&amp;lt;/first-name&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;last-name&amp;gt;Burdell&amp;lt;/last-name&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/user&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;user id="998"&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;first-name&amp;gt;Joseph&amp;lt;/first-name&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;last-name&amp;gt;Blough&amp;lt;/last-name&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/user&amp;gt;&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/users&amp;gt;&lt;br/&gt;
-&amp;lt;/x:parse&amp;gt;&lt;br/&gt;
-&lt;br/&gt;
-&amp;lt;c:set var="userId" value="${{user.id}}" scope="page"/&amp;gt;&lt;br/&gt;
-&lt;br/&gt;
-&amp;lt;x:set var="user" source="${{doc}}" select="//users/user[@id=$pageScope:userId]"/&amp;gt;&lt;br/&gt;
-&lt;br/&gt;
-Hi &amp;lt;x:out source="${{user}}" select="/first-name"/&amp;gt; !
+&lt;x:parse var="doc"&gt;    
+    &lt;users&gt;    
+        &lt;user id="997"&gt;    
+            &lt;first-name&gt;George&lt;/first-name&gt;    
+            &lt;last-name&gt;Burdell&lt;/last-name&gt;    
+        &lt;/user&gt;    
+    &lt;user id="998"&gt;    
+            &lt;first-name&gt;Joseph&lt;/first-name&gt;    
+            &lt;last-name&gt;Blough&lt;/last-name&gt;    
+        &lt;/user&gt;    
+    &lt;/users&gt;    
+&lt;/x:parse&gt;    
+    
+&lt;c:set var="userId" value="${{user.id}}" scope="page"/&gt;    
+    
+&lt;x:set var="user" source="${{doc}}" select="//users/user[@id=$pageScope:userId]"/&gt;    
+    
+Hi &lt;x:out source="${{user}}" select="/first-name"/&gt; !
    </value>
   </data>
   <data name="description_Sharp_Scope" xml:space="preserve">
@@ -852,11 +850,11 @@ Hi &amp;lt;x:out source="${{user}}" select="/first-name"/&amp;gt; !
   </data>
   <data name="description_ExpressionLanguage_Note" xml:space="preserve">
     <value>In java dictionary and list access is done with brackets. SharpTiles deviates from this syntax. In SharpTiles access to properties, 
-   list, dictionaries is done with the same '.' notation.&lt;br/&gt;
-   &lt;br/&gt;
-   For example:&lt;br/&gt;
-   &lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;i&gt;map["key"][i].property&lt;/i&gt; becomes &lt;i&gt;map.key.i.property&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;
+   list, dictionaries is done with the same '.' notation.    
+       
+   For example:    
+       
+    *map["key"][i].property* becomes *map.key.i.property*        
 	The underlying implementation of the properties is now hidden from the view logic.
    </value>
   </data>
@@ -999,7 +997,7 @@ separates each element in the resulting string. If separator is an empty string,
 The delimiter characters are not included in any returned tokens.</value>
   </data>
   <data name="description_EscapeXmlFunction" xml:space="preserve">
-    <value>Escapes characters (e.g changing "&amp;lt;" to "&amp; lt;") that could be interpreted as XML (including HTML) markup.</value>
+    <value>Escapes characters (e.g changing "&lt;" to "&amp; lt;") that could be interpreted as XML (including HTML) markup.</value>
   </data>
   <data name="description_ToLowerCaseFunction" xml:space="preserve">
     <value>Converts all characters of a string to lowercase.</value>
@@ -1011,7 +1009,7 @@ The delimiter characters are not included in any returned tokens.</value>
     <value>Removes whitespace from both ends of a string.</value>
   </data>
   <data name="description_SubStringFunction" xml:space="preserve">
-    <value>Returns a subset of source using the zero-based indices – inclusive of the
+    <value>Returns a subset of source using the zero-based indices. inclusive of the
 begin index, but exclusive of the end index.</value>
   </data>
   <data name="description_SubStringBeforeFunction" xml:space="preserve">
@@ -1045,7 +1043,7 @@ begin index, but exclusive of the end index.</value>
     <value>Default</value>
   </data>
   <data name="description_Tiles_Title" xml:space="preserve">
-    <value>Tiles &lt;i&gt;Tag Library&lt;/i&gt;</value>
+    <value>Tiles *Tag Library*</value>
   </data>
   <data name="description_Tiles" xml:space="preserve">
     <value>The tiles tag lib provides functionality to include defined tiles in to the page.</value>
@@ -1056,25 +1054,25 @@ begin index, but exclusive of the end index.</value>
   <data name="description_Tiles_Insert_Note" xml:space="preserve">
     <value>
 		Unlike Java Tiles, the inserted tile uses the same model as the parent tile/page so all variables can be used directly. 
-		The sharing of the same page model also makes the &lt;i&gt;&amp;lt;tiles:importAttribute/&amp;gt;&lt;/i&gt; obsolete
+		The sharing of the same page model also makes the *&lt;tiles:importAttribute/&gt;* obsolete
 	</value>
   </data>
   <data name="description_Tiles_Insert_Example" xml:space="preserve">
     <value>
-&amp;lt;html xmlns="http://www.w3.org/1999/xhtml"&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;lt;head&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;title&amp;gt;Sample&amp;lt;/title&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;lt;/head&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;lt;body&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;div id="menu"&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;tiles:insert name='menu'/&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/div&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;hr /&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;div id="main"&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;tiles:insert name='body'/&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/div&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;lt;/body&amp;gt;&lt;/br&gt;
-&amp;lt;/html&amp;gt;&lt;/br&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;   
+    &lt;head&gt;   
+        &lt;title&gt;Sample&lt;/title&gt;   
+    &lt;/head&gt;   
+    &lt;body&gt;   
+        &lt;div id="menu"&gt;   
+            &lt;tiles:insert name='menu'/&gt;   
+        &lt;/div&gt;   
+        &lt;hr /&gt;   
+        &lt;div id="main"&gt;   
+            &lt;tiles:insert name='body'/&gt;   
+        &lt;/div&gt;   
+    &lt;/body&gt;   
+&lt;/html&gt;   
     </value>
   </data>
   <data name="description_Tiles_Insert_Name" xml:space="preserve">
@@ -1082,10 +1080,10 @@ begin index, but exclusive of the end index.</value>
   </data>
 
   <data name="description_Html" xml:space="preserve">
-    <value>The html tag lib provides a wrapper to access the &lt;a href='http://www.codeplex.com/MVCContrib/Wiki/View.aspx?title=FormHelper&amp;referringTitle=Documentation'&gt;HtmlHelper&lt;/a&gt;.</value>
+    <value>The html tag lib provides a wrapper to access the [HtmlHelper](http://www.codeplex.com/MVCContrib/Wiki/View.aspx?title=FormHelper&amp;referringTitle=Documentation).</value>
   </data>
   <data name="description_Html_Note" xml:space="preserve">
-    <value>The html tag lib is only available in combination with ASP.NET MVC.&lt;/br&gt;This is because the html tag lib is implemented with the HtmlHelper, which is only available in ASP.NET MVC.
+    <value>The html tag lib is only available in combination with ASP.NET MVC.   This is because the html tag lib is implemented with the HtmlHelper, which is only available in ASP.NET MVC.
    </value>
   </data>
   <data name="description_Html_ActionTag" xml:space="preserve"><value>Renders an action url.</value></data>
@@ -1099,7 +1097,7 @@ begin index, but exclusive of the end index.</value>
   </data>
 
   <data name="description_Html_ActionTag_Example" xml:space="preserve">
-    <value>&amp;lt;html:action action='${{Model.action}}' controller='LoginController'/&amp;gt;</value>
+    <value>&lt;html:action action='${{Model.action}}' controller='LoginController'/&gt;</value>
   </data>
   
   <data name="description_Html_ActionTag_Action" xml:space="preserve">
@@ -1115,11 +1113,10 @@ begin index, but exclusive of the end index.</value>
   </data>
   
   <data name="description_Html_FormTag_Example" xml:space="preserve">
-    <value>
-       &amp;lt;html:form action='${{Model.action}}' controller='${{Model.controller}}' method='post'&amp;gt;&lt;br/&gt;
-       &amp;nbsp;&amp;nbsp;&amp;lt;html:textBox name='${{Model.textBoxName}}' value='${{Model.textBoxValue}}' class='${{Model.style}}'/&amp;gt;&lt;br/&gt;
-       &amp;lt;/html:form&amp;gt;
-    </value>
+    <value>&lt;html:form action='${{Model.action}}' controller='${{Model.controller}}' method='post'&gt;    
+    &lt;html:textBox name='${{Model.textBoxName}}' value='${{Model.textBoxValue}}' class='${{Model.style}}'/&gt;    
+&lt;/html:form&gt;
+</value>
   </data>
   
   <data name="description_Html_FormTag_Action" xml:space="preserve">
@@ -1128,10 +1125,10 @@ begin index, but exclusive of the end index.</value>
 
   <data name="description_Html_Actie" xml:space="preserve">
     <value>
-    This taglib basicly is a wrapper for all extension methods on the HtmlHelper. This allows you add a tag like &lt;/br&gt;
+    This taglib basicly is a wrapper for all extension methods on the HtmlHelper. This allows you add a tag like 
      &lt;p&gt;
         &lt;code&gt;
-        &amp;lt;html:checkBox name=&quot;rememberMe&quot; isChecked=&quot;${{Model.checkBoxValue}}&quot; class=&quot;loginform&quot;/&amp;gt; &lt;/br&gt;
+        &lt;html:checkBox name=&quot;rememberMe&quot; isChecked=&quot;${{Model.checkBoxValue}}&quot; class=&quot;loginform&quot;/&gt; &lt;/br&gt;
         &lt;/code&gt;
     &lt;/p&gt;
     to your page. The example wraps the following method: &lt;/br&gt;
@@ -1139,25 +1136,25 @@ begin index, but exclusive of the end index.</value>
         &lt;code&gt;
                    InputExtensions.CheckBox(
                     
-                        &lt;i&gt;HtmlHelper&lt;/i&gt; &lt;i&gt;htmlHelper&lt;/i&gt;,
+                        HtmlHelper htmlHelper,
                     
-                        string &lt;i&gt;name&lt;/i&gt;,
+                        string name,
                     
-                        boolean &lt;i&gt;isChecked&lt;/i&gt;,
+                        boolean isChecked,
                     
-                        IDictionary&amp;lt;string, object&amp;gt; &lt;i&gt;htmlAttributes&lt;/i&gt;
+                        IDictionary&lt;string, object&gt; htmlAttributes
                     ) : string
                  &lt;/code&gt;
-    &lt;/p&gt;&lt;/br&gt;
+    &lt;/p&gt;    
     In a aspx page the example would look like this:&lt;p&gt;
         &lt;code&gt;
-			&amp;lt;%=HtmlHelper.CheckBox(&quot;rememberMe&quot;, ViewData.Model.CheckBoxvalue, new {{class=&quot;formInput&quot;}});%&amp;gt;
+			&lt;%=HtmlHelper.CheckBox(&quot;rememberMe&quot;, ViewData.Model.CheckBoxvalue, new {{class=&quot;formInput&quot;}});%&gt;
 	    &lt;/code&gt;
     &lt;/p&gt;&lt;/br&gt;
-	SharpTiles will always look for a matching method with the least amount of parameters. The parameter names are matched on name with two exceptions,  &lt;i&gt;htmlHelkper &lt;/i&gt; and  &lt;i&gt;htmlAttributes&lt;/i&gt;
-	the  &lt;i&gt;htmlHelper&lt;/i&gt; is added automaticly by the framework. The  &lt;i&gt;htmlAttributes&lt;/i&gt; is a dictionary containing key value pairs of unmatched attributes. So our example requires a
-	method with name &lt;i&gt;checkBox&lt;/i&gt; and a parameter &lt;i&gt;name&lt;/i&gt; and a parameter &lt;i&gt;isChecked&lt;/i&gt;. Further more there isn't a method which takes &lt;i&gt;class&lt;/i&gt; as a parameter so this is stored in the &lt;i&gt;htmlAttributes&lt;/i&gt;. This 
-	makes that the method we are looking for also required a parameters &lt;i&gt;htmlAttributes&lt;/i&gt;. SharpTiles will search for this method and makes the call.
+	SharpTiles will always look for a matching method with the least amount of parameters. The parameter names are matched on name with two exceptions, htmlHelper and  htmlAttributes
+	the  htmlHelper is added automaticly by the framework. The  htmlAttributes is a dictionary containing key value pairs of unmatched attributes. So our example requires a
+	method with name checkBox and a parameter name and a parameter isChecked. Further more there isn't a method which takes class as a parameter so this is stored in the htmlAttributes. This 
+	makes that the method we are looking for also required a parameters htmlAttributes. SharpTiles will search for this method and makes the call.
 	All parameters are evaluated by shaprtiles before being passed through the html helper.&lt;br/&gt;
 	Below this introduction all wrapped methods are enumerated. A different version of your HtmlHelper might change the availability of the wrapped methods.
     </value>
@@ -1178,52 +1175,54 @@ begin index, but exclusive of the end index.</value>
   <data name="description_HtmlHelperWrapperTag_Id" xml:space="preserve">
     <value>The id of the tag</value>
   </data>
-  <data name="description_Html_Title" xml:space="preserve"><value>Html wrapper &lt;i&gt;Tag Library&lt;/i&gt;</value></data>
+  <data name="description_Html_Title" xml:space="preserve"><value>Html wrapper *Tag Library*</value></data>
   <data name="description_Html_CheckBoxTag" xml:space="preserve"><value>Wraps the check box helper method</value></data>
   <data name="description_Html_HtmlInput" xml:space="preserve"><value>All the html helper methods</value></data>
-  <data name="description_Html_CheckBoxTag_Example" xml:space="preserve"><value>&amp;lt;html:checkBox name='${{Model.checkBoxName}}' isChecked='${{Model.checkBoxValue}}' class='${{Model.style}}'/&amp;gt;</value></data>
+  <data name="description_Html_CheckBoxTag_Example" xml:space="preserve"><value>&lt;html:checkBox name='${{Model.checkBoxName}}' isChecked='${{Model.checkBoxValue}}' class='${{Model.style}}'/&gt;</value></data>
   <data name="description_Html_HiddenTag" xml:space="preserve"><value>Wraps the hidden helper method</value></data>
-  <data name="description_Html_HiddenTag_Example" xml:space="preserve"><value>&amp;lt;html:hidden name='${{Model.hiddenName}}' value='${{Model.hiddenValue}}' class='${{Model.style}}'/&amp;gt;</value></data>
+  <data name="description_Html_HiddenTag_Example" xml:space="preserve"><value>&lt;html:hidden name='${{Model.hiddenName}}' value='${{Model.hiddenValue}}' class='${{Model.style}}'/&gt;</value></data>
   <data name="description_Html_PasswordTag" xml:space="preserve"><value>Wraps the password helper method</value></data>
-  <data name="description_Html_PasswordTag_Example" xml:space="preserve"><value>&amp;lt;html:password name="${{Model.passwordName}}" value="${{Model.passwordValue}}" class="${{Model.style}}"/&amp;gt;</value></data>
+  <data name="description_Html_PasswordTag_Example" xml:space="preserve"><value>&lt;html:password name="${{Model.passwordName}}" value="${{Model.passwordValue}}" class="${{Model.style}}"/&gt;</value></data>
   <data name="description_Html_RadioButtonTag" xml:space="preserve"><value>Wraps the radion button helper method</value></data>
-  <data name="description_Html_RadioButtonTag_Example" xml:space="preserve"><value>&amp;lt;html:radioButton name="${{Model.radioButtonName}}" value="${{Model.radioButtonValue}}" class="${{Model.style}}"/&amp;gt;</value></data>
+  <data name="description_Html_RadioButtonTag_Example" xml:space="preserve"><value>&lt;html:radioButton name="${{Model.radioButtonName}}" value="${{Model.radioButtonValue}}" class="${{Model.style}}"/&gt;</value></data>
   <data name="description_Html_TextBoxTag" xml:space="preserve"><value>Wraps the text box helper method</value></data>
-  <data name="description_Html_TextBoxTag_Example" xml:space="preserve"><value>&amp;lt;html:textBox name='${{Model.textBoxName}}' value='${{Model.textBoxValue}}' class='${{Model.style}}"/></value></data>
+  <data name="description_Html_TextBoxTag_Example" xml:space="preserve"><value>&lt;html:textBox name='${{Model.textBoxName}}' value='${{Model.textBoxValue}}' class='${{Model.style}}"/></value></data>
   <data name="description_Html_DropDownListTag" xml:space="preserve"><value>Wraps the drop down list helper method</value></data>
-  <data name="description_Html_DropDownListTag_Example" xml:space="preserve"><value>&amp;lt;html:dropDownList name='${{Model.dropDownListName}}' selectList='${{Model.selectList}}"/&amp;gt;</value></data>
+  <data name="description_Html_DropDownListTag_Example" xml:space="preserve"><value>&lt;html:dropDownList name='${{Model.dropDownListName}}' selectList='${{Model.selectList}}"/&gt;</value></data>
   <data name="description_Html_ListBoxTag" xml:space="preserve"><value>Wraps the list box helper method</value></data>
-  <data name="description_Html_ListBoxTag_Example" xml:space="preserve"><value>&amp;lt;html:listBox name='${{Model.listBoxName}}' selectList='${{Model.mutliList}}'/&amp;gt;</value></data>
+  <data name="description_Html_ListBoxTag_Example" xml:space="preserve"><value>&lt;html:listBox name='${{Model.listBoxName}}' selectList='${{Model.mutliList}}'/&gt;</value></data>
   <data name="description_Html_TextAreaTag" xml:space="preserve"><value>Wraps the textarea box helper method</value></data>
-  <data name="description_Html_TextAreaTag_Example" xml:space="preserve"><value>&amp;lt;html:textArea name='${{Model.textAreaName}}' value='${{Model.textAreaValue}}' columns='${{Model.columns}}' rows='${{Model.rows}}' class='htmlEditor'/&amp;gt;</value></data>
+  <data name="description_Html_TextAreaTag_Example" xml:space="preserve"><value>&lt;html:textArea name='${{Model.textAreaName}}' value='${{Model.textAreaValue}}' columns='${{Model.columns}}' rows='${{Model.rows}}' class='htmlEditor'/&gt;</value></data>
   <data name="description_Html_ValidationMessageTag" xml:space="preserve"><value>Wraps the validation message helper</value></data>
-  <data name="description_Html_ValidationMessageTag_Example" xml:space="preserve"><value>&amp;lt;html:validationMessage modelName='${{Model.modelName}}' validationMessage='${{Model.validationMessage}}'/&amp;gt;</value></data>
+  <data name="description_Html_ValidationMessageTag_Example" xml:space="preserve"><value>&lt;html:validationMessage modelName='${{Model.modelName}}' validationMessage='${{Model.validationMessage}}'/&gt;</value></data>
   <data name="description_Html_ValidationSummaryTag" xml:space="preserve"><value>The name of the tile to import</value></data>
-  <data name="description_Html_ValidationSummaryTag_Example" xml:space="preserve"><value>&amp;lt;html:validationSummary message='msg' class='errorReport'/&amp;gt;</value></data>
-  <data name="type_IDictionary`2" xml:space="preserve"><value>IDictionary&amp;lt;string, object&amp;gt;</value></data>
-  <data name="type_IEnumerable`1" xml:space="preserve"><value>IEnumerable&amp;lt;SelectListItem&amp;gt;</value></data>
-  <data name="type_HtmlHelper" xml:space="preserve"><value>&lt;i&gt;HtmlHelper&lt;/i&gt;</value></data>
+  <data name="description_Html_ValidationSummaryTag_Example" xml:space="preserve"><value>&lt;html:validationSummary message='msg' class='errorReport'/&gt;</value></data>
+  <data name="type_IDictionary`2" xml:space="preserve"><value>IDictionary&lt;string, object&gt;</value></data>
+  <data name="type_IEnumerable`1" xml:space="preserve"><value>IEnumerable&lt;SelectListItem&gt;</value></data>
+  <data name="type_HtmlHelper" xml:space="preserve"><value>*HtmlHelper*</value></data>
   <data name="description_Tiles_InsertTemplate" xml:space="preserve">
-    <value>Allows pages to enter a masterpage without explictely defining it in the tiles.xml configuration file.&lt;br/&gt;&lt;i&gt;Contributed by Ronald Dehuysser&lt;/i&gt;</value>
+    <value>Allows pages to enter a masterpage without explictely defining it in the tiles.xml configuration file.
+*Contributed by Ronald Dehuysser*</value>
   </data>
   <data name="description_Tiles_InsertTemplate_Example" xml:space="preserve">
-    <value>&amp;lt;tiles:insertTemplate template="/Views/Shared/Masterpage.tile"&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;lt;tiles:putAttribute name="title" value="Sample Title"/&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;lt;tiles:putAttribute name="Top Navigation" value="/Views/Shared/navigation.tile"/&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;lt;tiles:putAttribute name="body"&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;div id="main"&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;p&amp;gt;Dit is de body&amp;lt;/p&amp;gt;&lt;/br&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/div&amp;gt;&lt;/br&gt;
-&amp;lt;/tiles:insertTemplate&amp;gt;&lt;/br&gt;</value>
+    <value>&lt;tiles:insertTemplate template="/Views/Shared/Masterpage.tile"&gt;   
+    &lt;tiles:putAttribute name="title" value="Sample Title"/&gt;   
+    &lt;tiles:putAttribute name="Top Navigation" value="/Views/Shared/navigation.tile"/&gt;   
+    &lt;tiles:putAttribute name="body"&gt;   
+    &lt;div id="main"&gt;   
+        &lt;p&gt;Dit is de body&lt;/p&gt;   
+    &lt;/div&gt;   
+&lt;/tiles:insertTemplate&gt;   </value>
   </data>
   <data name="description_Tiles_InsertTemplate_Template" xml:space="preserve">
     <value>Defines the template that will be used to display the current page.</value>
   </data>
   <data name="description_Tiles_PutAttribute" xml:space="preserve">
-    <value>This tag allows attibutes to be add to the current page.&lt;br/&gt;&lt;i&gt;Contributed by Ronald Dehuysser&lt;/i&gt;</value>
+    <value>This tag allows attibutes to be add to the current page.
+*Contributed by Ronald Dehuysser*</value>
   </data>
   <data name="description_Tiles_PutAttribute_Example" xml:space="preserve">
-    <value>See the example for the &amp;lt;tiles:insertTemplate /&amp;gt; tag.</value>
+    <value>See the example for the &lt;tiles:insertTemplate /&gt; tag.</value>
   </data>
   <data name="description_Tiles_PutAttribute_Name" xml:space="preserve">
     <value>This attribute defines the name of the current tile attribute and must match one of the Tiles insert names in the masterpage so it can be imported.</value>

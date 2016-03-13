@@ -35,7 +35,7 @@ namespace org.SharpTiles.Documentation
         private IList<Func<ITag, TagDocumentation, bool>> _specials;
         private readonly List<NoteAttribute> _notes = new List<NoteAttribute>();
         private readonly List<ExampleAttribute> _examples = new List<ExampleAttribute>();
-        private readonly string _description;
+        private readonly DescriptionAttribute _description;
         private readonly string _title;
 
         public TagGroupDocumentation(ResourceKeyStack messagePath, ITagGroup tagGroup, IList<Func<ITag, TagDocumentation, bool>> specials)
@@ -46,7 +46,8 @@ namespace org.SharpTiles.Documentation
             _tags = new List<TagDocumentation>();
             var tagGroupType=tagGroup.GetType();
             _description=DescriptionAttribute.Harvest(tagGroupType)?? _messagePath.Description;
-            _title=TitleAttribute.HarvestTagLibrary(tagGroupType);
+            
+            _title = TitleAttribute.HarvestTagLibrary(tagGroupType);
             foreach (ITag _tag in tagGroup)
             {
                 _tags.Add(new TagDocumentation(_messagePath, _tag, _specials));
@@ -87,7 +88,7 @@ namespace org.SharpTiles.Documentation
         public string Id => _messagePath.Id;
 
         [DataMember]
-        public string Description => _description;
+        public DescriptionAttribute Description => _description;
 
         public string DescriptionKey => _messagePath.DescriptionKey;
 

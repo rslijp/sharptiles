@@ -2,9 +2,9 @@
     <c:forEach items="${Tag.Item.Examples}">
         <div class="example">
             <c:if test="${not fn:empty(Tag.Item.Description)}">
-                <div>${Tag.Item.Description}</div>
+                <div>${Tag.Item.DescriptionHtml}</div>
             </c:if>
-            <code>${Tag.Item.Value}</code>
+            <code>${Tag.Item.Html}</code>
         </div>
     </c:forEach>
 </c:if>

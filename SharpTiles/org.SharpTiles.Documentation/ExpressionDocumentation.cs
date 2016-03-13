@@ -18,13 +18,14 @@
  */
  using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+ using System.ComponentModel;
  using System.Linq;
  using System.Reflection;
  using System.Runtime.Serialization;
  using System.Text;
  using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
+ using DescriptionAttribute = org.SharpTiles.Documentation.DocumentationAttributes.DescriptionAttribute;
 
 namespace org.SharpTiles.Documentation
 {
@@ -35,7 +36,7 @@ namespace org.SharpTiles.Documentation
         private readonly string _name;
         private List<ExpressionOperatorSign> _tokens;
         private CategoryAttribute _category;
-        private string _description;
+        private DescriptionAttribute _description;
 
 
         public ExpressionDocumentation(ResourceKeyStack messagePath, IExpressionParser expr)
@@ -70,7 +71,7 @@ namespace org.SharpTiles.Documentation
         }
 
         [DataMember]
-        public string Description => _description;
+        public DescriptionAttribute Description => _description;
 
         public List<ExpressionOperatorSign> Tokens
         {

@@ -19,42 +19,54 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using MarkdownDeep;
 
 namespace org.SharpTiles.Documentation.DocumentationAttributes
 {
-    [AttributeUsage(AttributeTargets.Class|AttributeTargets.Property|AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
+    [DataContract]
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Field, Inherited = true,
+        AllowMultiple = false)]
     public class DescriptionAttribute : Attribute
     {
         public static Regex INNER_CONTENT = new Regex("^<p>(.*?)</p>$");
-        
+
         public DescriptionAttribute(string value)
         {
             Value = value;
         }
 
+        [DataMember]
         public string Value { get; private set; }
 
-        public static string Harvest(Type type)
+   
+        public string Html {
+            get {
+             
+                var html = new Markdown {ExtraMode = true}.Transform(Value);
+                html = html.Trim();
+                if (INNER_CONTENT.IsMatch(html))
+                {
+                    html = INNER_CONTENT.Match(html).Groups[1].Value;
+                }
+                return html;
+            }
+        }
+
+    public static DescriptionAttribute Harvest(Type type)
         {
-            var description = type.GetCustomAttributes(typeof(DescriptionAttribute), false).Cast<DescriptionAttribute>().SingleOrDefault();
-            return Harvest(description);
+            return type.GetCustomAttributes(typeof(DescriptionAttribute), false).Cast<DescriptionAttribute>().SingleOrDefault();
         }
 
         
-        internal static string Harvest(PropertyInfo property)
+        internal static DescriptionAttribute Harvest(PropertyInfo property)
         {
-            var description = property.GetCustomAttributes(typeof(DescriptionAttribute), false).Cast<DescriptionAttribute>().SingleOrDefault();
-            return Harvest(description);
+            return property.GetCustomAttributes(typeof(DescriptionAttribute), false).Cast<DescriptionAttribute>().SingleOrDefault();
         }
 
-        private static string Harvest(DescriptionAttribute description)
-        {
-            if (description == null) return null;
-            return AsHtml(description).Value;
-        }
-
+      
         public static DescriptionAttribute AsHtml(DescriptionAttribute description)
         {
             if (description == null)

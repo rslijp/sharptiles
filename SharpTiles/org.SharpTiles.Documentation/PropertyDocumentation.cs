@@ -33,7 +33,7 @@ namespace org.SharpTiles.Documentation
         private readonly PropertyInfo _property;
         private bool _required;
         private string _default;
-        private string _description;
+        private DescriptionAttribute _description;
 
         public PropertyDocumentation(ResourceKeyStack messagePath, PropertyInfo property)
         {
@@ -67,7 +67,7 @@ namespace org.SharpTiles.Documentation
         }
 
         [DataMember]
-        public string Description => _description;
+        public DescriptionAttribute Description => _description;
         public string DescriptionKey => _messagePath.DescriptionKey;
 
         [DataMember]

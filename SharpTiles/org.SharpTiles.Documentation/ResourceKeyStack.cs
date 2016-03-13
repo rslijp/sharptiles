@@ -22,7 +22,8 @@ using System.Collections.Generic;
  using System.Linq;
 using System.Reflection;
 using System.Text;
-using org.SharpTiles.Expressions;
+ using org.SharpTiles.Documentation.DocumentationAttributes;
+ using org.SharpTiles.Expressions;
 using org.SharpTiles.Expressions.Functions;
 using org.SharpTiles.Tags;
  using org.SharpTiles.Tags.FormatTags;
@@ -87,7 +88,7 @@ namespace org.SharpTiles.Documentation
             }
         }
 
-        public string Description => Resource(DescriptionKey);
+        public DescriptionAttribute Description => new DescriptionAttribute(Resource(DescriptionKey));
 
         public string DescriptionKey
         {

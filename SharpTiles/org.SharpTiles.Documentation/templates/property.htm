@@ -2,13 +2,13 @@
     <td class="property">${Tag.Item.Name}</td>
     <td class="description">
         <a name="${Tag.Item.Id}">
-        <span id="${Tag.Item.Id}">${Tag.Item.Description}</span>
+        <span id="${Tag.Item.Id}">${Tag.Item.Description.Html}</span>
         <c:if test="${fn:length(Tag.Item.EnumValues) > '0'}">
             <table class="enumvalues">
                 <c:forEach items="${Tag.Item.EnumValues}">
                     <tr>
                         <td class="value">${Tag.Item.Value}</td>
-                        <td class="descr">${Tag.Item.Description}</td>
+                        <td class="descr">${Tag.Item.Description.Html}</td>
                     </tr>
                 </c:forEach>
             </table>
