@@ -29,7 +29,8 @@ namespace org.SharpTiles.Expressions
     {
         private readonly string _name;
         private object _evaluated;
-       
+        private bool _constant = false;
+
         public PropertyOrConstant(string name)
         {
             _name = name;
@@ -37,6 +38,7 @@ namespace org.SharpTiles.Expressions
             Evaluate(CultureInfo.InvariantCulture);
         }
 
+        public bool IsConstant => _constant;
 
         public string Name
         {
@@ -61,6 +63,7 @@ namespace org.SharpTiles.Expressions
         {
             _evaluated = TypeConverter.TryTo(_name, typeof (bool), culture) ??
                          TypeConverter.TryTo(_name, typeof (decimal), culture);
+            _constant = _evaluated != null;
         }
 
         public override string ToString()

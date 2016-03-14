@@ -32,6 +32,8 @@ namespace org.SharpTiles.Templates
             _expression = expression;
         }
 
+        public Expression Expression => _expression;
+
         #region ITemplatePart Members
 
         public object Evaluate(TagModel model)

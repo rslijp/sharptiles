@@ -116,7 +116,7 @@ namespace org.SharpTiles.Expressions
 
         public override string ToString()
         {
-            return "(" + _nodes + ")";
+            return "(" + string.Join(",",_nodes) + ")";
         }
 
         /*
