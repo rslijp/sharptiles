@@ -37,7 +37,7 @@ namespace org.SharpTiles.Documentation
         private readonly IList<FunctionDocumentation> _methods;
         private readonly ResourceKeyStack _messagePath;
         private readonly string _name;
-        private readonly string _category;
+        private readonly CategoryAttribute _category;
         private readonly List<NoteAttribute> _notes = new List<NoteAttribute>();
         private readonly List<ExampleAttribute> _examples = new List<ExampleAttribute>();
         private readonly DescriptionAttribute _description;
@@ -50,11 +50,8 @@ namespace org.SharpTiles.Documentation
             var tagType = tag.GetType();
             _description = DescriptionAttribute.Harvest(tagType)??_messagePath.Description;
             
-            var category = CategoryHelper.GetCategory(tagType);
-            if (category != null)
-            {
-                _category= _messagePath.DescriptionForCategory(category.Category);
-            }
+            _category = CategoryHelper.GetCategory(tagType);
+            
             _list = new List<PropertyDocumentation>();
             _nested = new List<TagDocumentation>();
             _methods = new List<FunctionDocumentation>();
@@ -108,11 +105,25 @@ namespace org.SharpTiles.Documentation
         public IList<FunctionDocumentation> Methods => _methods;
 
         [DataMember]
-        public string Category => _category;
+        public string Category => _category?.Category;
         
-        #region IDescriptionElement Members
+        
+        public string CategoryDescription
+        {
+            get
+            {
+                if (_category != null)
+                {
+                    return _messagePath.DescriptionForCategory(_category.Category);
+                }
+                return null;
+            }
+        }
+        
 
-        [DataMember]
+    #region IDescriptionElement Members
+
+    [DataMember]
         public string Id => _messagePath.Id;
 
         [DataMember]

@@ -17,6 +17,8 @@ let buildDir = "./build/"
 let buildTempDir = "./build/temp"
 let releaseDir = "./distribution"
 let documentationDir = "./documentation"
+let documentationFile = "./documentation/documentation.html"
+let documentationJsonFile = "./documentation/documentation.json"
 let testDir  = "./build/tests/"
 let buildMode = getBuildParamOrDefault "buildMode" "Release"
 let license = IO.File.ReadAllText "SharpTiles/FILE.HEADER"
@@ -89,10 +91,13 @@ let PrepareAndRunUnit3 (dllName: string, includeDocumentation: bool) =
     Copy targetDir [buildDir+"/"+dllName+".dll"] 
     RunUnit3 dllName
 
-let RunDocumentation (outputDir: string) =
-    let result = Shell.Exec("build/org.SharpTiles.Documentor.exe", outputDir)
+let RunDocumentation (outputFile: string) =
+    let result = Shell.Exec("build/org.SharpTiles.Documentor.exe", outputFile)
     if result <> 0 then failwithf "Could not generate documentation\n"
-    //if result <> 0 then printf "nunit failed for %s\n" dllName
+ 
+let RunDocumentationJson (outputFile: string) =
+    let result = Shell.Exec("build/org.SharpTiles.Documentor.exe", outputFile+" --json")
+    if result <> 0 then failwithf "Could not generate json documentation\n"
 
 let BuildSolutionForTarget (target: String)  = 
    Compile "SharpTiles/SharpTiles.sln" target 
@@ -207,7 +212,8 @@ Target "Documentation" (fun _ ->
   Run "BuildSolution"
   Run "CopyLibs" 
   Run "InitDocumentationDir"
-  RunDocumentation documentationDir
+  RunDocumentation documentationFile
+  RunDocumentationJson documentationJsonFile
 )
 
 Target "LGPL" (fun _ ->

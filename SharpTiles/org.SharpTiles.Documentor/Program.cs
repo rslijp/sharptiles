@@ -22,6 +22,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using org.SharpTiles.Common;
 using org.SharpTiles.Documentation;
 using org.SharpTiles.Documentation.DocumentationAttributes;
@@ -67,13 +69,18 @@ namespace org.SharpTiles.Documentor
         public static void Main(string[] args)
         {
             Console.WriteLine("Sharptiles documentation generation");
-            if (args.Length != 1)
+            if (args.Length != 1 && args.Length != 2)
             {
                 throw new ArgumentException("Usage " + ASSEMLBY_NAME +
-                                            " <documentation target path>");
+                                            " <documentation target path> [--json]");
             }
+            var json = false;
             var targetPath = args[0];
-            Console.WriteLine("Generating to {0}", targetPath);
+            if (args.Length == 2 && args[1].Equals("--json"))
+            {
+                json = true;
+            }
+            Console.WriteLine($"Generating to {targetPath}");
 
             var generator = new DocumentationGenerator()
                 .For(Scope)
@@ -81,8 +88,17 @@ namespace org.SharpTiles.Documentor
 //            generator.CopyFiles(targetPath, templatePath);
             try
             {
-                var documentation = generator.GenerateDocumentation();
-                File.WriteAllText(targetPath+@"\documentation.html", documentation);
+                if (json)
+                {
+                    var documentation = generator.BuildModel();
+                    var result = JsonConvert.SerializeObject(documentation, Formatting.Indented, new TypeJsonConverter(), new StringEnumConverter());
+                    File.WriteAllText(targetPath, result);
+                }
+                else
+                {
+                    var documentation = generator.GenerateDocumentation();
+                    File.WriteAllText(targetPath, documentation);
+                }
             }
             catch (ExceptionWithContext EWC)
             {
@@ -91,5 +107,30 @@ namespace org.SharpTiles.Documentor
             }
             Console.WriteLine("Finished");
         }
+
+        public class TypeJsonConverter : JsonConverter
+        {
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            {
+                writer.WriteValue(((Type)value).Name);
+            }
+
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            {
+                throw new NotImplementedException("Unnecessary because CanRead is false. The type will skip the converter.");
+            }
+
+            public override bool CanRead
+            {
+                get { return false; }
+            }
+
+            public override bool CanConvert(Type objectType)
+            {
+                return typeof(Type).IsAssignableFrom(objectType);
+            }
+        }
+
+
     }
 }

@@ -85,6 +85,7 @@ namespace org.SharpTiles.Documentation
         [DataMember]
         public string Name => _name;
 
+        [DataMember]
         public string Id => _messagePath.Id;
 
         [DataMember]

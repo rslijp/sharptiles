@@ -78,25 +78,22 @@ namespace org.SharpTiles.Documentation
             get { return _tokens; }
         }
 
-        public CategoryAttribute Category
+        [DataMember]
+        public string Category
         {
-            get { return _category; }
+            get { return _category?.Category; }
         }
 
-        [DataMember]
         public string CategoryDescriptionKey
         {
             get
             {
-                if (Category != null)
+                if (_category != null)
                 {
-                    string categoryStr = Category.Category;
+                    string categoryStr = _category.Category;
                     return "expression_" + categoryStr;
                 }
-                else
-                {
-                    return null;
-                }
+                return null;
             }
         }
     }

@@ -90,7 +90,7 @@ namespace org.SharpTiles.Documentation
         public IDictionary<string, string> AdditionalResources => _additionalResources;
         public bool All => _all;
 
-        public IEnumerable<ExpressionDocumentation> CategoryOrderedExpressions => Expressions.OrderBy(e=>(e.Category?.Category??"other")+"-"+e.Name);
+        public IEnumerable<ExpressionDocumentation> CategoryOrderedExpressions => Expressions.OrderBy(e=>(e.Category??"other")+"-"+e.Name);
 
 
         [DataMember]

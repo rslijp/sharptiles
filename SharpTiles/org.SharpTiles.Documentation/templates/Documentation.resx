@@ -178,7 +178,7 @@
     <value>*math function*(*arg1*,*arg2*,...)</value>
   </data>
   <data name="description_PropertyOrConstantParser" xml:space="preserve">
-    <value>Bean or Constant Access!</value>
+    <value></value>
   </data>
   <data name="description_RegExReplaceFunction" xml:space="preserve">
     <value>Replaces in source, every match of the regex pattern with
@@ -544,7 +544,8 @@ demonstrate use of the XML tags for processing Rich Site Summary (RSS) feeds. RS
     <value>&lt;h3&gt;Transformation Actions&lt;/h3&gt;&lt;br/&gt;JSTL provides an *&lt;x:transform&gt;* tag for performing XSLT transformations. The *&lt;x:param&gt;* tag can be nested in the *&lt;x:transform&gt;* tag to set a parameter that is used in the stylesheet.</value>
   </data>
   <data name="description_Sharp" xml:space="preserve">
-    <value>&lt;h3&gt;Sharp Actions&lt;/h3&gt;&lt;br/&gt;Miscelanious actions.</value>
+    <value>###Sharp Actions
+Miscelanious actions.</value>
   </data>
   <data name="description_Core_Out" xml:space="preserve">
     <value>renders data to the page</value>

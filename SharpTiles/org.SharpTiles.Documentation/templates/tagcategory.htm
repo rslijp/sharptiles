@@ -1,4 +1,4 @@
 ﻿<c:if test="${(fn:empty(Page.TagCategory) or Page.TagCategory != Tag.Item.Category) and not fn:empty(Tag.Item.Category)}">
-    <p>${Tag.Item.Category}</p>
+    <p>${Tag.Item.CategoryDescription}</p>
 </c:if>
 <c:set scope="Page" var="TagCategory" value="${Tag.Item.Category}" />
