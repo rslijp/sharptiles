@@ -60,3 +60,7 @@
 /documentation
 /SharpTiles/org.SharpTiles.Documentor/bin
 /SharpTiles/org.SharpTiles.Documentor/obj
+/SharpTiles/org.SharpTiles.AST/obj
+/SharpTiles/org.SharpTiles.AST/bin
+/SharpTiles/org.SharpTiles.AST.Test/obj
+/SharpTiles/org.SharpTiles.AST.Test/bin

@@ -110,8 +110,10 @@ let BuildSolutionForTarget (target: String)  =
    Copy releaseDir [buildDir+"org.SharpTiles.Tags.dll"] 
    Copy releaseDir [buildDir+"org.SharpTiles.Templates.dll"] 
    Copy releaseDir [buildDir+"org.SharpTiles.Tiles.dll"] 
+   Copy releaseDir [buildDir+"org.SharpTiles.Common.dll"] 
+   Copy releaseDir [buildDir+"org.SharpTiles.AST.dll"] 
    Copy releaseDir [buildDir+"org.SharpTiles.NUnit.dll"] 
-   MergeAssemblies ["org.SharpTiles.Common.dll"; "org.SharpTiles.Expressions.dll"; "org.SharpTiles.Tags.dll"; "org.SharpTiles.Templates.dll"; "org.SharpTiles.Tiles.dll";"org.SharpTiles.Documentation.dll"]
+   MergeAssemblies ["org.SharpTiles.Common.dll"; "org.SharpTiles.Expressions.dll"; "org.SharpTiles.Tags.dll"; "org.SharpTiles.Templates.dll"; "org.SharpTiles.Tiles.dll";"org.SharpTiles.Documentation.dll";"org.SharpTiles.AST.dll"]
 
 let AddLGPL (file: string)  = 
   printf "Adding license to %s\n" file
@@ -158,6 +160,7 @@ Target "Test" (fun _ ->
     PrepareAndRunUnit3 ("org.SharpTiles.Templates.Test", false)
     PrepareAndRunUnit3 ("org.SharpTiles.Tiles.Test", false)
     PrepareAndRunUnit3 ("org.SharpTiles.Documentation.Test", true)
+    PrepareAndRunUnit3 ("org.SharpTiles.AST.Test", true)
      
     trace "SharpTiles tests with FAKE"
 )
