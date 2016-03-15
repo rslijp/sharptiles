@@ -56,6 +56,7 @@ namespace org.SharpTiles.Tiles.Tags
         {
             get { return NAME; }
         }
+        public ITag[] NestedTags => _nestedTags.ToArray();
 
         public string Evaluate(TagModel model)
         {

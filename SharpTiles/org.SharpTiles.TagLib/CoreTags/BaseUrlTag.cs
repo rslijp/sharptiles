@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace org.SharpTiles.Tags.CoreTags
@@ -51,6 +52,7 @@ namespace org.SharpTiles.Tags.CoreTags
             }
         }
 
+        public ITag[] NestedTags => _nestedTags.ToArray();
         #endregion
 
         public static string GetAsUrl(ITagAttribute expressions, TagModel model)

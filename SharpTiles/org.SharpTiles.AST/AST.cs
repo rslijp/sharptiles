@@ -21,7 +21,8 @@ namespace org.SharpTiles.AST
             TrimEmptyTextNodes = 1,
             TrimAllTextNodes = 2,
             FlatExpression = 4,
-            DontTrackContext = 8
+            DontTrackContext = 8,
+            PruneTemplates = 16
         }
 
 
@@ -31,12 +32,18 @@ namespace org.SharpTiles.AST
 
         public AST(ParsedTemplate source, Options options=Options.None) : this()
         {
-            if (!options.HasFlag(Options.DontTrackContext))
-            {
-                Context=new Context(1,1);
-            }
+            Context = new Context(1, 1);
             Yield(this,source);
             Prune(options);
+        }
+
+        public override bool Prune(Options options)
+        {
+            if (options.HasFlag(Options.DontTrackContext))
+            {
+                Context = null;
+            }
+            return base.Prune(options);
         }
 
         private static void Yield(AST ast,ParsedTemplate source)

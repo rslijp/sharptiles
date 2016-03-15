@@ -73,6 +73,7 @@
     <Compile Include="Creators\ITemplate.cs" />
     <Compile Include="Creators\ITemplatePart.cs" />
     <Compile Include="FormatTags\ExtendableResourceBundle.cs" />
+    <Compile Include="ITagWithInnerTemplate.cs" />
     <Compile Include="ITagWithResourceFactory.cs" />
     <Compile Include="NestedTagGroup.cs" />
     <Compile Include="Creators\ParsedTemplate.cs" />

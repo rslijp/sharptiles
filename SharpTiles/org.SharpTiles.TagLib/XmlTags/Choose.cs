@@ -19,7 +19,8 @@
  using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using org.SharpTiles.Tags.CoreTags;
+ using System.Linq;
+ using org.SharpTiles.Tags.CoreTags;
 
 namespace org.SharpTiles.Tags.XmlTags
 {
@@ -74,6 +75,9 @@ namespace org.SharpTiles.Tags.XmlTags
                     Decorate(Context);
             }
         }
+
+        public ITag[] NestedTags => _nestedTags.ToArray();
+
 
         #endregion
 

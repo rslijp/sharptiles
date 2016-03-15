@@ -19,6 +19,7 @@
  using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+ using System.Linq;
  using System.Resources;
  using org.SharpTiles.Tags.CoreTags;
 
@@ -60,6 +61,7 @@ namespace org.SharpTiles.Tags.FormatTags
                 throw TagException.OnlyNestedTagsOfTypeAllowed(tag.GetType(), typeof (Param)).Decorate(Context);
             }
         }
+        public ITag[] NestedTags => _nestedTags.ToArray();
 
         #endregion
 

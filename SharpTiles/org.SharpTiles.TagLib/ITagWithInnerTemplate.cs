@@ -16,14 +16,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
+ using org.SharpTiles.Common;
+ using org.SharpTiles.Tags.Creators;
 
-namespace org.SharpTiles.Tags.Creators
+namespace org.SharpTiles.Tags
 {
-    public interface ITemplate
+    public interface ITagWithInnerTemplate
     {
-        string Evaluate(TagModel model);
-        string Description { get; }
-        string Path { get; }
-        ParsedTemplate Template { get; }
+        ITemplate Template { get;  }
     }
 }

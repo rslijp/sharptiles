@@ -51,7 +51,10 @@ namespace org.SharpTiles.Templates
             {
                 return ParseCloseTag();
             }
-            return ParseOpenTag();
+            var context = _helper.Current.Context;
+            var tag = ParseOpenTag();
+            tag.Context = context;
+            return tag;
         }
 
         private ITag ParseCloseTag()

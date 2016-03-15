@@ -19,6 +19,7 @@
  using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+ using System.Linq;
 
 namespace org.SharpTiles.Tags.CoreTags
 {
@@ -73,6 +74,9 @@ namespace org.SharpTiles.Tags.CoreTags
                     Decorate(tag.Context);
             }
         }
+
+        public ITag[] NestedTags => _nestedTags.ToArray();
+
         public ITagGroup TagLibExtension
         {
             get { return new NestedTagGroup(Group.Name, EXTENSION); }

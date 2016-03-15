@@ -21,17 +21,42 @@ namespace org.SharpTiles.AST.Nodes
             Name = tagName;
         }
 
-        public TagNode(TagPart tagPart) : this()
+        public TagNode(ITag tag, ParseContext context) : this()
         {
-            var tag = tagPart.Tag;
             Group = tag.Group.Name;
             Name = tag.TagName;
             YieldAttributes(tag);
             YieldBody(tag);
-            Context = tagPart.Context;
+            YieldNestedTags(tag as ITagWithNestedTags);
+            YieldInnerTemplate(tag as ITagWithInnerTemplate);
+            Context = context;
         }
 
-       
+        public TagNode(TagPart tagPart) : this(tagPart.Tag, tagPart.Context)
+        {
+        }
+
+        private void YieldNestedTags(ITagWithNestedTags tagWithNestedTags)
+        {
+            if (tagWithNestedTags != null)
+            {
+                foreach (var nestedTag in tagWithNestedTags.NestedTags)
+                {
+                    Console.WriteLine(nestedTag+">"+ nestedTag.Context);
+                    Add(new TagNode(nestedTag, nestedTag.Context));
+                }
+            }
+        }
+
+        private void YieldInnerTemplate(ITagWithInnerTemplate tagWithInnerTemplate)
+        {
+            if (tagWithInnerTemplate != null && tagWithInnerTemplate.Template != null)
+            {
+                Add(new TemplateNode(tagWithInnerTemplate.Template));
+            }
+        }
+
+
         public TagNode() : base()
         {
             _attributes=new SortedDictionary<string, INode[]>();
@@ -126,7 +151,9 @@ namespace org.SharpTiles.AST.Nodes
                 }
                 Context = null;
             }
-            var prune =base.Prune(options);
+            //Empty tag before prune. Not wise to remove
+            if (_attributes.Count == 0 && _childs.Count == 0) return false;
+            var prune = base.Prune(options);
             foreach (var attribute in _attributes.Keys.ToList())
             {
                 var c = _attributes[attribute].All(a => a.Prune(options));

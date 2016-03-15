@@ -20,7 +20,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Xml.XPath;
+ using System.Linq;
+ using System.Xml.XPath;
 using System.Xml.Xsl;
 using org.SharpTiles.Common;
 using org.SharpTiles.Tags.CoreTags;
@@ -51,10 +52,9 @@ namespace org.SharpTiles.Tags.XmlTags
         [Required]
         public ITagAttribute Xslt { get; set; }
 
-        public IList<Param> NestedTags
-        {
-            get { return _nestedTags; }
-        }
+     
+        public ITag[] NestedTags => _nestedTags.ToArray();
+
 
         #region ITagWithNestedTags Members
 

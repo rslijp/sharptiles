@@ -282,10 +282,10 @@ namespace org.SharpTiles.AST.Test
             var formatter = new Formatter(TEMPLATE).Parse();
             var ast = new AST(formatter.ParsedTemplate, AST.Options.TrimEmptyTextNodes);
             var expected = new AST().At(1,1).
-                Add(new TagNode("c","set").At(2,4).With("Var","Status", new Context(2,13)).With("Value", "Nice", new Context(2, 28))).
-                Add(new TagNode("c", "out").At(3, 4).With("Value", "Hello", new Context(3, 15)).
-                    Add(new TagNode("c", "out").At(4, 8).With("Value", new ExpressionNode("Status", "Property", null).At(4,21)))).
-                Add(new TagNode("c", "out").At(6, 4).Add(
+                Add(new TagNode("c","set").At(2,1).With("Var","Status", new Context(2,13)).With("Value", "Nice", new Context(2, 28))).
+                Add(new TagNode("c", "out").At(3, 1).With("Value", "Hello", new Context(3, 15)).
+                    Add(new TagNode("c", "out").At(4, 5).With("Value", new ExpressionNode("Status", "Property", null).At(4,21)))).
+                Add(new TagNode("c", "out").At(6, 1).Add(
                     new TextNode("World ").At(6,8)).Add(
                     new ExpressionNode("(A Add B) Multiply C", "Multiply", typeof(decimal)).At(6, 21).
                         Add(new ExpressionNode("(A Add B)", "Brackets", typeof(decimal)).At(6, 16).
@@ -319,23 +319,67 @@ namespace org.SharpTiles.AST.Test
 
             Assert.That(ast, Deeply.Is.EqualTo(expected));
         }
-//
-//        [Test]
-//        public void Should_Still_Collect_Best_Effort_Parse_Fragment()
-//        {
-//            var formatter = new Formatter("<c:out>${a}<c:out>${a}</c:out>");
-//            try
-//            {
-//                formatter.Parse();
-//                Assert.Fail();
-//            }
-//            catch (ExceptionWithContext ewc)
-//            {
-//                Console.WriteLine(ewc.Message);
-//                Assert.That(ewc.Context.Index, Is.EqualTo(26));
-//            }
-//            var ast = new AST(formatter.ParsedTemplate, AST.Options.TrimEmptyTextNodes | AST.Options.TrackContext);
-//            Console.WriteLine(ast);
-//        }
+        //
+        //        [Test]
+        //        public void Should_Still_Collect_Best_Effort_Parse_Fragment()
+        //        {
+        //            var formatter = new Formatter("<c:out>${a}<c:out>${a}</c:out>");
+        //            try
+        //            {
+        //                formatter.Parse();
+        //                Assert.Fail();
+        //            }
+        //            catch (ExceptionWithContext ewc)
+        //            {
+        //                Console.WriteLine(ewc.Message);
+        //                Assert.That(ewc.Context.Index, Is.EqualTo(26));
+        //            }
+        //            var ast = new AST(formatter.ParsedTemplate, AST.Options.TrimEmptyTextNodes | AST.Options.TrackContext);
+        //            Console.WriteLine(ast);
+        //        }
+
+        [Test]
+        public void Should_Collected_NestedTags()
+        {
+            const string TEMPLATE = @"<c:choose><c:when test=""${Yes}"">WHEN</c:when><c:otherwise>OTHERWISE</c:otherwise></c:choose>";
+            var formatter = new Formatter(TEMPLATE).Parse();
+            var ast = new AST(formatter.ParsedTemplate, AST.Options.DontTrackContext);
+
+            var expected = new AST()
+                .Add(new TagNode("c", "choose").
+                    Add(new TagNode("c", "when").With("Test",new ExpressionNode("Yes","Property",null)).Add(new TextNode("WHEN"))).
+                    Add(new TagNode("c", "otherwise").Add(new TextNode("OTHERWISE")))
+            );
+
+            Assert.That(ast, Deeply.Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void Should_collect_template()
+        {
+            const string TEMPLATE = @"<sharp:include file=""a.htm""/>";
+            var formatter = new Formatter(TEMPLATE).Parse();
+            var ast = new AST(formatter.ParsedTemplate, AST.Options.DontTrackContext);
+
+            var expected = new AST()
+                .Add(new TagNode("sharp", "include").With("File","a.htm").Add(
+                    new TemplateNode().Add(new TextNode("aa"))
+            ));
+
+            Assert.That(ast, Deeply.Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void Should_collect_prune_template()
+        {
+            const string TEMPLATE = @"<sharp:include file=""a.htm""/>";
+            var formatter = new Formatter(TEMPLATE).Parse();
+            var ast = new AST(formatter.ParsedTemplate, AST.Options.DontTrackContext|AST.Options.PruneTemplates);
+
+            var expected = new AST()
+                .Add(new TagNode("sharp", "include").With("File", "a.htm"));
+
+            Assert.That(ast, Deeply.Is.EqualTo(expected));
+        }
     }
 }

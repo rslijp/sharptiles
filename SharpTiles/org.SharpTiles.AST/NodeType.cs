@@ -11,6 +11,7 @@ namespace org.SharpTiles.AST
         Root,
         Tag,
         Text,
-        Expression
+        Expression,
+        Template
     }
 }

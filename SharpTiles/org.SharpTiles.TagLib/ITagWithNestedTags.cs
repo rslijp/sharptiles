@@ -21,5 +21,7 @@
     public interface ITagWithNestedTags : ITag
     {
         void AddNestedTag(ITag tag);
+
+        ITag[] NestedTags { get;  }
     }
 }
