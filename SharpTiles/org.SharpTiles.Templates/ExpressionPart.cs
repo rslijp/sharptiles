@@ -48,6 +48,7 @@ namespace org.SharpTiles.Templates
             }
         }
 
+      
         public ParseContext Context
         {
             get { return _expression != null && _expression.Token != null ? _expression.Token.Context : null; }

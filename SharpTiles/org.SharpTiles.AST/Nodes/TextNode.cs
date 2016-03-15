@@ -14,6 +14,7 @@ namespace org.SharpTiles.AST
     {
         public TextNode(TextPart textPart)
         {
+            Context = textPart.Context;
             Value = textPart.ConstantValue.ToString();
         }
 
@@ -28,7 +29,22 @@ namespace org.SharpTiles.AST
         public NodeType Type => NodeType.Text;
         public bool Prune(AST.Options options)
         {
-            if ((options & AST.Options.TrimEmptyTextNodes) != AST.Options.TrimEmptyTextNodes) return false;
+            if (options.HasFlag(AST.Options.DontTrackContext)) Context = null;
+            return PruneAll(options)||PruneEmpty(options);
+        }
+
+        [DataMember]
+        public Context Context { get; internal set; }
+
+   
+        private bool PruneAll(AST.Options options)
+        {
+            return options.HasFlag(AST.Options.TrimAllTextNodes);
+        }
+
+        public bool PruneEmpty(AST.Options options)
+        {
+            if (!options.HasFlag(AST.Options.TrimEmptyTextNodes)) return false;
             if (Value.Trim().Length == 0) return true;
             return false;
         }
@@ -36,6 +52,12 @@ namespace org.SharpTiles.AST
         public override string ToString()
         {
             return "'"+Value+"'";
+        }
+
+        public TextNode At(int line, int index)
+        {
+            Context=new Context(line,index);
+            return this;
         }
     }
 }

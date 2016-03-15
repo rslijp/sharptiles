@@ -297,6 +297,22 @@ namespace org.SharpTiles.Templates.Test
         }
 
         [Test]
+        public void Should_Still_Collect_Parse_Fragment()
+        {
+            var f = new Formatter("<c:out>${a}<c:out>${a}</c:out>");
+            try
+            {
+                f.Parse();
+                Assert.Fail();
+            }
+            catch (ExceptionWithContext ewc)
+            {
+                Assert.That(ewc.Context.Index, Is.EqualTo(26));
+            }
+            Assert.That(f.ParsedTemplate, Is.Not.Null);
+        }
+
+        [Test]
         public void FileTemplateWithTagsAndAttributesOnNewLine()
         {
             var model = new Hashtable();

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Linq;
 using System.Runtime.Serialization;
+using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Templates;
 
@@ -27,6 +28,7 @@ namespace org.SharpTiles.AST.Nodes
             Name = tag.TagName;
             YieldAttributes(tag);
             YieldBody(tag);
+            Context = tagPart.Context;
         }
 
        
@@ -51,15 +53,24 @@ namespace org.SharpTiles.AST.Nodes
         [DataMember]
         public NodeType Type => NodeType.Tag;
 
+        [DataMember]
+        public Context Context { get; private set; }
+
+        public TagNode At(int line, int index)
+        {
+            Context = new Context(line, index);
+            return this;
+        }
+
         public TagNode With(string name, params INode[] value)
         {
             _attributes.Add(name,value);
             return this;
         }
 
-        public TagNode With(string name, string value)
+        public TagNode With(string name, string value, Context context=null)
         {
-            _attributes.Add(name, new INode[] { new TextNode(value)});
+            _attributes.Add(name, new INode[] { new TextNode(value) {Context = context} });
             return this;
         }
 
@@ -79,7 +90,7 @@ namespace org.SharpTiles.AST.Nodes
         private void HandleConstant(string name, ConstantAttribute value)
         {
             if (value == null) return;
-            With(name, value.ConstantValue.ToString());
+            With(name, value.ConstantValue.ToString(), value.Context);
         }
 
         private void HandleExpression(string name, TemplateAttribute value)
@@ -107,7 +118,15 @@ namespace org.SharpTiles.AST.Nodes
 
         public override bool Prune(AST.Options options)
         {
-            var prune=base.Prune(options);
+            if (options.HasFlag(AST.Options.DontTrackContext))
+            {
+                foreach (var attribute in Attributes.Values.SelectMany(x=>x))
+                {
+                    attribute.Prune(AST.Options.DontTrackContext);
+                }
+                Context = null;
+            }
+            var prune =base.Prune(options);
             foreach (var attribute in _attributes.Keys.ToList())
             {
                 var c = _attributes[attribute].All(a => a.Prune(options));

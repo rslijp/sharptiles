@@ -31,14 +31,18 @@ namespace org.SharpTiles.Common
         private readonly string _text;
         private readonly TokenType _type;
         private string _contents;
+        private ParseContext _offset;
 
-        public Token(TokenType type, string contents, int index, string text)
+        public Token(TokenType type, string contents, int index, string text, ParseContext offset)
         {
             _type = type;
             _contents = contents;
             _index = index;
             _text = text;
+            _offset = offset;
         }
+
+
 
         public string Contents
         {
@@ -82,7 +86,11 @@ namespace org.SharpTiles.Common
 
         public ParseContext Context
         {
-            get { return new ParseContext(Contents, Index, Text); }
+            get
+            {
+                var context= new ParseContext(Contents, Index, Text);
+                return _offset?.Add(context) ?? context;
+            }
         }
 
         public string Text

@@ -16,7 +16,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- namespace org.SharpTiles.Tags.CoreTags
+
+using org.SharpTiles.Common;
+
+namespace org.SharpTiles.Tags.CoreTags
 {
     public abstract class ChooseItemCoreTag : BaseCoreTag
     {

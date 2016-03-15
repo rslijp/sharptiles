@@ -24,6 +24,7 @@ namespace org.SharpTiles.Common
     public class Tokenizer : IEnumerable<Token>
     {
         private readonly TokenizerConfiguration _configuration;
+        private ParseContext _offSet;
 
         public Tokenizer(string template, char? escapeCharacter, string[] seperators, char[] literals)
             : this(template, false, escapeCharacter, seperators, literals, null)
@@ -43,18 +44,24 @@ namespace org.SharpTiles.Common
         }
 
         public Tokenizer(string template, bool returnSeperator, char? escapeCharacter, string[] seperators,
-                         char[] literals, string[] whiteSpaceSeperators)
+                         char[] literals, string[] whiteSpaceSeperators, ParseContext offset=null)
             : this(template, returnSeperator, false, escapeCharacter, seperators, literals, whiteSpaceSeperators)
 
         {
         }
 
         public Tokenizer(string template, bool returnSeperator, bool returnLiterals, char? escapeCharacter,
-                         string[] seperators, char[] literals, string[] whiteSpaceSeperators)
+                         string[] seperators, char[] literals, string[] whiteSpaceSeperators, ParseContext offset = null)
         {
             _configuration =
                 new TokenizerConfiguration(template, escapeCharacter, seperators, whiteSpaceSeperators, literals,
                                            returnSeperator, returnLiterals);
+        }
+
+        public Tokenizer AddOffSet(ParseContext offSet)
+        {
+            _offSet = offSet;
+            return this;
         }
 
         #region IEnumerable<Token> Members
@@ -73,7 +80,7 @@ namespace org.SharpTiles.Common
 
         public TokenEnumerator GetTokenEnumerator()
         {
-            return new TokenEnumerator(_configuration);
+            return new TokenEnumerator(_configuration, _offSet);
         }
     }
 }

@@ -20,6 +20,7 @@
 using System.ComponentModel;
 using System.Text;
 using System.Web;
+ using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Tags.CoreTags
 {

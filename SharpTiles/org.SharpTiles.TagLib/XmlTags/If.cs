@@ -17,7 +17,8 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
  using System.ComponentModel;
-using org.SharpTiles.Tags.CoreTags;
+ using org.SharpTiles.Common;
+ using org.SharpTiles.Tags.CoreTags;
 
 namespace org.SharpTiles.Tags.XmlTags
 {

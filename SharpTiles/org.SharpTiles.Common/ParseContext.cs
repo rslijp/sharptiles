@@ -18,16 +18,17 @@
  */
  using System;
 using System.Collections.Generic;
-using System.Text;
+ using System.Runtime.Serialization;
+ using System.Text;
 
 namespace org.SharpTiles.Common
 {
     public class ParseContext
     {
         private readonly string _contents;
-        private readonly int _index;
+        private int _index;
         private readonly string[] _lines;
-        private readonly string _text;
+        private string _text;
         private IList<ContextLine> _context;
         private int _lineIndex;
         private int _lineNumber;
@@ -44,7 +45,7 @@ namespace org.SharpTiles.Common
             CreateLineWithPosition();
         }
 
-        private int LineIndex
+        public int LineIndex
         {
             get { return _lineIndex; }
         }
@@ -93,6 +94,13 @@ namespace org.SharpTiles.Common
         public ParseContext Add(ParseContext offset)
         {
             return new ParseContext(offset._contents, _index + offset._index+1, _text);
+        }
+
+        public void SetGlobalContext(ParseContext context)
+        {
+            if (context == null) return;
+            _index = _index + context._index;
+            _text = context._text;
         }
 
         private void CreateLineWithPosition()

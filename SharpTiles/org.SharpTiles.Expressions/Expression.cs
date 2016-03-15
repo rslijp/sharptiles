@@ -114,6 +114,7 @@ namespace org.SharpTiles.Expressions
 
         public abstract void GuardTypeSafety();
 
+      
         public Token Token { get; protected internal set; }
 
         protected static void Register(IExpressionParser parser, ICollection<string> operands, ICollection<string> whiteSpaceOperands)
@@ -160,9 +161,9 @@ namespace org.SharpTiles.Expressions
             return PARSERS_BY_TYPE.Values;
         }
 
-        public static Expression Parse(string expression)
+        public static Expression Parse(string expression, ParseContext offset = null)
         {
-            var tokenizer = new Tokenizer(expression, true, '\\', OPERANDS, null, WHITESPACE_OPERANDS);
+            var tokenizer = new Tokenizer(expression, true, '\\', OPERANDS, null, WHITESPACE_OPERANDS, offset).AddOffSet(offset);
             var parseHelper = new ExpressionParserHelper(tokenizer);
             parseHelper.Init();
             Parse(parseHelper);

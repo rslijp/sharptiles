@@ -89,8 +89,15 @@ namespace org.SharpTiles.Templates
             {
                 _initialLocator = f.GetNewLocator();
             }
-            _templateParsed = new InternalFormatter(new TagLibParserFactory(new TagLibForParsing(_lib),f), _template, _allowTags, _initialLocator).Parse();
-
+            var formatter  = new InternalFormatter(new TagLibParserFactory(new TagLibForParsing(_lib), f), _template, _allowTags, _initialLocator);
+            try
+            {
+                formatter.Parse();
+            }
+            finally
+            {
+                _templateParsed = formatter.ParsedTemplate;
+            }
             return this;
         }
 

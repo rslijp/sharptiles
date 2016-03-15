@@ -29,10 +29,13 @@ namespace org.SharpTiles.Common
         private Token _current;
         private int _index;
         private TokenizerState _state = TokenizerState.NotSet;
+        private ParseContext _offSet;
 
-        public TokenEnumerator(TokenizerConfiguration configuration)
+        public TokenEnumerator(TokenizerConfiguration configuration, ParseContext offSet=null)
         {
+            _offSet = offSet;
             _configurationStack.Push(configuration);
+
         }
 
         #region IEnumerator<Token> Members
@@ -140,7 +143,8 @@ namespace org.SharpTiles.Common
                 new Token(TokenType.Literal,
                           Configuration.Template[start].ToString(),
                           start,
-                          Configuration.Template
+                          Configuration.Template, 
+                          _offSet
                     )
                 );
         }
@@ -284,17 +288,17 @@ namespace org.SharpTiles.Common
 
         private Token MakeLiteralToken(int start, string literal)
         {
-            return new Token(TokenType.Literal, literal.Substring(1, literal.Length - 2), start, Configuration.Template);
+            return new Token(TokenType.Literal, literal.Substring(1, literal.Length - 2), start, Configuration.Template, _offSet);
         }
 
         private Token MakeSeperatorToken(int start, string seperator)
         {
-            return new Token(TokenType.Seperator, seperator, start, Configuration.Template);
+            return new Token(TokenType.Seperator, seperator, start, Configuration.Template, _offSet);
         }
 
         private Token MakeRegularToken(int start, string content)
         {
-            return new Token(TokenType.Regular, content, start, Configuration.Template);
+            return new Token(TokenType.Regular, content, start, Configuration.Template, _offSet);
         }
 
         private char CurrentChar()
@@ -336,8 +340,8 @@ namespace org.SharpTiles.Common
                 new Token(TokenType.NotSet, 
                           Configuration.Template[_index-1].ToString(),
                           _index-1,
-                          Configuration.Template
-                              
+                          Configuration.Template, _offSet
+
                     )
                 );
         }

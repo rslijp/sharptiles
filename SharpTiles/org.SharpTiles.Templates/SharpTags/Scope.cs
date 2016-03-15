@@ -17,7 +17,8 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
  using System;
-using org.SharpTiles.Tags;
+ using org.SharpTiles.Common;
+ using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.CoreTags;
 
 namespace org.SharpTiles.Templates.SharpTags

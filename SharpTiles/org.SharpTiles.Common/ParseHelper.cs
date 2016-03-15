@@ -30,7 +30,7 @@ namespace org.SharpTiles.Common
         protected Token _current;
         protected Token _lookahead;
         private Token _previous;
-
+       
         public ParseHelper(Tokenizer tokenizer)
         {
             _tokenizer = tokenizer.GetTokenEnumerator();

@@ -137,7 +137,6 @@
     <Compile Include="ITagGroup.cs" />
     <Compile Include="ITag.cs" />
     <Compile Include="ITagWithNestedTags.cs" />
-    <Compile Include="InternalAttribute.cs" />
     <Compile Include="ISessionResolver.cs" />
     <Compile Include="ISimpleSessionState.cs" />
     <Compile Include="TagBodyMode.cs" />

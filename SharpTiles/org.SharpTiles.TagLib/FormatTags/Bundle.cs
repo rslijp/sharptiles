@@ -19,7 +19,8 @@
  using System;
  using System.Collections.Generic;
  using System.ComponentModel;
-using org.SharpTiles.Tags.CoreTags;
+ using org.SharpTiles.Common;
+ using org.SharpTiles.Tags.CoreTags;
 
 namespace org.SharpTiles.Tags.FormatTags
 {

@@ -252,10 +252,12 @@ namespace org.SharpTiles.Templates
                 }
                 if (string.IsNullOrEmpty(value))
                 {
-                    tagReflection[key] =new ConstantAttribute("", tag) {AttributeName = key};
+                    tagReflection[key] =new ConstantAttribute("", tag) {AttributeName = key,Context = keyToken.Context };
                     continue;
                 }
-                tagReflection[key] = new TemplateAttribute(new InternalFormatter(new TagLibParserFactoryAdapter(this), value, false, _locator).Parse()) { AttributeName = key }; ;
+                var offSet = _helper.Current.Context;
+                var attr=new TemplateAttribute(new InternalFormatter(new TagLibParserFactoryAdapter(this), value, false, _locator, offSet).Parse()) { AttributeName = key };
+                tagReflection[key] = attr;
             }
         }
 

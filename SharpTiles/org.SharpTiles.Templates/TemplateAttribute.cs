@@ -59,16 +59,24 @@ namespace org.SharpTiles.Templates
             }
         }
 
-
         public ParseContext Context
         {
             get { return _resultParts.Context; }
         }
 
+//        public ParseContext Context
+//        {
+//            get { return OffSet?.Add(_resultParts.Context)?? _resultParts.Context; }
+//        }
+//
+//        public ParseContext OffSet { get; set; }
+
         public IResourceLocator ResourceLocator
         {
             get { return _resultParts.ResourceLocator; }
         }
+
+       
 
         #endregion
 

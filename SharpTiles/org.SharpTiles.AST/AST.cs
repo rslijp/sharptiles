@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using org.SharpTiles.AST.Nodes;
+using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 using org.SharpTiles.Templates;
@@ -17,16 +18,23 @@ namespace org.SharpTiles.AST
         public enum Options
         {
             None = 0,
-            TrimEmptyTextNodes = 1
+            TrimEmptyTextNodes = 1,
+            TrimAllTextNodes = 2,
+            FlatExpression = 4,
+            DontTrackContext = 8
         }
+
 
         public AST()
         {
-            
         }
 
-        public AST(ParsedTemplate source, Options options=Options.None)
+        public AST(ParsedTemplate source, Options options=Options.None) : this()
         {
+            if (!options.HasFlag(Options.DontTrackContext))
+            {
+                Context=new Context(1,1);
+            }
             Yield(this,source);
             Prune(options);
         }
@@ -50,11 +58,20 @@ namespace org.SharpTiles.AST
         public NodeType Type => NodeType.Root;
 
         [DataMember]
+        public Context Context { get; private set; }
+        public AST At(int line, int index)
+        {
+            Context = new Context(line, index);
+            return this;
+        }
+        [DataMember]
         public INode[] Nodes => _childs.ToArray();
 
         public override string ToString()
         {
             return "#AST\r\n"+string.Join("\r\n",Nodes.Select(n=>n.ToString().Replace("\r\n", "\r\n\t")));
         }
+
+       
     }
 }

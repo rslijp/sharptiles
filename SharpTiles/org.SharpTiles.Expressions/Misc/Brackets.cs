@@ -51,6 +51,7 @@ namespace org.SharpTiles.Expressions
             get { return _nodes; }
         }
 
+        [Internal]
         public Expression Nested
         {
             get
