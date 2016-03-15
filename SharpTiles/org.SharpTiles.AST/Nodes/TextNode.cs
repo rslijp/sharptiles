@@ -33,7 +33,7 @@ namespace org.SharpTiles.AST
             return PruneAll(options)||PruneEmpty(options);
         }
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public Context Context { get; internal set; }
 
    

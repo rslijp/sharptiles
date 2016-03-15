@@ -53,7 +53,7 @@ namespace org.SharpTiles.AST.Nodes
         [DataMember]
         public NodeType Type => NodeType.Tag;
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public Context Context { get; private set; }
 
         public TagNode At(int line, int index)

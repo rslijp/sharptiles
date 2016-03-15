@@ -52,7 +52,7 @@ namespace org.SharpTiles.AST.Nodes
         [DataMember]
         public NodeType Type => NodeType.Expression;
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public Context Context { get; private set; }
 
         public ExpressionNode At(int line, int index)

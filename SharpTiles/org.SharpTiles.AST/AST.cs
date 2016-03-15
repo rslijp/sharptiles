@@ -57,7 +57,7 @@ namespace org.SharpTiles.AST
         [DataMember]
         public NodeType Type => NodeType.Root;
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public Context Context { get; private set; }
         public AST At(int line, int index)
         {
