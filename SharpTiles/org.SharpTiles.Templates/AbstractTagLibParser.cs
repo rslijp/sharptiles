@@ -53,7 +53,7 @@ namespace org.SharpTiles.Templates
             }
             var context = _helper.Current.Context;
             var tag = ParseOpenTag();
-            tag.Context = context;
+            if(tag!=null) tag.Context = context;
             return tag;
         }
 
