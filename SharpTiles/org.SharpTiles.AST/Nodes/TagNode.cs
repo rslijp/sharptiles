@@ -72,7 +72,7 @@ namespace org.SharpTiles.AST.Nodes
         public IDictionary<string, INode[]> Attributes => new ReadOnlyDictionary<string, INode[]>(_attributes);
 
         [DataMember]
-        public INode[] Nodes => _childs.ToArray();
+        public INode[] Nodes => _children.ToArray();
 
 
         [DataMember]
@@ -152,7 +152,7 @@ namespace org.SharpTiles.AST.Nodes
                 Context = null;
             }
             //Empty tag before prune. Not wise to remove
-            if (_attributes.Count == 0 && _childs.Count == 0) return false;
+            if (_attributes.Count == 0 && _children.Count == 0) return false;
             var prune = base.Prune(options);
             foreach (var attribute in _attributes.Keys.ToList())
             {

@@ -56,7 +56,7 @@ namespace org.SharpTiles.AST
         public Context Context { get; private set; }
         
         [DataMember]
-        public INode[] Nodes => _childs.ToArray();
+        public INode[] Nodes => _children.ToArray();
 
         public override string ToString()
         {

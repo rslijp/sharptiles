@@ -8,15 +8,15 @@ namespace org.SharpTiles.AST.Nodes
 {
     public abstract class BaseNode<T>  where T : BaseNode<T>
     {
-        protected List<INode> _childs;
+        protected List<INode> _children;
         public BaseNode()
         {
-            _childs = new List<INode>();
+            _children = new List<INode>();
         }
 
         public T Add(INode child)
         {
-            _childs.Add(child);
+            _children.Add(child);
             return (T) this;
         }
 
@@ -58,8 +58,8 @@ namespace org.SharpTiles.AST.Nodes
 
         public virtual bool Prune(AST.Options options)
         {
-            _childs = _childs.Where(c => !c.Prune(options)).ToList();
-            return _childs.Count == 0;
+            _children = _children.Where(c => !c.Prune(options)).ToList();
+            return _children.Count == 0;
 
         }
 

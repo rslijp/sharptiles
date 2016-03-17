@@ -30,8 +30,9 @@ namespace org.SharpTiles.AST
         {
         }
 
-        public AST(ParsedTemplate source, Options options=Options.None) : this()
+        public AST(ParsedTemplate source, Options options=Options.None, string name = null) : this()
         {
+            Name = name;
             Context = new Context(1, 1);
             Yield(this,source);
             Prune(options);
@@ -60,6 +61,8 @@ namespace org.SharpTiles.AST
             }
         }
 
+        [DataMember]
+        public string Name { get; }
        
         [DataMember]
         public NodeType Type => NodeType.Root;
@@ -72,7 +75,7 @@ namespace org.SharpTiles.AST
             return this;
         }
         [DataMember]
-        public INode[] Nodes => _childs.ToArray();
+        public INode[] Nodes => _children.ToArray();
 
         public override string ToString()
         {
