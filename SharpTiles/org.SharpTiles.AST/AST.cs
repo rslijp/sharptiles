@@ -15,6 +15,7 @@ namespace org.SharpTiles.AST
     [DataContract]
     public class AST : BaseNode<AST>, INode
     {
+        [Flags]
         public enum Options
         {
             None = 0,
