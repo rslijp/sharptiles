@@ -77,6 +77,8 @@ namespace org.SharpTiles.Expressions.Functions
             _nested = exp;
         }
 
+        public string PreFix { get; set; }
+
         public override object Evaluate(IModel model)
         {
             var parameters = new List<object>();
@@ -111,7 +113,10 @@ namespace org.SharpTiles.Expressions.Functions
         {
             return _function.Name + _nested;
         }
-
+        public override string AsParsable()
+        {
+            return (PreFix??"")+ _function.Name + _nested;
+        }
         /*
         public override void TypeCheck(IModel model)
         {

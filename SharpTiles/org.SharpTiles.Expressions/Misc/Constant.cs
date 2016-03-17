@@ -87,5 +87,9 @@ namespace org.SharpTiles.Expressions
             return "'" + _value + "'";
         }
 
+        public override string AsParsable()
+        {
+            return "'" + _value + "'";
+        }
     }
 }

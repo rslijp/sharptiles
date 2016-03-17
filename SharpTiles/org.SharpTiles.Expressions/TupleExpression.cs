@@ -69,6 +69,11 @@ namespace org.SharpTiles.Expressions
             return _lhs + " " + GetType().Name + " " + _rhs;
         }
 
+        public override string AsParsable()
+        {
+            return _lhs.AsParsable() + "" + Token.Contents + "" + _rhs.AsParsable();
+        }
+
         /*
         public override void TypeCheck(IModel model)
         {

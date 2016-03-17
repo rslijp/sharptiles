@@ -48,6 +48,8 @@ namespace org.SharpTiles.AST
             return false;
         }
 
+        public string Raw => RawStringHelper.Build(_childs);
+
 
         [DataMember]
         public NodeType Type => NodeType.Template;

@@ -33,25 +33,34 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
     {
         public static Regex INNER_CONTENT = new Regex("^<p>(.*?)</p>$");
 
-        public DescriptionAttribute(string value)
+        public DescriptionAttribute(string value, string category=null)
         {
             Value = value;
+            Category = category;
         }
 
+        
         [DataMember]
         public string Value { get; private set; }
+        [DataMember]
+        public string Category { get; private set; }
 
-   
         public string Html {
             get {
-             
-                var html = new Markdown {ExtraMode = true}.Transform(Value);
-                html = html.Trim();
-                if (INNER_CONTENT.IsMatch(html))
+                try
                 {
-                    html = INNER_CONTENT.Match(html).Groups[1].Value;
+                    var html = new Markdown {ExtraMode = true}.Transform(Value);
+                    html = html.Trim();
+                    if (INNER_CONTENT.IsMatch(html))
+                    {
+                        html = INNER_CONTENT.Match(html).Groups[1].Value;
+                    }
+                    return html;
                 }
-                return html;
+                catch (Exception e)
+                {
+                    return e.Message;
+                }
             }
         }
 
@@ -65,20 +74,6 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
         {
             return property.GetCustomAttributes(typeof(DescriptionAttribute), false).Cast<DescriptionAttribute>().SingleOrDefault();
         }
-
-      
-        public static DescriptionAttribute AsHtml(DescriptionAttribute description)
-        {
-            if (description == null)
-                return null;
-
-            var html = new Markdown { ExtraMode = true }.Transform(description.Value);
-            html = html.Trim();
-            if (INNER_CONTENT.IsMatch(html))
-            {
-                html = INNER_CONTENT.Match(html).Groups[1].Value;
-            }
-            return new DescriptionAttribute(html);
-        }
+        
     }
 }

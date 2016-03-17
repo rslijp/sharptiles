@@ -7,7 +7,8 @@ namespace org.SharpTiles.AST
         NodeType Type { get; }
 
         Context Context { get; }
-
         bool Prune(AST.Options options);
+
+        string Raw { get; }
     }
 }

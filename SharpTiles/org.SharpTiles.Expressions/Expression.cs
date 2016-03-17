@@ -44,6 +44,8 @@ namespace org.SharpTiles.Expressions
             Init();
         }
 
+        public abstract string AsParsable();
+
         public static void Clear()
         {
             lock (_sempaphore)

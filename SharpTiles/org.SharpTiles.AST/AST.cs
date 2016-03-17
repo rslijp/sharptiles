@@ -22,7 +22,10 @@ namespace org.SharpTiles.AST
             TrimAllTextNodes = 2,
             FlatExpression = 4,
             DontTrackContext = 8,
-            PruneTemplates = 16
+            PruneTemplates = 16,
+            InlineTemlpates = 32,
+            NaturalLanguage = 64,
+            PruneRawTexts = 64
         }
 
 
@@ -47,6 +50,9 @@ namespace org.SharpTiles.AST
             return base.Prune(options);
         }
 
+        public string Raw => null;
+
+     
         private static void Yield(AST ast,ParsedTemplate source)
         {
             if (source == null) return;

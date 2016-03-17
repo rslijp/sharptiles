@@ -27,22 +27,26 @@ namespace org.SharpTiles.Expressions
         protected Expression _second;
         protected Expression _third;
 
-
+        public string FirstSign { get; set; }
+        public string SecondSign { get; set; }
         protected TernaryExpression(Expression first)
         {
             _first = first;
         }
 
+        [Internal]
         public Expression First
         {
             get { return _first; }
         }
 
+        [Internal]
         public Expression Second
         {
             get { return _second; }
         }
 
+        [Internal]
         public Expression Third
         {
             get { return _third; }
@@ -79,7 +83,12 @@ namespace org.SharpTiles.Expressions
 
         public override string ToString()
         {
-            return _first + " " + GetType().Name + " " + _second;
+            return _first + " " + GetType().Name + " " + _second+ " " +_third;
+        }
+
+        public override string AsParsable()
+        {
+            return _first.AsParsable() + FirstSign + _second.AsParsable() + SecondSign + _third.AsParsable();
         }
 
         /*

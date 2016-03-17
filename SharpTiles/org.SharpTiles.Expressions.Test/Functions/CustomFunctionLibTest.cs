@@ -68,6 +68,11 @@ public class PatchedExpressions : Expression
     {
         throw new System.NotImplementedException();
     }
+
+    public override string AsParsable()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public class MathLib : FunctionLib

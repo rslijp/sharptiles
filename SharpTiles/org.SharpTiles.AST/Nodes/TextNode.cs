@@ -26,6 +26,8 @@ namespace org.SharpTiles.AST
         [DataMember]
         public string Value { get; set; }
 
+        public string Raw => Value;
+
         public NodeType Type => NodeType.Text;
         public bool Prune(AST.Options options)
         {

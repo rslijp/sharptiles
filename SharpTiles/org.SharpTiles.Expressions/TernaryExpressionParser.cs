@@ -60,6 +60,8 @@ namespace org.SharpTiles.Expressions
             parseHelper.Expect(DistinctToken.Token);
             TernaryExpression subResult = Create(first);
             subResult.Token = token;
+            subResult.FirstSign = DistinctToken.Token;
+            subResult.SecondSign = AdditionalToken.Token;
             parseHelper.Push(subResult);
             Expression.Parse(parseHelper);
 //            if (subResult.Second == null)

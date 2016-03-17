@@ -71,7 +71,10 @@ namespace org.SharpTiles.Expressions
             return _name;
         }
 
-       
+        public override string AsParsable()
+        {
+            return IsConstant ? $"'{_name}'" : _name;
+        }
 
         /*
         public override void TypeCheck(IModel model)
