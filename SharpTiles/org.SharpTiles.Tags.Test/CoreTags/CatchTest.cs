@@ -62,7 +62,7 @@ namespace org.SharpTiles.Tags.Test.CoreTags
             var model = new TagModel(new Broken());
             Assert.That(tag.Evaluate(model), Is.EqualTo(String.Empty));
             Assert.That(((ReflectionException) model["Model.error"]).Message,
-                        Is.EqualTo(ReflectionException.PropertyNotFound("Broken", typeof(Broken)).Message));
+                        Text.StartsWith(ReflectionException.PropertyNotFound("Broken", typeof(Broken)).Message));
         }
 
         [Test]
@@ -80,7 +80,7 @@ namespace org.SharpTiles.Tags.Test.CoreTags
             Assert.That(tag.Evaluate(model), Is.EqualTo(String.Empty));
             Assert.That(model["Model.error"], Is.Null);
             Assert.That(((ReflectionException) model["Page.error"]).Message,
-                         Is.EqualTo(ReflectionException.PropertyNotFound("Banana", typeof(Broken)).Message));
+                         Text.StartsWith(ReflectionException.PropertyNotFound("Banana", typeof(Broken)).Message));
         }
 
         [Test]

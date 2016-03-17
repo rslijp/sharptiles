@@ -564,20 +564,20 @@ namespace org.SharpTiles.Common
                 PROPERTY_CACHE.TryGetValue(key, out info);
                 if (info != null)
                     return info;
-                info = InternalAcquirePropertyInfo(property, type);
+                info = InternalAcquirePropertyInfo(property, type, source);
                 PROPERTY_CACHE.Add(key, info);
                 return info;
             }
         }
 
-        private static PropertyInfoResult InternalAcquirePropertyInfo(string property, Type type)
+        private static PropertyInfoResult InternalAcquirePropertyInfo(string property, Type type, object source = null)
         {
             PropertyInfo info = type.GetProperty(property);
             if (info == null)
             {
                 return new PropertyInfoResult
                 {
-                    ReflectionException = ReflectionException.PropertyNotFound(property, type)
+                    ReflectionException = ReflectionException.PropertyNotFound(property, type, source)
                 };
             }
             return new PropertyInfoResult { PropertyInfo = info };

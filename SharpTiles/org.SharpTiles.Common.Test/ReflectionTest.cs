@@ -510,7 +510,7 @@ namespace org.SharpTiles.Common.Test
             {
                 ReflectionException test =
                     ReflectionException.PropertyNotFound("NonExistingProperty", typeof (TestSubject));
-                Assert.That(Re.Message, Is.EqualTo(test.Message));
+                Assert.That(Re.Message, Text.StartsWith(test.Message));
             }
         }
 
@@ -527,7 +527,7 @@ namespace org.SharpTiles.Common.Test
             {
                 ReflectionException test =
                     ReflectionException.PropertyNotFound("NonExistingProperty", typeof (TestSubject));
-                Assert.That(Re.Message, Is.EqualTo(test.Message));
+                Assert.That(Re.Message, Text.StartsWith(test.Message));
             }
         }
 
@@ -862,8 +862,7 @@ namespace org.SharpTiles.Common.Test
             }
             catch (ReflectionException Re)
             {
-                Assert.AreEqual(Re.Message,
-                                ReflectionException.PropertyNotFound("NonExisting", typeof (TestSubject)).Message);
+                Assert.That(Re.Message, Text.StartsWith(ReflectionException.PropertyNotFound("NonExisting", typeof (TestSubject)).Message));
             }
         }
 
@@ -931,8 +930,7 @@ namespace org.SharpTiles.Common.Test
             }
             catch (ReflectionException Re)
             {
-                Assert.AreEqual(Re.Message,
-                                ReflectionException.PropertyNotFound("NonExisting", typeof (TestSubject)).Message);
+                Assert.That(Re.Message, Text.StartsWith(ReflectionException.PropertyNotFound("NonExisting", typeof (TestSubject)).Message));
             }
         }
 
@@ -1000,7 +998,7 @@ namespace org.SharpTiles.Common.Test
             catch (ReflectionException Re)
             {
                 Assert.That(Re.Message,
-                            Is.EqualTo(ReflectionException.PropertyNotFound("SimpleString", typeof (Proxy)).Message));
+                            Text.StartsWith(ReflectionException.PropertyNotFound("SimpleString", typeof (Proxy)).Message));
             }
             _reflection.ObjectResolver = delegate(object source)
                                              {

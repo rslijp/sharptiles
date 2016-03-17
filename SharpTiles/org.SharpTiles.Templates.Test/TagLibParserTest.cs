@@ -555,7 +555,7 @@ namespace org.SharpTiles.Templates.Test
             catch (ReflectionException Re)
             {
                 Assert.That(Re.Message,
-                            Is.EqualTo(ReflectionException.PropertyNotFound("SomeTest", typeof (If)).Message));
+                            Text.StartsWith(ReflectionException.PropertyNotFound("SomeTest", typeof (If)).Message));
             }
         }
 

@@ -31,9 +31,11 @@ namespace org.SharpTiles.Common
         public int Nesting { get; set; }
         public bool IgnoreOnGet { get; private set; }
 
-        public static ReflectionException PropertyNotFound(string property, Type type)
+        public static ReflectionException PropertyNotFound(string property, Type type, object source = null)
         {
-            string msg = string.Format("There's no (public) property '{0}' found on '{1}'.", property, type.FullName);
+            string msg = $"There's no (public) property '{property}' found on '{type.FullName}'.";
+            if (source != null)
+                msg += $" ({source})";
             return new ReflectionException(msg);
         }
 
