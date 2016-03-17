@@ -17,9 +17,10 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
  using System;
+ using System.ComponentModel;
  using System.Runtime.Serialization;
- using org.SharpTiles.Documentation.DocumentationAttributes;
  using org.SharpTiles.Expressions.Functions;
+ using DescriptionAttribute = org.SharpTiles.Documentation.DocumentationAttributes.DescriptionAttribute;
 
 namespace org.SharpTiles.Documentation
 {
@@ -31,15 +32,24 @@ namespace org.SharpTiles.Documentation
         private readonly FunctionArgument[] _arguments;
         private readonly Type _returnType;
         private readonly DescriptionAttribute _description;
+        private readonly CategoryAttribute _category;
 
         public FunctionDocumentation(ResourceKeyStack messagePath, IFunctionDefinition func)
         {
+
             _name = func.Name;
             _arguments = func.Arguments;
             _returnType = func.ReturnType;
             _messagePath = messagePath.BranchFor(func);
             _description=_messagePath.Description;
+            _category = CategoryHelper.GetCategory(func.GetType());
         }
+
+        [DataMember]
+        public string Id => "id_Functions_"+(Category??"General")+"_"+_name;
+
+        [DataMember]
+        public string Category => _category?.Category;
 
         [DataMember]
         public string Name

@@ -23,7 +23,7 @@ namespace org.SharpTiles.AST
             FlatExpression = 4,
             DontTrackContext = 8,
             PruneTemplates = 16,
-            InlineTemlpates = 32,
+            InlineTemplates = 32,
             NaturalLanguage = 64,
             PruneRawTexts = 64
         }

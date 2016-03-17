@@ -44,7 +44,7 @@
   <ItemGroup>
     <Compile Include="AST.cs" />
     <Compile Include="Context.cs" />
-    <Compile Include="Nodes\Attributes.cs" />
+    <Compile Include="Nodes\TagAttributeNode.cs" />
     <Compile Include="Nodes\RawStringHelper.cs" />
     <Compile Include="Nodes\TemplateNode.cs" />
     <Compile Include="Nodes\BaseNode.cs" />

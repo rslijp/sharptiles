@@ -73,6 +73,7 @@ namespace org.SharpTiles.Documentation
         [DataMember]
         public DescriptionAttribute Description => _description;
 
+        [DataMember]
         public List<ExpressionOperatorSign> Tokens
         {
             get { return _tokens; }

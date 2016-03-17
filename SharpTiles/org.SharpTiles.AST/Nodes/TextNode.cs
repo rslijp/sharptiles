@@ -26,6 +26,7 @@ namespace org.SharpTiles.AST
         [DataMember]
         public string Value { get; set; }
 
+        [DataMember]
         public string Raw => Value;
 
         public NodeType Type => NodeType.Text;
