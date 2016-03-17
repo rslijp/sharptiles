@@ -48,6 +48,7 @@ namespace org.SharpTiles.AST
             return false;
         }
 
+        [DataMember]
         public string Raw => RawStringHelper.Build(_children);
 
 

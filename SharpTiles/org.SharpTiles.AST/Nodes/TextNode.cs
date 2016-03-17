@@ -23,7 +23,12 @@ namespace org.SharpTiles.AST
         [DataMember]
         public string Raw => Value;
 
+        [DataMember]
+        public INode[] Nodes => new INode[0];
+
+        [DataMember]
         public NodeType Type => NodeType.Text;
+
         public bool Prune(AST.Options options)
         {
             if (options.HasFlag(AST.Options.DontTrackContext)) Context = null;

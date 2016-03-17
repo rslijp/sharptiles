@@ -10,5 +10,7 @@ namespace org.SharpTiles.AST
         bool Prune(AST.Options options);
 
         string Raw { get; }
+
+        INode[] Nodes { get; }
     }
 }

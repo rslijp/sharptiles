@@ -12,11 +12,11 @@ namespace org.SharpTiles.AST.Nodes
     public class ExpressionNode : INode
     {
 
-        protected List<ExpressionNode> _childs;
+        protected List<ExpressionNode> _children;
 
         public ExpressionNode()
         {
-            _childs = new List<ExpressionNode>();
+            _children = new List<ExpressionNode>();
         }
 
         public ExpressionNode(ExpressionPart expressionPart) : this(expressionPart.Expression)
@@ -43,6 +43,7 @@ namespace org.SharpTiles.AST.Nodes
         [DataMember]
         public string Value { get; set; }
 
+        [DataMember]
         public string Raw => $"${{{Value}}}";
 
         [DataMember]
@@ -66,8 +67,8 @@ namespace org.SharpTiles.AST.Nodes
         public bool Prune(AST.Options options)
         {
             if (options.HasFlag(AST.Options.DontTrackContext)) Context=null;
-            if (options.HasFlag(AST.Options.FlatExpression)) _childs.Clear();
-            foreach (var expressionNode in _childs)
+            if (options.HasFlag(AST.Options.FlatExpression)) _children.Clear();
+            foreach (var expressionNode in _children)
             {
                 expressionNode.Prune(options);
             }
@@ -75,11 +76,13 @@ namespace org.SharpTiles.AST.Nodes
         }
 
         [DataMember]
-        public ExpressionNode[] Nodes => _childs.ToArray();
+        public ExpressionNode[] Nodes => _children.ToArray();
+
+        INode[] INode.Nodes => _children.Cast<INode>().ToArray();
 
         public ExpressionNode Add(ExpressionNode node)
         {
-            _childs.Add(node);
+            _children.Add(node);
             return this;
         }
 
