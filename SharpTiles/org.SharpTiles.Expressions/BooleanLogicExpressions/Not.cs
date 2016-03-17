@@ -70,6 +70,11 @@ namespace org.SharpTiles.Expressions
             return "!" + _nested;
         }
 
+        public override string AsParsable()
+        {
+            return "!" + _nested.AsParsable();
+        }
+
         /*
         public override void TypeCheck(IModel model)
         {

@@ -19,7 +19,8 @@
  using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using org.SharpTiles.Common;
+ using System.Linq;
+ using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Expressions
 {
@@ -117,7 +118,12 @@ namespace org.SharpTiles.Expressions
 
         public override string ToString()
         {
-            return "(" + string.Join(",",_nodes) + ")";
+            return AsParsable();
+        }
+
+        public override string AsParsable()
+        {
+            return "(" + string.Join(",", _nodes.Select(n=>n.AsParsable())) + ")";
         }
 
         /*

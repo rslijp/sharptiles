@@ -14,19 +14,22 @@ namespace org.SharpTiles.AST.Nodes
             _childs = new List<INode>();
         }
 
+        internal INode[] Childs=> _childs.ToArray();
+
         public T Add(INode child)
         {
             _childs.Add(child);
             return (T) this;
         }
 
-        protected void Harvest(ITemplatePart templatePart)
+        protected INode Harvest(ITemplatePart templatePart)
         {
             var node = Yield(templatePart);
             if (node != null)
             {
                 Add(node);
             }
+            return node;
         }
 
         protected INode Yield(ITemplatePart templatePart)
@@ -58,6 +61,17 @@ namespace org.SharpTiles.AST.Nodes
 
         public virtual bool Prune(AST.Options options)
         {
+            if (options.HasFlag(AST.Options.InlineTemlpates))
+            {
+                var expanded = new List<INode>();
+                foreach (var child in _childs)
+                {
+                    var templateChild = child as TemplateNode;
+                    if (templateChild!=null) expanded.AddRange(templateChild.Nodes);
+                    else expanded.Add(child);
+                }
+                _childs = expanded;
+            }
             _childs = _childs.Where(c => !c.Prune(options)).ToList();
             return _childs.Count == 0;
 

@@ -65,6 +65,7 @@ namespace org.SharpTiles.Expressions
             parseHelper.PopTokenConfiguration(ResetIndex.MaintainPosition);
             parseHelper.Next();
             function.Token = start;
+            function.PreFix = start.Contents;
             parseHelper.Push(function);
             if (function.Arguments.Length == 0)
             {

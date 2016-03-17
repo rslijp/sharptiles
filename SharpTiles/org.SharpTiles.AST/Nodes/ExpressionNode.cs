@@ -27,7 +27,7 @@ namespace org.SharpTiles.AST.Nodes
         public ExpressionNode(Expression expression) : this()
         {
             Context = expression.Token.Context;
-            Value = expression.ToString();
+            Value = expression.AsParsable();
             Yield(expression);
         }
 
@@ -42,6 +42,8 @@ namespace org.SharpTiles.AST.Nodes
 
         [DataMember]
         public string Value { get; set; }
+
+        public string Raw => $"${{{Value}}}";
 
         [DataMember]
         public string Name { get; set; }

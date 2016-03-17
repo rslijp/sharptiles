@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Templates;
@@ -13,7 +14,7 @@ namespace org.SharpTiles.AST.Nodes
     [DataContract]
     public class TagNode : BaseNode<TagNode>, INode
     {
-        private readonly IDictionary<string, INode[]> _attributes;
+        private IDictionary<string, TagAttributeNode> _attributes;
 
         public TagNode(string groupName, string tagName) : this()
         {
@@ -42,7 +43,6 @@ namespace org.SharpTiles.AST.Nodes
             {
                 foreach (var nestedTag in tagWithNestedTags.NestedTags)
                 {
-                    Console.WriteLine(nestedTag+">"+ nestedTag.Context);
                     Add(new TagNode(nestedTag, nestedTag.Context));
                 }
             }
@@ -59,7 +59,7 @@ namespace org.SharpTiles.AST.Nodes
 
         public TagNode() : base()
         {
-            _attributes=new SortedDictionary<string, INode[]>();
+            _attributes=new SortedDictionary<string, TagAttributeNode>();
         }
 
         [DataMember]
@@ -69,7 +69,7 @@ namespace org.SharpTiles.AST.Nodes
         public string Name { get; private set; }
 
         [DataMember]
-        public IDictionary<string, INode[]> Attributes => new ReadOnlyDictionary<string, INode[]>(_attributes);
+        public IDictionary<string, TagAttributeNode> Attributes => new ReadOnlyDictionary<string, TagAttributeNode>(_attributes);
 
         [DataMember]
         public INode[] Nodes => _childs.ToArray();
@@ -77,6 +77,9 @@ namespace org.SharpTiles.AST.Nodes
 
         [DataMember]
         public NodeType Type => NodeType.Tag;
+
+        [DataMember(EmitDefaultValue = false)]
+        public string Raw { get; private set; }
 
         [DataMember(EmitDefaultValue = false)]
         public Context Context { get; private set; }
@@ -87,16 +90,15 @@ namespace org.SharpTiles.AST.Nodes
             return this;
         }
 
-        public TagNode With(string name, params INode[] value)
+        public TagNode With(string name, params INode[] attributes)
         {
-            _attributes.Add(name,value);
+            _attributes.Add(name,new TagAttributeNode(attributes));
             return this;
         }
 
         public TagNode With(string name, string value, Context context=null)
         {
-            _attributes.Add(name, new INode[] { new TextNode(value) {Context = context} });
-            return this;
+            return With(name, new TextNode(value) {Context = context});
         }
 
         private void YieldAttributes(ITag tag)
@@ -135,22 +137,21 @@ namespace org.SharpTiles.AST.Nodes
             if (!typeof(ITagAttribute).IsAssignableFrom(body.PropertyType)) return;
             var value = body.GetValue(tag) as TemplateAttribute;
             if (value == null) return;
+            var childs = new List<INode>();
             foreach (var templatePart in value.TemplateParsed)
             {
-                Harvest(templatePart);
+                childs.Add(Harvest(templatePart));
             }
+            Raw = RawStringHelper.Build(childs);
+
         }
+        
 
         public override bool Prune(AST.Options options)
         {
-            if (options.HasFlag(AST.Options.DontTrackContext))
-            {
-                foreach (var attribute in Attributes.Values.SelectMany(x=>x))
-                {
-                    attribute.Prune(AST.Options.DontTrackContext);
-                }
-                Context = null;
-            }
+            PruneRawText(options);
+            PruneNaturalLanguage(options);
+            PruneContext(options);
             //Empty tag before prune. Not wise to remove
             if (_attributes.Count == 0 && _childs.Count == 0) return false;
             var prune = base.Prune(options);
@@ -160,6 +161,45 @@ namespace org.SharpTiles.AST.Nodes
                 if (c) _attributes.Remove(attribute);
             }
             return prune && _attributes.Count==0;
+        }
+
+        private void PruneContext(AST.Options options)
+        {
+            if (options.HasFlag(AST.Options.DontTrackContext))
+            {
+                foreach (var attribute in Attributes.Values.SelectMany(x => x))
+                {
+                    attribute.Prune(AST.Options.DontTrackContext);
+                }
+                Context = null;
+            }
+        }
+
+        private void PruneRawText(AST.Options options)
+        {
+            if (options.HasFlag(AST.Options.PruneRawTexts))
+            {
+                Raw = null;
+                foreach (var attr in _attributes.Values)
+                {
+                    attr.Raw = null;
+                }
+            }
+        }
+
+        private void PruneNaturalLanguage(AST.Options options)
+        {
+            if (options.HasFlag(AST.Options.NaturalLanguage))
+            {
+                Name = LanguageHelper.DashProperty(Name);
+                Group = LanguageHelper.DashProperty(Name);
+                var mapped = new Dictionary<string, TagAttributeNode>();
+                foreach (var pair in _attributes)
+                {
+                    mapped[LanguageHelper.DashProperty(pair.Key)] = pair.Value;
+                }
+                _attributes = mapped;
+            }
         }
 
         public override string ToString()

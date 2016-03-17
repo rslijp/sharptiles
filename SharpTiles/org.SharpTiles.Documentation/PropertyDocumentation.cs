@@ -117,9 +117,9 @@ namespace org.SharpTiles.Documentation
             [DataMember]
             public object Value { get; }
             [DataMember]
-            public string Description { get; }
+            public DescriptionAttribute Description { get; }
 
-            public EnumValue(object value, string description)
+            public EnumValue(object value, DescriptionAttribute description)
             {
                 Value = value;
                 Description = description;
@@ -129,7 +129,7 @@ namespace org.SharpTiles.Documentation
             {
                 var member = GetMember(enumType, value);
                 var description = member.GetCustomAttribute<DescriptionAttribute>(false);
-                return new EnumValue(value, DescriptionAttribute.AsHtml(description)?.Value);
+                return new EnumValue(value, description);
             }
 
             private static MemberInfo GetMember(Type enumType, object value)
