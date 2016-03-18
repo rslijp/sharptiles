@@ -385,21 +385,43 @@ namespace org.SharpTiles.Common
 
         private static ReflectionResult GetDictionary(string property, object source)
         {
-            var sourceAsList = (IDictionary)source;
-            return new ReflectionResult { Result = sourceAsList[property] };
+            try
+            {
+                var sourceAsList = (IDictionary) source;
+                return new ReflectionResult {Result = sourceAsList[property]};
+            }
+            catch (KeyNotFoundException e)
+            {
+                throw new KeyNotFoundException($"Property '{property}' not found in {source}.", e);
+            }
         }
+
 
         private static ReflectionResult GetNameValueCollection(string property, object source)
         {
-            var sourceAsList = (NameValueCollection)source;
-            return new ReflectionResult { Result = sourceAsList[property] };
+            try
+            {
+                var sourceAsList = (NameValueCollection)source;
+                return new ReflectionResult { Result = sourceAsList[property] };
+            }
+            catch (KeyNotFoundException e)
+            {
+                throw new KeyNotFoundException($"Property '{property}' not found in {source}.", e);
+            }
         }
 
 
         private static ReflectionResult GetLookUpDictionary(string property, object source)
         {
-            var sourceAsList = (IDictionary<string, object>)source;
+            try
+            {
+                var sourceAsList = (IDictionary<string, object>)source;
             return new ReflectionResult { Result = sourceAsList[property] };
+            }
+            catch (KeyNotFoundException e)
+            {
+                throw new KeyNotFoundException($"Property '{property}' not found in {source}.", e);
+            }
         }
 
         private static ReflectionResult SetList(string property, object source, object value)

@@ -67,6 +67,9 @@ namespace org.SharpTiles.AST.Nodes
         public IDictionary<string, TagAttributeNode> Attributes => new ReadOnlyDictionary<string, TagAttributeNode>(_attributes);
 
         [DataMember]
+        public IDictionary<string,string> Attr => new ReadOnlyDictionary<string, string>(_attributes.Values.ToDictionary(a => a.Name, a => a.Raw));
+
+        [DataMember]
         public INode[] Nodes => _children.ToArray();
 
 
