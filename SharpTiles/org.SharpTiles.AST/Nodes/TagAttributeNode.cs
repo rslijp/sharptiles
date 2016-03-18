@@ -1,30 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace org.SharpTiles.AST.Nodes
 {
     [DataContract]
-    public class TagAttributeNode : List<INode>
+    public class TagAttributeNode
     {
-        public TagAttributeNode() : base()
+        public TagAttributeNode()
         {
             
         }
-        public TagAttributeNode(params INode[] nodes) : base(nodes)
+        public TagAttributeNode(string name, params INode[] nodes)
         {
-            Raw= RawStringHelper.Build(this);
+            Name = name;
+            Nodes = nodes;
+            Raw= RawStringHelper.Build(nodes);
         }
-        public TagAttributeNode(IEnumerable<INode> nodes):base(nodes)
-        {
-            Raw = RawStringHelper.Build(this);
-        }
+        public TagAttributeNode(params INode[] nodes):this(null, nodes) { }
+        public TagAttributeNode(IEnumerable<INode> nodes):this(null, nodes.ToArray()) { }
+
+        [DataMember]
+        public string Name { get; internal set; }
+
         [DataMember]
         public string Raw { get; internal set; }
 
-        
+        [DataMember]
+        public INode[] Nodes { get; } = new INode[0];
     }
 }

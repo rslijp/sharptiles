@@ -84,6 +84,10 @@ namespace org.SharpTiles.Expressions
                 lhs = (decimal)TypeConverter.To(lhs, typeof(decimal));
                 rhs = (decimal)TypeConverter.To(rhs, typeof(decimal));
             }
+            if ((TypeConverter.IsEnum(lhs) && rhs is string) ||
+                (lhs is string && TypeConverter.IsEnum(rhs)))
+                return Equals(lhs?.ToString(), rhs?.ToString());
+
             return Equals(lhs, rhs);
         }
     }

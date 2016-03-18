@@ -14,15 +14,15 @@ namespace org.SharpTiles.AST.Nodes
     [DataContract]
     public class TagNode : BaseNode<TagNode>, INode
     {
-        private IDictionary<string, TagAttributeNode> _attributes;
+        private IDictionary<string, TagAttributeNode> _attributes = new SortedDictionary<string, TagAttributeNode>();
 
-        public TagNode(string groupName, string tagName) : this()
+        public TagNode(string groupName, string tagName)
         {
             Group = groupName;
             Name = tagName;
         }
 
-        public TagNode(ITag tag, ParseContext context) : this()
+        public TagNode(ITag tag, ParseContext context)
         {
             Group = tag.Group.Name;
             Name = tag.TagName;
@@ -57,11 +57,6 @@ namespace org.SharpTiles.AST.Nodes
         }
 
 
-        public TagNode() : base()
-        {
-            _attributes=new SortedDictionary<string, TagAttributeNode>();
-        }
-
         [DataMember]
         public string Group { get; private set; }
 
@@ -92,7 +87,7 @@ namespace org.SharpTiles.AST.Nodes
 
         public TagNode With(string name, params INode[] attributes)
         {
-            _attributes.Add(name,new TagAttributeNode(attributes));
+            _attributes.Add(name,new TagAttributeNode(name, attributes));
             return this;
         }
 
@@ -157,7 +152,7 @@ namespace org.SharpTiles.AST.Nodes
             var prune = base.Prune(options);
             foreach (var attribute in _attributes.Keys.ToList())
             {
-                var c = _attributes[attribute].All(a => a.Prune(options));
+                var c = _attributes[attribute].Nodes.All(a => a.Prune(options));
                 if (c) _attributes.Remove(attribute);
             }
             return prune && _attributes.Count==0;
@@ -167,7 +162,7 @@ namespace org.SharpTiles.AST.Nodes
         {
             if (options.HasFlag(AST.Options.DontTrackContext))
             {
-                foreach (var attribute in Attributes.Values.SelectMany(x => x))
+                foreach (var attribute in Attributes.Values.SelectMany(x => x.Nodes))
                 {
                     attribute.Prune(AST.Options.DontTrackContext);
                 }
@@ -210,7 +205,7 @@ namespace org.SharpTiles.AST.Nodes
 
             if (Attributes.Any()) {
                 attributes = "\r\n###Attributes\r\n" +
-                             string.Join("\r\n",Attributes.Select(a => a.Key + ":" + string.Join(">>",a.Value.Select(n => n.ToString().Replace("\r\n", "\r\n\t")))));
+                             string.Join("\r\n",Attributes.Select(a => a.Key + ":" + string.Join(">>",a.Value.Nodes.Select(n => n.ToString().Replace("\r\n", "\r\n\t")))));
             }
             if (Nodes.Any())
             {

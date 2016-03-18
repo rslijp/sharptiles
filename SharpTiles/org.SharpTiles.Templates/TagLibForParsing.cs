@@ -28,32 +28,32 @@ namespace org.SharpTiles.Templates
 {
     public class TagLibForParsing : ITagLib
     {
-        private Stack<ITagLib> stack = new Stack<ITagLib>();
+        private readonly Stack<ITagLib> _stack = new Stack<ITagLib>();
         private ITagLib _top;
 
         public TagLibForParsing(ITagLib tagLib)
         {
             _top = tagLib;
-            stack.Push(tagLib);
+            _stack.Push(tagLib);
         }
 
         #region IEnumerable<ITagGroup> Members
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable<ITagGroup>)stack.SelectMany(l=>l.ToList())).GetEnumerator();
+            return _stack.SelectMany(l=>l.ToList()).GetEnumerator();
         }
 
         public IEnumerator<ITagGroup> GetEnumerator()
         {
-            return stack.SelectMany(l => l.ToList()).GetEnumerator();
+            return _stack.SelectMany(l => l.ToList()).GetEnumerator();
         }
 
         #endregion
 
         public ITagGroup Get(string group, ParseContext context = null)
         {
-            var matches = stack.Where(l => l.Exists(group)).ToList();
+            var matches = _stack.Where(l => l.Exists(group)).ToList();
             if (matches.Count == 1) return matches.Single().Get(group, context);
             if (matches.Count > 0)
             {
@@ -75,7 +75,7 @@ namespace org.SharpTiles.Templates
 
         public bool Exists(string group)
         {
-            foreach (var lib in stack)
+            foreach (var lib in _stack)
             {
                 if (lib.Exists(group)) return true;
             }
@@ -87,13 +87,16 @@ namespace org.SharpTiles.Templates
         public void Push(params ITagGroup[] extension)
         {
             var dish = new TagLib(Mode,extension);
-            stack.Push(dish);
+            _stack.Push(dish);
         }
 
         public void Pop()
         {
-            stack.Pop();
+            _stack.Pop();
         }
+
+        public override string ToString() => $"TagLibForParsing[Mode={Mode},Tags={string.Join(",", _stack)}]";
+
 
         public class CombinedTagGroup : ITagGroup
         {

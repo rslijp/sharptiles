@@ -207,5 +207,10 @@ namespace org.SharpTiles.Common
         {
             return source!=null && REGISTERED_NUMERICS.Contains(source.GetType());
         }
+
+        public static bool IsEnum(object source)
+        {
+            return source?.GetType().IsEnum ?? false;
+        }
     }
 }

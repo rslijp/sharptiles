@@ -75,9 +75,8 @@ namespace org.SharpTiles.Templates.SharpTags
             {
                 LoadTile(_file.ConstantValue.ToString());
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                System.Console.WriteLine(e);
                 _body = null;
             }
             return _body;
@@ -85,14 +84,13 @@ namespace org.SharpTiles.Templates.SharpTags
 
         private void LoadTile(string fileName)
         {
-
             lock (this)
             {
                 if (_body == null || !Equals(fileName, _body.Path))
                 {
                     var locator = _file.ResourceLocator;//for relative path
-                    _body = this.Factory.CloneForTagLib(TagLib).Handle(fileName, locator, true);
-//                      _body = _file.ResourceLocator.Update(fileName);
+                    var tagLib = this.Factory.CloneForTagLib(TagLib);
+                    _body = tagLib.Handle(fileName, locator, true);
                 }
             }
         }

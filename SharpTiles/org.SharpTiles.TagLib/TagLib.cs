@@ -28,7 +28,7 @@ namespace org.SharpTiles.Tags
 {
     public class TagLib : ITagLib
     {
-        private readonly IDictionary<string, ITagGroup> TAGS = new Dictionary<string, ITagGroup>();
+        private readonly IDictionary<string, ITagGroup> _tags = new Dictionary<string, ITagGroup>();
         
         public TagLib(TagLibMode mode=TagLibMode.Strict)
         {
@@ -56,25 +56,25 @@ namespace org.SharpTiles.Tags
 
         public IEnumerator<ITagGroup> GetEnumerator()
         {
-            return TAGS.Values.GetEnumerator();
+            return _tags.Values.GetEnumerator();
         }
 
         #endregion
 
         public ITagLib Register(ITagGroup group)
         {
-            if (TAGS.ContainsKey(group.Name))
-                throw new ArgumentException($"Group '{group.Name}' is already registered. Currently registered groups are: {string.Join(", ", TAGS.Keys)}.");
-            TAGS.Add(group.Name, group);
+            if (_tags.ContainsKey(group.Name))
+                throw new ArgumentException($"Group '{group.Name}' is already registered. Currently registered groups are: {string.Join(", ", _tags.Keys)}.");
+            _tags.Add(group.Name, group);
             return this;
         }
 
  
         public ITagGroup Get(string group, ParseContext context=null)
         {
-            if (TAGS.ContainsKey(group))
+            if (_tags.ContainsKey(group))
             {
-                return TAGS[group];
+                return _tags[group];
             }
             if (context != null) {
                 throw TagException.UnkownTagGroup(group).Decorate(context);
@@ -84,9 +84,11 @@ namespace org.SharpTiles.Tags
 
         public bool Exists(string group)
         {
-            return TAGS.ContainsKey(group);
+            return _tags.ContainsKey(group);
         }
 
         public TagLibMode Mode { get; set; }
+
+        public override string ToString() => $"TagLib[Mode={Mode},Tags={string.Join(",", _tags.Keys)}]";
     }
 }
