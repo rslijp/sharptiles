@@ -69,16 +69,7 @@ namespace org.SharpTiles.AST.Test
             Assert.That(ast, Deeply.Is.EqualTo(expected));
         }
 
-        //        [Test]
-        //        public void Single_Complex_Expression_Node()
-        //        {
-        //            const string TEMPLATE = @"${A + B}";
-        //            var formatter = new Formatter(TEMPLATE).Parse();
-        //            var ast = new AST(formatter.ParsedTemplate, AST.Options.DontTrackContext);
-        //            var expected = new AST().Add(new ExpressionNode("A Add B", "Add", typeof(decimal)));
-        //            Assert.That(ast, Deeply.Is.EqualTo(expected));
-        //        }
-
+    
         [Test]
         public void Single_Complex_Expression_Node()
         {
@@ -288,7 +279,7 @@ namespace org.SharpTiles.AST.Test
         }
 
 
-        [Test,Ignore]
+        [Test]
         public void Should_Track_Context()
         {           
 
@@ -340,25 +331,7 @@ namespace org.SharpTiles.AST.Test
             expected.Prune(AST.Options.PruneRawTexts);
             Assert.That(ast, Deeply.Is.EqualTo(expected));
         }
-        //
-        //        [Test]
-        //        public void Should_Still_Collect_Best_Effort_Parse_Fragment()
-        //        {
-        //            var formatter = new Formatter("<c:out>${a}<c:out>${a}</c:out>");
-        //            try
-        //            {
-        //                formatter.Parse();
-        //                Assert.Fail();
-        //            }
-        //            catch (ExceptionWithContext ewc)
-        //            {
-        //                Console.WriteLine(ewc.Message);
-        //                Assert.That(ewc.Context.Index, Is.EqualTo(26));
-        //            }
-        //            var ast = new AST(formatter.ParsedTemplate, AST.Options.TrimEmptyTextNodes | AST.Options.TrackContext);
-        //            Console.WriteLine(ast);
-        //        }
-
+       
         [Test]
         public void Should_Collected_NestedTags()
         {
