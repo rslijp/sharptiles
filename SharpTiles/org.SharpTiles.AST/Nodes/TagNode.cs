@@ -64,10 +64,10 @@ namespace org.SharpTiles.AST.Nodes
         public string Name { get; private set; }
 
         [DataMember]
-        public IDictionary<string, TagAttributeNode> Attributes => new ReadOnlyDictionary<string, TagAttributeNode>(_attributes);
+        public IDictionary<string, TagAttributeNode> Attributes => new ReadOnlyStringDictionary<TagAttributeNode>(_attributes);
 
         [DataMember]
-        public IDictionary<string,string> Attr => new ReadOnlyDictionary<string, string>(_attributes.Values.ToDictionary(a => a.Name, a => a.Raw));
+        public IDictionary<string,string> Attr => new ReadOnlyStringDictionary<string>(_attributes.Values.ToDictionary(a => a.Name, a => a.Raw));
 
         [DataMember]
         public INode[] Nodes => _children.ToArray();
@@ -220,5 +220,12 @@ namespace org.SharpTiles.AST.Nodes
             }
             return title + attributes + nodes;
         }
+    }
+
+    public class ReadOnlyStringDictionary<T> : ReadOnlyDictionary<string, T>
+    {
+        public ReadOnlyStringDictionary(IDictionary<string,T> values) : base(values) { }
+
+        public override string ToString() => $"[{string.Join(",",this.Select(p => $"{p.Key}={p.Value}"))}]";
     }
 }
