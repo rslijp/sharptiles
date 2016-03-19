@@ -103,19 +103,30 @@ namespace org.SharpTiles.AST.Nodes
         {
             foreach (var prop in tag.GetType().GetProperties())
             {
+                if (prop.Name.Equals("Body")) continue;
+
                 if (!typeof(ITagAttribute).IsAssignableFrom(prop.PropertyType)) continue;
                 var value = prop.GetValue(tag) as ITagAttribute;
-                if (value == null) continue;
-                if (prop.Name.Equals("Body")) continue;
+                if (value == null)
+                {
+                    HandleNull(prop.Name);
+                    continue;
+                }
                 HandleConstant(prop.Name, value as ConstantAttribute);
                 HandleExpression(prop.Name, value as TemplateAttribute);
             }
         }
 
+        private void HandleNull(string name)
+        {
+            With(name);
+        }
+
         private void HandleConstant(string name, ConstantAttribute value)
         {
-            if (value == null) return;
-            With(name, value.ConstantValue.ToString(), value.Context);
+            if (value == null)
+                return;
+            With(name, value.ConstantValue?.ToString(), value.Context);
         }
 
         private void HandleExpression(string name, TemplateAttribute value)
@@ -135,12 +146,12 @@ namespace org.SharpTiles.AST.Nodes
             if (!typeof(ITagAttribute).IsAssignableFrom(body.PropertyType)) return;
             var value = body.GetValue(tag) as TemplateAttribute;
             if (value == null) return;
-            var childs = new List<INode>();
+            var children = new List<INode>();
             foreach (var templatePart in value.TemplateParsed)
             {
-                childs.Add(Harvest(templatePart));
+                children.Add(Harvest(templatePart));
             }
-            Raw = RawStringHelper.Build(childs);
+            Raw = RawStringHelper.Build(children);
 
         }
         

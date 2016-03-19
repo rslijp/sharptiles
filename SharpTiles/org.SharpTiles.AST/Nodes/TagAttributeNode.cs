@@ -28,5 +28,7 @@ namespace org.SharpTiles.AST.Nodes
 
         [DataMember]
         public INode[] Nodes { get; } = new INode[0];
+
+        public bool IsPresent => Nodes.Length > 0;
     }
 }
