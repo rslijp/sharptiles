@@ -167,7 +167,7 @@ namespace org.SharpTiles.AST.Nodes
             foreach (var attribute in _attributes.Keys.ToList())
             {
                 var c = _attributes[attribute].Nodes.All(a => a.Prune(options));
-                if (c) _attributes.Remove(attribute);
+                if (c && !options.HasFlag(AST.Options.IncludeAllAttributes)) _attributes.Remove(attribute);
             }
             return prune && _attributes.Count==0;
         }
