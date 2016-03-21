@@ -74,7 +74,7 @@
     <Compile Include="InternalFormatter.cs" />
     <Compile Include="ITagLibParser.cs" />
     <Compile Include="SessionResolver.cs" />
-    <Compile Include="SharpTags\Inlcude.cs" />
+    <Compile Include="SharpTags\Include.cs" />
     <Compile Include="SharpTags\Scope.cs" />
     <Compile Include="SimpleSessionState.cs" />
     <Compile Include="SharpTags\Sharp.cs" />
