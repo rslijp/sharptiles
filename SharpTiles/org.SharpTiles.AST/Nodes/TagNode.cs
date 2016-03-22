@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using org.SharpTiles.Common;
@@ -67,7 +68,7 @@ namespace org.SharpTiles.AST.Nodes
         public IDictionary<string, TagAttributeNode> Attributes => new ReadOnlyStringDictionary<TagAttributeNode>(_attributes);
 
         [DataMember]
-        public IDictionary<string,string> Attr => new ReadOnlyStringDictionary<string>(_attributes.Values.ToDictionary(a => a.Name, a => a.Raw));
+        public IDictionary<string,string> Attr => new ReadOnlyStringDictionary<string>(_attributes.Values.ToDictionary(a => a.Name, a => a.Raw ?? a.Default));
 
         [DataMember]
         public INode[] Nodes => _children.ToArray();
@@ -94,6 +95,18 @@ namespace org.SharpTiles.AST.Nodes
             return this;
         }
 
+        public TagNode With(string name, TagDefaultValue defaultValue)
+        {
+            _attributes.Add(name,new TagAttributeNode(name, defaultValue));
+            return this;
+        }
+
+        public TagNode With(string name, TagDefaultProperty defaultProperty)
+        {
+            _attributes.Add(name,new TagAttributeNode(name, defaultProperty));
+            return this;
+        }
+
         public TagNode With(string name, string value, Context context=null)
         {
             return With(name, new TextNode(value) {Context = context});
@@ -109,7 +122,7 @@ namespace org.SharpTiles.AST.Nodes
                 var value = prop.GetValue(tag) as ITagAttribute;
                 if (value == null)
                 {
-                    HandleNull(prop.Name);
+                    HandleNull(prop);
                     continue;
                 }
                 HandleConstant(prop.Name, value as ConstantAttribute);
@@ -117,9 +130,21 @@ namespace org.SharpTiles.AST.Nodes
             }
         }
 
-        private void HandleNull(string name)
+        private void HandleNull(PropertyInfo property)
         {
-            With(name);
+            var defaultValue = property.GetCustomAttribute<TagDefaultValue>();
+            if (defaultValue != null)
+            {
+                With(property.Name, defaultValue);
+                return;
+            }
+            var defaultProperty = property.GetCustomAttribute<TagDefaultProperty>();
+            if (defaultProperty != null)
+            {
+                With(property.Name, defaultProperty);
+                return;
+            }
+            With(property.Name);
         }
 
         private void HandleConstant(string name, ConstantAttribute value)

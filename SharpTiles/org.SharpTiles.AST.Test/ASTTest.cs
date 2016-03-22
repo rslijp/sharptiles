@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using org.SharpTiles.AST.Nodes;
 using org.SharpTiles.Common;
@@ -24,7 +19,7 @@ namespace org.SharpTiles.AST.Test
             var ast = new AST(formatter.ParsedTemplate, AST.Options.DontTrackContext);
             var expected = new AST().Add(
                 new TagNode("c","out").With("Value","Hello World"));
-            Assert.That(ast, Deeply.Is.EqualTo(expected));
+            Assert.That(ast, Deeply.Is.EqualTo(expected), ast.ToString());
         }
 
         [Test]
