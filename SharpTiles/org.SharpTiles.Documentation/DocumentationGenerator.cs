@@ -21,6 +21,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using org.SharpTiles.Common;
+using org.SharpTiles.Expressions.Functions;
+using org.SharpTiles.Expressions.Math;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.FormatTags;
 using org.SharpTiles.Tags.Templates.SharpTags;
@@ -44,6 +46,7 @@ namespace org.SharpTiles.Documentation
             _subject = _lib;
             _all = true;
             _fragment = false;
+//            FunctionLib.Register(new MathFunctionLib());
             _specials = new List<Func<ITag, TagDocumentation, bool>>();
         }
         public string GenerateDocumentation()

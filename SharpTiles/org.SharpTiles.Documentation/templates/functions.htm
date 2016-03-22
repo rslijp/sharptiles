@@ -8,3 +8,13 @@
     <sharp:include file="function.htm"/>
 </c:forEach>
 </table>
+<h1><fmt:message key="title_MathFunctions" /></h1>
+<table>
+    <tr>
+        <th><fmt:message key="function_Header_Operator" /></th>
+        <th><fmt:message key="function_Header_Description" /></th>
+    </tr>
+    <c:forEach items="${Model.MathFunctions}">
+        <sharp:include file="function.htm" />
+    </c:forEach>
+</table>

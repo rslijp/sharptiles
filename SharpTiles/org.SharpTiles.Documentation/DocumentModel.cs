@@ -22,6 +22,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using org.SharpTiles.Expressions;
 using org.SharpTiles.Expressions.Functions;
+using org.SharpTiles.Expressions.Math;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.FormatTags;
 using Expression=org.SharpTiles.Expressions.Expression;
@@ -34,6 +35,7 @@ namespace org.SharpTiles.Documentation
       
         private IList<ExpressionDocumentation> _expressions;
         private IList<FunctionDocumentation> _functions;
+        private IList<FunctionDocumentation> _mathFunctions;
         private IList<TagGroupDocumentation> _groups;
         private readonly ResourceKeyStack _resouceKey;
         private readonly TagLib _subject;
@@ -67,9 +69,17 @@ namespace org.SharpTiles.Documentation
         private void GatherFunctions()
         {
             _functions = new List<FunctionDocumentation>();
-            foreach (var function in FunctionLib.Libs().SelectMany(f=>f.Functions))
+            foreach (var functionLib in FunctionLib.Libs()) {
+                foreach (var function in functionLib.Functions)
+                {
+                     _functions.Add(new FunctionDocumentation(functionLib.GroupName, _resouceKey, function));
+                }
+            }
+            _mathFunctions = new List<FunctionDocumentation>();
+            var mathFunctionLib = new MathFunctionLib();
+            foreach (var function in mathFunctionLib.Functions)
             {
-                _functions.Add(new FunctionDocumentation(_resouceKey, function));
+                _mathFunctions.Add(new FunctionDocumentation(null, _resouceKey, function));
             }
         }
 
@@ -78,7 +88,7 @@ namespace org.SharpTiles.Documentation
             _expressions = new List<ExpressionDocumentation>();
             foreach (IExpressionParser expr in org.SharpTiles.Expressions.Expression.GetRegisteredParsers())
             {
-                if (!(expr is PropertyParser) && !(expr is FunctionParser))
+                if (!(expr is PropertyParser) && !(expr is FunctionParser) && !(expr is MathFunctionParser))
                 {
                     _expressions.Add(new ExpressionDocumentation(_resouceKey, expr));
                 }
@@ -97,6 +107,12 @@ namespace org.SharpTiles.Documentation
         public IList<FunctionDocumentation> Functions
         {
             get { return _functions; }
+        }
+
+        [DataMember]
+        public IList<FunctionDocumentation> MathFunctions
+        {
+            get { return _mathFunctions; }
         }
 
         [DataMember]

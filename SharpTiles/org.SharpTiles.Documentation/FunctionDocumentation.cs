@@ -33,10 +33,13 @@ namespace org.SharpTiles.Documentation
         private readonly Type _returnType;
         private readonly DescriptionAttribute _description;
         private readonly CategoryAttribute _category;
+        private readonly string _libName;
+           
 
-        public FunctionDocumentation(ResourceKeyStack messagePath, IFunctionDefinition func)
+        public FunctionDocumentation(string libName, ResourceKeyStack messagePath, IFunctionDefinition func)
         {
 
+            _libName = libName;
             _name = func.Name;
             _arguments = func.Arguments;
             _returnType = func.ReturnType;
@@ -55,6 +58,12 @@ namespace org.SharpTiles.Documentation
         public string Name
         {
             get { return _name; }
+        }
+
+        [DataMember]
+        public string LibName
+        {
+            get { return _libName; }
         }
 
         [DataMember]

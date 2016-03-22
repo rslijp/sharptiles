@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */using System.Collections.Generic;
+using System.Linq;
 using org.SharpTiles.Expressions.Functions;
 
 namespace org.SharpTiles.Expressions.Functions
@@ -27,7 +28,11 @@ namespace org.SharpTiles.Expressions.Functions
 
         public static void Register(FunctionLib lib)
         {
-            LIBS.Add(lib);
+            lock (LIBS)
+            {
+                if (LIBS.Any(l => l.GetType().Equals(lib.GetType()))) return;
+                LIBS.Add(lib);
+            }
         }
 
         protected void RegisterFunction(IFunctionDefinition function)

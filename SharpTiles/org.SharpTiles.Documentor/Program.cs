@@ -59,7 +59,7 @@ namespace org.SharpTiles.Documentor
                 var htmlHelper = new HtmlReflectionHelper(htmlTag.WrappedType, htmlTag.MethodName);
                 foreach (var method in htmlHelper.AllMethods)
                 {
-                    documentation.Methods.Add(new FunctionDocumentation(documentation.MessagePath, new WrappedFunctionDocumentation(method)));
+                    documentation.Methods.Add(new FunctionDocumentation("",documentation.MessagePath, new WrappedFunctionDocumentation(method)));
                 }
                 return true;
             }

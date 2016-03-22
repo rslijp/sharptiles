@@ -112,7 +112,7 @@ namespace org.SharpTiles.Documentation
         public string Example => Resource(ExampleKey);
         public string Note => Resource(NoteKey);
 
-        private string Resource(string key)
+        public string Resource(string key)
         {
             return _bundle.Get(key, CULTURE).ToString();
         }

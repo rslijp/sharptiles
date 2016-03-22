@@ -135,6 +135,9 @@
   <data name="title_Functions" xml:space="preserve">
     <value>Functions</value>
   </data>
+  <data name="title_MathFunctions" xml:space="preserve">
+    <value>Math functions</value>
+  </data>
   <data name="title_Tags" xml:space="preserve">
     <value>Tags</value>
   </data>
@@ -172,7 +175,7 @@
     <value>bean.property.*key*</value>
   </data>
   <data name="description_BooleanTernaryExpressionParser" xml:space="preserve">
-    <value>*&lt;boolean expression&gt;*?*&lt;expression evalulated when true&gt;*:*&lt;expression evalulated when false&gt;*</value>
+    <value>*[boolean expression]*?*[expression evalulated when true]*:*[expression evalulated when false]*</value>
   </data>
   <data name="description_MathFunctionParser" xml:space="preserve">
     <value>*math function*(*arg1*,*arg2*,...)</value>
@@ -946,6 +949,9 @@ Hi &lt;x:out source="${{user}}" select="/first-name"/&gt; !
   <data name="type_IEnumerable" xml:space="preserve">
     <value>IEnumerable</value>
   </data>
+  <data name="type_Decimal" xml:space="preserve">
+    <value>decimal</value>
+  </data>
   <data name="function_Header_Operator" xml:space="preserve">
     <value>Function</value>
   </data>
@@ -1237,5 +1243,22 @@ begin index, but exclusive of the end index.</value>
   <data name="description_Tiles_Insert_Mandatory" xml:space="preserve">
     <value>If this attribute is set to false and the attribute specified by the name does not exist then nothing will be rendered. The default value, true, will raise an error.</value>
   </data>
-
+  <data name="description_RoundFunction" xml:space="preserve">
+    <value>rounds the *value* to the closest natural number. **Mid points are rounded away from zero.**</value>
+  </data>
+  <data name="description_AbsFunction" xml:space="preserve">
+    <value>returns the *value* if *value* is positive. If the *value* is negative the sign of *value* is removed.</value>
+  </data>
+  <data name="description_FloorFunction" xml:space="preserve">
+    <value>rounds the *value* to the closest lower natural number</value>
+  </data>
+  <data name="description_CeilingFunction" xml:space="preserve">
+    <value>rounds the *value* to the closest higher natural number</value>
+  </data>
+  <data name="description_MaxFunction" xml:space="preserve">
+    <value>returns the heighest value of *lhs* and *rhs*</value>
+  </data>
+  <data name="description_MinFunction" xml:space="preserve">
+    <value>returns the lowest value of *lhs* and *rhs*</value>
+  </data>
 </root>

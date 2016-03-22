@@ -82,7 +82,7 @@ namespace org.SharpTiles.Documentation
         [DataMember]
         public string Category
         {
-            get { return _category?.Category; }
+            get { return _category!=null?_messagePath.Resource(CategoryDescriptionKey) :null; }
         }
 
         public string CategoryDescriptionKey
