@@ -22,7 +22,8 @@ namespace org.SharpTiles.AST
             InlineTemplates = 32,
             NaturalLanguage = 64,
             PruneRawTexts = 64,
-            IncludeAllAttributes = 128,
+            IncludeUnspecifiedAttributes = 128,
+            ExcludeTemplateContainers = 256,
         }
 
 

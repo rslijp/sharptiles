@@ -351,7 +351,7 @@ namespace org.SharpTiles.AST.Test
             var ast = new AST(formatter.ParsedTemplate, AST.Options.DontTrackContext);
 
             var expected = new AST()
-                .Add(new TagNode("sharp", "include").With("File","a.htm").Add(
+                .Add(new TemplateContainerNode("sharp", "include").With("File","a.htm").Add(
                     new TemplateNode().Add(new TextNode("aa"))
             ));
 
@@ -366,7 +366,7 @@ namespace org.SharpTiles.AST.Test
             var ast = new AST(formatter.ParsedTemplate, AST.Options.DontTrackContext|AST.Options.PruneTemplates);
 
             var expected = new AST()
-                .Add(new TagNode("sharp", "include").With("File", "a.htm"));
+                .Add(new TemplateContainerNode("sharp", "include").With("File", "a.htm"));
 
             Assert.That(ast, Deeply.Is.EqualTo(expected));
         }
@@ -379,9 +379,24 @@ namespace org.SharpTiles.AST.Test
             var ast = new AST(formatter.ParsedTemplate, AST.Options.DontTrackContext | AST.Options.InlineTemplates);
 
             var expected = new AST()
-                .Add(new TagNode("sharp", "include").With("File", "a.htm").Add(
+                .Add(new TemplateContainerNode("sharp", "include").With("File", "a.htm").Add(
                     new TextNode("aa")
             ));
+
+            Assert.That(ast, Deeply.Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void Should_remove_template_containers()
+        {
+            const string TEMPLATE = @"<sharp:include file=""a.htm""/>";
+            var formatter = new Formatter(TEMPLATE).Parse();
+            var ast = new AST(formatter.ParsedTemplate, 
+                              AST.Options.DontTrackContext | 
+                              AST.Options.InlineTemplates  | 
+                              AST.Options.ExcludeTemplateContainers);
+
+            var expected = new AST().Add(new TextNode("aa"));
 
             Assert.That(ast, Deeply.Is.EqualTo(expected));
         }

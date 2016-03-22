@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 using org.SharpTiles.Templates;
 
@@ -43,7 +44,9 @@ namespace org.SharpTiles.AST.Nodes
         private INode YieldTag(TagPart tagPart)
         {
             if (tagPart == null) return null;
-            return new TagNode(tagPart);
+            return tagPart.Tag is ITagWithInnerTemplate
+                ? new TemplateContainerNode(tagPart) : 
+                  new TagNode(tagPart);
         }
 
         private INode YieldText(TextPart textPart)
@@ -73,6 +76,20 @@ namespace org.SharpTiles.AST.Nodes
                 _children = expanded;
             }
             _children = _children.Where(c => !c.Prune(options)).ToList();
+
+            if (options.HasFlag(AST.Options.ExcludeTemplateContainers))
+            {
+                var expanded = new List<INode>();
+                foreach (var child in _children)
+                {
+                    var containerChild = child as TemplateContainerNode;
+                    if (containerChild != null)
+                        expanded.AddRange(containerChild.Nodes);
+                    else
+                        expanded.Add(child);
+                }
+                _children = expanded;
+            }
             return _children.Count == 0;
         }
 

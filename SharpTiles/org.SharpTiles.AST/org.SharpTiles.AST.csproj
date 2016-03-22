@@ -46,6 +46,7 @@
     <Compile Include="Context.cs" />
     <Compile Include="Nodes\TagAttributeNode.cs" />
     <Compile Include="Nodes\RawStringHelper.cs" />
+    <Compile Include="Nodes\TemplateContainerNode.cs" />
     <Compile Include="Nodes\TemplateNode.cs" />
     <Compile Include="Nodes\BaseNode.cs" />
     <Compile Include="INode.cs" />
