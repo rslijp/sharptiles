@@ -71,6 +71,9 @@ namespace org.SharpTiles.Templates
 
         public Formatter SwitchToMode(TagLibMode mode)
         {
+            if (_templateParsed != null)
+                throw new InvalidOperationException("SwitchToMode can only be called before calling Parse!");
+
             var lib=new TagLib(mode,_lib.ToArray());
             _lib = lib;
             return this;
