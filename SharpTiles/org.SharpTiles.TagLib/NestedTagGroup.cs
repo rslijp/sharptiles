@@ -29,7 +29,16 @@ namespace org.SharpTiles.Tags
                 Register(tagType);
             }
         }
-         
+
+        public NestedTagGroup(string name, params ITagFactory[] factories)
+        {
+            Name = name;
+            foreach (var factory in factories)
+            {
+                Register(factory);
+            }
+        }
+
         public override string Name { get; }
     }
 }
