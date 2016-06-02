@@ -37,9 +37,9 @@ namespace org.SharpTiles.Common
 
         public static void Register(RefreshableResource resource)
         {
-            GuardJobActive();
             lock (REGISTERED)
             {
+                GuardJobActive();
                 REGISTERED.Add(resource);
             }
         }
