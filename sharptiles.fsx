@@ -77,6 +77,8 @@ let PrepareAndRunUnit3 (dllName: string, includeDocumentation: bool) =
     )
     !! "library/*.dll"
     |>  Copy targetDir
+    !! "testlibrary/*.dll"
+    |>  Copy targetDir
     !! (releaseDir+"/*.dll")
     |>  Copy targetDir
     
