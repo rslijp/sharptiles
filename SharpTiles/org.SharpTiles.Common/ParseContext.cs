@@ -18,7 +18,6 @@
  */
  using System;
 using System.Collections.Generic;
- using System.Runtime.Serialization;
  using System.Text;
 
 namespace org.SharpTiles.Common
@@ -27,68 +26,82 @@ namespace org.SharpTiles.Common
     {
         private readonly string _contents;
         private int _index;
-        private readonly string[] _lines;
         private string _text;
-        private IList<ContextLine> _context;
-        private int _lineIndex;
-        private int _lineNumber;
-        private string _lineWithPosition;
+
+        private CalculatedParseContext _calculatedParseContext;
       
         public ParseContext(string contents, int index, string text)
         {
             _contents = contents;
             _index = index;
             _text = text;
-            _lines = _text.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
-            CalculateLineNumber();
-            CreateContext();
-            CreateLineWithPosition();
+        }
+
+        private void CalculateParseContext()
+        {
+            if (_calculatedParseContext == null)
+                _calculatedParseContext = new CalculatedParseContext(_contents, _index, _text);
         }
 
         public int LineIndex
         {
-            get { return _lineIndex; }
+            get
+            {
+                CalculateParseContext();
+                return _calculatedParseContext.LineIndex;
+            }
         }
 
         public string Line
         {
-            get { return Lines[_lineNumber - 1]; }
+            get
+            {
+                CalculateParseContext();
+                return _calculatedParseContext.Line;
+            }
         }
 
 
-        public string Text
-        {
-            get { return _text; }
-        }
+        public string Text => _text;
+
+        public int Index => _index;
+
+        private object Contents => _contents;
 
         public int LineNumber
         {
-            get { return _lineNumber; }
+            get
+            {
+                CalculateParseContext();
+                return _calculatedParseContext.LineNumber;
+            }
         }
 
         public string[] Lines
         {
-            get { return _lines; }
-        }
-
-        public int Index
-        {
-            get { return _index; }
-        }
-
-        private object Contents
-        {
-            get { return _contents; }
+            get
+            {
+                CalculateParseContext();
+                return _calculatedParseContext.Lines;
+            }
         }
 
         public string LineWithPosition
         {
-            get { return _lineWithPosition; }
+            get
+            {
+                CalculateParseContext();
+                return _calculatedParseContext.LineWithPosition;
+            }
         }
 
         public IList<ContextLine> Context
         {
-            get { return _context; }
+            get
+            {
+                CalculateParseContext();
+                return _calculatedParseContext.Context;
+            }
         }
 
         public ParseContext Add(ParseContext offset)
@@ -101,66 +114,13 @@ namespace org.SharpTiles.Common
             if (context == null) return;
             _index = _index + context._index;
             _text = context._text;
-        }
-
-        private void CreateLineWithPosition()
-        {
-            var posSb = new StringBuilder();
-            for (int i = 0; i <= LineIndex - 1; i++)
-            {
-                posSb.Append(Line[i] == '\t' ? "----" : "-");
-            }
-            posSb.Append(Line.Length==0 || Line[LineIndex] == '\t' ? "---^" : "^");
-            _lineWithPosition = Line.Replace("\t", "    ") + Environment.NewLine + posSb;
-        }
-
-        private void CreateContext()
-        {
-            _context = new List<ContextLine>();
-            int start = Math.Max(_lineNumber - 2, 1);
-            int end = Math.Min(_lineNumber + 2, Lines.Length - 1);
-            for (int i = start - 1; i < end; i++)
-            {
-                _context.Add(new ContextLine(i + 1, Lines[i]));
-            }
-        }
-
-        private void CalculateLineNumber()
-        {
-            int lineNumber = 0;
-            int restIndex = Index;
-            while (restIndex >= 0 && lineNumber <= _lines.Length)
-            {
-                _lineIndex = restIndex;
-                restIndex -= (_lines[lineNumber].Length + Environment.NewLine.Length);
-                lineNumber++;
-            }
-            if (restIndex >= -Environment.NewLine.Length)
-            {
-                lineNumber++;
-                _lineIndex = 0;
-            }
-            _lineNumber = lineNumber;
+            _calculatedParseContext = null;
         }
 
         public override string ToString()
         {
-            var sb = new StringBuilder();
-            sb.Append(String.Format("At line {0},{1}: {2}", _lineNumber, _lineIndex + 1, Contents));
-            sb.Append(Environment.NewLine);
-            sb.Append(Environment.NewLine);
-            sb.Append(LineWithPosition);
-            sb.Append(Environment.NewLine);
-            if (Context.Count > 1)
-            {
-                sb.Append(Environment.NewLine);
-                foreach (ContextLine line in Context)
-                {
-                    sb.Append(line);
-                    sb.Append(Environment.NewLine);
-                }
-            }
-            return sb.ToString();
+            CalculateParseContext();
+            return _calculatedParseContext.ToString();
         }
 
         #region Nested type: ContextLine
