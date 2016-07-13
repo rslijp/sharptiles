@@ -124,13 +124,37 @@ namespace org.SharpTiles.Common.Test
             Assert.That(rs1.LoadCount, Is.GreaterThan(1));
             Assert.That(rs2.LoadCount, Is.GreaterThan(1));
 
-            RefreshJob.Revoke(rs2);
-            RefreshJob.Revoke(rs1);
+            RefreshJob.RevokeAll();
             int old1 = rs1.LoadCount;
             int old2 = rs2.LoadCount;
             Thread.Sleep(RefreshJob.REFRESH_INTERVAL*3);
             Assert.That(rs1.LoadCount, Is.EqualTo(old1));
             Assert.That(rs2.LoadCount, Is.EqualTo(old2));
+        }
+
+        [Test,Ignore("Test runs OK within VS, but not as part of release process.")]
+        public void TestRefreshJobRevokeWhenNotReferenced()
+        {
+            RefreshJob.REFRESH_INTERVAL = 250;
+            Assert.That(RefreshJob.Count, Is.EqualTo(0), "RefreshJob.Count");
+            var rs1 = new MockAlwaysRefreshableResource();
+            var rs2 = new MockAlwaysRefreshableResource();
+
+            Assert.That(rs1.LoadCount, Is.EqualTo(1), "rs1 LoadCount");
+            Assert.That(rs2.LoadCount, Is.EqualTo(1), "rs2 LoadCount");
+            Assert.That(RefreshJob.Count, Is.EqualTo(2), "RefreshJob.Count (before sleep)");
+
+            Thread.Sleep(RefreshJob.REFRESH_INTERVAL*3);
+            Assert.That(rs1.LoadCount, Is.GreaterThan(1), "rs1 LoadCount");
+            Assert.That(rs2.LoadCount, Is.GreaterThan(1), "rs2 LoadCount");
+            Assert.That(RefreshJob.Count, Is.EqualTo(2), "RefreshJob.Count (after sleep)");
+
+            rs1 = null;
+            rs2 = null;
+            GC.Collect();
+            RefreshJob.ClearUnreferencedItems();
+
+            Assert.That(RefreshJob.Count, Is.EqualTo(0), "RefreshJob.Count (dereferenced)");
         }
     }
 }
