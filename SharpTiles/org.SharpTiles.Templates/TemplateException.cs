@@ -76,7 +76,7 @@ namespace org.SharpTiles.Templates
 
         public static TemplateException ErrorInTemplate(string path, Exception exception)
         {
-            var msg = String.Format("Error in template {0}:{1}", path, exception.Message);
+            var msg = String.Format("Error in template {0}: {1}", path, exception.Message);
             return new TemplateException(msg, exception);
         }
     }

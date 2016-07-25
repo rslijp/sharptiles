@@ -68,6 +68,8 @@ namespace org.SharpTiles.Templates.SharpTags
 
         public ITagLib TagLib { get; set; }
 
+        public Exception LastException { get; private set; }
+
         private ITemplate LoadTileFallback()
         {
 
@@ -75,9 +77,10 @@ namespace org.SharpTiles.Templates.SharpTags
             {
                 LoadTile(_file.ConstantValue.ToString());
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 _body = null;
+                LastException = e;
             }
             return _body;
         }

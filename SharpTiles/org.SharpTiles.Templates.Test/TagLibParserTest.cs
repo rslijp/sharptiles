@@ -273,7 +273,7 @@ namespace org.SharpTiles.Templates.Test
             }
             catch (ParseException Pe)
             {
-                Assert.That(Pe.MessageWithOutContext, Is.EqualTo(ParseException.ExpectedToken("<").Message));
+                Assert.That(Pe.MessageWithOutContext, Is.EqualTo(ParseException.ExpectedToken("<", "X").Message));
             }
         }
 
@@ -360,7 +360,7 @@ namespace org.SharpTiles.Templates.Test
             }
             catch (ParseException Pe)
             {
-                Assert.That(Pe.MessageWithOutContext, Is.EqualTo(ParseException.ExpectedToken("<").Message));
+                Assert.That(Pe.MessageWithOutContext, Is.EqualTo(ParseException.ExpectedToken("<", "x").Message));
             }
         }
 
@@ -375,7 +375,7 @@ namespace org.SharpTiles.Templates.Test
             }
             catch (ParseException Pe)
             {
-                Assert.That(Pe.MessageWithOutContext, Is.EqualTo(ParseException.ExpectedToken("<").Message));
+                Assert.That(Pe.MessageWithOutContext, Is.EqualTo(ParseException.ExpectedToken("<", "Slip").Message));
             }
         }
 
@@ -421,7 +421,7 @@ namespace org.SharpTiles.Templates.Test
             }
             catch (ParseException Pe)
             {
-                Assert.That(Pe.MessageWithOutContext, Is.EqualTo(ParseException.ExpectedToken("<").Message));
+                Assert.That(Pe.MessageWithOutContext, Is.EqualTo(ParseException.ExpectedToken("<", "x").Message));
             }
         }
 

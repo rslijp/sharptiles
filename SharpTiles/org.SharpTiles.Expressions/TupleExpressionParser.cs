@@ -46,7 +46,7 @@ namespace org.SharpTiles.Expressions
             Expression lhs = parseHelper.Pop();
             if (AdditionalToken != null)
             {
-                parseHelper.Expect(DistinctToken.Token, AdditionalToken.Token);
+                parseHelper.Expect($"TupleExpressionParser<{typeof(T).Name}>", DistinctToken.Token, AdditionalToken.Token);
             }
             else
             {

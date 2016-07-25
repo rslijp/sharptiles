@@ -604,7 +604,7 @@ namespace org.SharpTiles.Templates.Test
             }
             catch (ParseException Fe)
             {
-                Assert.That(Fe.MessageWithOutContext, Is.EqualTo(ParseException.ExpectedToken("}").Message));
+                Assert.That(Fe.MessageWithOutContext, Is.EqualTo(ParseException.ExpectedToken("}", "slk").Message));
             }
         }
 
@@ -652,7 +652,7 @@ namespace org.SharpTiles.Templates.Test
             }
             catch (ParseException Fe)
             {
-                Assert.That(Fe.MessageWithOutContext, Is.EqualTo(ParseException.ExpectedToken("}").Message));
+                Assert.That(Fe.MessageWithOutContext, Is.EqualTo(ParseException.ExpectedToken("}", "Text").Message));
             }
         }
 

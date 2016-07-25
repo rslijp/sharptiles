@@ -134,15 +134,17 @@ namespace org.SharpTiles.Common
                 return _template[offset].ToString();
             }
         
-            var sub = _template.Substring(offset);
-            var length = Math.Min(maxLength, sub.Length);
-            for (int i = length; i >= 1; i--)
+            string result = null;
+            string sub = _template.Substring(offset);
+            for (int i = 1; i <= maxLength && i <= sub.Length; i++)
             {
-                var sep = sub.Substring(0, i);
+                string sep = sub.Substring(0, i);
                 if (seperators.Contains(sep))
-                    return sep;
+                {
+                    result = sep;
+                }
             }
-            return null;
+            return result;
         }
 
         public string StartsWithWhiteSpaceSurroundedSeperator(int offset)

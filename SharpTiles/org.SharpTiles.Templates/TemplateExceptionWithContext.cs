@@ -28,10 +28,15 @@ namespace org.SharpTiles.Templates
         {
         }
 
+        public TemplateExceptionWithContext(string msg, Exception e)
+            : base(msg, e)
+        {
+        }
+
         public static TemplateExceptionWithContext ErrorInTemplate(string path, ExceptionWithContext exception)
         {
-            String msg = String.Format("Error in template {0}:{1}", path, exception.Message);
-            return MakePartial(new TemplateExceptionWithContext(msg)).Decorate(exception.Context).KeepHttpErrorCode(exception);
+            String msg = String.Format("Error in template {0}: {1}", path, exception.Message);
+            return MakePartial(new TemplateExceptionWithContext(msg, exception)).Decorate(exception.Context).KeepHttpErrorCode(exception);
         }
 
         public static Exception ErrorInTemplate(TemplateExceptionWithContext te, ParseContext context)

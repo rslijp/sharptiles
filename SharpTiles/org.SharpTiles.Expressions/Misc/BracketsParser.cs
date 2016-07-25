@@ -81,7 +81,7 @@ namespace org.SharpTiles.Expressions
             {
                 parseHelper.Reduce(TYPE);
                 var nested = parseHelper.Pop();
-                parseHelper.Expect(BRACKETS_CLOSE, BRACKETS_COMMA);
+                parseHelper.Expect(nameof(BracketsParser), BRACKETS_CLOSE, BRACKETS_COMMA);
                 var brackets = ((Brackets) parseHelper.Top);
                 brackets.FillNext(nested);
                 if (parseHelper.At(BRACKETS_CLOSE) && brackets.PartOfFunction)

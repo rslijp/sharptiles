@@ -104,7 +104,7 @@ namespace org.SharpTiles.Common
             Token current = Current;
             if (!current.Contents.Equals(expected))
             {
-                throw ParseException.ExpectedToken(expected).Decorate(current);
+                throw ParseException.ExpectedToken(expected, current.Contents).Decorate(current);
             }
             return current;
         }
@@ -114,18 +114,18 @@ namespace org.SharpTiles.Common
             Token current = Current;
             if (!current.Type.Equals(type))
             {
-                throw ParseException.ExpectedToken(type.ToString()).Decorate(current);
+                throw ParseException.ExpectedToken(type.ToString(), current.Contents).Decorate(current);
             }
             return current;
         }
 
-        public Token Expect(params string[] expectedTokens)
+        public Token Expect(string forParser, params string[] expectedTokens)
         {
             Token current = Current;
             ICollection<string> set = new HashSet<string>(expectedTokens);
             if (!set.Contains(current.Contents))
             {
-                throw ParseException.ExpectedToken(CollectionUtils.ToString(set)).Decorate(current);
+                throw ParseException.ExpectedToken(CollectionUtils.ToString(set), current.Contents, forParser).Decorate(current);
             }
             return current;
         }
