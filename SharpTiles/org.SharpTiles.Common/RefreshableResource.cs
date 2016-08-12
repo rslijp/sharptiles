@@ -35,7 +35,6 @@ namespace org.SharpTiles.Common
 
         public void Dispose()
         {
-            RefreshJob.Revoke(this);
         }
 
         #endregion

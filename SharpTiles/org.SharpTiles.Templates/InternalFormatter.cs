@@ -38,7 +38,7 @@ namespace org.SharpTiles.Templates
         public static readonly char[] LITERALS = new[] { QUOTE, DOUBLE_QUOTE };
         public static readonly string OPEN_EXPRESSION = "{";
 
-        public static readonly string SIGNRATURE_EXPRESSION = "$";
+        public static readonly string SIGNATURE_EXPRESSION = "$";
         public static readonly string OPEN_TAG = "<";
         public static readonly string CLOSE_TAG = ">";
 
@@ -47,7 +47,7 @@ namespace org.SharpTiles.Templates
         
         public static readonly string[] SEPERATORS = new[]
                                                          {
-                                                             SIGNRATURE_EXPRESSION, OPEN_EXPRESSION, CLOSE_EXPRESSION,
+                                                             SIGNATURE_EXPRESSION, OPEN_EXPRESSION, CLOSE_EXPRESSION,
                                                              OPEN_TAG, CLOSE_TAG, 
                                                              OPEN_COMMENT, CLOSE_COMMENT,
                                                              GROUP_TAG_SEPERATOR
@@ -152,7 +152,7 @@ namespace org.SharpTiles.Templates
                 if (_parser.IsAhead(OPEN_COMMENT)) ParseComment(); 
                 else ParseTag();
             }
-            else if (_parser.At(SIGNRATURE_EXPRESSION) && _parser.IsAhead(OPEN_EXPRESSION))
+            else if (_parser.At(SIGNATURE_EXPRESSION) && _parser.IsAhead(OPEN_EXPRESSION))
             {
                 ParseExpression();
             }
@@ -217,7 +217,7 @@ namespace org.SharpTiles.Templates
 
         private void ParseExpression()
         {
-            _parser.Expect(SIGNRATURE_EXPRESSION);
+            _parser.Expect(SIGNATURE_EXPRESSION);
             _parser.Read(OPEN_EXPRESSION);
             var offset=_parser.Current.Context;
             var expression = _parser.ReadUntil(TokenType.Seperator, CLOSE_EXPRESSION);

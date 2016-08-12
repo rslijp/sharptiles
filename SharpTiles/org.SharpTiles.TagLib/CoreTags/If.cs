@@ -43,7 +43,7 @@ namespace org.SharpTiles.Tags.CoreTags
 
         public TagBodyMode TagBodyMode
         {
-            get { return TagBodyMode.Free; }
+            get { return TagBodyMode.FreeIgnoreUnkown; }
         }
 
         #endregion

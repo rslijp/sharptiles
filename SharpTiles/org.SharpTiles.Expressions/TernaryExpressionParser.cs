@@ -46,7 +46,7 @@ namespace org.SharpTiles.Expressions
             {
                 if (!parseHelper.AnyOnStack(ParsedTypes))
                 {
-                    throw ParseException.ExpectedToken(DistinctToken.Token).Decorate(token);
+                    throw ParseException.ExpectedToken(DistinctToken.Token, token.Contents, $"TernaryExpressionParser<{typeof(T).Name}>").Decorate(token);
                 }
                 parseHelper.Expect(AdditionalToken.Token);
                 parseHelper.Reduce(typeof(T));

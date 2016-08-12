@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyBasedResourceLocator.cs" />
+    <Compile Include="CalculatedParseContext.cs" />
     <Compile Include="CollectionUtils.cs" />
     <Compile Include="ExceptionWithContext.cs" />
     <Compile Include="FileBasedResourceLocator.cs" />

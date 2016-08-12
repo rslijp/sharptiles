@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- using System.Collections.Generic;
+
+using System;
+using System.Collections.Generic;
  using System.Linq;
  using System.Threading;
 
@@ -26,29 +28,18 @@ namespace org.SharpTiles.Common
     {
         public const int SECS = 1000;
 
-        private static readonly IList<RefreshableResource> REGISTERED = new List<RefreshableResource>();
+        private static readonly IList<WeakReference<RefreshableResource>> REGISTERED = new List<WeakReference<RefreshableResource>>();
         private static Thread JOB;
         public static int REFRESH_INTERVAL = 300*SECS;
 
-        public static int Count
-        {
-            get { return REGISTERED.Count; }
-        }
+        public static int Count => REGISTERED.Count;
 
         public static void Register(RefreshableResource resource)
         {
-            GuardJobActive();
             lock (REGISTERED)
             {
-                REGISTERED.Add(resource);
-            }
-        }
-
-        public static void Revoke(RefreshableResource resource)
-        {
-            lock (REGISTERED)
-            {
-                REGISTERED.Remove(resource);
+                GuardJobActive();
+                REGISTERED.Add(new WeakReference<RefreshableResource>(resource));
             }
         }
 
@@ -64,7 +55,7 @@ namespace org.SharpTiles.Common
         {
             JOB = new Thread(RefreshTask);
             // Configure the new thread and start it
-            JOB.Name = string.Format("Resouce refresh job (interval of #{0})", REFRESH_INTERVAL);
+            JOB.Name = $"Resouce refresh job (interval of #{REFRESH_INTERVAL})";
             JOB.IsBackground = true;
             JOB.Priority = ThreadPriority.Normal;
             JOB.Start();
@@ -75,24 +66,37 @@ namespace org.SharpTiles.Common
             while (true)
             {
                 Thread.Sleep(REFRESH_INTERVAL);
+                ClearUnreferencedItems();
                 lock (REGISTERED)
                 {
                     var copy = REGISTERED.ToList();
-                    foreach (var resource in copy)
+                    foreach (var reference in copy)
                     {
-                        resource.Refresh();
+                        RefreshableResource resource;
+                        reference.TryGetTarget(out resource);
+                        resource?.Refresh();
                     }
                 }
+            }
+        }
+
+        public static void ClearUnreferencedItems()
+        {
+            lock (REGISTERED)
+            {
+                RefreshableResource resource;
+                var deletable = REGISTERED.Where(r => !r.TryGetTarget(out resource)).ToList();
+                foreach (var reference in deletable)
+                    REGISTERED.Remove(reference);
             }
         }
 
 
         public static void RevokeAll()
         {
-            var clone = new List<RefreshableResource>(REGISTERED);
-            foreach (RefreshableResource resource in clone)
+            lock (REGISTERED)
             {
-                Revoke(resource);
+                REGISTERED.Clear();
             }
         }
     }

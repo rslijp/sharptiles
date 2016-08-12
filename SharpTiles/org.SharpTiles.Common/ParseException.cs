@@ -37,9 +37,13 @@ namespace org.SharpTiles.Common
         }
 
 
-        public static PartialExceptionWithContext<ParseException> ExpectedToken(string what)
+        public static PartialExceptionWithContext<ParseException> ExpectedToken(string what, string actual = null, string forParser = null)
         {
-            String msg = String.Format("Expected {0}", what);
+            var msg = $"Expected {what}";
+            if (actual != null)
+                msg += $", but found {actual}";
+            if (forParser != null)
+                msg += $" ({forParser})";
             return MakePartial(new ParseException(msg));
         }
 
