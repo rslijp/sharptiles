@@ -95,5 +95,7 @@ namespace org.SharpTiles.Templates
             }
             return builder;
         }
+
+        public override string ToString() => ConstantValue?.ToString();
     }
 }

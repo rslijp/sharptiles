@@ -30,7 +30,7 @@ namespace org.SharpTiles.AST
 
         public static implicit operator Context(ParseContext pc)
         {
-            return new Context(pc.LineNumber,pc.LineIndex+1);
+            return pc != null ? new Context(pc.LineNumber,pc.LineIndex+1) : null;
         }
 
     }
