@@ -59,7 +59,7 @@ namespace org.SharpTiles.Expressions
         public void Parse(ExpressionParserHelper parseHelper)
         {
             Token start = parseHelper.Current;
-            parseHelper.PushNewTokenConfiguration(true, true,'\\', new string[] {_func.Name}, Expression.WHITESPACE_OPERANDS, null, ResetIndex.CurrentAndLookAhead);
+            parseHelper.PushNewTokenConfiguration(true, true,'\\', new string[] {_func.Name}, parseHelper.ExpressionLib.WhiteSpaceOperands, null, ResetIndex.CurrentAndLookAhead);
             parseHelper.Expect(_func.Name);
             parseHelper.PopTokenConfiguration(ResetIndex.LookAhead);
             var function = new Function(_func);

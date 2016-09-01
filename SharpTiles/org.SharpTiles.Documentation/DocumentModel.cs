@@ -42,10 +42,13 @@ namespace org.SharpTiles.Documentation
         private IDictionary<string, string> _additionalResources;
         private bool _all;
         private IList<Func<ITag, TagDocumentation, bool>> _specials;
+        private ExpressionLib _expressionlib;
 
         public DocumentModel(TagLib subject, bool all, ResourceBundle bundle, IList<Func<ITag, TagDocumentation, bool>> specials=null)
         {
-            _subject= subject;
+            _expressionlib = new ExpressionLib();
+
+            _subject = subject;
             _all = all;
             _specials = specials??new List<Func<ITag, TagDocumentation, bool>>();
             _additionalResources = new Dictionary<string, string>();
@@ -69,7 +72,7 @@ namespace org.SharpTiles.Documentation
         private void GatherFunctions()
         {
             _functions = new List<FunctionDocumentation>();
-            foreach (var functionLib in FunctionLib.Libs()) {
+            foreach (var functionLib in _expressionlib.FunctionLibs()) {
                 foreach (var function in functionLib.Functions)
                 {
                      _functions.Add(new FunctionDocumentation(functionLib.GroupName, _resouceKey, function));
@@ -86,7 +89,7 @@ namespace org.SharpTiles.Documentation
         private void GatherExpressions()
         {
             _expressions = new List<ExpressionDocumentation>();
-            foreach (IExpressionParser expr in org.SharpTiles.Expressions.Expression.GetRegisteredParsers())
+            foreach (IExpressionParser expr in _expressionlib.GetRegisteredParsers())
             {
                 if (!(expr is PropertyParser) && !(expr is FunctionParser) && !(expr is MathFunctionParser))
                 {
@@ -136,11 +139,11 @@ namespace org.SharpTiles.Documentation
                         {
                             if(type.Equals(typeof(Function)))
                             {
-                                var parser = new FunctionParser(FunctionLib.Libs().First());
+                                var parser = new FunctionParser(new BaseFunctionLib());
                                 transformed.Add(new ExpressionDocumentation(_resouceKey, parser, typeof(Function)));
                                 continue;
                             }
-                            transformed.Add(new ExpressionDocumentation(_resouceKey, Expression.GetParser(type)));
+                            transformed.Add(new ExpressionDocumentation(_resouceKey, _expressionlib.GetParser(type)));
 
                         }
                         list.Add(transformed);

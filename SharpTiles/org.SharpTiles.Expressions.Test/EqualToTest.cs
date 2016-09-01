@@ -70,7 +70,7 @@ namespace org.SharpTiles.Expressions.Test
             {
                 {"Code", "Dutch National"}
             };
-            var eq = Expression.Parse("Code == 1");
+            var eq = new ExpressionLib().Parse("Code == 1");
             Assert.IsFalse((bool)eq.Evaluate(new Reflection(dict)));
         }
 

@@ -32,7 +32,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSimpleFormulaNestedBracketWithModel()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "('3'+'2')",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(5)
@@ -42,7 +42,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void MinusOne()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'-1'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(-1)
@@ -90,7 +90,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestAdditionalDownGradeInComplexPrecendence()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'2'+'3'^'2'*'2'+'2'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(22)
@@ -101,88 +101,88 @@ namespace org.SharpTiles.Expressions.Test
         public void TestAdditionalNameForAnd()
         {
             var reflection = new Reflection(new SampleModel());
-            Assert.That(Expression.ParseAndEvaluate("'true' and 'false'", reflection),
-                        Is.EqualTo(Expression.ParseAndEvaluate("'true'&&'false'", reflection)));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("'true' and 'false'", reflection),
+                        Is.EqualTo(new ExpressionLib().ParseAndEvaluate("'true'&&'false'", reflection)));
         }
 
         [Test]
         public void TestAdditionalNameForDivide()
         {
             var reflection = new Reflection(new SampleModel());
-            Assert.That(Expression.ParseAndEvaluate("'6' div '2'", reflection),
-                        Is.EqualTo(Expression.ParseAndEvaluate("'6'/'2'", reflection)));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("'6' div '2'", reflection),
+                        Is.EqualTo(new ExpressionLib().ParseAndEvaluate("'6'/'2'", reflection)));
         }
 
         [Test]
         public void TestAdditionalNameForEqualTo()
         {
             var reflection = new Reflection(new SampleModel());
-            Assert.That(Expression.ParseAndEvaluate("'6' eq '2'", reflection),
-                        Is.EqualTo(Expression.ParseAndEvaluate("'6'=='2'", reflection)));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("'6' eq '2'", reflection),
+                        Is.EqualTo(new ExpressionLib().ParseAndEvaluate("'6'=='2'", reflection)));
         }
 
         [Test]
         public void TestAdditionalNameForGreaterThan()
         {
             var reflection = new Reflection(new SampleModel());
-            Assert.That(Expression.ParseAndEvaluate("'6' gt '2'", reflection),
-                        Is.EqualTo(Expression.ParseAndEvaluate("'6'>'2'", reflection)));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("'6' gt '2'", reflection),
+                        Is.EqualTo(new ExpressionLib().ParseAndEvaluate("'6'>'2'", reflection)));
         }
 
         [Test]
         public void TestAdditionalNameForGreaterThanOrEqual()
         {
             var reflection = new Reflection(new SampleModel());
-            Assert.That(Expression.ParseAndEvaluate("'6' ge '2'", reflection),
-                        Is.EqualTo(Expression.ParseAndEvaluate("'6'>='2'", reflection)));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("'6' ge '2'", reflection),
+                        Is.EqualTo(new ExpressionLib().ParseAndEvaluate("'6'>='2'", reflection)));
         }
 
         [Test]
         public void TestAdditionalNameForLessThan()
         {
             var reflection = new Reflection(new SampleModel());
-            Assert.That(Expression.ParseAndEvaluate("'6' lt '2'", reflection),
-                        Is.EqualTo(Expression.ParseAndEvaluate("'6'<'2'", reflection)));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("'6' lt '2'", reflection),
+                        Is.EqualTo(new ExpressionLib().ParseAndEvaluate("'6'<'2'", reflection)));
         }
 
         [Test]
         public void TestAdditionalNameForLessThanOrEqual()
         {
             var reflection = new Reflection(new SampleModel());
-            Assert.That(Expression.ParseAndEvaluate("'6' le '2'", reflection),
-                        Is.EqualTo(Expression.ParseAndEvaluate("'6'<='2'", reflection)));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("'6' le '2'", reflection),
+                        Is.EqualTo(new ExpressionLib().ParseAndEvaluate("'6'<='2'", reflection)));
         }
 
         [Test]
         public void TestAdditionalNameForModulo()
         {
             var reflection = new Reflection(new SampleModel());
-            Assert.That(Expression.ParseAndEvaluate("'6' mod '2'", reflection),
-                        Is.EqualTo(Expression.ParseAndEvaluate("'6'%'2'", reflection)));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("'6' mod '2'", reflection),
+                        Is.EqualTo(new ExpressionLib().ParseAndEvaluate("'6'%'2'", reflection)));
         }
 
         [Test]
         public void TestAdditionalNameForNot()
         {
             var reflection = new Reflection(new SampleModel());
-            Assert.That(Expression.ParseAndEvaluate("not 'true'", reflection),
-                        Is.EqualTo(Expression.ParseAndEvaluate("!'true'", reflection)));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("not 'true'", reflection),
+                        Is.EqualTo(new ExpressionLib().ParseAndEvaluate("!'true'", reflection)));
         }
 
         [Test]
         public void TestAdditionalNameForNotEqualTo()
         {
             var reflection = new Reflection(new SampleModel());
-            Assert.That(Expression.ParseAndEvaluate("'6' ne '2'", reflection),
-                        Is.EqualTo(Expression.ParseAndEvaluate("'6'!='2'", reflection)));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("'6' ne '2'", reflection),
+                        Is.EqualTo(new ExpressionLib().ParseAndEvaluate("'6'!='2'", reflection)));
         }
 
         [Test]
         public void TestAdditionalNameForOr()
         {
             var reflection = new Reflection(new SampleModel());
-            Assert.That(Expression.ParseAndEvaluate("'true' or 'false'", reflection),
-                        Is.EqualTo(Expression.ParseAndEvaluate("'true'||'false'", reflection)));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("'true' or 'false'", reflection),
+                        Is.EqualTo(new ExpressionLib().ParseAndEvaluate("'true'||'false'", reflection)));
         }
 
         [Test]
@@ -191,7 +191,7 @@ namespace org.SharpTiles.Expressions.Test
             var reflection = new Reflection(new SampleModel());
             try
             {
-                var e = Expression.Parse("'true' or false'");
+                var e = new ExpressionLib().Parse("'true' or false'");
                 Assert.Fail("Parse error expected");
             }
             catch (ParseException  EPe)
@@ -205,7 +205,7 @@ namespace org.SharpTiles.Expressions.Test
         public void EagerShouldAllowForEmptyString()
         {
             var reflection = new Reflection(new SampleModel());
-            var e = Expression.Parse("Name == ''");
+            var e = new ExpressionLib().Parse("Name == ''");
             Assert.That(e.Evaluate(reflection), Is.False);
 
         }
@@ -214,7 +214,7 @@ namespace org.SharpTiles.Expressions.Test
         public void ShouldHaveReturnTypeOfConstants_bool()
         {
             var reflection = new Reflection(new SampleModel());
-            var e = Expression.Parse("'false'");
+            var e = new ExpressionLib().Parse("'false'");
             Assert.That(e.ReturnType, Is.Not.Null);
             Assert.That(e.ReturnType, Is.EqualTo(typeof(bool)));
 
@@ -224,7 +224,7 @@ namespace org.SharpTiles.Expressions.Test
         public void ShouldHaveReturnTypeOfExpression_int()
         {
             var reflection = new Reflection(new SampleModel());
-            var e = Expression.Parse("'6' + '7'");
+            var e = new ExpressionLib().Parse("'6' + '7'");
             Assert.That(e.ReturnType, Is.Not.Null);
             Assert.That(e.ReturnType, Is.EqualTo(typeof(decimal)));
 
@@ -235,7 +235,7 @@ namespace org.SharpTiles.Expressions.Test
         {
             try
             {
-                var e = Expression.Parse("Name=='6' || '7'");
+                var e = new ExpressionLib().Parse("Name=='6' || '7'");
             }
             catch (ConvertException Pe)
             {
@@ -248,7 +248,7 @@ namespace org.SharpTiles.Expressions.Test
         {
             try
             {
-                var e = Expression.Parse("Name=='NAME VALUE' || '7'");
+                var e = new ExpressionLib().Parse("Name=='NAME VALUE' || '7'");
             }
             catch (ConvertException Pe)
             {
@@ -260,15 +260,15 @@ namespace org.SharpTiles.Expressions.Test
         public void TestAdditionalNameForPower()
         {
             var reflection = new Reflection(new SampleModel());
-            Assert.That(Expression.ParseAndEvaluate("'6' pow '2'", reflection),
-                        Is.EqualTo(Expression.ParseAndEvaluate("'6'^'2'", reflection)));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("'6' pow '2'", reflection),
+                        Is.EqualTo(new ExpressionLib().ParseAndEvaluate("'6'^'2'", reflection)));
         }
 
 
         [Test]
         public void TestAdditionalNamesForOperators()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'2' pow '3' mod '3'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(2)
@@ -278,7 +278,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestAdditionalNestedComplexPrecendence()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'2'+'2'*'3'^'2'+'2'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(22)
@@ -288,7 +288,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestAdditionalTwoPrecendenceParts()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'2'+'3'*'2'+'2'^'2'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(12)
@@ -298,7 +298,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestAdditionProperty()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "FirstInt+SecondInt",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(79)
@@ -308,7 +308,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestAdditionWithConstant()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'1'+'2'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(3)
@@ -319,7 +319,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestArithmeticTypeCheckWrongBothSides()
         {
-            Expression exp = Expression.Parse("Bool+Bool");
+            Expression exp = new ExpressionLib().Parse("Bool+Bool");
             try
             {
                 exp.Evaluate(new Reflection(new SampleModel()));
@@ -339,7 +339,7 @@ namespace org.SharpTiles.Expressions.Test
         {
             try
             {
-                Expression exp = Expression.Parse("'true'+'true'");
+                Expression exp = new ExpressionLib().Parse("'true'+'true'");
                 Assert.Fail("Expected type error");
             }
             catch (ConvertException EPe)
@@ -355,7 +355,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestArithmeticTypeCheckWrongLeftHandSide()
         {
-            Expression exp = Expression.Parse("Bool+FirstInt");
+            Expression exp = new ExpressionLib().Parse("Bool+FirstInt");
             try
             {
                 exp.Evaluate(new Reflection(new SampleModel()));
@@ -375,7 +375,7 @@ namespace org.SharpTiles.Expressions.Test
         {
             try
             {
-                Expression exp = Expression.Parse("'true'+'8'");
+                Expression exp = new ExpressionLib().Parse("'true'+'8'");
                 Assert.Fail("Expected type error");
             }
             catch (ConvertException EPe)
@@ -391,7 +391,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestArithmeticTypeCheckWrongRightHandSide()
         {
-            Expression exp = Expression.Parse("FirstInt+Bool");
+            Expression exp = new ExpressionLib().Parse("FirstInt+Bool");
             try
             {
                 exp.Evaluate(new Reflection(new SampleModel()));
@@ -411,7 +411,7 @@ namespace org.SharpTiles.Expressions.Test
         {
             try
             {
-                Expression exp = Expression.Parse("'8'+'true'");
+                Expression exp = new ExpressionLib().Parse("'8'+'true'");
                 Assert.Fail("Expected type error");
             }
             catch (ConvertException EPe)
@@ -427,7 +427,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestBooleanTupleTypeCheckWrongBothSides()
         {
-            Expression exp = Expression.Parse("FirstInt&&FirstInt");
+            Expression exp = new ExpressionLib().Parse("FirstInt&&FirstInt");
             try
             {
                 exp.Evaluate(new Reflection(new SampleModel()));
@@ -447,7 +447,7 @@ namespace org.SharpTiles.Expressions.Test
         {
             try
             {
-                Expression exp = Expression.Parse("'9'&&'9'");
+                Expression exp = new ExpressionLib().Parse("'9'&&'9'");
                 Assert.Fail("Expected type error");
             }
             catch (ConvertException EPe)
@@ -463,7 +463,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestBooleanTupleTypeCheckWrongLeftHandSide()
         {
-            Expression exp = Expression.Parse("FirstInt&&Bool");
+            Expression exp = new ExpressionLib().Parse("FirstInt&&Bool");
             try
             {
                 exp.Evaluate(new Reflection(new SampleModel()));
@@ -483,7 +483,7 @@ namespace org.SharpTiles.Expressions.Test
         {
             try
             {
-                Expression exp = Expression.Parse("'9'&&'true'");
+                Expression exp = new ExpressionLib().Parse("'9'&&'true'");
                 Assert.Fail("Expected type error");
             }
             catch (ConvertException EPe)
@@ -499,7 +499,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestBooleanTupleTypeCheckWrongRightHandSide()
         {
-            Expression exp = Expression.Parse("Bool&&FirstInt");
+            Expression exp = new ExpressionLib().Parse("Bool&&FirstInt");
             try
             {
                 exp.Evaluate(new Reflection(new SampleModel()));
@@ -519,7 +519,7 @@ namespace org.SharpTiles.Expressions.Test
         {
             try
             {
-                Expression exp = Expression.Parse("'true'&&'9'");
+                Expression exp = new ExpressionLib().Parse("'true'&&'9'");
                 Assert.Fail("Expected type error");
             }
             catch (ConvertException EPe)
@@ -535,7 +535,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestBoolProperty()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "Bool",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(true)
@@ -547,7 +547,7 @@ namespace org.SharpTiles.Expressions.Test
         {
             try
             {
-                Expression.Parse("('2', '3')");
+                new ExpressionLib().Parse("('2', '3')");
                 Assert.Fail("Exception expected");
             }
             catch (ExpressionParseException EPe)
@@ -560,7 +560,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestBracketTypeCheckWrongNestedOfProperty()
         {
-            Expression exp = Expression.Parse("!(FirstInt)");
+            Expression exp = new ExpressionLib().Parse("!(FirstInt)");
             try
             {
                 exp.Evaluate(new Reflection(new SampleModel()));
@@ -578,25 +578,25 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestComparisonTypeBooleansOnBothSides()
         {
-            Expression exp = Expression.Parse("'true'<'false'");
+            Expression exp = new ExpressionLib().Parse("'true'<'false'");
             Assert.That(exp.Evaluate(new Reflection(new SampleModel())), Is.False);
-            exp = Expression.Parse("'false'<'true'");
+            exp = new ExpressionLib().Parse("'false'<'true'");
             Assert.That(exp.Evaluate(new Reflection(new SampleModel())), Is.True);
         }
 
         [Test]
         public void TestComparisonTypeForcedStringsOnBothSides()
         {
-            Expression exp = Expression.Parse("@'8'<@'false'");
+            Expression exp = new ExpressionLib().Parse("@'8'<@'false'");
             Assert.That(exp.Evaluate(new Reflection(new SampleModel())), Is.True);
-            exp = Expression.Parse("@'false'<@'8'");
+            exp = new ExpressionLib().Parse("@'false'<@'8'");
             Assert.That(exp.Evaluate(new Reflection(new SampleModel())), Is.False);
         }
 
         [Test]
         public void TestComparisonTypeCheckWrongLeftHandSide()
         {
-            Expression exp = Expression.Parse("Bool<FirstInt");
+            Expression exp = new ExpressionLib().Parse("Bool<FirstInt");
             try
             {
                 exp.Evaluate(new Reflection(new SampleModel()));
@@ -617,7 +617,7 @@ namespace org.SharpTiles.Expressions.Test
         {
             try
             {
-                Expression exp = Expression.Parse("'true'<'8'");
+                Expression exp = new ExpressionLib().Parse("'true'<'8'");
                 Assert.Fail("Expected type error");
             }
             catch (ConvertException CPe)
@@ -634,7 +634,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestComparisonTypeCheckWrongRightHandSide()
         {
-            Expression exp = Expression.Parse("FirstInt<Bool");
+            Expression exp = new ExpressionLib().Parse("FirstInt<Bool");
             try
             {
                 exp.Evaluate(new Reflection(new SampleModel()));
@@ -655,7 +655,7 @@ namespace org.SharpTiles.Expressions.Test
         {
             try
             {
-                Expression exp = Expression.Parse("'8'<'true'");
+                Expression exp = new ExpressionLib().Parse("'8'<'true'");
                 Assert.Fail("Expected type error");
             }
             catch (ConvertException CPe)
@@ -676,7 +676,7 @@ namespace org.SharpTiles.Expressions.Test
         {
            try
             {
-                Expression exp = Expression.Parse("@'8'<'true'");
+                Expression exp = new ExpressionLib().Parse("@'8'<'true'");
                 Assert.Fail("Expected type error");
             }
             catch (ConvertException CPe)
@@ -695,7 +695,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestComplexNestedFormula()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "('6'+FirstInt*'3'^('2'%'1'))<('9'+SecondInt^('4'/'2'))",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(true));
@@ -704,7 +704,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestConstant()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'a constant'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo("a constant")
@@ -714,7 +714,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestDivisionProperty()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'6'/'3'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(2)
@@ -724,7 +724,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestIntProperty()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "FirstInt",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(42)
@@ -734,7 +734,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestModuloProperty()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'13'%'5'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(3)
@@ -744,7 +744,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestMultipliProperty()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "FirstInt*SecondInt",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(1554)
@@ -754,7 +754,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestNoAdditionalNameStartOrEndsWithAWhiteSpace()
         {
-            foreach (IExpressionParser parser in Expression.GetRegisteredParsers())
+            foreach (IExpressionParser parser in new ExpressionLib().GetRegisteredParsers())
             {
                 if (parser.AdditionalTokens != null)
                 {
@@ -772,7 +772,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestNotTypeCheckWrongNested()
         {
-            Expression exp = Expression.Parse("!FirstInt");
+            Expression exp = new ExpressionLib().Parse("!FirstInt");
             try
             {
                 exp.Evaluate(new Reflection(new SampleModel()));
@@ -792,7 +792,7 @@ namespace org.SharpTiles.Expressions.Test
         {
             try
             {
-                Expression exp = Expression.Parse("!'9'");
+                Expression exp = new ExpressionLib().Parse("!'9'");
                 Assert.Fail("Expected type error");
             }
             catch (ConvertException EPe)
@@ -808,7 +808,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestNotTypeCheckWrongNestedOfProperty()
         {
-            Expression exp = Expression.Parse("!FirstInt");
+            Expression exp = new ExpressionLib().Parse("!FirstInt");
             try
             {
                 exp.Evaluate(new Reflection(new SampleModel()));
@@ -826,11 +826,11 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseOfAndExpression()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'false'&&'true'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(false));
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'true'&&'true'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(true));
@@ -840,9 +840,9 @@ namespace org.SharpTiles.Expressions.Test
         public void TestParseOfBooleanComparisionAndArithmeticExpressionNestedAndOnBothSides()
         {
             Console.WriteLine(
-                Expression.ParseAndEvaluate("'13' + FirstInt / '2' >= SecondInt - SecondInt % '8'",
+                new ExpressionLib().ParseAndEvaluate("'13' + FirstInt / '2' >= SecondInt - SecondInt % '8'",
                                             new Reflection(new SampleModel())));
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'13' + FirstInt / '2' >= SecondInt - SecondInt % '8' && '7' == FirstInt / '6'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(true));
@@ -851,7 +851,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseOfBooleanLogicExpression()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'false'||!'true'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(false));
@@ -860,7 +860,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseOfBooleanLogicExpressionMoreFormulas()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "!'false' and !'false'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(true));
@@ -869,7 +869,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseNumberWhenValueIsInt()
         {
-            Assert.That(Expression.ParseAndEvaluate("9",
+            Assert.That(new ExpressionLib().ParseAndEvaluate("9",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(9));
         }
@@ -878,7 +878,7 @@ namespace org.SharpTiles.Expressions.Test
         public void TestParseNumberWhenValueIsDecimal()
         {
 
-            Assert.That(Expression.ParseAndEvaluate("9.6",
+            Assert.That(new ExpressionLib().ParseAndEvaluate("9.6",
                             new Reflection(new SampleModel() {I18NLocale = new CultureInfo("en-GB")})),
                         Is.EqualTo(9.6m));
         }
@@ -886,7 +886,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseNumberWhenValueIsBool()
         {
-            Assert.That(Expression.ParseAndEvaluate("true",
+            Assert.That(new ExpressionLib().ParseAndEvaluate("true",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(true));
         }
@@ -894,7 +894,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseNumberWhenValueIsDateTime()
         {
-            Assert.That(Expression.ParseAndEvaluate("'1979-10-02T16:22:33'",
+            Assert.That(new ExpressionLib().ParseAndEvaluate("'1979-10-02T16:22:33'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(new DateTime(1979, 10, 2, 16, 22, 33)));
         }
@@ -902,7 +902,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseNumberWhenValueIsDate()
         {
-            Assert.That(Expression.ParseAndEvaluate("'1979-10-02'",
+            Assert.That(new ExpressionLib().ParseAndEvaluate("'1979-10-02'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(new DateTime(1979, 10, 2)));
         }
@@ -910,7 +910,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParsePropertyWhenNoneMatch()
         {
-            Assert.That(Expression.ParseAndEvaluate("Name",
+            Assert.That(new ExpressionLib().ParseAndEvaluate("Name",
                             new Reflection(new SampleModel())),
                         Is.EqualTo("NAME VALUE"));
         }
@@ -918,7 +918,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseOfEqualThanOrEqualExpression()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'9'=='9'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(true));
@@ -928,7 +928,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseOfGreaterThanExpression()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'9'>'9'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(false));
@@ -937,7 +937,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseOfGreaterThanOrEqualExpression()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'9'>='9'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(true));
@@ -946,7 +946,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseOfLessThanExpression()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'6'<'9'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(true));
@@ -955,7 +955,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseOfLessThanExpressionWithLeftFormula()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'6'+FirstInt<'9'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(false));
@@ -964,7 +964,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseOfLessThanExpressionWithRightFormula()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'6'<'9'+SecondInt",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(true));
@@ -973,7 +973,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseOfLessThanOrEqualExpression()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'9'<='9'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(true));
@@ -982,7 +982,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseOfNestedBooleanLogicExpressionBothSides()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "!'false' and !'false' && 'false' || 'false'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(false));
@@ -991,7 +991,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseOfNestedBooleanLogicExpressionLeftSide()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "!'false' and !'false' || 'false'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(true));
@@ -1000,7 +1000,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseOfNotEqualThanOrEqualExpression()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'9'!='9'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(false));
@@ -1009,11 +1009,11 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseOfNotExpression()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "!'false'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(true));
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "!'true'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(false));
@@ -1022,11 +1022,11 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseOfOrExpression()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'false'||'false'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(false));
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'true'||'false'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(true));
@@ -1035,7 +1035,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestPowerProperty()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'2'^'8'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(256)
@@ -1045,7 +1045,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestPrecende()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'2'+'3'*'3'+'2'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(13)
@@ -1055,7 +1055,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestPrecendeMultipleAboveAdd()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'2'+'2'*'3'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(8)
@@ -1065,7 +1065,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestPrecendeMultipleAboveAddDifferentOrder()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'2'*'3'+'2'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(8)
@@ -1075,7 +1075,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestPrecendeOverridenByBrackets()
         {
-            Expression exp = Expression.Parse("('2'+'3')*'3'+'2'");
+            Expression exp = new ExpressionLib().Parse("('2'+'3')*'3'+'2'");
 
             Assert.That(exp.GetType(), Is.EqualTo(typeof (Add)));
 
@@ -1096,7 +1096,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestPrecendeOverridenByBracketsBeforeAndAfterNormal()
         {
-            Expression exp = Expression.Parse("'2'+('3'*'7')+'2'");
+            Expression exp = new ExpressionLib().Parse("'2'+('3'*'7')+'2'");
             Assert.That(exp.Evaluate(new Reflection(new SampleModel())),
                         Is.EqualTo(25)
                 );
@@ -1105,7 +1105,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestPrecendeOverridenByBracketsMultipleAboveAdd()
         {
-            Expression exp = Expression.Parse("('2'+'2')*'3'");
+            Expression exp = new ExpressionLib().Parse("('2'+'2')*'3'");
             Assert.That(exp.GetType(), Is.EqualTo(typeof (Multiply)));
             var multipy = (Multiply) exp;
             Assert.That(multipy.Lhs.GetType(), Is.EqualTo(typeof (Brackets)));
@@ -1125,7 +1125,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestPrecendeOverridenByBracketsMultipleAboveAddDifferentOrder()
         {
-            Expression exp = Expression.Parse("'3'*('3'+'2')");
+            Expression exp = new ExpressionLib().Parse("'3'*('3'+'2')");
             Assert.That(exp.GetType(), Is.EqualTo(typeof (Multiply)));
             var multipy = (Multiply) exp;
             Assert.That(multipy.Lhs.GetType(), Is.EqualTo(typeof (Constant)));
@@ -1144,7 +1144,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSameComplexNestedFormulaWithSpaces()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "('6' + FirstInt * '3' ^ ('2' % '1')) < ('9' + SecondInt ^ ('4' / '2'))",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(true));
@@ -1153,7 +1153,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSimpleBracketWithModel()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "(FirstInt)",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(42)
@@ -1163,7 +1163,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSimpleBracketWithOutModel()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "('2')",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(2m)
@@ -1173,7 +1173,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSimpleBracketWithOutModelWithForcedString()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "(@'2')",
                             new Reflection(new SampleModel())),
                         Is.EqualTo("2")
@@ -1183,7 +1183,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSimpleDoubleNestedBracketWithModel()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "(((FirstInt)))",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(42)
@@ -1193,7 +1193,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSimpleNestedBracketWithModel()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "((FirstInt))",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(42)
@@ -1203,7 +1203,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSpacesAllowed()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'2' + '3' * '3' + '2'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(13)
@@ -1213,7 +1213,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSpacesShouldBeAtTheEndOfAnExpressionShouldBeIgnored()
         {
-            var add = (Add) Expression.Parse("'2' + '3' ");
+            var add = (Add) new ExpressionLib().Parse("'2' + '3' ");
             Assert.That(((Constant) add.Lhs).Value, Is.EqualTo("2"));
             Assert.That(((Constant) add.Rhs).Value, Is.EqualTo("3"));
         }
@@ -1221,7 +1221,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSpacesShouldBeAtTheStartOfAnExpressionShouldBeIgnored()
         {
-            var add = (Add) Expression.Parse(" '2' + '3'");
+            var add = (Add) new ExpressionLib().Parse(" '2' + '3'");
             Assert.That(((Constant) add.Lhs).Value, Is.EqualTo("2"));
             Assert.That(((Constant) add.Rhs).Value, Is.EqualTo("3"));
         }
@@ -1229,7 +1229,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSpacesShouldBeIngnoredSurroundingSeperators()
         {
-            var add = (Add) Expression.Parse("'2' + '3'");
+            var add = (Add) new ExpressionLib().Parse("'2' + '3'");
             Assert.That(((Constant) add.Lhs).Value, Is.EqualTo("2"));
             Assert.That(((Constant) add.Rhs).Value, Is.EqualTo("3"));
         }
@@ -1237,13 +1237,13 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSpacesShouldBeTrimmedInProperties()
         {
-            Assert.That(((PropertyOrConstant) Expression.Parse("Property ")).Name, Is.EqualTo("Property"));
+            Assert.That(((PropertyOrConstant) new ExpressionLib().Parse("Property ")).Name, Is.EqualTo("Property"));
         }
 
         [Test]
         public void TestSpacesShouldBeTrimmedInSeperators()
         {
-            var add = (Add) Expression.Parse("'2' + '3'");
+            var add = (Add) new ExpressionLib().Parse("'2' + '3'");
             Assert.That(((Constant) add.Lhs).Value, Is.EqualTo("2"));
             Assert.That(((Constant) add.Rhs).Value, Is.EqualTo("3"));
         }
@@ -1251,13 +1251,13 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSpacesShouldNotBeTrimmedInConstants()
         {
-            Assert.That(((Constant) Expression.Parse("'2 '")).Value, Is.EqualTo("2 "));
+            Assert.That(((Constant) new ExpressionLib().Parse("'2 '")).Value, Is.EqualTo("2 "));
         }
 
         [Test]
         public void TestStringProperty()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "Name",
                             new Reflection(new SampleModel())),
                         Is.EqualTo("NAME VALUE")
@@ -1267,7 +1267,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSubstractionProperty()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "FirstInt-SecondInt",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(5)
@@ -1277,7 +1277,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestThreeAdditions()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "FirstInt+FirstInt+FirstInt",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(126)
@@ -1287,7 +1287,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestTwoBracketsInOneExpressionSameLevel()
         {
-            Expression exp = Expression.Parse("('14'+'6')/('2'*'5')");
+            Expression exp = new ExpressionLib().Parse("('14'+'6')/('2'*'5')");
             Assert.That(exp.GetType(), Is.EqualTo(typeof (Divide)));
 
             var divide = (Divide) exp;
@@ -1303,17 +1303,17 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestTwoNestedBracketsInOneExpression()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "('14'+'6')/'2'^'2'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(5)
                 );
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "(('14'+'6')/'2')",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(10)
                 );
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "(('14'+'6')/'2')^'2'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(100)
@@ -1324,7 +1324,7 @@ namespace org.SharpTiles.Expressions.Test
         public void Should_Handle_Function_With_Zero_Arguments()
         {
             var reflection = new Reflection(new SampleModel());
-            var e = Expression.Parse("fn:now()");
+            var e = new ExpressionLib().Parse("fn:now()");
             Assert.That(e.ReturnType, Is.Not.Null);
             Assert.That(e.ReturnType, Is.EqualTo(typeof(DateTime)));
 
@@ -1334,7 +1334,7 @@ namespace org.SharpTiles.Expressions.Test
         public void Should_Handle_Functions_With_Zero_Arguments()
         {
             var reflection = new Reflection(new SampleModel());
-            var e = Expression.Parse("fn:now() le fn:now()");
+            var e = new ExpressionLib().Parse("fn:now() le fn:now()");
             Assert.That(e.ReturnType, Is.Not.Null);
             Assert.That(e.ReturnType, Is.EqualTo(typeof(bool)));
 
@@ -1343,7 +1343,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestMathMaxFunction()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "max('3','2')",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(3)
@@ -1352,7 +1352,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestMathMaxMinimalSyntaxFunction()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "max(3,2)",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(3)
@@ -1361,7 +1361,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestMathMinMinimalSyntaxFunction()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "min(3,2)",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(2)
@@ -1370,7 +1370,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestMathAbsMinimalSyntaxFunction()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "abs('-3')",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(3)
@@ -1379,7 +1379,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestMatRoundMinimalSyntaxFunction()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "round(3.2)",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(3)
@@ -1388,7 +1388,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void Should_Slobber_Up_Whole_PropertyName()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "Administrator",
                             new Reflection(new Hashtable() {{"Administrator", true}})),
                         Is.EqualTo(true)
@@ -1398,7 +1398,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void Should_Slobber_Up_Whole_PropertyName_LowerCase()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "administrator",
                             new Reflection(new Hashtable() { { "administrator", true } })),
                         Is.EqualTo(true)
@@ -1408,7 +1408,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void Should_Not_Slobber_Up_Operators()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "administrator eq 'piet'",
                             new Reflection(new Hashtable() { { "administrator", "piet" } })),
                         Is.EqualTo(true)
@@ -1418,7 +1418,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void Should_FallBackTo_Property_If_Min_Misses_Bracket()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "minPrice",
                             new Reflection(new Hashtable() { { "minPrice", true } })),
                         Is.EqualTo(true)
@@ -1428,7 +1428,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void Should_Slobber_Up_Whole_PropertyName_With_Spaces()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "as administrator op in",
                             new Reflection(new Hashtable() { { "as administrator op in", true } })),
                         Is.EqualTo(true)
@@ -1437,7 +1437,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestMatFloorMinimalSyntaxFunction()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "floor(3.2)",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(3)
@@ -1446,7 +1446,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestMatCeilMinimalSyntaxFunction()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "ceil(3.2)",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(4)
@@ -1455,7 +1455,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestNestedMathFunctions()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "max(3.2, min(2.0, 4.0))",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(3.2m)
@@ -1465,7 +1465,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestMathMaxFunctionWithProperty()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "max(3,FirstInt)",
                             new Reflection(new SampleModel() )),
                         Is.EqualTo(42)
@@ -1475,7 +1475,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSimpleTernaryExpression()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'true'?'then':'else'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo("then")
@@ -1485,7 +1485,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSimpleTernaryExpressionWithoutQuotes()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "true?'then':'else'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo("then")
@@ -1495,7 +1495,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSimpleTernaryExpressionWithoutQuotesWithNestedExpressionsInCondition()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "true&&false?'then':'else'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo("else")
@@ -1505,7 +1505,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSimpleTernaryExpressionWithoutQuotesWithNestedComplexExpressionsInCondition()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "true||(true&&false)?'then':'else'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo("then")
@@ -1515,7 +1515,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSimpleTernaryExpressionWithoutExpressionInThen()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "true?fn:trim(' then'):'else'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo("then")
@@ -1526,7 +1526,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSimpleTernaryExpressionWithoutExpressionInElse()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "false?fn:trim(' then'):1+1",
                             new Reflection(new SampleModel())),
                         Is.EqualTo(2)
@@ -1536,22 +1536,22 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestNestedTernaryExpressions()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "true ? true?'then':'no then' :'else'",
                             new Reflection(new SampleModel())),
                         Is.EqualTo("then")
                 );
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                            "false ? true?'then':'no then' :false?'no else':'else'",
                            new Reflection(new SampleModel())),
                        Is.EqualTo("else")
                );
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                           "false ? true?'then':'no then' :true?false:true?'no else':'else'",
                           new Reflection(new SampleModel())),
                       Is.EqualTo("else")
               );
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                           "false ? (true?'then':'no then') :((true?false:true)?'no else':'else')",
                           new Reflection(new SampleModel())),
                       Is.EqualTo("else")
@@ -1561,32 +1561,32 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void ComplexPattern()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                         "fn:regExReplace(Value, 'a', 'A')",
                         new Reflection(new SampleModel() { Value = "aBC" })),
                     Is.EqualTo("ABC")
             );
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                 @"fn:regExReplace(Value, '(^\\+)|(^00)|(\ |\\(|\\)|\-)', '')",
                 new Reflection(new SampleModel() {Value = "555-1234"})),
                 Is.EqualTo("5551234")
             );
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                @"fn:regExReplace(Value, '(^\\+)|(^00)|(\ |\\(|\\)|\-)', '')",
                new Reflection(new SampleModel() { Value = "555-001234" })),
                Is.EqualTo("555001234")
            );
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                         @"fn:regExReplace(Value, '(^\\+)|(^00)|(\ |\\(|\\)|\-)', '')",
                         new Reflection(new SampleModel() { Value = "(06) 14 66 49 54" })),
                     Is.EqualTo("0614664954")
             );
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                        @"fn:regExReplace(Value, '(^\\+)|(^00)|(\ |\\(|\\)|\-)', '')",
                        new Reflection(new SampleModel() { Value = "+31614664954" })),
                    Is.EqualTo("31614664954")
            );
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                        @"fn:regExReplace(Value, '(^\\+)|(^00)|(\ |\\(|\\)|\-)', '')",
                        new Reflection(new SampleModel() { Value = "061+4664954" })),
                    Is.EqualTo("061+4664954")

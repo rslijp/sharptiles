@@ -75,7 +75,7 @@ namespace org.SharpTiles.Expressions
                 parseHelper.Expect(BRACKETS_OPEN);
                 var brackets = new Brackets(_functionArgument, _arguments) {Token = token};
                 parseHelper.Push(brackets);
-                Expression.Parse(parseHelper);
+                parseHelper.ParseExpression();
             }
             else
             {

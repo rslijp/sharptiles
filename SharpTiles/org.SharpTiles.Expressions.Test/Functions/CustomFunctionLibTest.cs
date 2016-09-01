@@ -30,50 +30,19 @@ namespace org.SharpTiles.Expressions.Test.Functions
     [TestFixture]
     public class CustomFunctionLibTest
     {
-        static CustomFunctionLibTest(){ 
-            new PatchedExpressions().ReInit(); //Hack
-        }
+       
 
         [Test]
         public void TestTrimNested()
         {
-            Assert.That(Expression.ParseAndEvaluate("math:fibonacci('8')", new Reflection(this)),
+            Assert.That(new ExpressionLib(new MathLib()).ParseAndEvaluate("math:fibonacci('8')", new Reflection(this)),
                         Is.EqualTo(34));
-            Assert.That(Expression.ParseAndEvaluate("math:faculty('8')", new Reflection(this)),
+            Assert.That(new ExpressionLib(new MathLib()).ParseAndEvaluate("math:faculty('8')", new Reflection(this)),
                         Is.EqualTo(40320));
         }
     }
 }
 
-public class PatchedExpressions : Expression
-{
-    public void ReInit()
-    {
-        Clear();
-        FunctionLib.Register(new MathLib());
-        Init();
-    }
-
-    public override void GuardTypeSafety()
-    {
-        
-    }
-
-    public override Type ReturnType
-    {
-        get { throw new System.NotImplementedException(); }
-    }
-
-    public override object Evaluate(IModel model)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override string AsParsable()
-    {
-        throw new NotImplementedException();
-    }
-}
 
 public class MathLib : FunctionLib
 {

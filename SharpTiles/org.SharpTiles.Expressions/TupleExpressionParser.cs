@@ -55,7 +55,7 @@ namespace org.SharpTiles.Expressions
             TupleExpression subResult = Create(lhs);
             subResult.Token = token;
             parseHelper.Push(subResult);
-            Expression.Parse(parseHelper);
+            parseHelper.ParseExpression();
             if (subResult.Rhs == null)
             {
                 subResult.FillInRhs(parseHelper.Pop());

@@ -30,6 +30,7 @@ using System.Web.Routing;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using org.SharpTiles.Connectors;
+using org.SharpTiles.Expressions;
 using org.SharpTiles.HtmlTags.Input;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Templates;
@@ -95,7 +96,7 @@ namespace org.SharpTiles.HtmlTags.Test
         private static TagLibParserFactory CreateFactory()
         {
             var lib = BuildTagLib();
-            return new TagLibParserFactory(new TagLibForParsing(lib),new FileLocatorFactory());
+            return new TagLibParserFactory(new TagLibForParsing(lib),new ExpressionLib(), new FileLocatorFactory());
         }
 
         private static TagLib BuildTagLib()

@@ -23,6 +23,7 @@ using System.Xml.XPath;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using org.SharpTiles.Common;
+using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.CoreTags;
 using org.SharpTiles.Tags.FormatTags;
@@ -1025,7 +1026,7 @@ namespace org.SharpTiles.Templates.Test
 
         public static TagLibParserFactory Base()
         {
-            return new TagLibParserFactory(new TagLibForParsing(new TagLib()), new FileLocatorFactory());
+            return new TagLibParserFactory(new TagLibForParsing(new TagLib()), new ExpressionLib(), new FileLocatorFactory());
         }
     }
 }

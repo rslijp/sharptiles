@@ -345,7 +345,7 @@ namespace org.SharpTiles.HtmlTags.Test
         public void RenderShouldDelegateCallToHtmlHelperShouldUseAttributesAndProvideTagModel()
         {
             var attribute =
-                new TemplateAttribute(new ParsedTemplate(null, new ExpressionPart(Expression.Parse("name"))));
+                new TemplateAttribute(new ParsedTemplate(null, new ExpressionPart(new ExpressionLib().Parse("name"))));
             var tag = Html.New<TestHtmlTag>(new List<IParameterValue>
                                                 {
                                                     new TestParameterValue {Name = "isChecked", TestValue = true},

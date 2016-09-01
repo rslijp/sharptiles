@@ -19,6 +19,7 @@
 
 using System;
 using org.SharpTiles.Common;
+using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 
@@ -30,10 +31,12 @@ namespace org.SharpTiles.Templates
         private IResourceLocator _locator;
         protected TagLibForParsing _lib;
         protected IResourceLocatorFactory _factory;
+        private ExpressionLib _expressionLib;
 
-        public AbstractTagLibParser(TagLibForParsing lib, ParseHelper helper, IResourceLocator locator, IResourceLocatorFactory factory)
+        public AbstractTagLibParser(TagLibForParsing lib, ExpressionLib expressionLib, ParseHelper helper, IResourceLocator locator, IResourceLocatorFactory factory)
         {
             _lib = lib;
+            _expressionLib = expressionLib;
             _helper = helper;
             _locator = locator;
             _factory = factory;
@@ -213,7 +216,7 @@ namespace org.SharpTiles.Templates
                     null,
                     null, //InternalFormatter.LITERALS, 
                     ResetIndex.LookAhead);
-                return new InternalFormatter(new TagLibParserFactoryAdapter(this), helper, true, true, locator).ParseNested();
+                return new InternalFormatter(new TagLibParserFactoryAdapter(this), _expressionLib, helper, true, true, locator).ParseNested();
             }
             finally
             {
@@ -259,7 +262,7 @@ namespace org.SharpTiles.Templates
                     continue;
                 }
                 var offSet = _helper.Current.Context;
-                var attr=new TemplateAttribute(new InternalFormatter(new TagLibParserFactoryAdapter(this), value, false, _locator, offSet).Parse()) { AttributeName = key };
+                var attr=new TemplateAttribute(new InternalFormatter(new TagLibParserFactoryAdapter(this), _expressionLib, value, false, _locator, offSet).Parse()) { AttributeName = key };
                 tagReflection[key] = attr;
             }
         }
@@ -267,7 +270,7 @@ namespace org.SharpTiles.Templates
         public class TagLibParserFactoryAdapter : TagLibParserFactory
         {
            
-            public TagLibParserFactoryAdapter(AbstractTagLibParser parser) : base(parser._lib, parser._factory) 
+            public TagLibParserFactoryAdapter(AbstractTagLibParser parser) : base(parser._lib, parser._expressionLib, parser._factory) 
             {
             }
 

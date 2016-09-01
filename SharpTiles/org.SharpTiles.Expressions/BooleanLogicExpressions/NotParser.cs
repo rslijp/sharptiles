@@ -54,8 +54,8 @@ namespace org.SharpTiles.Expressions
         {
             Token token = parseHelper.Current;
             parseHelper.Expect(nameof(NotParser), NOT_SIGN, ADDITIONAL_SIGN);
-            Expression.Parse(parseHelper);
-            var not = new Not(parseHelper.Pop());
+            parseHelper.ParseExpression();
+             var not = new Not(parseHelper.Pop());
             not.Token = token;
             parseHelper.Push(not);
         }

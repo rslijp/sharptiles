@@ -18,6 +18,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using org.SharpTiles.Common;
 using org.SharpTiles.Expressions.Functions;
 using org.SharpTiles.Expressions.Math;
@@ -26,91 +27,7 @@ namespace org.SharpTiles.Expressions
 {
     public abstract class Expression
     {
-        private static bool TRY_RESOLVE_PROPERTY_INTO_CONSTANT = true;
-        private static string[] OPERANDS;
-
-        private static readonly IDictionary<string, IExpressionParser> PARSERS_BY_STR =
-            new Dictionary<string, IExpressionParser>();
-
-        private static readonly IDictionary<Type, IExpressionParser> PARSERS_BY_TYPE =
-            new Dictionary<Type, IExpressionParser>();
-
-        internal static string[] WHITESPACE_OPERANDS;
-
-        private static readonly object _sempaphore = new object();
-
-        static Expression()
-        {
-            Init();
-        }
-
         public abstract string AsParsable();
-
-        public static void Clear()
-        {
-            lock (_sempaphore)
-            {
-                OPERANDS = new String[0];
-                WHITESPACE_OPERANDS = new String[0];
-                PARSERS_BY_STR.Clear();
-                PARSERS_BY_TYPE.Clear();
-                FunctionLib.Clear();
-            }
-        }
-
-        public static void Reinit()
-        {
-            Init();
-        }
-
-        public static void Init()
-        {
-            lock (_sempaphore)
-            {
-                var operands = new List<string>();
-                var whiteSpaceOperands = new List<string>();
-                FunctionLib.Register(new BaseFunctionLib());
-
-                Register(new BooleanTernaryExpressionParser(), operands, whiteSpaceOperands);
-                Register(new AddParser(), operands, whiteSpaceOperands);
-                Register(new MinusParser(), operands, whiteSpaceOperands);
-                Register(new MultiplyParser(), operands, whiteSpaceOperands);
-                Register(new DivideParser(), operands, whiteSpaceOperands);
-                Register(new ModuloParser(), operands, whiteSpaceOperands);
-                Register(new PowerParser(), operands, whiteSpaceOperands);
-                Register(new LessThanParser(), operands, whiteSpaceOperands);
-                Register(new GreaterThanParser(), operands, whiteSpaceOperands);
-                Register(new LessThanOrEqualParser(), operands, whiteSpaceOperands);
-                Register(new GreaterThanOrEqualParser(), operands, whiteSpaceOperands);
-                Register(new EqualToParser(), operands, whiteSpaceOperands);
-                Register(new NotEqualToParser(), operands, whiteSpaceOperands);
-                Register(new AndParser(), operands, whiteSpaceOperands);
-                Register(new OrParser(), operands, whiteSpaceOperands);
-                Register(new NotParser(), operands, whiteSpaceOperands);
-                Register(new BracketsParser(), operands, whiteSpaceOperands);
-                foreach (var func in new MathFunctionLib().Functions)
-                {
-                    Register(new MathFunctionParser(func), operands, whiteSpaceOperands);
-                }
-                foreach (var lib in FunctionLib.Libs())
-                {
-                    Register(new FunctionParser(lib), operands, whiteSpaceOperands);
-                }
-                Register(new StringConstantParser(), operands, whiteSpaceOperands);
-                Register(new ConstantParser(), operands, whiteSpaceOperands);
-                if (TRY_RESOLVE_PROPERTY_INTO_CONSTANT)
-                {
-                    AddParserByTypes(new PropertyOrConstantParser().ParsedTypes, new PropertyOrConstantParser());
-                }
-                else
-                {
-                    AddParserByTypes(new PropertyParser().ParsedTypes, new PropertyParser());
-                }
-
-                OPERANDS = operands.ToArray();
-                WHITESPACE_OPERANDS = whiteSpaceOperands.ToArray();
-            }
-        }
 
         public abstract Type ReturnType { get; }
 
@@ -118,116 +35,9 @@ namespace org.SharpTiles.Expressions
 
       
         public Token Token { get; protected internal set; }
-
-        protected static void Register(IExpressionParser parser, ICollection<string> operands, ICollection<string> whiteSpaceOperands)
-        {
-            AddParserByTypes(parser.ParsedTypes, parser);
-            PARSERS_BY_STR.Add(parser.DistinctToken.Token, parser);
-            RegisterToken(parser.DistinctToken, operands, whiteSpaceOperands);
-            if (parser.AdditionalTokens != null)
-            {
-                foreach (var sign in parser.AdditionalTokens)
-                {
-                    PARSERS_BY_STR.Add(sign.Token, parser);
-                    RegisterToken(sign, operands, whiteSpaceOperands);
-                }
-            }
-        }
-
-        private static void AddParserByTypes(IEnumerable<Type> types, IExpressionParser parser)
-        {
-            foreach (var type in types)
-            {
-                if (PARSERS_BY_TYPE.ContainsKey(type))
-                    throw new ArgumentException($"{parser}: PARSERS_BY_TYPE already contains key '{type.Name}' with value '{PARSERS_BY_TYPE[type]}'");
-                PARSERS_BY_TYPE.Add(type, parser);
-            }
-        }
-
-        private static void RegisterToken(ExpressionOperatorSign token,
-                                          ICollection<string> operands,
-                                          ICollection<string> whiteSpaceOperands)
-        {
-            if (!token.SurroundedWithWhiteSpace)
-            {
-                operands.Add(token.Token);
-            }
-            else
-            {
-                whiteSpaceOperands.Add(token.Token);
-            }
-        }
-
-        public static ICollection<IExpressionParser> GetRegisteredParsers()
-        {
-            return PARSERS_BY_TYPE.Values;
-        }
-
-        public static Expression Parse(string expression, ParseContext offset = null)
-        {
-            var tokenizer = new Tokenizer(expression, true, '\\', OPERANDS, null, WHITESPACE_OPERANDS, offset).AddOffSet(offset);
-            var parseHelper = new ExpressionParserHelper(tokenizer);
-            parseHelper.Init();
-            Parse(parseHelper);
-            var result = parseHelper.Yield();
-            result.GuardTypeSafety();
-            return result;
-        }
-
-
-        internal static void Parse(ExpressionParserHelper parseHelper)
-        {
-            IgnoreSpaces(parseHelper);
-            if (!parseHelper.HasMore())
-            {
-                return;
-            }
-            parseHelper.Next();
-            Token current = parseHelper.Current;
-            IExpressionParser parser = null;
-            if (current.Type == TokenType.Seperator)
-            {
-                parser = PARSERS_BY_STR[current.Contents];
-            }
-            else
-            {
-                parser = PARSERS_BY_TYPE[typeof(PropertyOrConstant)];
-            }
-            parser.Parse(parseHelper);
-            if (parseHelper.HasMore())
-            {
-                Parse(parseHelper);
-            }
-        }
-
-        private static void IgnoreSpaces(ExpressionParserHelper parseHelper)
-        {
-            while (
-                parseHelper.HasMore() &&
-                parseHelper.Lookahead.Contents.Trim().Length == 0)
-            {
-                parseHelper.Next();
-            }
-        }
-
-        public static object ParseAndEvaluate(string expression, IModel model)
-        {
-            Expression parsed = Parse(expression);
-            // parsed.TypeCheck(model);
-            return parsed.Evaluate(model);
-        }
-
-        public IExpressionParser GetParser()
-        {
-            return PARSERS_BY_TYPE[GetType()];
-        }
-
-
-        public static IExpressionParser GetParser(Type type)
-        {
-            return PARSERS_BY_TYPE[type];
-        }
+       
 
         public abstract object Evaluate(IModel model);
     }
 }
+

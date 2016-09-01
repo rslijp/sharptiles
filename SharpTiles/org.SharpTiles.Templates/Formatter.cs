@@ -21,6 +21,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using org.SharpTiles.Common;
+using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 using org.SharpTiles.Tags.Templates.SharpTags;
@@ -35,12 +36,15 @@ namespace org.SharpTiles.Templates
         private bool _allowTags = true;
         private readonly string _template;
         private ParsedTemplate _templateParsed;
+        private ExpressionLib _expressionLib;
+
 //        private TagLibMode _mode = TagLibMode.Strict;
         private ITagLib _lib = null;
 
         public Formatter()
         {
             _lib = new TagLib();
+            _expressionLib = new ExpressionLib();
             _lib.Register(new Sharp());
         }
 
@@ -54,6 +58,13 @@ namespace org.SharpTiles.Templates
         {
             if (lib == null) return this;
             _lib = lib;
+            return this;
+        }
+
+        public Formatter OverrideExpressionLib(ExpressionLib lib)
+        {
+            if (lib == null) return this;
+            _expressionLib = lib;
             return this;
         }
 
@@ -92,7 +103,7 @@ namespace org.SharpTiles.Templates
             {
                 _initialLocator = f.GetNewLocator();
             }
-            var formatter  = new InternalFormatter(new TagLibParserFactory(new TagLibForParsing(_lib), f), _template, _allowTags, _initialLocator);
+            var formatter  = new InternalFormatter(new TagLibParserFactory(new TagLibForParsing(_lib), _expressionLib, f), _expressionLib, _template, _allowTags, _initialLocator);
             try
             {
                 formatter.Parse();

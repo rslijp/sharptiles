@@ -28,9 +28,11 @@ namespace org.SharpTiles.Expressions
     {
         private readonly Stack<Expression> _stack = new Stack<Expression>();
         private Expression _top;
+        private ExpressionLib _expressionLib;
 
-        public ExpressionParserHelper(Tokenizer tokenizer) : base(tokenizer)
+        public ExpressionParserHelper(ExpressionLib expressionLib, Tokenizer tokenizer) : base(tokenizer)
         {
+            _expressionLib = expressionLib;
         }
 
         public Token Expand()
@@ -68,6 +70,7 @@ namespace org.SharpTiles.Expressions
         }
 
         public int CurrentPresendence { get; set; }
+        public ExpressionLib ExpressionLib => _expressionLib;
 
         public void Push(Expression exp)
         {
@@ -108,7 +111,7 @@ namespace org.SharpTiles.Expressions
             if (Count > 1)
             {
                 Expression subtop = _stack.Peek();
-                IExpressionParser parser = subtop.GetParser();
+                IExpressionParser parser = _expressionLib.GetParser(subtop.GetType());
                 if (parser != null && parser.Reduce(this, subtop, priority))
                 {
                     Reduce(priority);
@@ -133,6 +136,11 @@ namespace org.SharpTiles.Expressions
             {
                 return parsedTypes.Contains(partial.GetType());
             });
+        }
+
+        public void ParseExpression()
+        {
+            _expressionLib.Parse(this);
         }
     }
 }

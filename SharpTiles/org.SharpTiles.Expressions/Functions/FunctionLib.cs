@@ -24,30 +24,14 @@ namespace org.SharpTiles.Expressions.Functions
     public abstract class FunctionLib 
     {
         private readonly IDictionary<string, IFunctionDefinition> functions = new Dictionary<string, IFunctionDefinition>();
-        private static readonly List<FunctionLib> LIBS = new List<FunctionLib>();
-
-        public static void Register(FunctionLib lib)
-        {
-            lock (LIBS)
-            {
-                if (LIBS.Any(l => l.GetType().Equals(lib.GetType()))) return;
-                LIBS.Add(lib);
-            }
-        }
-
+       
+       
         protected void RegisterFunction(IFunctionDefinition function)
         {
-            lock(function)
-            {
-                functions.Add(function.Name, function);
-            }
+            functions.Add(function.Name, function);
         }
 
-        public static IEnumerable<FunctionLib> Libs()
-        {
-            return LIBS.AsReadOnly();
-        }
-
+       
         public abstract string GroupName { get; }
 
 
@@ -66,10 +50,6 @@ namespace org.SharpTiles.Expressions.Functions
         {
             get { return functions.Values; }
         }
-
-        internal static void Clear()
-        {
-            LIBS.Clear();
-        }
+        
     }
 }

@@ -62,23 +62,26 @@ namespace org.SharpTiles.Templates
         private IList<ITemplatePart> _templateParsed;
         private ITagLibParserFactory _tagLibHelper;
         private ParseContext _offSet;
+        private  ExpressionLib _expressionLib;
 
-        public InternalFormatter(ITagLibParserFactory tagLibHelper, string template, bool allowTags, IResourceLocator locator, ParseContext offSet=null)
+        public InternalFormatter(ITagLibParserFactory tagLibHelper, ExpressionLib expressionLib, string template, bool allowTags, IResourceLocator locator, ParseContext offSet=null)
         {
             _tagLibHelper = tagLibHelper;
             _locator = locator;
             _expectCloseTag = false;
             _allowTags = allowTags;
             _parser = new ParseHelper(new Tokenizer(template, true, COMMENT, SEPERATORS, null /*LITERALS*/).AddOffSet(offSet));
+            _expressionLib = expressionLib;
         }
 
-        public InternalFormatter(ITagLibParserFactory tagLibHelper, ParseHelper parser, bool allowTags, bool expectCloseTag, IResourceLocator locator)
+        public InternalFormatter(ITagLibParserFactory tagLibHelper, ExpressionLib expressionLib, ParseHelper parser, bool allowTags, bool expectCloseTag, IResourceLocator locator)
         {
             _tagLibHelper = tagLibHelper;
             _locator = locator;
             _allowTags = allowTags;
             _expectCloseTag = expectCloseTag;
             _parser = parser;
+            _expressionLib = expressionLib;
         }
 
         public ParsedTemplate Parse()
@@ -224,7 +227,7 @@ namespace org.SharpTiles.Templates
             _parser.Expect(CLOSE_EXPRESSION);
             try
             {
-                _templateParsed.Add(new ExpressionPart(Expression.Parse(expression, offset)));
+                _templateParsed.Add(new ExpressionPart(_expressionLib.Parse(expression, offset)));
             }
             catch (ExceptionWithContext ewc)
             {

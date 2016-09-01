@@ -76,25 +76,11 @@ namespace org.SharpTiles.Expressions.Test
 
         }
 
-        [SetUp]
-        public void SetUp()
-        {
-            Expression.Clear();
-            FunctionLib.Register(new TestMathFunctionLib());
-            Expression.Init();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Expression.Clear();
-            Expression.Init();
-        }
-
+       
         [Test]
         public void Should_Be_Parsed()
         {
-            Assert.That(Expression.ParseAndEvaluate("tokenisolation:round('6.521','2')", new Reflection(new object())),
+            Assert.That(new ExpressionLib(new TestMathFunctionLib()).ParseAndEvaluate("tokenisolation:round('6.521','2')", new Reflection(new object())),
                 Is.EqualTo(6.52m));
         }
     }

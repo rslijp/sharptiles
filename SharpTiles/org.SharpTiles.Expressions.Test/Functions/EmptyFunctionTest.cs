@@ -146,56 +146,56 @@ namespace org.SharpTiles.Expressions.Test
         public void TestEmptyFunctionEmptWithBooleanExpressionBothSides()
         {
             Assert.That(
-                Expression.ParseAndEvaluate("fn:empty(EmptyArray) && fn:empty(EmptyArray)", new Reflection(this)),
+                new ExpressionLib().ParseAndEvaluate("fn:empty(EmptyArray) && fn:empty(EmptyArray)", new Reflection(this)),
                 Is.EqualTo(true));
         }
 
         [Test]
         public void TestEmptyFunctionEmptWithBooleanExpressionLeftHandSide()
         {
-            Assert.That(Expression.ParseAndEvaluate("'true' && fn:empty(EmptyArray)", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("'true' && fn:empty(EmptyArray)", new Reflection(this)),
                         Is.EqualTo(true));
         }
 
         [Test]
         public void TestEmptyFunctionEmptWithBooleanExpressionLeftRightSide()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:empty(EmptyArray) && 'true'", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:empty(EmptyArray) && 'true'", new Reflection(this)),
                         Is.EqualTo(true));
         }
 
         [Test]
         public void TestEmptyFunctionEmptyArrayProperty()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:empty(EmptyArray)", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:empty(EmptyArray)", new Reflection(this)),
                         Is.EqualTo(true));
         }
 
         [Test]
         public void TestEmptyFunctionEmptyConstant()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:empty('')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:empty('')", new Reflection(this)),
                         Is.EqualTo(true));
         }
 
         [Test]
         public void TestEmptyFunctionOnNonEmptyArrayProperty()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:empty(NonEmptyArray)", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:empty(NonEmptyArray)", new Reflection(this)),
                         Is.EqualTo(false));
         }
 
         [Test]
         public void TestEmptyFunctionOnNonEmptyConstant()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:empty('a')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:empty('a')", new Reflection(this)),
                         Is.EqualTo(false));
         }
 
         [Test]
         public void TestParsingEmptyFunctionEmptWithBooleanExpressionLeftRightSide()
         {
-            Expression exp = Expression.Parse("fn:empty(EmptyArray) && 'true'");
+            Expression exp = new ExpressionLib().Parse("fn:empty(EmptyArray) && 'true'");
 
             Assert.IsTrue(exp is And);
 
@@ -213,7 +213,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParsingsEmptyFunctionEmptWithBooleanExpressionBothSides()
         {
-            Expression exp = Expression.Parse("fn:empty(EmptyArray) && fn:empty(EmptyArray)");
+            Expression exp = new ExpressionLib().Parse("fn:empty(EmptyArray) && fn:empty(EmptyArray)");
             Assert.IsTrue(exp is And);
 
             var and = (And) exp;

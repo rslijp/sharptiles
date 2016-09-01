@@ -22,6 +22,7 @@ using System.Text;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using org.SharpTiles.Common;
+using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 using org.SharpTiles.Tags.Templates.SharpTags;
@@ -94,7 +95,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         {
             ITagLib lib = new TagLib();
             lib.Register(new Sharp());
-            return new TagLibParserFactory(new TagLibForParsing(lib), new FileLocatorFactory());
+            return new TagLibParserFactory(new TagLibForParsing(lib), new ExpressionLib(), new FileLocatorFactory());
         }
 
         [Test]

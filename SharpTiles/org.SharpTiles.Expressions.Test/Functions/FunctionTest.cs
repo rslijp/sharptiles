@@ -69,7 +69,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestChechkParsingWithArithmeticBothSide()
         {
-            Expression exp = Expression.Parse("fn:length('aaa')+fn:length('aaa')");
+            Expression exp = new ExpressionLib().Parse("fn:length('aaa')+fn:length('aaa')");
             Assert.IsTrue(exp is Add);
 
             var add = (Add) exp;
@@ -92,7 +92,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestChechkParsingWithArithmeticLeftHandSide()
         {
-            Expression exp = Expression.Parse("'3'+fn:length('aaa')");
+            Expression exp = new ExpressionLib().Parse("'3'+fn:length('aaa')");
             Assert.IsTrue(exp is Add);
 
             var add = (Add) exp;
@@ -110,7 +110,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestChechkParsingWithArithmeticRightHandSide()
         {
-            Expression exp = Expression.Parse("fn:length('aaa')+'3'");
+            Expression exp = new ExpressionLib().Parse("fn:length('aaa')+'3'");
             Assert.IsTrue(exp is Add);
 
             var add = (Add) exp;
@@ -127,7 +127,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestConcat()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:concat('abcd','ef')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:concat('abcd','ef')", new Reflection(this)),
                         Is.EqualTo("abcdef"));
         }
 
@@ -136,7 +136,7 @@ namespace org.SharpTiles.Expressions.Test
         {
             try
             {
-                Expression.ParseAndEvaluate("fn:unkown('abcd','ef')", new Reflection(this));
+                new ExpressionLib().ParseAndEvaluate("fn:unkown('abcd','ef')", new Reflection(this));
                 Assert.Fail("Expected exception");
             } catch (FunctionEvaluationException FEe)
             {
@@ -148,24 +148,24 @@ namespace org.SharpTiles.Expressions.Test
         public void TestContainsAndNestedJoin()
         {
             Assert.That(
-                Expression.ParseAndEvaluate("fn:contains(fn:join(FilledString, Seperator), '-')", new Reflection(this)),
+                new ExpressionLib().ParseAndEvaluate("fn:contains(fn:join(FilledString, Seperator), '-')", new Reflection(this)),
                 Is.EqualTo(false));
             Assert.That(
-                Expression.ParseAndEvaluate("fn:contains(fn:join(FilledString, Seperator), '+')", new Reflection(this)),
+                new ExpressionLib().ParseAndEvaluate("fn:contains(fn:join(FilledString, Seperator), '+')", new Reflection(this)),
                 Is.EqualTo(true));
         }
 
         [Test]
         public void TestContainsIgnoreCaseOnConstant()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:containsIgnoreCase('ABCDEF', 'd')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:containsIgnoreCase('ABCDEF', 'd')", new Reflection(this)),
                         Is.EqualTo(true));
         }
 
         [Test]
         public void TestContainsIgnoreCaseOnPropertySource()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:containsIgnoreCase(SomeText, 'TEXT')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:containsIgnoreCase(SomeText, 'TEXT')", new Reflection(this)),
                         Is.EqualTo(true));
         }
 
@@ -173,21 +173,21 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestContainsOnConstant()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:contains('abcdefg', 'd')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:contains('abcdefg', 'd')", new Reflection(this)),
                         Is.EqualTo(true));
         }
 
         [Test]
         public void TestContainsOnPropertySource()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:contains(SomeText, 'text')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:contains(SomeText, 'text')", new Reflection(this)),
                         Is.EqualTo(true));
         }
 
         [Test]
         public void TestContainsOnPropertySourceAndPropertySubstring()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:contains(SomeText, Text)", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:contains(SomeText, Text)", new Reflection(this)),
                         Is.EqualTo(true));
         }
 
@@ -195,7 +195,7 @@ namespace org.SharpTiles.Expressions.Test
         public void TestDeepNested()
         {
             Assert.That(
-                Expression.ParseAndEvaluate(
+                new ExpressionLib().ParseAndEvaluate(
                     "fn:concat(fn:concat(fn:concat('a','b'),fn:concat('c','d')),fn:concat('e','f'))",
                     new Reflection(this)),
                 Is.EqualTo("abcdef"));
@@ -205,119 +205,119 @@ namespace org.SharpTiles.Expressions.Test
         public void TestEmptyFunctionEmptWithBooleanExpressionBothSides()
         {
             Assert.That(
-                Expression.ParseAndEvaluate("fn:empty(EmptyArray) && fn:empty(EmptyArray)", new Reflection(this)),
+                new ExpressionLib().ParseAndEvaluate("fn:empty(EmptyArray) && fn:empty(EmptyArray)", new Reflection(this)),
                 Is.EqualTo(true));
         }
 
         [Test]
         public void TestEmptyFunctionEmptWithBooleanExpressionLeftHandSide()
         {
-            Assert.That(Expression.ParseAndEvaluate("'true' && fn:empty(EmptyArray)", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("'true' && fn:empty(EmptyArray)", new Reflection(this)),
                         Is.EqualTo(true));
         }
 
         [Test]
         public void TestEmptyFunctionEmptWithBooleanExpressionLeftRightSide()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:empty(EmptyArray) && 'true'", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:empty(EmptyArray) && 'true'", new Reflection(this)),
                         Is.EqualTo(true));
         }
 
         [Test]
         public void TestEmptyFunctionEmptyArrayProperty()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:empty(EmptyArray)", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:empty(EmptyArray)", new Reflection(this)),
                         Is.EqualTo(true));
         }
 
         [Test]
         public void TestEmptyFunctionEmptyConstant()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:empty('')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:empty('')", new Reflection(this)),
                         Is.EqualTo(true));
         }
 
         [Test]
         public void TestEmptyFunctionOnNonEmptyArrayProperty()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:empty(NonEmptyArray)", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:empty(NonEmptyArray)", new Reflection(this)),
                         Is.EqualTo(false));
         }
 
         [Test]
         public void TestEmptyFunctionOnNonEmptyConstant()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:empty('a')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:empty('a')", new Reflection(this)),
                         Is.EqualTo(false));
         }
 
         [Test]
         public void TestEndsWith()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:endsWith('abcdef', 'ef')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:endsWith('abcdef', 'ef')", new Reflection(this)),
                         Is.EqualTo(true));
         }
 
         [Test]
         public void TestEndsWithNotAtEnd()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:endsWith('abcdefg', 'ef')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:endsWith('abcdefg', 'ef')", new Reflection(this)),
                         Is.EqualTo(false));
         }
 
         [Test]
         public void TestEscapeXml()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:escapeXml(HTML)", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:escapeXml(HTML)", new Reflection(this)),
                         Is.EqualTo(HTMLEscaped));
         }
 
         [Test]
         public void TestEscapeXmlOfPlainString()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:escapeXml('Text')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:escapeXml('Text')", new Reflection(this)),
                         Is.EqualTo("Text"));
         }
 
         [Test]
         public void TestJoinAfterSplit()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:join(fn:split('a-b-c-d-e-f', '-'), '-')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:join(fn:split('a-b-c-d-e-f', '-'), '-')", new Reflection(this)),
                         Is.EqualTo("a-b-c-d-e-f"));
         }
 
         [Test]
         public void TestJoinOnPropertiesAndConstant()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:join(FilledString, '-')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:join(FilledString, '-')", new Reflection(this)),
                         Is.EqualTo("one-two-three"));
         }
 
         [Test]
         public void TestJoinOnTwoProperties()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:join(FilledString, Seperator)", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:join(FilledString, Seperator)", new Reflection(this)),
                         Is.EqualTo("one+two+three"));
         }
 
         [Test]
         public void TestLengthOfEmptyConstant()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:length('')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:length('')", new Reflection(this)),
                         Is.EqualTo(0));
         }
 
         [Test]
         public void TestLengthOfEmptyOneConstant()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:length('a')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:length('a')", new Reflection(this)),
                         Is.EqualTo(1));
         }
 
         [Test]
         public void TestLengthOfEmptyTwoLetterConstant()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:length('ab')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:length('ab')", new Reflection(this)),
                         Is.EqualTo(2));
         }
 
@@ -325,14 +325,14 @@ namespace org.SharpTiles.Expressions.Test
         public void TestNestedFormula()
         {
             Assert.That(
-                Expression.ParseAndEvaluate("fn:length(HTML)<fn:length(fn:escapeXml(HTML))", new Reflection(this)),
+                new ExpressionLib().ParseAndEvaluate("fn:length(HTML)<fn:length(fn:escapeXml(HTML))", new Reflection(this)),
                 Is.EqualTo(true));
         }
 
         [Test]
         public void TestNotContainsOnConstant()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:contains('abcefg', 'd')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:contains('abcefg', 'd')", new Reflection(this)),
                         Is.EqualTo(false));
         }
 
@@ -341,7 +341,7 @@ namespace org.SharpTiles.Expressions.Test
         {
             try
             {
-                Expression.ParseAndEvaluate("fn:concat('abcd')", new Reflection(this));
+                new ExpressionLib().ParseAndEvaluate("fn:concat('abcd')", new Reflection(this));
                 Assert.Fail("Expected exception");
             }
             catch (ExpressionParseException EPe)
@@ -355,7 +355,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseLengthFunction()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "fn:length('aaa')",
                             new Reflection(this)), Is.EqualTo(3)
                 );
@@ -364,7 +364,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseLengthFunctionOnBothSides()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "fn:length('aaa')+fn:length('aaa')",
                             new Reflection(this)), Is.EqualTo(6)
                 );
@@ -373,7 +373,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseLengthFunctionWithArithmeticLeftHandSide()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "'3'+fn:length('aaa')",
                             new Reflection(this)), Is.EqualTo(6)
                 );
@@ -382,7 +382,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParseLengthFunctionWithArithmeticRightHandSide()
         {
-            Assert.That(Expression.ParseAndEvaluate(
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
                             "fn:length('aaa')+'3'",
                             new Reflection(this)), Is.EqualTo(6)
                 );
@@ -391,7 +391,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParsingEmptyFunctionEmptWithBooleanExpressionLeftRightSide()
         {
-            Expression exp = Expression.Parse("fn:empty(EmptyArray) && 'true'");
+            Expression exp = new ExpressionLib().Parse("fn:empty(EmptyArray) && 'true'");
 
             Assert.IsTrue(exp is And);
 
@@ -409,7 +409,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestParsingsEmptyFunctionEmptWithBooleanExpressionBothSides()
         {
-            Expression exp = Expression.Parse("fn:empty(EmptyArray) && fn:empty(EmptyArray)");
+            Expression exp = new ExpressionLib().Parse("fn:empty(EmptyArray) && fn:empty(EmptyArray)");
             Assert.IsTrue(exp is And);
 
             var and = (And) exp;
@@ -432,7 +432,7 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestReplace()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:replace('a-b-c-d-e-f', '-', '')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:replace('a-b-c-d-e-f', '-', '')", new Reflection(this)),
                         Is.EqualTo("abcdef"));
         }
 
@@ -440,7 +440,7 @@ namespace org.SharpTiles.Expressions.Test
         public void TestReplaceBachAndForth()
         {
             Assert.That(
-                Expression.ParseAndEvaluate("fn:replace(fn:replace('a-b-c-d-e-f', '-', '+'), '+', '-')",
+                new ExpressionLib().ParseAndEvaluate("fn:replace(fn:replace('a-b-c-d-e-f', '-', '+'), '+', '-')",
                                             new Reflection(this)),
                 Is.EqualTo("a-b-c-d-e-f"));
         }
@@ -448,49 +448,49 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestSplit()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:split('a-b-c-d-e-f', '-')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:split('a-b-c-d-e-f', '-')", new Reflection(this)),
                         Is.EqualTo(new[] {"a", "b", "c", "d", "e", "f"}));
         }
 
         [Test]
         public void TestSplitAfterJoin()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:split(fn:join(FilledString, '-'), '-')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:split(fn:join(FilledString, '-'), '-')", new Reflection(this)),
                         Is.EqualTo(FilledString));
         }
 
         [Test]
         public void TestStartsWith()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:startsWith('bcdef', 'bc')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:startsWith('bcdef', 'bc')", new Reflection(this)),
                         Is.EqualTo(true));
         }
 
         [Test]
         public void TestStartsWithNotAtEnd()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:startsWith('abcdefg', 'bc')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:startsWith('abcdefg', 'bc')", new Reflection(this)),
                         Is.EqualTo(false));
         }
 
         [Test]
         public void TestSubString()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:substring('abcdef', '2', '4')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:substring('abcdef', '2', '4')", new Reflection(this)),
                         Is.EqualTo("cd"));
         }
 
         [Test]
         public void TestSubStringAfter()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:substringAfter('abcdef', 'd')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:substringAfter('abcdef', 'd')", new Reflection(this)),
                         Is.EqualTo("ef"));
         }
 
         [Test]
         public void TestSubStringBefore()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:substringBefore('abcdef', 'd')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:substringBefore('abcdef', 'd')", new Reflection(this)),
                         Is.EqualTo("abc"));
         }
 
@@ -498,7 +498,7 @@ namespace org.SharpTiles.Expressions.Test
         public void TestSubStringsNested()
         {
             Assert.That(
-                Expression.ParseAndEvaluate(
+                new ExpressionLib().ParseAndEvaluate(
                     "fn:substring(fn:concat(fn:substringBefore('abcdef', 'd'), fn:substringAfter('abcdef', 'd')), '2', '4')",
                     new Reflection(this)),
                 Is.EqualTo("ce"));
@@ -507,17 +507,17 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestToLower()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:toLowerCase('ABCDEF')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:toLowerCase('ABCDEF')", new Reflection(this)),
                         Is.EqualTo("abcdef"));
         }
 
         [Test]
         public void TestToLowerNested()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:contains('ABCDEFG', 'abc')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:contains('ABCDEFG', 'abc')", new Reflection(this)),
                         Is.EqualTo(false));
             Assert.That(
-                Expression.ParseAndEvaluate("fn:contains(fn:toLowerCase('ABCDEFG'), 'abc')", new Reflection(this)),
+                new ExpressionLib().ParseAndEvaluate("fn:contains(fn:toLowerCase('ABCDEFG'), 'abc')", new Reflection(this)),
                 Is.EqualTo(true));
         }
 
@@ -526,7 +526,7 @@ namespace org.SharpTiles.Expressions.Test
         {
             try
             {
-                Expression.ParseAndEvaluate("fn:concat('abcd','ef', 'oops one extra')", new Reflection(this));
+                new ExpressionLib().ParseAndEvaluate("fn:concat('abcd','ef', 'oops one extra')", new Reflection(this));
                 Assert.Fail("Expected exception");
             }
             catch (ExpressionParseException EPe)
@@ -540,33 +540,33 @@ namespace org.SharpTiles.Expressions.Test
         [Test]
         public void TestToUpper()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:toUpperCase('abcdef')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:toUpperCase('abcdef')", new Reflection(this)),
                         Is.EqualTo("ABCDEF"));
         }
 
         [Test]
         public void TestToUpperNested()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:contains('abcdefg', 'ABC')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:contains('abcdefg', 'ABC')", new Reflection(this)),
                         Is.EqualTo(false));
             Assert.That(
-                Expression.ParseAndEvaluate("fn:contains(fn:toUpperCase('abcdefg'), 'ABC')", new Reflection(this)),
+                new ExpressionLib().ParseAndEvaluate("fn:contains(fn:toUpperCase('abcdefg'), 'ABC')", new Reflection(this)),
                 Is.EqualTo(true));
         }
 
         [Test]
         public void TestTrim()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:trim(' abcdef ')", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:trim(' abcdef ')", new Reflection(this)),
                         Is.EqualTo("abcdef"));
         }
 
         [Test]
         public void TestTrimNested()
         {
-            Assert.That(Expression.ParseAndEvaluate("fn:length(' to trim ') eq '7'", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:length(' to trim ') eq '7'", new Reflection(this)),
                         Is.EqualTo(false));
-            Assert.That(Expression.ParseAndEvaluate("fn:length(fn:trim(' to trim ')) eq '7'", new Reflection(this)),
+            Assert.That(new ExpressionLib().ParseAndEvaluate("fn:length(fn:trim(' to trim ')) eq '7'", new Reflection(this)),
                         Is.EqualTo(true));
         }
     }

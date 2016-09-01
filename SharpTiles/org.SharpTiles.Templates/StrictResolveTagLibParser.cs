@@ -21,6 +21,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using org.SharpTiles.Common;
+using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 
@@ -28,7 +29,7 @@ namespace org.SharpTiles.Templates
 {
     public class StrictResolveTagLibParser : IgnoreResolveTagLibParser
     {
-        public StrictResolveTagLibParser(TagLibForParsing lib, ParseHelper helper, IResourceLocator locator, IResourceLocatorFactory factory) : base(lib, helper, locator, factory)
+        public StrictResolveTagLibParser(TagLibForParsing lib, ExpressionLib expressionLib, ParseHelper helper, IResourceLocator locator, IResourceLocatorFactory factory) : base(lib, expressionLib, helper, locator, factory)
         {
         }
         

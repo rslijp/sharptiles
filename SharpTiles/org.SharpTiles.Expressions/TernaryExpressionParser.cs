@@ -63,16 +63,7 @@ namespace org.SharpTiles.Expressions
             subResult.FirstSign = DistinctToken.Token;
             subResult.SecondSign = AdditionalToken.Token;
             parseHelper.Push(subResult);
-            Expression.Parse(parseHelper);
-//            if (subResult.Second == null)
-//            {
-//                subResult.FillInSecond(parseHelper.Pop());
-//            }
-//            parseHelper.Expect(AdditionalToken.Token);
-//            if (subResult.Third == null)
-//            {
-//                subResult.FillInThird(parseHelper.Pop());
-//            }
+            parseHelper.ParseExpression();
         }
 
         private bool ShouldReduce(ExpressionParserHelper parseHelper)
