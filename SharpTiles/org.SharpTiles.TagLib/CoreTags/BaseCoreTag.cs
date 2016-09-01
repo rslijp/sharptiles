@@ -79,7 +79,7 @@ namespace org.SharpTiles.Tags.CoreTags
             get { return new ReflectionAttributeSetter(this); }
         }
 
-        public ParseContext Context { get; set; }
+        public virtual ParseContext Context { get; set; }
 
         protected VariableScope ToScope(string valueStr)
         {

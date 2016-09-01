@@ -56,5 +56,7 @@ namespace org.SharpTiles.Tags
         {
             return ConstantValue;
         }
+
+        public override string ToString() => ConstantValue?.ToString();
     }
 }

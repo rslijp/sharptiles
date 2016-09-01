@@ -44,7 +44,7 @@ namespace org.SharpTiles.AST.Nodes
             {
                 foreach (var nestedTag in tagWithNestedTags.NestedTags)
                 {
-                    Add(new TagNode(nestedTag, nestedTag.Context));
+                    Add(new TagNode(nestedTag, nestedTag.Context ?? tagWithNestedTags.Context));
                 }
             }
         }
@@ -68,7 +68,7 @@ namespace org.SharpTiles.AST.Nodes
         public IDictionary<string, TagAttributeNode> Attributes => new ReadOnlyStringDictionary<TagAttributeNode>(_attributes);
 
         [DataMember]
-        public IDictionary<string,string> Attr => new ReadOnlyStringDictionary<string>(_attributes.Values.ToDictionary(a => a.Name, a => a.Raw ?? a.Default));
+        public IDictionary<string, string> Attr => new ReadOnlyStringDictionary<string>(_attributes.Values.ToDictionary(a => a.Name, a => a.Raw ?? a.Default));
 
         [DataMember]
         public INode[] Nodes => _children.ToArray();
@@ -91,25 +91,25 @@ namespace org.SharpTiles.AST.Nodes
 
         public TagNode With(string name, params INode[] attributes)
         {
-            _attributes.Add(name,new TagAttributeNode(name, attributes));
+            _attributes.Add(name, new TagAttributeNode(name, attributes));
             return this;
         }
 
         public TagNode With(string name, TagDefaultValue defaultValue)
         {
-            _attributes.Add(name,new TagAttributeNode(name, defaultValue));
+            _attributes.Add(name, new TagAttributeNode(name, defaultValue));
             return this;
         }
 
         public TagNode With(string name, TagDefaultProperty defaultProperty)
         {
-            _attributes.Add(name,new TagAttributeNode(name, defaultProperty));
+            _attributes.Add(name, new TagAttributeNode(name, defaultProperty));
             return this;
         }
 
-        public TagNode With(string name, string value, Context context=null)
+        public TagNode With(string name, string value, Context context = null)
         {
-            return With(name, new TextNode(value) {Context = context});
+            return With(name, new TextNode(value) { Context = context });
         }
 
         private void YieldAttributes(ITag tag)
@@ -119,14 +119,24 @@ namespace org.SharpTiles.AST.Nodes
                 if (prop.Name.Equals("Body")) continue;
 
                 if (!typeof(ITagAttribute).IsAssignableFrom(prop.PropertyType)) continue;
-                var value = prop.GetValue(tag) as ITagAttribute;
-                if (value == null)
+                try
                 {
-                    HandleNull(prop);
-                    continue;
+                    var value = prop.GetValue(tag) as ITagAttribute;
+                    if (value == null)
+                    {
+                        HandleNull(prop);
+                        continue;
+                    }
+                    HandleConstant(prop.Name, value as ConstantAttribute);
+                    HandleExpression(prop.Name, value as TemplateAttribute);
                 }
-                HandleConstant(prop.Name, value as ConstantAttribute);
-                HandleExpression(prop.Name, value as TemplateAttribute);
+                catch (TargetParameterCountException)
+                {
+                }
+                catch (Exception e)
+                {
+                    throw new Exception($"YieldAttributes({tag}.{prop.Name}) throws {e.Message}", e);
+                }
             }
         }
 
@@ -156,10 +166,10 @@ namespace org.SharpTiles.AST.Nodes
 
         private void HandleExpression(string name, TemplateAttribute value)
         {
-            var nodes=value.
+            var nodes = value.
                 TemplateParsed.
                 Select(Yield).
-                Where(n=>n!=null).
+                Where(n => n != null).
                 ToArray();
             With(name, nodes);
         }
@@ -179,7 +189,7 @@ namespace org.SharpTiles.AST.Nodes
             Raw = RawStringHelper.Build(children);
 
         }
-        
+
 
         public override bool Prune(AST.Options options)
         {
@@ -194,7 +204,7 @@ namespace org.SharpTiles.AST.Nodes
                 var c = _attributes[attribute].Nodes.All(a => a.Prune(options));
                 if (c && !options.HasFlag(AST.Options.IncludeUnspecifiedAttributes)) _attributes.Remove(attribute);
             }
-            return prune && _attributes.Count==0;
+            return prune && _attributes.Count == 0;
         }
 
         private void PruneContext(AST.Options options)
@@ -242,9 +252,10 @@ namespace org.SharpTiles.AST.Nodes
             string attributes = "";
             string nodes = "";
 
-            if (Attributes.Any()) {
+            if (Attributes.Any())
+            {
                 attributes = "\r\n###Attributes\r\n" +
-                             string.Join("\r\n",Attributes.Select(a => a.Key + ":" + string.Join(">>",a.Value.Nodes.Select(n => n.ToString().Replace("\r\n", "\r\n\t")))));
+                             string.Join("\r\n", Attributes.Select(a => a.Key + ":" + string.Join(">>", a.Value.Nodes.Select(n => n.ToString().Replace("\r\n", "\r\n\t")))));
             }
             if (Nodes.Any())
             {
@@ -260,8 +271,8 @@ namespace org.SharpTiles.AST.Nodes
 
     public class ReadOnlyStringDictionary<T> : ReadOnlyDictionary<string, T>
     {
-        public ReadOnlyStringDictionary(IDictionary<string,T> values) : base(values) { }
+        public ReadOnlyStringDictionary(IDictionary<string, T> values) : base(values) { }
 
-        public override string ToString() => $"[{string.Join(",",this.Select(p => $"{p.Key}={p.Value}"))}]";
+        public override string ToString() => $"[{string.Join(",", this.Select(p => $"{p.Key}={p.Value}"))}]";
     }
 }
