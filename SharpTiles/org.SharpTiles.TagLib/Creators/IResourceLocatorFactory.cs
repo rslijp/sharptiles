@@ -19,12 +19,14 @@
 using System;
 using System.IO;
 using org.SharpTiles.Common;
+using org.SharpTiles.Expressions;
 
 namespace org.SharpTiles.Tags.Creators
 {
     public interface IResourceLocatorFactory
     {
         ITagLib Lib { get; }
+        ExpressionLib ExpressionLib { get; }
         IResourceLocatorFactory CloneForTagLib(ITagLib lib);
 
         DateTime? ConfigurationLastModified { get; }

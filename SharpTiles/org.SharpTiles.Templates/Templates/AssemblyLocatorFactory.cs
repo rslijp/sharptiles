@@ -20,6 +20,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using org.SharpTiles.Common;
+using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 
@@ -71,11 +72,8 @@ namespace org.SharpTiles.Templates.Templates
             return null;
         }
 
-        public ITagLib Lib
-        {
-            get { return _lib; } 
-        }
-
+        public ITagLib Lib => _lib;
+        public virtual ExpressionLib ExpressionLib => null;
 
         public IResourceLocatorFactory CloneForTagLib(ITagLib lib)
         {

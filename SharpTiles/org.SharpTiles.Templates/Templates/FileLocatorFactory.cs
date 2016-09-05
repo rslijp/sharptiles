@@ -18,6 +18,7 @@
  */using System;
 using System.IO;
 using org.SharpTiles.Common;
+using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 
@@ -44,10 +45,9 @@ namespace org.SharpTiles.Templates.Templates
             _filePath = filePath;
         }
 
-        public ITagLib Lib
-        {
-            get { return _lib; }
-        }
+        public ITagLib Lib => _lib;
+
+        public virtual ExpressionLib ExpressionLib => null;
 
         public ITemplate Handle(String entry, bool throwException)
         {

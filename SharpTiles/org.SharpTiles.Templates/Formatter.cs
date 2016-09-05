@@ -160,6 +160,7 @@ namespace org.SharpTiles.Templates
             var template = locator.GetDataAsString(path);
             return new Formatter(template).
                         OverrideLib(lib).
+                        OverrideExpressionLib(factory.ExpressionLib).
                         AllowTags(true).
                         SetLocatorFactory(factory).
                         SetInitialLocator(locator.Update(path)).
