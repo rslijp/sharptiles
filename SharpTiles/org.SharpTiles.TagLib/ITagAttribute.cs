@@ -22,6 +22,7 @@ namespace org.SharpTiles.Tags
 {
     public interface ITagAttribute
     {
+        bool AllowOverWrite { get;  }
         string AttributeName { get; set;  }
         object ConstantValue { get; }
         ParseContext Context { get; }

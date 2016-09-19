@@ -252,7 +252,7 @@ namespace org.SharpTiles.Templates
                 var key = tagReflection.SupportNaturalLanguage?LanguageHelper.CamelCaseAttribute(keyToken.Contents): keyToken.Contents;
                 _helper.Read(TagLibConstants.FIELD_ASSIGNMENT);
                 var value = _helper.Read(TokenType.Literal).Contents;
-                if (tagReflection[key] != null)
+                if (tagReflection[key] != null && !tagReflection[key].AllowOverWrite)
                 {
                     throw TagException.PropertyAlReadySet(key).Decorate(keyToken.Context);
                 }

@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="BaseTagGroup.cs" />
     <Compile Include="BooleanEnum.cs" />
+    <Compile Include="DefaultConstantAttribute.cs" />
     <Compile Include="ConstantAttribute.cs" />
     <Compile Include="Creators\IResourceLocatorFactory.cs" />
     <Compile Include="Creators\ITemplate.cs" />

@@ -31,6 +31,9 @@ namespace org.SharpTiles.Tags.Test
             _expression = expression;
         }
 
+        public virtual bool AllowOverWrite => false;
+
+
         #region ITagAttribute Members
         public string AttributeName { get; set; }
 
