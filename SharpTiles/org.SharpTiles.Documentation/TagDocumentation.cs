@@ -61,7 +61,8 @@ namespace org.SharpTiles.Documentation
                 BindingFlags.SetProperty |
                 BindingFlags.FlattenHierarchy))
             {
-                if (Equals(property.PropertyType, typeof(ITagAttribute)) && !IsInternal(property))
+                if (Equals(property.PropertyType, typeof(ITagAttribute)) && 
+                    !IsInternal(property))
                 {
                     _list.Add(new PropertyDocumentation(_messagePath, property));
                 }
@@ -162,7 +163,7 @@ namespace org.SharpTiles.Documentation
             return isInternal;
         }
 
-        
+      
 
     }
 }

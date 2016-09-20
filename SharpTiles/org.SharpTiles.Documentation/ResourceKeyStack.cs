@@ -161,12 +161,18 @@ namespace org.SharpTiles.Documentation
                         result.Append("_" + tag.GetType().Name);
                     }
                 }
-                var descriptionType = _tags.Last().GetType();
+                var lastTag = _tags.Last();
+                var descriptionType = lastTag.GetType();
                 if (_property != null)
                 {
                     descriptionType = _property.DeclaringType;
                 }
-                result.Append("_" + descriptionType.Name);
+                var description = descriptionType.Name;
+                if (lastTag is IInstanceTagDocumentation)
+                {
+                    description = lastTag.TagName;
+                }
+                result.Append("_" + description);
                 AppendProperty(result);
             }
         }
