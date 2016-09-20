@@ -47,9 +47,8 @@ namespace org.SharpTiles.Documentation
         {
             _messagePath = messagePath.BranchFor(tag);
             _name = tag.TagName;
-
+            
             var tagType = tag.GetType();
-            _description = DescriptionAttribute.Harvest(tagType)??_messagePath.Description;
             
             _category = CategoryHelper.GetCategory(tagType);
             
@@ -75,21 +74,33 @@ namespace org.SharpTiles.Documentation
                     _nested.Add(new TagDocumentation(_messagePath, nested, specials));
                 }
             }
-            if (ExampleAttribute.Harvest(tagType))
+            var instanceDocumentation = tag as IInstanceTagDocumentation;
+            if (instanceDocumentation!=null)
             {
-                _examples.AddRange(ExampleAttribute.HarvestTags(tagType));
+                _description = instanceDocumentation.Description;
+                _examples.AddRange(instanceDocumentation.Examples?? new ExampleAttribute[] {});
+                _notes.AddRange(instanceDocumentation.Notes ?? new NoteAttribute[] {});
             }
-            if (HasExample.Has(tagType))
+            else
             {
-                _examples.Add(new ExampleAttribute(_messagePath.Example));
-            }
-            if (NoteAttribute.Harvest(tagType))
-            {
-                _notes.AddRange(NoteAttribute.HarvestTags(tagType));
-            }
-            if (HasNote.Has(tagType))
-            {
-                _notes.Add(new NoteAttribute(_messagePath.Note));
+                _description = DescriptionAttribute.Harvest(tagType) ?? _messagePath.Description;
+
+                if (ExampleAttribute.Harvest(tagType))
+                {
+                    _examples.AddRange(ExampleAttribute.HarvestTags(tagType));
+                }
+                if (HasExample.Has(tagType))
+                {
+                    _examples.Add(new ExampleAttribute(_messagePath.Example));
+                }
+                if (NoteAttribute.Harvest(tagType))
+                {
+                    _notes.AddRange(NoteAttribute.HarvestTags(tagType));
+                }
+                if (HasNote.Has(tagType))
+                {
+                    _notes.Add(new NoteAttribute(_messagePath.Note));
+                }
             }
         }
 

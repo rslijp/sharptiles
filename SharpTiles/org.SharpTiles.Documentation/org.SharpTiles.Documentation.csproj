@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoryHelper.cs" />
+    <Compile Include="DocumentationAttributes\IInstanceTagDocumentation.cs" />
     <Compile Include="DocumentationAttributes\TitleAttribute.cs" />
     <Compile Include="DocumentationAttributes\ExampleAttribute .cs" />
     <Compile Include="DocumentationAttributes\NoteAttribute.cs" />
