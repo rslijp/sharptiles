@@ -59,7 +59,7 @@ namespace org.SharpTiles.Templates
             if (hits.Count==0)
             {
                 if (_helper.IgnoreUnkownTag()) return null;
-                throw TagException.UnkownTag(name.Contents).Decorate(name.Context);
+                throw TagException.UnkownTag(name.Contents, TagNames).Decorate(name.Context);
             }
             return hits.First();
         }

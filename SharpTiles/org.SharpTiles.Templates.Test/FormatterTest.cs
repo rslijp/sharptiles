@@ -188,7 +188,7 @@ namespace org.SharpTiles.Templates.Test
             }
             catch (TagException Te)
             {
-                Assert.That(Te.MessageWithOutContext, Is.EqualTo(TagException.UnkownTag("unknown").Message));
+                Assert.That(Te.MessageWithOutContext, Text.StartsWith(TagException.UnkownTag("unknown").Message));
             }
             
         }
@@ -393,7 +393,7 @@ namespace org.SharpTiles.Templates.Test
             }
             catch (ExceptionWithContext Pe)
             {
-                Assert.That(Pe.MessageWithOutContext, Is.EqualTo(TagException.UnkownTag("h1").Message));
+                Assert.That(Pe.MessageWithOutContext, Text.StartsWith(TagException.UnkownTag("h1").Message));
             }            
         }
 

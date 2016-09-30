@@ -150,9 +150,9 @@ namespace org.SharpTiles.Tags
             return MakePartial(new TagException(msg));
         }
 
-        public static PartialExceptionWithContext<TagException> UnkownTag(string tag)
+        public static PartialExceptionWithContext<TagException> UnkownTag(string tag, params string[] possibleTags)
         {
-            string msg = String.Format("Unkown tag '{0}'", tag);
+            string msg = string.Format("Unkown tag '{0}'. Possible tags are: {1}", tag, string.Join(", ", possibleTags));
             return MakePartial(new TagException(msg));
         }
 

@@ -18,6 +18,7 @@
  */
 
 using System;
+using System.Linq;
 using org.SharpTiles.Common;
 using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
@@ -130,6 +131,7 @@ namespace org.SharpTiles.Templates
             _lib.Pop();
         }
 
+        protected string[] TagNames => _lib?.SelectMany(lib => lib.TagNames).ToArray();
 
         protected abstract ITag ParseTagType();
         protected abstract TagLibMode Mode { get;  }

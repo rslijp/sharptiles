@@ -20,6 +20,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Tags
@@ -42,6 +43,8 @@ namespace org.SharpTiles.Tags
             return REGISTERED_TAGS.ContainsKey(name.Contents);
         }
 
+        public string[] TagNames => REGISTERED_TAGS.Keys.OrderBy(tag => tag).ToArray();
+
 
         public ITag Get(string name, ParseContext context)
         {
@@ -52,7 +55,7 @@ namespace org.SharpTiles.Tags
                 tag.Group = this;
                 return tag;
             }
-            throw TagException.UnkownTag(name).Decorate(context);
+            throw TagException.UnkownTag(name, TagNames).Decorate(context);
         }
 
 

@@ -31,5 +31,6 @@ namespace org.SharpTiles.Tags
 
         ITag Get(string name, ParseContext context);
 
+        string[] TagNames { get; }
     }
 }

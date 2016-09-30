@@ -129,6 +129,8 @@ namespace org.SharpTiles.Templates
                 return _tags.Any(t => t.TagName.Equals(name));
             }
 
+            public string[] TagNames => _tags.Select(tag => tag.TagName).OrderBy(t => t).ToArray();
+
             public ITag Get(string name, ParseContext context)
             {
                var tag = _tags.FirstOrDefault(t => t.TagName.Equals(name));

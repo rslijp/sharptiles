@@ -38,7 +38,7 @@ namespace org.SharpTiles.Templates
             var tag=base.ParseTagType();
             if (tag == null)
             {
-                throw TagException.UnkownTag(_helper.Current.Contents).Decorate(_helper.Current);
+                throw TagException.UnkownTag(_helper.Current.Contents, TagNames).Decorate(_helper.Current);
             }
             return tag;
         }
