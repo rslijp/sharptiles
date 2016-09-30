@@ -64,7 +64,7 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
             }
         }
 
-    public static DescriptionAttribute Harvest(Type type)
+        public static DescriptionAttribute Harvest(Type type)
         {
             return type.GetCustomAttributes(typeof(DescriptionAttribute), false).Cast<DescriptionAttribute>().SingleOrDefault();
         }

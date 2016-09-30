@@ -31,20 +31,31 @@ namespace org.SharpTiles.Documentation
     {
         private readonly ResourceKeyStack _messagePath;
         private readonly PropertyInfo _property;
+        private readonly string _propertyName;
         private bool _required;
         private string _default;
         private DescriptionAttribute _description;
+        private EnumValue[] _enumValues;
 
         public PropertyDocumentation(ResourceKeyStack messagePath, PropertyInfo property)
         {
             _property = property;
             _messagePath = messagePath.BranchFor(property);
-            ;
             IsRequired(property);
             DetermineDefault(property);
             _description = DescriptionAttribute.Harvest(property)??_messagePath.Description;
+            _enumValues = GetEnumValues(_property.GetCustomAttribute<EnumProperyTypeAttribute>(false)?.EnumType);
         }
 
+        public PropertyDocumentation(ResourceKeyStack messagePath, PropertyAttribute property)
+        {
+            _propertyName = property.Name;
+            _messagePath = messagePath.BranchFor(new AttributeInfo(property.Name, property.DeclaringType));
+            _required = property.Required;
+            _default = property.DefaultValue;
+            _description = property.Description != null ? new DescriptionAttribute(property.Description) : _messagePath.Description;
+            _enumValues = property.DeclaringType.IsEnum ? GetEnumValues(property.DeclaringType) : null;
+        }
 
         [DataMember]
         public bool Required
@@ -97,18 +108,15 @@ namespace org.SharpTiles.Documentation
         }
 
         [DataMember]
-        public EnumValue[] EnumValues
+        public EnumValue[] EnumValues => _enumValues;
+
+        private EnumValue[] GetEnumValues(Type enumType)
         {
-            get
-            {
-                var attribute = _property.GetCustomAttribute<EnumProperyTypeAttribute>(false);
-
-                return attribute?.EnumValues
-                    .Cast<object>()
-                    .Select(v => EnumValue.Create(attribute.EnumType, v))
-                    .ToArray();
-
-            }
+            
+            return enumType != null ? Enum.GetValues(enumType)
+                .Cast<object>()
+                .Select(v => EnumValue.Create(enumType, v))
+                .ToArray() : null;
         }
 
         [DataContract]

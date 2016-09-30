@@ -56,6 +56,11 @@ namespace org.SharpTiles.Documentation
             _list = new List<PropertyDocumentation>();
             _nested = new List<TagDocumentation>();
             _methods = new List<FunctionDocumentation>();
+            foreach (var property in tagType.GetCustomAttributes<PropertyAttribute>())
+            {
+                _list.Add(new PropertyDocumentation(_messagePath, property));
+            }
+
             foreach (var property in tagType.GetProperties(
                 BindingFlags.Instance |
                 BindingFlags.Public |

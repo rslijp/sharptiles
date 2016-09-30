@@ -34,7 +34,7 @@ namespace org.SharpTiles.Documentation
     {
         private ITagGroup _group;
         private IList<ITag> _tags;
-        private PropertyInfo _property;
+        private AttributeInfo _attribute;
         private IExpressionParser _expression;
         private IFunctionDefinition _function;
         private ResourceBundle _bundle;
@@ -59,11 +59,6 @@ namespace org.SharpTiles.Documentation
         public IEnumerable<ITag> Tags
         {
             get { return _tags; }
-        }
-
-        public PropertyInfo Property
-        {
-            get { return _property; }
         }
 
         public IExpressionParser Expression
@@ -139,8 +134,8 @@ namespace org.SharpTiles.Documentation
             if(_group!=null)
             {
                 if (!_tags.Any() ||
-                   _property == null ||
-                   Equals(_tags.Last().GetType(), _property.DeclaringType)
+                   _attribute == null ||
+                   Equals(_tags.Last().GetType(), _attribute.DeclaringType)
                    )
                 {
                     result.Append("_" + _group.GetType().Name);
@@ -162,9 +157,9 @@ namespace org.SharpTiles.Documentation
                     }
                 }
                 var descriptionType = _tags.Last().GetType();
-                if (_property != null)
+                if (_attribute != null)
                 {
-                    descriptionType = _property.DeclaringType;
+                    descriptionType = _attribute.DeclaringType;
                 }
                 result.Append("_" + descriptionType.Name);
                 AppendProperty(result);
@@ -173,9 +168,9 @@ namespace org.SharpTiles.Documentation
 
         private void AppendProperty(StringBuilder result)
         {
-            if (_property != null)
+            if (_attribute != null)
             {
-                result.Append("_" + _property.Name);
+                result.Append("_" + _attribute.Name);
             }
         }
 
@@ -201,8 +196,13 @@ namespace org.SharpTiles.Documentation
 
         public ResourceKeyStack BranchFor(PropertyInfo property)
         {
+            return BranchFor(new AttributeInfo(property));
+        }
+
+        public ResourceKeyStack BranchFor(AttributeInfo attribute)
+        {
             var branch = (ResourceKeyStack)MemberwiseClone();
-            branch._property = property;
+            branch._attribute = attribute;
             return branch;
         }
 
