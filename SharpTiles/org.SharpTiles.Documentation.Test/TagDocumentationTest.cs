@@ -21,9 +21,11 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
- using org.SharpTiles.Tags;
+using org.SharpTiles.Documentation.DocumentationAttributes;
+using org.SharpTiles.Tags;
  using org.SharpTiles.Tags.CoreTags;
 using org.SharpTiles.Tags.FormatTags;
+using DescriptionAttribute = org.SharpTiles.Documentation.DocumentationAttributes.DescriptionAttribute;
 
 namespace org.SharpTiles.Documentation.Test
 {
@@ -54,6 +56,22 @@ namespace org.SharpTiles.Documentation.Test
                 hasValue |= property.Name.Equals("Value");
             }
             Assert.That(hasValue, Is.True);
+        }
+
+        [Test]
+        public void IInstanceTagDocumentationPropertyIsUsed()
+        {
+            var td = new TagDocumentation(new ResourceKeyStack(bundle), new InstanceTagDocumentationOut(), new List<Func<ITag, TagDocumentation, bool>>());
+            bool hasBody = false;
+            Assert.That(td.Description.Value, Is.EqualTo("Hi"));
+         }
+
+        public class InstanceTagDocumentationOut : Out, IInstanceTagDocumentation
+        {
+            public DescriptionAttribute Description => new DescriptionAttribute("Hi");
+            public ExampleAttribute[] Examples => null;
+            public NoteAttribute[] Notes => null;
+
         }
 
 //        [Test]

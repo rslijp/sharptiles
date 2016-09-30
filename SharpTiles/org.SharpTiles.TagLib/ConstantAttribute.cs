@@ -29,11 +29,15 @@ namespace org.SharpTiles.Tags
             
         }
 
+        
+
         public ConstantAttribute(object value, ITag tag)
         {
             ConstantValue = value;
             Context = tag.Context;
         }
+
+        public virtual bool AllowOverWrite => false;
 
         public string AttributeName { get; set; }
 

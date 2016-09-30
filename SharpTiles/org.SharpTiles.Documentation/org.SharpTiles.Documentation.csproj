@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="AttributeInfo.cs" />
     <Compile Include="CategoryHelper.cs" />
+    <Compile Include="DocumentationAttributes\IInstanceTagDocumentation.cs" />
     <Compile Include="DocumentationAttributes\PropertyAttribute.cs" />
     <Compile Include="DocumentationAttributes\TitleAttribute.cs" />
     <Compile Include="DocumentationAttributes\ExampleAttribute .cs" />

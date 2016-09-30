@@ -85,6 +85,8 @@ namespace org.SharpTiles.Templates
             return _resultParts.Count == 1 ? _resultParts[0].Evaluate(model) : null;
         }
 
+        public virtual bool AllowOverWrite => false;
+
         public object EvaluateMulti(TagModel model)
         {
             var builder = new StringBuilder();

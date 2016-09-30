@@ -31,6 +31,9 @@ namespace org.SharpTiles.Tiles.Test
         {
             _expression = expression;
         }
+
+        public virtual bool AllowOverWrite => false;
+
         public string AttributeName { get; set; }
 
 

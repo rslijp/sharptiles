@@ -16,17 +16,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- using org.SharpTiles.Common;
+
+using System;
+using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Tags
 {
-    public interface ITagAttribute
+    public class DefaultConstantAttribute : ConstantAttribute
     {
-        bool AllowOverWrite { get;  }
-        string AttributeName { get; set;  }
-        object ConstantValue { get; }
-        ParseContext Context { get; }
-        IResourceLocator ResourceLocator { get; }
-        object Evaluate(TagModel model);
+        public DefaultConstantAttribute()
+        {
+            
+        }
+
+        
+
+        public DefaultConstantAttribute(object value, ITag tag) : base(value,tag)
+        {
+        }
+
+        public override bool AllowOverWrite => true;
+        
     }
 }

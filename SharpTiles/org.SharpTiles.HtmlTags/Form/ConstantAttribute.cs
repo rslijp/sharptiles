@@ -28,6 +28,8 @@ namespace org.SharpTiles.HtmlTags.Form
             
         }
 
+        public virtual bool AllowOverWrite => false;
+
         public ConstantAttribute(object value, ITag tag)
         {
             ConstantValue = value;
