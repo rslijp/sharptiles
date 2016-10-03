@@ -1026,7 +1026,7 @@ namespace org.SharpTiles.Templates.Test
 
         public static TagLibParserFactory Base()
         {
-            return new TagLibParserFactory(new TagLibForParsing(new TagLib()), new ExpressionLib(), new FileLocatorFactory());
+            return new TagLibParserFactory(new TagLibForParsing(new TagLib()), new ExpressionLib(), new FileLocatorFactory(), null);
         }
     }
 }

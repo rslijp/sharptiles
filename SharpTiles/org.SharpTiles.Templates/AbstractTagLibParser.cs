@@ -23,6 +23,7 @@ using org.SharpTiles.Common;
 using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
+using org.SharpTiles.Templates.Validators;
 
 namespace org.SharpTiles.Templates
 {
@@ -32,15 +33,17 @@ namespace org.SharpTiles.Templates
         private IResourceLocator _locator;
         protected TagLibForParsing _lib;
         protected IResourceLocatorFactory _factory;
+        private readonly ITagValidator _tagValidator;
         private ExpressionLib _expressionLib;
 
-        public AbstractTagLibParser(TagLibForParsing lib, ExpressionLib expressionLib, ParseHelper helper, IResourceLocator locator, IResourceLocatorFactory factory)
+        public AbstractTagLibParser(TagLibForParsing lib, ExpressionLib expressionLib, ParseHelper helper, IResourceLocator locator, IResourceLocatorFactory factory, ITagValidator tagValidator)
         {
             _lib = lib;
             _expressionLib = expressionLib;
             _helper = helper;
             _locator = locator;
             _factory = factory;
+            _tagValidator = tagValidator;
         }
 
 
@@ -58,7 +61,15 @@ namespace org.SharpTiles.Templates
             var context = _helper.Current.Context;
             var tag = ParseOpenTag();
             if(tag!=null) tag.Context = context;
+            ValidateTag(tag);
             return tag;
+        }
+
+        private void ValidateTag(ITag tag)
+        {
+            var tagWithValidator = tag as ITagWithValidator;
+            var validator = new TagValidatorCollection(new EnumTagAttributeValidator(), _tagValidator, tagWithValidator?.TagValidator);
+            validator.Validate(tag);
         }
 
         private ITag ParseCloseTag()
@@ -272,7 +283,7 @@ namespace org.SharpTiles.Templates
         public class TagLibParserFactoryAdapter : TagLibParserFactory
         {
            
-            public TagLibParserFactoryAdapter(AbstractTagLibParser parser) : base(parser._lib, parser._expressionLib, parser._factory) 
+            public TagLibParserFactoryAdapter(AbstractTagLibParser parser) : base(parser._lib, parser._expressionLib, parser._factory, parser._tagValidator) 
             {
             }
 

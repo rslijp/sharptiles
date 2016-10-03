@@ -58,5 +58,7 @@ namespace org.SharpTiles.HtmlTags.Form
         {
             return ConstantValue;
         }
+
+        public bool IsConstant => true;
     }
 }

@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Validators\EnumTagAttributeValidator.cs" />
     <Compile Include="ITagLibParserFactory.cs" />
     <Compile Include="RelaxedResolveTagLibParser.cs" />
     <Compile Include="IgnoreResolveTagLibParser.cs" />
@@ -96,6 +97,8 @@
     <Compile Include="Templates\RefreshableResourceTemplate.cs" />
     <Compile Include="Templates\ResourceTemplate.cs" />
     <Compile Include="TextPart.cs" />
+    <Compile Include="Validators\TagValidatorCollection.cs" />
+    <Compile Include="Validators\TagAttributeValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\org.SharpTiles.Common\org.SharpTiles.Common.csproj">

@@ -24,6 +24,7 @@ using org.SharpTiles.Common;
 using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
+using org.SharpTiles.Templates.Validators;
 
 namespace org.SharpTiles.Templates
 {
@@ -35,23 +36,25 @@ namespace org.SharpTiles.Templates
         };
 
         private readonly IResourceLocatorFactory _factory;
+        private readonly ITagValidator _tagValidator;
         private ExpressionLib _expressionLib;
 
 
-        public TagLibParserFactory(TagLibForParsing lib, ExpressionLib expressionLib, IResourceLocatorFactory factory)
+        public TagLibParserFactory(TagLibForParsing lib, ExpressionLib expressionLib, IResourceLocatorFactory factory, ITagValidator tagValidator)
         {
             _lib = lib;
             _expressionLib = expressionLib;
             _factory = factory;
+            _tagValidator = tagValidator;
         }
 
         public ITagLibParser Construct(ParseHelper helper, IResourceLocator locator)
         {
             var mode = _lib.Mode;
-            if(mode==TagLibMode.Strict) return new StrictTagLibParser(_lib, _expressionLib,helper, locator, _factory);
-            if (mode == TagLibMode.StrictResolve) return new StrictResolveTagLibParser(_lib, _expressionLib, helper, locator, _factory);
-            if (mode == TagLibMode.RelaxedResolve) return new RelaxedResolveTagLibParser(_lib, _expressionLib, helper, locator, _factory);
-            if (mode == TagLibMode.IgnoreResolve) return new IgnoreResolveTagLibParser(_lib, _expressionLib, helper, locator, _factory);
+            if(mode==TagLibMode.Strict) return new StrictTagLibParser(_lib, _expressionLib,helper, locator, _factory, _tagValidator);
+            if (mode == TagLibMode.StrictResolve) return new StrictResolveTagLibParser(_lib, _expressionLib, helper, locator, _factory, _tagValidator);
+            if (mode == TagLibMode.RelaxedResolve) return new RelaxedResolveTagLibParser(_lib, _expressionLib, helper, locator, _factory, _tagValidator);
+            if (mode == TagLibMode.IgnoreResolve) return new IgnoreResolveTagLibParser(_lib, _expressionLib, helper, locator, _factory, _tagValidator);
             return null;
         }
 
@@ -77,6 +80,5 @@ namespace org.SharpTiles.Templates
             }
         }
 
-       
     }
 }

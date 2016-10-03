@@ -26,7 +26,8 @@ namespace org.SharpTiles.Templates
 {
     public class RelaxedResolveTagLibParser : AbstractTagLibParser
     {
-        public RelaxedResolveTagLibParser(TagLibForParsing lib, ExpressionLib expressionLib,ParseHelper helper, IResourceLocator locator, IResourceLocatorFactory factory) : base(lib, expressionLib, helper, locator,factory)
+        public RelaxedResolveTagLibParser(TagLibForParsing lib, ExpressionLib expressionLib,ParseHelper helper, IResourceLocator locator, IResourceLocatorFactory factory, ITagValidator tagValidator)
+            : base(lib, expressionLib, helper, locator,factory,tagValidator)
         {
         }
         

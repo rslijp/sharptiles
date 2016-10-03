@@ -72,6 +72,7 @@
     <Compile Include="SharpTags\IncludeTest.cs" />
     <Compile Include="SharpTags\MarkerTest.cs" />
     <Compile Include="TagLibParserTest.cs" />
+    <Compile Include="Validators\EnumTagAttributeValidatorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\org.SharpTiles.Common\org.SharpTiles.Common.csproj">

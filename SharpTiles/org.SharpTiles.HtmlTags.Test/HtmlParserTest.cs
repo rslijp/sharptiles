@@ -96,7 +96,7 @@ namespace org.SharpTiles.HtmlTags.Test
         private static TagLibParserFactory CreateFactory()
         {
             var lib = BuildTagLib();
-            return new TagLibParserFactory(new TagLibForParsing(lib),new ExpressionLib(), new FileLocatorFactory());
+            return new TagLibParserFactory(new TagLibForParsing(lib),new ExpressionLib(), new FileLocatorFactory(), null);
         }
 
         private static TagLib BuildTagLib()

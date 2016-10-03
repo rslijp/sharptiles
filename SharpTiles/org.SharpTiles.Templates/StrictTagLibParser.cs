@@ -25,7 +25,8 @@ namespace org.SharpTiles.Templates
     public class StrictTagLibParser : AbstractTagLibParser
     {
 
-        public StrictTagLibParser(TagLibForParsing lib, ExpressionLib expressionLib, ParseHelper helper, IResourceLocator locator, IResourceLocatorFactory factory) : base(lib, expressionLib, helper, locator, factory)
+        public StrictTagLibParser(TagLibForParsing lib, ExpressionLib expressionLib, ParseHelper helper, IResourceLocator locator, IResourceLocatorFactory factory, ITagValidator tagValidator)
+            : base(lib, expressionLib, helper, locator, factory, tagValidator)
         {
         }
         

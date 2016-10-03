@@ -44,6 +44,8 @@ namespace org.SharpTiles.Tiles.Test
             return _expression.Evaluate(model);
         }
 
+        public bool IsConstant => false;
+
         public object ConstantValue
         {
             get { throw TemplateException.TemplatePartCannotBeUsedAsContant(GetType()); }

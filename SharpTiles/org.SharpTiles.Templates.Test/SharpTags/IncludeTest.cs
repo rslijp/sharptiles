@@ -95,7 +95,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         {
             ITagLib lib = new TagLib();
             lib.Register(new Sharp());
-            return new TagLibParserFactory(new TagLibForParsing(lib), new ExpressionLib(), new FileLocatorFactory());
+            return new TagLibParserFactory(new TagLibForParsing(lib), new ExpressionLib(), new FileLocatorFactory(), null);
         }
 
         [Test]

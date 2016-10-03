@@ -28,5 +28,7 @@ namespace org.SharpTiles.Tags
         ParseContext Context { get; }
         IResourceLocator ResourceLocator { get; }
         object Evaluate(TagModel model);
+
+        bool IsConstant { get; }
     }
 }

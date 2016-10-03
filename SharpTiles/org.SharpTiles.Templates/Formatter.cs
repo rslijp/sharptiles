@@ -40,6 +40,7 @@ namespace org.SharpTiles.Templates
 
 //        private TagLibMode _mode = TagLibMode.Strict;
         private ITagLib _lib = null;
+        private ITagValidator _tagValidator;
 
         public Formatter()
         {
@@ -80,6 +81,12 @@ namespace org.SharpTiles.Templates
             return this;
         }
 
+        public Formatter SetTagValidator(ITagValidator tagValidator)
+        {
+            _tagValidator = tagValidator;
+            return this;
+        }
+
         public Formatter SwitchToMode(TagLibMode mode)
         {
             if (_templateParsed != null)
@@ -103,7 +110,7 @@ namespace org.SharpTiles.Templates
             {
                 _initialLocator = f.GetNewLocator();
             }
-            var formatter  = new InternalFormatter(new TagLibParserFactory(new TagLibForParsing(_lib), _expressionLib, f), _expressionLib, _template, _allowTags, _initialLocator);
+            var formatter  = new InternalFormatter(new TagLibParserFactory(new TagLibForParsing(_lib), _expressionLib, f, _tagValidator), _expressionLib, _template, _allowTags, _initialLocator);
             try
             {
                 formatter.Parse();

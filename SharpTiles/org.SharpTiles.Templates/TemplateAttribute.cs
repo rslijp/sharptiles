@@ -17,7 +17,8 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
  using System;
-using System.Text;
+ using System.Linq;
+ using System.Text;
 using org.SharpTiles.Common;
  using org.SharpTiles.Tags;
  using org.SharpTiles.Tags.CoreTags;
@@ -44,16 +45,23 @@ namespace org.SharpTiles.Templates
             return _resultParts.Count > 1 ? EvaluateMulti(model) : EvaluateSingle(model);
         }
 
+        public bool IsConstant
+        {
+            get { return _resultParts.All(p => p is TextPart); }
+        }
+
         public ParsedTemplate TemplateParsed => _resultParts;
 
         public object ConstantValue
         {
             get
             {
+                if (_resultParts == null)
+                    return null;
                 var sb = new StringBuilder();
                 foreach (ITemplatePart part in _resultParts)
                 {
-                    sb.Append(part.ConstantValue);
+                    sb.Append(part?.ConstantValue);
                 }
                 return sb.ToString();
             }
