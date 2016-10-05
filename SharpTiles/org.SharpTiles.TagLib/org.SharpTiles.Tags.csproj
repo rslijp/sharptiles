@@ -77,7 +77,7 @@
     <Compile Include="ITagValidator.cs" />
     <Compile Include="ITagWithInnerTemplate.cs" />
     <Compile Include="ITagWithResourceFactory.cs" />
-    <Compile Include="ITagWithValidator.cs" />
+    <Compile Include="IHaveTagValidator.cs" />
     <Compile Include="NestedTagGroup.cs" />
     <Compile Include="Creators\ParsedTemplate.cs" />
     <Compile Include="DefaultPropertyValues\TagDefaultProperty.cs" />

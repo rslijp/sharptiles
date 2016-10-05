@@ -1,6 +1,6 @@
 ﻿namespace org.SharpTiles.Tags
 {
-    public interface ITagWithValidator
+    public interface IHaveTagValidator
     {
         ITagValidator TagValidator { get; }
     }

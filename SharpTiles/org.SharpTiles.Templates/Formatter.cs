@@ -26,6 +26,7 @@ using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 using org.SharpTiles.Tags.Templates.SharpTags;
 using org.SharpTiles.Templates.Templates;
+using org.SharpTiles.Templates.Validators;
 
 namespace org.SharpTiles.Templates
 {
@@ -148,6 +149,7 @@ namespace org.SharpTiles.Templates
                         SetLocatorFactory(new FileLocatorFactory()).
                         SetInitialLocator(locator.Update(path)).
                         SwitchToMode(mode).
+                        SetTagValidator(CreateTagValidatorFor(lib)).
                         Parse();
         }
 
@@ -159,6 +161,7 @@ namespace org.SharpTiles.Templates
                         AllowTags(true).
                         SetLocatorFactory(new FileLocatorFactory()).
                         SetInitialLocator(locator.Update(path)).
+                        SetTagValidator(CreateTagValidatorFor(lib)).
                         Parse();
         }
 
@@ -171,7 +174,13 @@ namespace org.SharpTiles.Templates
                         AllowTags(true).
                         SetLocatorFactory(factory).
                         SetInitialLocator(locator.Update(path)).
+                        SetTagValidator(CreateTagValidatorFor(lib)).
                         Parse();
+        }
+
+        private static ITagValidator CreateTagValidatorFor(ITagLib lib)
+        {
+            return new TagValidatorCollection(lib?.OfType<IHaveTagValidator>().Select(t => t.TagValidator).ToArray());
         }
 
         #endregion
