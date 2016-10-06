@@ -42,6 +42,7 @@ namespace org.SharpTiles.Templates
 //        private TagLibMode _mode = TagLibMode.Strict;
         private ITagLib _lib = null;
         private ITagValidator _tagValidator;
+        private ITemplateValidator _templateValidator;
 
         public Formatter()
         {
@@ -88,6 +89,12 @@ namespace org.SharpTiles.Templates
             return this;
         }
 
+        public Formatter SetTemplateValidator(ITemplateValidator templateValidator)
+        {
+            _templateValidator = templateValidator;
+            return this;
+        }
+
         public Formatter SwitchToMode(TagLibMode mode)
         {
             if (_templateParsed != null)
@@ -115,6 +122,8 @@ namespace org.SharpTiles.Templates
             try
             {
                 formatter.Parse();
+                var templateValidator = _templateValidator ?? CreateTemplateValidatorFor(_lib);
+                templateValidator.Validate(formatter.ParsedTemplate);
             }
             finally
             {
@@ -181,6 +190,11 @@ namespace org.SharpTiles.Templates
         private static ITagValidator CreateTagValidatorFor(ITagLib lib)
         {
             return new TagValidatorCollection(lib?.OfType<IHaveTagValidator>().Select(t => t.TagValidator).ToArray());
+        }
+
+        private static ITemplateValidator CreateTemplateValidatorFor(ITagLib lib)
+        {
+            return new TemplateValidatorCollection(lib?.OfType<IHaveTemplateValidator>().Select(t => t.TemplateValidator).ToArray());
         }
 
         #endregion
