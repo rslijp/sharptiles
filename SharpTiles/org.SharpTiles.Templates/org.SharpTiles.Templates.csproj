@@ -65,6 +65,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NumberTagAttributeValidator.cs" />
+    <Compile Include="Validators\DateTagAttributeValidator.cs" />
     <Compile Include="Validators\IHaveTemplateValidator.cs" />
     <Compile Include="Validators\EnumTagAttributeValidator.cs" />
     <Compile Include="ITagLibParserFactory.cs" />

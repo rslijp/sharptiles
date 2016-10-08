@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
 
 namespace org.SharpTiles.Templates.Validators
@@ -13,7 +14,14 @@ namespace org.SharpTiles.Templates.Validators
             var type = tag.GetType();
             foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy))
             {
-                ValidateProperty(tag, propertyInfo);
+                try
+                {
+                    ValidateProperty(tag, propertyInfo);
+                }
+                catch (TagException e)
+                {
+                    throw ExceptionWithContext.MakePartial(e).Decorate(tag.Context);
+                }
             }
         }
 

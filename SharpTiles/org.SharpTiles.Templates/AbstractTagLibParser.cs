@@ -68,7 +68,12 @@ namespace org.SharpTiles.Templates
         private void ValidateTag(ITag tag)
         {
             var tagWithValidator = tag as IHaveTagValidator;
-            var validator = new TagValidatorCollection(new EnumTagAttributeValidator(), _tagValidator, tagWithValidator?.TagValidator);
+            var validator = new TagValidatorCollection(
+                                    new EnumTagAttributeValidator(), 
+                                    new DateTagAttributeValidator(), 
+                                    new NumberTagAttributeValidator(), 
+                                    _tagValidator, 
+                                    tagWithValidator?.TagValidator);
             validator.Validate(tag);
         }
 

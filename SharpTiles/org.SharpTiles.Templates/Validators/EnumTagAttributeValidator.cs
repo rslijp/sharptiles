@@ -10,7 +10,7 @@ namespace org.SharpTiles.Templates.Validators
     {
         protected override void ValidateProperty(ITag tag, PropertyInfo propertyInfo)
         {
-            object value = null;
+            ITagAttribute value = null;
             EnumProperyTypeAttribute enumType;
             try
             {
@@ -21,11 +21,11 @@ namespace org.SharpTiles.Templates.Validators
                 if (enumType == null)
                     return;
 
-                value = propertyInfo.GetValue(tag) as ConstantAttribute;
-                if (value == null)
+                value = propertyInfo.GetValue(tag) as ITagAttribute;
+                if (!(value?.IsConstant ?? false))
                     return;
 
-                if (enumType.EnumValues.Cast<object>().Select(v => v.ToString()).ToList().Contains(value.ToString()))
+                if (enumType.EnumValues.Cast<object>().Select(v => v.ToString().ToLowerInvariant()).ToList().Contains(value.ConstantValue.ToString().ToLowerInvariant()))
                     return;
             }
             catch (Exception e)
@@ -38,7 +38,7 @@ namespace org.SharpTiles.Templates.Validators
 
         public static TagException InvalidValueException(object value, Array possibleValues)
         {
-            return new TagException($"Value '{value}' is not allowed. Possible values are: {string.Join(", ", possibleValues)}");
+            return new TagException($"Value '{value}' is not allowed. Possible values are: {string.Join(", ", possibleValues.Cast<object>().Select(v => v.ToString()))}");
         }
     }
 }
