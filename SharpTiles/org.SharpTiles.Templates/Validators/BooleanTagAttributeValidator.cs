@@ -1,20 +1,18 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Reflection;
 using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
-using org.SharpTiles.Templates.Validators;
 
-namespace org.SharpTiles.Templates
+namespace org.SharpTiles.Templates.Validators
 {
-    public class NumberTagAttributeValidator : TagAttributeValidator
+    public class BooleanTagAttributeValidator : TagAttributeValidator
     {
         protected override void ValidateProperty(ITag tag, PropertyInfo propertyInfo)
         {
             if (tag == null || propertyInfo == null)
                 return;
 
-            var numberType = propertyInfo.GetCustomAttribute<NumberPropertyTypeAttribute>();
+            var numberType = propertyInfo.GetCustomAttribute<BooleanPropertyTypeAttribute>();
             if (numberType == null)
                 return;
 
@@ -23,14 +21,14 @@ namespace org.SharpTiles.Templates
                 return;
 
             var text = value.ConstantValue.ToString();
-            var result = TypeConverter.TryTo(text, typeof(decimal), CultureInfo.InvariantCulture);
+            var result = TypeConverter.TryTo(text, typeof(bool), CultureInfo.InvariantCulture);
             if (result == null)
                 throw InvalidValue(propertyInfo.Name, text);
         }
 
         public static TagException InvalidValue(string propertyName, string value)
         {
-            return new TagException($"{propertyName}: Can't parse '{value}' to a numeric value.");
+            return new TagException($"{propertyName}: Can't parse '{value}' to a boolean value.");
         }
     }
 }

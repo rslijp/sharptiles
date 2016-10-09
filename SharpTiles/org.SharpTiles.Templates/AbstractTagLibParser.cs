@@ -69,6 +69,7 @@ namespace org.SharpTiles.Templates
         {
             var tagWithValidator = tag as IHaveTagValidator;
             var validator = new TagValidatorCollection(
+                                    new BooleanTagAttributeValidator(), 
                                     new EnumTagAttributeValidator(), 
                                     new DateTagAttributeValidator(), 
                                     new NumberTagAttributeValidator(), 
