@@ -24,6 +24,9 @@ namespace org.SharpTiles.Tags
     public class EnumProperyTypeAttribute : Attribute
     {
         public Type EnumType { get; }
+        public bool Multiple { get; set; }
+        public char Separator { get; set; } = ',';
+        public string Wildcard { get; set; }
 
         public EnumProperyTypeAttribute(Type enumType)
         {

@@ -15,7 +15,10 @@ namespace org.SharpTiles.Templates.Test.Validators
         {
             Validate(tag => new ConstantAttribute("One", tag), null);
             Validate(tag => new ConstantAttribute("two", tag), null);
+            Validate(tag => new ConstantAttribute("Two,Three", tag), null);
+            Validate(tag => new ConstantAttribute("*", tag), null);
             Validate(tag => new ConstantAttribute("Four", tag), EnumTagAttributeValidator.InvalidValueException("Four", Enum.GetValues(typeof(OneTwoThree))));
+            Validate(tag => new ConstantAttribute("Two,Wrong", tag), EnumTagAttributeValidator.InvalidValueException("Wrong", Enum.GetValues(typeof(OneTwoThree))));
             Validate(tag => null, null);
         }
 
@@ -48,7 +51,7 @@ namespace org.SharpTiles.Templates.Test.Validators
 
         class TestTag : BaseCoreTag, ITag
         {
-            [EnumProperyType(typeof(OneTwoThree))]
+            [EnumProperyType(typeof(OneTwoThree), Multiple = true, Wildcard = "*")]
             public ITagAttribute EnumValue { get; set; }
 
             public string TagName => "test";

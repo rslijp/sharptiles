@@ -10,30 +10,29 @@ namespace org.SharpTiles.Templates.Validators
     {
         protected override void ValidateProperty(ITag tag, PropertyInfo propertyInfo)
         {
-            ITagAttribute value = null;
-            EnumProperyTypeAttribute enumType;
-            try
-            {
-                if (tag == null || propertyInfo == null)
-                    return;
-
-                enumType = propertyInfo.GetCustomAttribute<EnumProperyTypeAttribute>();
-                if (enumType == null)
-                    return;
-
-                value = propertyInfo.GetValue(tag) as ITagAttribute;
-                if (!(value?.IsConstant ?? false))
-                    return;
-
-                if (enumType.EnumValues.Cast<object>().Select(v => v.ToString().ToLowerInvariant()).ToList().Contains(value.ConstantValue.ToString().ToLowerInvariant()))
-                    return;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e); // Sweep under the carpet...
+            if (tag == null || propertyInfo == null)
                 return;
+
+            var enumType = propertyInfo.GetCustomAttribute<EnumProperyTypeAttribute>();
+            if (enumType == null)
+                return;
+
+            var value = propertyInfo.GetValue(tag) as ITagAttribute;
+            if (!(value?.IsConstant ?? false))
+                return;
+
+            var enumValues = enumType.EnumValues.Cast<object>().Select(v => v.ToString().ToLowerInvariant()).ToList();
+
+            var text = value.ConstantValue.ToString();
+            var names = enumType.Multiple ? text.Split(enumType.Separator) : new[] { text };
+            foreach (var name in names.Select(n => n?.Trim()))
+            {
+                if (name == enumType.Wildcard)
+                    continue;
+
+                if (!enumValues.Contains(name.ToLowerInvariant()))
+                    throw InvalidValueException(name, enumType.EnumValues);
             }
-            throw InvalidValueException(value, enumType.EnumValues);
         }
 
         public static TagException InvalidValueException(object value, Array possibleValues)
