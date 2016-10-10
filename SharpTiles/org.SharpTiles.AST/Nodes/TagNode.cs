@@ -116,7 +116,7 @@ namespace org.SharpTiles.AST.Nodes
         {
             foreach (var prop in tag.GetType().GetProperties())
             {
-                if (prop.Name.Equals("Body")) continue;
+                if (prop.GetCustomAttribute<InternalAttribute>()!=null) continue;
 
                 if (!typeof(ITagAttribute).IsAssignableFrom(prop.PropertyType)) continue;
                 try
@@ -166,6 +166,8 @@ namespace org.SharpTiles.AST.Nodes
 
         private void HandleExpression(string name, TemplateAttribute value)
         {
+            if (value == null)
+                return;
             var nodes = value.
                 TemplateParsed.
                 Select(Yield).
