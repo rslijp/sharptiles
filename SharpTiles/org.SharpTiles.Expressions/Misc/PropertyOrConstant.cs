@@ -25,26 +25,20 @@ using TypeConverter = org.SharpTiles.Common.TypeConverter;
 namespace org.SharpTiles.Expressions
 {
     [Category("OtherExpression")]
-    public class PropertyOrConstant : Expression
+    public class PropertyOrConstant : Property
     {
-        private readonly string _name;
         private object _evaluated;
         private bool _constant = false;
 
-        public PropertyOrConstant(string name)
+        public PropertyOrConstant(string name) : base(name)
         {
-            _name = name;
             //Determine type is possible (ignoring I18N) This is done in the evaluate
             Evaluate(CultureInfo.InvariantCulture);
         }
 
         public bool IsConstant => _constant;
 
-        public string Name
-        {
-            get { return _name; }
-        }
-
+    
         public override Type ReturnType
         {
             get { return null; }
@@ -74,6 +68,13 @@ namespace org.SharpTiles.Expressions
         public override string AsParsable()
         {
             return IsConstant ? $"'{_name}'" : _name;
+        }
+
+        public override void AddBracketIndexer(Expression expr)
+        {
+            _constant = false;
+            _evaluated = null;
+            base.AddBracketIndexer(expr);
         }
 
         /*

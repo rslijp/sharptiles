@@ -17,71 +17,73 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
  using System;
- using System.Collections.Generic;
- using System.ComponentModel;
+using System.Collections.Generic;
+using System.ComponentModel;
  using System.Linq;
  using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Expressions
 {
-    [Category("OtherExpression")]
-    public class Property : Expression
+    [Category("OtherExpression")] 
+    public class SquareBrackets : Expression
     {
-        protected readonly string _name;
-        protected List<Expression> _bracketIndexers;
+        private  Expression _node;
+        
 
-        public Property(string name)
+        public Expression Node
         {
-            _name = name;
+            get { return _node; }
         }
 
-
-        public string Name
+        [Internal]
+        public Expression Nested
         {
-            get { return _name; }
+            get { return _node; }
         }
 
         public override Type ReturnType
         {
-            get { return null; }
+            get
+            {
+                return Nested.ReturnType;
+            }
         }
 
         public override void GuardTypeSafety()
         {
+            Nested?.GuardTypeSafety();
         }
 
+
+        
         public override object Evaluate(IModel model)
         {
-            if(_bracketIndexers==null) return model[_name];
-            var t = model[_name];
-            foreach (var expression in _bracketIndexers)
-            {
-                t=new Reflection(t).GetDirectProperty(expression.Evaluate(model)?.ToString());
-            }
-            return t;
+            return _node.Evaluate(model);
         }
 
         public override string ToString()
         {
-            return _name;
+            return AsParsable();
         }
 
         public override string AsParsable()
         {
-            return _name;
+            return "[" + _node.AsParsable() + "]";
         }
 
-        /*
-        public override void TypeCheck(IModel model)
+        public void Fill(Expression nested)
         {
-            return;
+            GuardNotSet();
+            _node = nested;
         }
-        */
 
-        public virtual void AddBracketIndexer(Expression expr)
+        private void GuardNotSet()
         {
-            if(_bracketIndexers==null) _bracketIndexers=new List<Expression>();
-            _bracketIndexers.Add(expr);
+            if (_node != null)
+            {
+                throw ExpressionParseException.NestedNodeAlreadySet().Decorate(Token);
+            }
         }
+
     }
 }

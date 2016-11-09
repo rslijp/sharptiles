@@ -106,7 +106,7 @@ namespace org.SharpTiles.Expressions
         {
             if (_arguments == 0)
             {
-                ExpressionParseException.BracketsAreUsedInFunction(method);
+                throw ExpressionParseException.BracketsAreUsedInFunction(method).Decorate(Token); ;
             }
         }
 

@@ -57,6 +57,13 @@ namespace org.SharpTiles.Common
             return new ReflectionException(msg);
         }
 
+        public static ReflectionException NumberIndexerExepected(Type type, string index)
+        {
+            string msg = String.Format("Expected a number indexer for '{1}' but got '{0}'.", index, type.FullName);
+            return new ReflectionException(msg);
+        }
+
+
         public static ReflectionException SetNotAvailable(string typeStr)
         {
             string msg = String.Format("There's no handler for setting values on a {0}", typeStr);

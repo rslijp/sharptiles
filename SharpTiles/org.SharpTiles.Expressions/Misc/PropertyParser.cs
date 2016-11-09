@@ -52,6 +52,14 @@ namespace org.SharpTiles.Expressions
             return false;
         }
 
+
+        public static void FillArguments(ExpressionParserHelper parseHelper)
+        {
+            var brackets = (SquareBrackets)parseHelper.Pop();
+            var property = (Property)parseHelper.Top;
+            property.AddBracketIndexer(brackets);
+        }
+
         #endregion
     }
 }

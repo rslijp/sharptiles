@@ -39,7 +39,6 @@ namespace org.SharpTiles.Templates
         private ParsedTemplate _templateParsed;
         private ExpressionLib _expressionLib;
 
-//        private TagLibMode _mode = TagLibMode.Strict;
         private ITagLib _lib = null;
         private ITagValidator _tagValidator;
         private ITemplateValidator _templateValidator;

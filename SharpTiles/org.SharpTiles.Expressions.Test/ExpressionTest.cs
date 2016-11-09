@@ -18,6 +18,7 @@
  */
  using System;
  using System.Collections;
+ using System.Collections.Generic;
  using System.Globalization;
  using System.Linq;
  using NUnit.Framework;
@@ -51,10 +52,12 @@ namespace org.SharpTiles.Expressions.Test
 
         public class SampleModel
         {
-            public string Name
+            public SampleModel()
             {
-                get { return "NAME VALUE"; }
+                Name = "NAME VALUE";
             }
+
+            public string Name { get; set; }
 
             public CultureInfo I18NLocale { get; set; }
 
@@ -85,6 +88,8 @@ namespace org.SharpTiles.Expressions.Test
             }
 
             public string Value { get; set; }
+
+            public object Nested  {get;set;}
         }
 
         [Test]
@@ -1261,6 +1266,85 @@ namespace org.SharpTiles.Expressions.Test
                             "Name",
                             new Reflection(new SampleModel())),
                         Is.EqualTo("NAME VALUE")
+                );
+        }
+
+        [Test]
+        public void TestNestedProperty_Dot_Notation()
+        {
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
+                            "Nested.Name",
+                            new Reflection(new SampleModel() {Nested = new SampleModel {Name = "NESTED VALUE"} })),
+                        Is.EqualTo("NESTED VALUE")
+                );
+        }
+
+        [Test]
+        public void TestNestedProperty_Constant_Bracket_Notation()
+        {
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
+                            "Nested['Name']",
+                            new Reflection(new SampleModel() { Nested = new SampleModel { Name = "NESTED VALUE" } })),
+                        Is.EqualTo("NESTED VALUE")
+                );
+        }
+
+        [Test]
+        public void TestNestedProperty_DictionaryAccess_Bracket_Notation()
+        {
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
+                            "Nested['A']",
+                            new Reflection(new SampleModel() { Nested = new Dictionary<string, string> { { "A", "Found me" } } })),
+                        Is.EqualTo("Found me")
+                );
+        }
+
+        public void TestNestedProperty_Bracket_Notation_Using_A_Function()
+        {
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
+                            "Nested[fn:substring('AB',1)]",
+                            new Reflection(new SampleModel() { Nested = new Dictionary<string, string> { { "A", "Found me" } } })),
+                        Is.EqualTo("Found me")
+                );
+        }
+
+        [Test]
+        public void TestNestedProperty_WithDots_Bracket_Notation()
+        {
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
+                            "Nested['A.B']",
+                            new Reflection(new SampleModel() { Nested = new Dictionary<string, string> { {"A.B", "Found me" } } })),
+                        Is.EqualTo("Found me")
+                );
+        }
+
+        [Test]
+        public void TestNestedProperty_Bracket_Notation()
+        {
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
+                            "Nested[Name]",
+                            new Reflection(new SampleModel() { Nested = new SampleModel { Name = "Wrong" }, Name="FirstInt" })),
+                        Is.EqualTo(42)
+                );
+        }
+
+        [Test]
+        public void TestDoubleNestedProperty_Bracket_Notation()
+        {
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
+                            "Nested['Nested']['Name']",
+                            new Reflection(new SampleModel() { Nested = new SampleModel { Nested = new SampleModel { Name = "DEEPER NESTED VALUE" } } })),
+                        Is.EqualTo("DEEPER NESTED VALUE")
+                );
+        }
+
+        [Test]
+        public void TestNestedEvaluateProperty_Bracket_Notation()
+        {
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
+                            "Nested[Nested['Name']]",
+                            new Reflection(new SampleModel() { Nested = new SampleModel { Name= "FirstInt" }})),
+                        Is.EqualTo(42)
                 );
         }
 

@@ -138,6 +138,7 @@ namespace org.SharpTiles.Templates.Test
         public class TestModel
         {
             public string Text { get; set; }
+            public TestModel Nested { get; set; }
         }
 
         [Test]

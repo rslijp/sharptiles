@@ -82,6 +82,7 @@ namespace org.SharpTiles.Expressions
                 Register(new OrParser(), operands, whiteSpaceOperands);
                 Register(new NotParser(), operands, whiteSpaceOperands);
                 Register(new BracketsParser(), operands, whiteSpaceOperands);
+                Register(new SquareBracketsParser(), operands, whiteSpaceOperands);
                 foreach (var func in new MathFunctionLib().Functions)
                 {
                     Register(new MathFunctionParser(func), operands, whiteSpaceOperands);

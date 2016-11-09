@@ -41,8 +41,10 @@ namespace org.SharpTiles.Expressions
 
         public void Parse(ExpressionParserHelper parseHelper)
         {
-            var token=parseHelper.Expand();
-            var property = new PropertyOrConstant(token.Contents.Trim());
+            var token = parseHelper.Expand();
+            var property = parseHelper.IsAhead(SquareBracketsParser.BRACKETS_OPEN)? 
+                new Property(token.Contents.Trim()) as Expression : 
+                new PropertyOrConstant(token.Contents.Trim()) as Expression;
             property.Token = token;
             parseHelper.Push(property);
         }

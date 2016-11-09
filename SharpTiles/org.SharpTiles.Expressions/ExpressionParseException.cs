@@ -58,6 +58,17 @@ namespace org.SharpTiles.Expressions
             return MakePartial(new ExpressionParseException(msg));
         }
 
+        public static PartialExceptionWithContext<ExpressionParseException> NestedNodeAlreadySet()
+        {
+            return MakePartial(new ExpressionParseException("The nested node is already set."));
+        }
+
+        public static PartialExceptionWithContext<ExpressionParseException> SquareBracketsAreNotUsedInPropertyAccess()
+        {
+            return MakePartial(new ExpressionParseException("The bracket expression can only be used in combination with property access."));
+        }
+        
+
         public static PartialExceptionWithContext<ExpressionParseException> UnExpectedParameter(Expression exp)
         {
             String msg = String.Format("Unexpected expression {0}; all parameters alread set.", exp);

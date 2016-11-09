@@ -165,6 +165,14 @@ namespace org.SharpTiles.Common
             return propertyHandler.PropertyHandler.Set(property, source, value, level);
         }
 
+        public object GetDirectProperty(string property)
+        {
+            var exception = GuardPropertyIsSet(property);
+            if (exception != null) throw exception;
+            var result = GetCurrentProperty(_subject, property, 0);
+            if(result.ReflectionException !=null) throw result.ReflectionException;
+            return result.Result;
+        }
 
         private ReflectionResult GetCurrentProperty(object source, string property, int level)
         {
@@ -500,7 +508,14 @@ namespace org.SharpTiles.Common
         private static ReflectionResult GetEnumerable(string property, object source)
         {
             var sourceAsEnumerable = (IEnumerable)source;
-            int index = int.Parse(property);
+            int index = -1;
+            if (!int.TryParse(property, out index))
+            {
+                return new ReflectionResult
+                {
+                    ReflectionException = ReflectionException.NumberIndexerExepected(source.GetType(), property)
+                };
+            }
             IEnumerator enumerator = sourceAsEnumerable.GetEnumerator();
             int i = 0;
             do
