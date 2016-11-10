@@ -64,12 +64,12 @@ namespace org.SharpTiles.Templates
             {
                 return null;
             }
-            if (hits.Count > 1)
-            {
-                string libString = string.Join(", ",libs.Select(l => l.Name).Distinct().ToArray());
-                throw ParseException.CantResolveTag(name.Contents, libString).Decorate(name); 
-            }
-            return hits.SingleOrDefault();
+//            if (hits.Count > 1)
+//            {
+//                string libString = string.Join(", ",libs.Select(l => l.Name).Distinct().ToArray());
+//                throw ParseException.CantResolveTag(name.Contents, libString).Decorate(name); 
+//            }
+            return hits.FirstOrDefault();
         }
 
         protected override TagLibMode Mode

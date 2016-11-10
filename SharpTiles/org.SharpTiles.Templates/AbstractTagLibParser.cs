@@ -201,8 +201,11 @@ namespace org.SharpTiles.Templates
             {
                 throw TagException.ExpectedCloseTag(open.GetType()).Decorate(close.Context);
             }
+            
             if (!Equals(close.GetType(), open.GetType()))
             {
+                if (Equals(close.Group.Name, open.Group.Name) &&
+                       Equals(close.TagName, open.TagName)) return; //edge case. Close of nested tag with same name as parent tag
                 throw TagException.UnbalancedCloseingTag(open, close).Decorate(open.Context);
             }
         }
