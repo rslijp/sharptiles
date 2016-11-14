@@ -304,6 +304,10 @@ namespace org.SharpTiles.Common
             {
                 result = new PropertyHandler(GetReflection, SetReflection);
             }
+            else if (source is IHaveIndexer)
+            {
+                result = new PropertyHandler(GetIndexer, SetIndexer);
+            }
             else if (source is IDictionary)
             {
                 result = new PropertyHandler(GetDictionary, SetDictionary);
@@ -391,6 +395,17 @@ namespace org.SharpTiles.Common
             return new ReflectionResult();
         }
 
+        private static ReflectionResult SetIndexer(string property, object source, object value)
+        {
+            var result = SetSimple(property, source, value);
+            if (result.ReflectionException != null)
+                return result;
+
+            var sourceAsIndexer = (IHaveIndexer)source;
+            sourceAsIndexer[property] = value;
+            return new ReflectionResult();
+        }
+
         private static ReflectionResult GetDictionary(string property, object source)
         {
             try
@@ -424,7 +439,23 @@ namespace org.SharpTiles.Common
             try
             {
                 var sourceAsList = (IDictionary<string, object>)source;
-            return new ReflectionResult { Result = sourceAsList[property] };
+                return new ReflectionResult { Result = sourceAsList[property] };
+            }
+            catch (KeyNotFoundException e)
+            {
+                throw new KeyNotFoundException($"Property '{property}' not found in {source}.", e);
+            }
+        }
+
+        private static ReflectionResult GetIndexer(string property, object source)
+        {
+            var result = GetSimple(property, source);
+            if (result.ReflectionException == null)
+                return result;
+            try
+            {
+                var sourceAsList = (IHaveIndexer)source;
+                return new ReflectionResult { Result = sourceAsList[property] };
             }
             catch (KeyNotFoundException e)
             {
