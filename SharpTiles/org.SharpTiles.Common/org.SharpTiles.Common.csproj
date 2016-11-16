@@ -73,6 +73,7 @@
     <Compile Include="ExceptionWithContext.cs" />
     <Compile Include="FileBasedResourceLocator.cs" />
     <Compile Include="IHaveHttpErrorCode.cs" />
+    <Compile Include="IHaveIndexer.cs" />
     <Compile Include="IModelExtensions.cs" />
     <Compile Include="InternalAttribute.cs" />
     <Compile Include="IResourceLocator.cs" />
