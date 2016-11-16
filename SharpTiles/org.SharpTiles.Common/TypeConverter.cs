@@ -138,7 +138,9 @@ namespace org.SharpTiles.Common
                 {
                     return source;
                 }
-                return REGISTERED[target](source.ToString(), culture);
+                var formattable = source as IFormattable;
+                var text = formattable?.ToString(null, culture) ?? source.ToString();
+                return REGISTERED[target](text, culture);
             }
             catch (FormatException)
             {
