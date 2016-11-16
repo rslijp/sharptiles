@@ -89,7 +89,7 @@ namespace org.SharpTiles.Tags.CoreTags
         public string GetAutoValueAsString(string propertyName, TagModel model)
         {
             object result = GetAutoValue(propertyName, model);
-            return result != null ? ValueOfWithi18N(model, result.ToString()) : null;
+            return result != null ? ValueOfWithi18N(model, result) : null;
 
         }
 
