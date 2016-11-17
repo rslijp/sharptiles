@@ -26,7 +26,7 @@ namespace org.SharpTiles.Templates
 {
     public interface ITagLibParser
     {
-        ITag Parse();
+        ITag Parse(bool expectTag = false);
 
     }
 }

@@ -195,6 +195,24 @@ namespace org.SharpTiles.Templates.Test
         }
 
         [Test]
+        public void Should_Throw_Correct_Error_Message_On_Invalid_Char_After_Opening()
+        {
+            const string TEMPLATE = "<choose>< otherwise></otherwise></choose>";
+            var model = new TestModel();
+            try
+            {
+                var formatter = new Formatter(TEMPLATE).SwitchToMode(TagLibMode.StrictResolve).Parse();
+                Assert.Fail("Expected exception");
+            }
+            catch (TagException Te)
+            {
+                Assert.That(Te.MessageWithOutContext, Text.StartsWith(TagException.ExpectedTagOrGroupName(" ").Message));
+            }
+
+        }
+
+
+        [Test]
         public void Setting_Local_Affects_Formatting_Of_Number_EN_After_Cout()
         {
             const string TEMPLATE = "<fmt:setLocale value='en-GB' scope='Page'/><c:out value=\"${'0.00'+'1.00'}%\"/>";

@@ -47,8 +47,8 @@ namespace org.SharpTiles.Templates
         }
 
 
-
-        public ITag Parse()
+       
+        public ITag Parse(bool expectTag=false)
         {
             if (!_helper.At(TagLibConstants.START_TAG))
             {
@@ -59,6 +59,10 @@ namespace org.SharpTiles.Templates
                 return ParseCloseTag();
             }
             var context = _helper.Current.Context;
+            if(expectTag && !_helper.IsAhead(TokenType.Regular))
+            {
+                throw TagException.ExpectedTagOrGroupName(_helper.Lookahead.Contents).Decorate(_helper.Lookahead.Context);
+            }
             var tag = ParseOpenTag();
             if(tag!=null) tag.Context = context;
             ValidateTag(tag);
@@ -184,7 +188,7 @@ namespace org.SharpTiles.Templates
             do
             {
                 ReadWhiteSpace(_helper);
-                var nested = Parse();
+                var nested = Parse(true);
                 if (nested.State == TagState.Closed)
                 {
                     GuardClosingOfTag(nested, tag);

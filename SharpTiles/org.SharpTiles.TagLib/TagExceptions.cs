@@ -178,5 +178,11 @@ namespace org.SharpTiles.Tags
             string msg = String.Format("Could not parse '{0}' to a valid {1}", input, type);
             return MakePartial(new TagException(msg));
         }
+
+        public static PartialExceptionWithContext<TagException> ExpectedTagOrGroupName(string found)
+        {
+            string msg = string.Format("Expected a tag group or tag name but found '{0}'", found);
+            return MakePartial(new TagException(msg));
+        }
     }
 }
