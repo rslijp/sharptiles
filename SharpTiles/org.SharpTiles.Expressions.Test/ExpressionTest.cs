@@ -1618,6 +1618,17 @@ namespace org.SharpTiles.Expressions.Test
         }
 
         [Test]
+        public void Bug()
+        {
+            var input = "fn:replace(Name,'\\\\','/')";
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
+                            input,
+                            new Reflection(new SampleModel {Name="C:\\Temp\\Bla"})),
+                        Is.EqualTo("C:/Temp/Bla")
+                );
+        }
+
+        [Test]
         public void TestNestedTernaryExpressions()
         {
             Assert.That(new ExpressionLib().ParseAndEvaluate(

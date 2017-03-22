@@ -25,6 +25,7 @@ using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 using org.SharpTiles.Tags.Templates.SharpTags;
+using org.SharpTiles.Templates.Processor;
 using org.SharpTiles.Templates.Templates;
 using org.SharpTiles.Templates.Validators;
 
@@ -121,8 +122,9 @@ namespace org.SharpTiles.Templates
             try
             {
                 formatter.Parse();
-                var templateValidator = _templateValidator ?? CreateTemplateValidatorFor(_lib);
-                templateValidator.Validate(formatter.ParsedTemplate);
+                CreateTemplateProcessorFor(_lib).Process(formatter.ParsedTemplate);
+                if (_templateValidator!=null) _templateValidator.Validate(formatter.ParsedTemplate);
+                CreateTemplateValidatorFor(_lib).Validate(formatter.ParsedTemplate);
             }
             finally
             {
@@ -195,6 +197,12 @@ namespace org.SharpTiles.Templates
         {
             return new TemplateValidatorCollection(lib?.OfType<IHaveTemplateValidator>().Select(t => t.TemplateValidator).ToArray());
         }
+
+        private static ITemplateProcessor CreateTemplateProcessorFor(ITagLib lib)
+        {
+            return new TemplateProcessorCollection(lib?.OfType<IHaveTemplateProcessor>().Select(t => t.TemplateProcessor).ToArray());
+        }
+
 
         #endregion
 

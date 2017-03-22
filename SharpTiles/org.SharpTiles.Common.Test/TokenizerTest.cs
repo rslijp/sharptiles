@@ -124,6 +124,8 @@ namespace org.SharpTiles.Common.Test
             Assert.That(enumerator.Current, Is.Null);
         }
 
+        
+
         [Test]
         public void EscapedSeperatorsShouldBeIgnored()
         {
