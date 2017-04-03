@@ -29,6 +29,7 @@ namespace org.SharpTiles.Expressions
 
         static OperatorPrecedence()
         {
+            PRECENDENCE.Add(new List<Type>(new[] { typeof(Assignment) }));
             PRECENDENCE.Add(new List<Type>(new[] {typeof (Function)}));
             PRECENDENCE.Add(new List<Type>(new[] {typeof (Brackets)}));
             PRECENDENCE.Add(new List<Type>(new[] { typeof(BooleanTernaryExpression) }));

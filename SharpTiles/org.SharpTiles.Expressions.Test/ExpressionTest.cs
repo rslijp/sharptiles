@@ -61,6 +61,7 @@ namespace org.SharpTiles.Expressions.Test
 
             public CultureInfo I18NLocale { get; set; }
 
+            public int Target { get;  set; }
 
             public bool Bool
             {
@@ -101,6 +102,31 @@ namespace org.SharpTiles.Expressions.Test
                         Is.EqualTo(22)
                 );
         }
+
+        [Test]
+        public void TestAssignment()
+        {
+            var model = new SampleModel();
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
+                            "'Target':=3+2",
+                            new Reflection(model)),
+                        Is.EqualTo(5)
+                );
+
+        }
+
+        [Test]
+        public void TestAssignment_Human_Friendly()
+        {
+            var model = new SampleModel();
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
+                            "Target:=3+2",
+                            new Reflection(model)),
+                        Is.EqualTo(5)
+                );
+
+        }
+
 
         [Test]
         public void TestAdditionalNameForAnd()

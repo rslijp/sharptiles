@@ -105,6 +105,8 @@
     <Compile Include="Math\MaxFunction.cs" />
     <Compile Include="Math\MinFunction.cs" />
     <Compile Include="Math\RoundFunction.cs" />
+    <Compile Include="Misc\Assignment.cs" />
+    <Compile Include="Misc\AssignmentParser.cs" />
     <Compile Include="Misc\SquareBrackets.cs" />
     <Compile Include="Misc\SquareBracketParser.cs" />
     <Compile Include="Misc\MathFunctionParser.cs" />

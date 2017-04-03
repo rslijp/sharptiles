@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssignmentTest.cs" />
     <Compile Include="BooleanTernaryExpressionTest.cs" />
     <Compile Include="Functions\CustomFunctionLibTest.cs" />
     <Compile Include="Functions\RegExReplaceFunctionTest.cs" />
