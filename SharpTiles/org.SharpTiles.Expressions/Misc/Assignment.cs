@@ -18,10 +18,13 @@
  */
 
 using System;
+using System.ComponentModel;
 using org.SharpTiles.Common;
+using TypeConverter = org.SharpTiles.Common.TypeConverter;
 
 namespace org.SharpTiles.Expressions
 {
+    [Category("OtherExpression")]
     public class Assignment : TupleExpression
     {
         public Assignment(Expression lhs)
