@@ -40,7 +40,7 @@ namespace org.SharpTiles.Expressions
                     new[]
                         {typeof (GreaterThan), typeof (GreaterThanOrEqual), typeof (LessThan), typeof (LessThanOrEqual)}));
             PRECENDENCE.Add(new List<Type>(new[] {typeof (EqualTo), typeof (NotEqualTo)}));
-            PRECENDENCE.Add(new List<Type>(new[] {typeof (Add), typeof (Minus), typeof (Not)}));
+            PRECENDENCE.Add(new List<Type>(new[] {typeof (Add), typeof (Minus), typeof (Not), typeof(Concat), typeof(ConcatWithSpace)}));
             PRECENDENCE.Add(new List<Type>(new[] {typeof (Multiply), typeof (Divide), typeof (Modulo)}));
             PRECENDENCE.Add(new List<Type>(new[] {typeof (Power)}));
             Flatten();

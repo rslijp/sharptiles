@@ -73,12 +73,17 @@ namespace org.SharpTiles.Expressions
                 Register(new DivideParser(), operands, whiteSpaceOperands);
                 Register(new ModuloParser(), operands, whiteSpaceOperands);
                 Register(new PowerParser(), operands, whiteSpaceOperands);
+
+                Register(new ConcatParser(), operands, whiteSpaceOperands);
+                Register(new ConcatWithSpaceParser(), operands, whiteSpaceOperands);
+
                 Register(new LessThanParser(), operands, whiteSpaceOperands);
                 Register(new GreaterThanParser(), operands, whiteSpaceOperands);
                 Register(new LessThanOrEqualParser(), operands, whiteSpaceOperands);
                 Register(new GreaterThanOrEqualParser(), operands, whiteSpaceOperands);
                 Register(new EqualToParser(), operands, whiteSpaceOperands);
                 Register(new NotEqualToParser(), operands, whiteSpaceOperands);
+
                 Register(new AndParser(), operands, whiteSpaceOperands);
                 Register(new OrParser(), operands, whiteSpaceOperands);
                 Register(new NotParser(), operands, whiteSpaceOperands);
