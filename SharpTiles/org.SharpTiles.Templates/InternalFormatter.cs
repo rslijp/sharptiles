@@ -53,6 +53,9 @@ namespace org.SharpTiles.Templates
                                                              GROUP_TAG_SEPERATOR
                                                          };
 
+        public static readonly TokenizerConfiguration Configuration = new TokenizerConfiguration(COMMENT, SEPERATORS, null, null, true, false);
+
+
         private readonly bool _allowTags = true;
         private readonly bool _expectCloseTag;
         private readonly ParseHelper _parser;
@@ -69,7 +72,7 @@ namespace org.SharpTiles.Templates
             _locator = locator;
             _expectCloseTag = false;
             _allowTags = allowTags;
-            _parser = new ParseHelper(new Tokenizer(template, true, COMMENT, SEPERATORS, null /*LITERALS*/).AddOffSet(offSet));
+            _parser = new ParseHelper(new Tokenizer(template, Configuration).AddOffSet(offSet));
             _expressionLib = expressionLib;
         }
 

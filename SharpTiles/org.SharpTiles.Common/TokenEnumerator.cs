@@ -30,11 +30,16 @@ namespace org.SharpTiles.Common
         private int _index;
         private TokenizerState _state = TokenizerState.NotSet;
         private ParseContext _offSet;
+        private bool _overrideNoLiterals;
+        private string _template;
+        private int _templateLength;
 
-        public TokenEnumerator(TokenizerConfiguration configuration, ParseContext offSet=null)
+        public TokenEnumerator(string template, TokenizerConfiguration configuration, ParseContext offSet=null)
         {
+            _template = template;
+            _templateLength = template.Length;
             _offSet = offSet;
-            _configurationStack.Push(configuration);
+            PushConfiguration(configuration);
 
         }
 
@@ -49,6 +54,7 @@ namespace org.SharpTiles.Common
         {
             _configurationStack.Clear();
             _configurationStack = null;
+            Configuration = null;
         }
 
         #endregion
@@ -67,7 +73,7 @@ namespace org.SharpTiles.Common
 
         private TokenizerConfiguration Configuration
         {
-            get { return _configurationStack.Peek(); }
+            get; set;
         }
 
         public bool MoveNext()
@@ -84,6 +90,12 @@ namespace org.SharpTiles.Common
             }
             return HasResult;
         }
+
+//        public bool MoveNextIgnoreWhiteSpace()
+//        {
+//            _index+=Configuration.JumpWhiteSpace(_index);
+//            return MoveNext();
+//        }
 
         private void InternalMoveNext()
         {
@@ -141,18 +153,78 @@ namespace org.SharpTiles.Common
         {
             throw TokenException.UnTerminatedLiteral(start+1).Decorate(
                 new Token(TokenType.Literal,
-                          Configuration.Template[start].ToString(),
+                          _template[start].ToString(),
                           start,
-                          Configuration.Template, 
+                          _template, 
                           _offSet
                     )
                 );
         }
 
+        private string SeperatorAt(int offset, ICollection<string> seperators, int maxLength)
+        {
+
+            if (!Configuration.ExpectLiterals&&
+                _templateLength < offset &&
+                Configuration.Literals.Contains(_template[offset]))
+            {
+                return _template[offset].ToString();
+            }
+
+            var remaining = _templateLength - offset;
+            var length = remaining < maxLength ? remaining : maxLength;
+            string sub = _template.Substring(offset, length);
+            for (int i = length; i > 0; i--)
+            {
+                string sep = sub.Substring(0, i);
+                if (seperators.Contains(sep))
+                {
+                    return sep;
+                }
+            }
+            return null;
+        }
+
+        public string StartsWithWhiteSpaceSurroundedSeperator(int offset)
+        {
+            string result = null;
+            bool whiteSpaceBefore = IndexIsWhiteSpace(offset - 1);
+            if (whiteSpaceBefore)
+            {
+                result = SeperatorAt(offset, Configuration.WhiteSpaceSeperators, Configuration.MaxWhiteSpaceSeperatorsLength);
+            }
+            bool whiteSpaceAfter = result != null && IndexIsWhiteSpace(offset + result.Length);
+            if (!whiteSpaceAfter)
+            {
+                result = null;
+            }
+            return result;
+        }
+
+        private bool IndexIsWhiteSpace(int i)
+        {
+            if (i < 0 || _templateLength <= i)
+            {
+                return true;
+            }
+            return char.IsWhiteSpace(_template[i]);
+        }
+
+        public string StartsWithSeperator(int offset)
+        {
+            string result = SeperatorAt(offset, Configuration.Seperators, Configuration.MaxSeperatorLength);
+            if (result == null)
+            {
+                result = StartsWithWhiteSpaceSurroundedSeperator(offset);
+            }
+            return result;
+        }
+
+
         private void HandeSeperator()
         {
             int start = _index;
-            string seperator = Configuration.StartsWithSeperator(start);
+            string seperator = StartsWithSeperator(start);
             Read(seperator);
             if (Configuration.IsWhiteSpaceSeperator(seperator) && HasNext())
             {
@@ -225,27 +297,28 @@ namespace org.SharpTiles.Common
 
         private bool Literal(int index)
         {
-            return Configuration.IsLiteral(Configuration.Template[index]);
+            if (_overrideNoLiterals) return false;
+            return Configuration.IsLiteral(_template[index]);
         }
 
         private bool Escape(int index)
         {
-            return Configuration.IsEscapeCharacter(Configuration.Template[index]);
+            return Configuration.IsEscapeCharacter(_template[index]);
         }
 
         private bool WhiteSpace(int index)
         {
-            return Char.IsWhiteSpace(Configuration.Template[index]);
+            return Char.IsWhiteSpace(_template[index]);
         }
 
         public bool Seperator(int index)
         {
-            return Configuration.StartsWithSeperator(_index) != null;
+            return StartsWithSeperator(_index) != null;
         }
 
         public bool WhiteSpaceSurroundedSeperator(int index)
         {
-            return Configuration.StartsWithWhiteSpaceSurroundedSeperator(_index) != null;
+            return StartsWithWhiteSpaceSurroundedSeperator(_index) != null;
         }
 
         private void GuardEndState()
@@ -288,22 +361,22 @@ namespace org.SharpTiles.Common
 
         private Token MakeLiteralToken(int start, string literal)
         {
-            return new Token(TokenType.Literal, literal.Substring(1, literal.Length - 2), start, Configuration.Template, _offSet);
+            return new Token(TokenType.Literal, literal.Substring(1, literal.Length - 2), start, _template, _offSet);
         }
 
         private Token MakeSeperatorToken(int start, string seperator)
         {
-            return new Token(TokenType.Seperator, seperator, start, Configuration.Template, _offSet);
+            return new Token(TokenType.Seperator, seperator, start, _template, _offSet);
         }
 
         private Token MakeRegularToken(int start, string content)
         {
-            return new Token(TokenType.Regular, content, start, Configuration.Template, _offSet);
+            return new Token(TokenType.Regular, content, start, _template, _offSet);
         }
 
         private char CurrentChar()
         {
-            return Configuration.Template[_index];
+            return _template[_index];
         }
 
         private void Read(string str)
@@ -328,7 +401,7 @@ namespace org.SharpTiles.Common
             {
                 onNoMoreCharacters();
             }
-            char c = Configuration.Template[_index];
+            char c = _template[_index];
             _index++;
             return c;
         }
@@ -338,9 +411,9 @@ namespace org.SharpTiles.Common
             throw TokenException.MoreCharactersExpectedAt(_index).Decorate(
                 _current ??
                 new Token(TokenType.NotSet, 
-                          Configuration.Template[_index-1].ToString(),
+                          _template[_index-1].ToString(),
                           _index-1,
-                          Configuration.Template, _offSet
+                          _template, _offSet
 
                     )
                 );
@@ -348,7 +421,7 @@ namespace org.SharpTiles.Common
 
         private bool HasNext()
         {
-            return (_index + 1) <= Configuration.Template.Length;
+            return (_index + 1) <= _templateLength;
         }
 
         #endregion
@@ -364,24 +437,16 @@ namespace org.SharpTiles.Common
         }
 
         
-
-        public void PushConfiguration(bool returnTokens, bool returnLiterals, char? escapeChar, string[] seperators,
-                                      string[] whiteSpaceSeperators, char[] literals)
+        public void PushConfiguration(TokenizerConfiguration configuration)
         {
-            var newConfiguration = new TokenizerConfiguration(
-                Configuration.Template,
-                escapeChar,
-                seperators,
-                whiteSpaceSeperators,
-                literals,
-                returnTokens,
-                returnLiterals);
-            _configurationStack.Push(newConfiguration);
+            _configurationStack.Push(configuration);
+            Configuration = configuration;
         }
 
         public void PopConfiguration()
         {
             _configurationStack.Pop();
+            Configuration = _configurationStack.Peek();
         }
 
         public void SetIndexTo(int index)
@@ -391,12 +456,12 @@ namespace org.SharpTiles.Common
 
         public void DontExpectLiteralsAnyMore()
         {
-            Configuration.DontExpectLiteralsAnyMore();
+            _overrideNoLiterals = true;
         }
 
         public void ExpectLiteralsAgain()
         {
-            Configuration.ExpectLiteralsAgain();
+            _overrideNoLiterals = false;
         }
     }
 }

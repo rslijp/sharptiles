@@ -18,6 +18,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using org.SharpTiles.Common;
 using org.SharpTiles.Expressions;
@@ -29,6 +30,9 @@ namespace org.SharpTiles.Templates
 {
     public abstract class AbstractTagLibParser : ITagLibParser
     {
+        private static ICollection<string> CLOSING_TOKENS = new HashSet<string>(new string[] { TagLibConstants.CLOSE_SLASH, TagLibConstants.CLOSE_TAG}); 
+        private static readonly  TokenizerConfiguration Configuration = new TokenizerConfiguration(InternalFormatter.COMMENT, InternalFormatter.SEPERATORS, null, null, true, false);
+
         protected readonly ParseHelper _helper;
         private IResourceLocator _locator;
         protected TagLibForParsing _lib;
@@ -235,12 +239,7 @@ namespace org.SharpTiles.Templates
             try
             {
                 helper.PushNewTokenConfiguration(
-                    true,
-                    false,
-                    InternalFormatter.COMMENT,
-                    InternalFormatter.SEPERATORS,
-                    null,
-                    null, //InternalFormatter.LITERALS, 
+                    Configuration,
                     ResetIndex.LookAhead);
                 return new InternalFormatter(new TagLibParserFactoryAdapter(this), _expressionLib, helper, true, true, locator).ParseNested();
             }
@@ -253,10 +252,12 @@ namespace org.SharpTiles.Templates
         private static void ReadWhiteSpace(ParseHelper helper)
         {
             while (helper.Lookahead != null &&
-                   helper.Lookahead.Contents.Trim().Length == 0)
+                   helper.Lookahead.IsWhiteSpace)
             {
                 helper.Next();
             }
+//        helper.NextIgnoreWhiteSpace();  
+//            Console.WriteLine(helper.Lookahead);
         }
 
         private static void CheckRequiredAttributes(ITag tag)
@@ -266,11 +267,12 @@ namespace org.SharpTiles.Templates
 
         private void AddAttributes(ITagAttributeSetter tagReflection, ITag tag)
         {
-            while (!_helper.IsAhead(TagLibConstants.CLOSE_TAG, TagLibConstants.CLOSE_SLASH))
+            while (!_helper.IsAhead(CLOSING_TOKENS))
             {
-                _helper.Read(TokenType.Seperator);
+//                _helper.Read(TokenType.Seperator);
+                _helper.Next();
                 ReadWhiteSpace(_helper);
-                if (_helper.IsAhead(TagLibConstants.CLOSE_SLASH, TagLibConstants.CLOSE_TAG))
+                if (_helper.IsAhead(CLOSING_TOKENS))
                 {
                     return;
                 }
@@ -278,7 +280,8 @@ namespace org.SharpTiles.Templates
                 var key = tagReflection.SupportNaturalLanguage?LanguageHelper.CamelCaseAttribute(keyToken.Contents): keyToken.Contents;
                 _helper.Read(TagLibConstants.FIELD_ASSIGNMENT);
                 var value = _helper.Read(TokenType.Literal).Contents;
-                if (tagReflection[key] != null && !tagReflection[key].AllowOverWrite)
+                var existing = tagReflection[key];
+                if (!existing?.AllowOverWrite ?? false)
                 {
                     throw TagException.PropertyAlReadySet(key).Decorate(keyToken.Context);
                 }

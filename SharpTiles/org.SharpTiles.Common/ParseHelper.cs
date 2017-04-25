@@ -30,7 +30,7 @@ namespace org.SharpTiles.Common
         protected Token _current;
         protected Token _lookahead;
         private Token _previous;
-       
+
         public ParseHelper(Tokenizer tokenizer)
         {
             _tokenizer = tokenizer.GetTokenEnumerator();
@@ -77,10 +77,16 @@ namespace org.SharpTiles.Common
 
         public bool IsAhead(params string[] expectedTokens)
         {
+            return IsAhead(new SortedSet<string>(expectedTokens));
+        }
+
+        public bool IsAhead(ICollection<string> expectedTokens)
+        {
             Token lookAhead = Lookahead;
             ICollection<string> set = new SortedSet<string>(expectedTokens);
             return Lookahead != null ? set.Contains(lookAhead.Contents) : false;
         }
+
 
         public bool IsAhead(TokenType type)
         {
@@ -94,9 +100,13 @@ namespace org.SharpTiles.Common
 
         public bool At(params string[] expectedTokens)
         {
+            return At(new SortedSet<string>(expectedTokens));
+        }
+
+        public bool At(ICollection<string> expectedTokens)
+        {
             Token current = Current;
-            ICollection<string> set = new SortedSet<string>(expectedTokens);
-            return Current != null ? set.Contains(current.Contents) : false;
+            return Current != null ? expectedTokens.Contains(current.Contents) : false;
         }
 
         public Token Expect(string expected)
@@ -121,16 +131,21 @@ namespace org.SharpTiles.Common
 
         public Token Expect(string forParser, params string[] expectedTokens)
         {
+            return Expect(forParser, new SortedSet<string>(expectedTokens));
+        }
+
+        public Token Expect(string forParser, ICollection<string> expectedTokens)
+        {
             Token current = Current;
-            ICollection<string> set = new SortedSet<string>(expectedTokens);
-            if (!set.Contains(current.Contents))
+            if (!expectedTokens.Contains(current.Contents))
             {
-                throw ParseException.ExpectedToken(CollectionUtils.ToString(set), current.Contents, forParser).Decorate(current);
+                throw ParseException.ExpectedToken(CollectionUtils.ToString(expectedTokens), current.Contents, forParser)
+                    .Decorate(current);
             }
             return current;
         }
 
-
+       
         public bool HasMore()
         {
             return Lookahead != null;
@@ -164,6 +179,8 @@ namespace org.SharpTiles.Common
             return _current;
         }
 
+        
+
         public string ReadUntil(TokenType type, string until)
         {
             var expression = new StringBuilder();
@@ -184,13 +201,12 @@ namespace org.SharpTiles.Common
             }
             return expression.ToString();
         }
+        
 
-        public void PushNewTokenConfiguration(bool returnSeperator, bool returnLiterals, char? escapeChar,
-                                              string[] seperators, string[] whiteSpaceSeperators, char[] literals,
-                                              ResetIndex mode)
+        public void PushNewTokenConfiguration(TokenizerConfiguration configuration,
+            ResetIndex mode)
         {
-            _tokenizer.PushConfiguration(returnSeperator, returnLiterals, escapeChar, seperators, whiteSpaceSeperators,
-                                         literals);
+            _tokenizer.PushConfiguration(configuration);
             ResetIndex(mode);
         }
 
@@ -241,6 +257,7 @@ namespace org.SharpTiles.Common
                 _lookahead = _tokenizer.Token;
             }
         }
+
         private void ReinitLookAhead()
         {
             if (_tokenizer.MoveNext())
@@ -261,7 +278,7 @@ namespace org.SharpTiles.Common
             ReInit();
         }
 
-      
+
 
         public void Commit()
         {
@@ -284,5 +301,7 @@ namespace org.SharpTiles.Common
         }
 
         public override string ToString() => $"Parser[Current={_current},Previous={_previous},Lookahead={_lookahead}]";
+
+        
     }
 }

@@ -17,7 +17,8 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
  using System;
-using org.SharpTiles.Common;
+ using System.Collections.Generic;
+ using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Expressions
 {
@@ -26,6 +27,10 @@ namespace org.SharpTiles.Expressions
         public static string BRACKETS_CLOSE = ")";
         public static string BRACKETS_COMMA = ",";
         public static string BRACKETS_OPEN = "(";
+
+        private static ICollection<string> SIGNS = new HashSet<string>(new[] { BRACKETS_CLOSE, BRACKETS_COMMA });
+
+    
         private readonly int _arguments;
         private readonly bool _functionArgument;
         private static readonly Type TYPE = typeof (Brackets);
@@ -66,7 +71,7 @@ namespace org.SharpTiles.Expressions
             }
         }
 
-
+        
         public void Parse(ExpressionParserHelper parseHelper)
         {
             if (parseHelper.At(BRACKETS_OPEN))
@@ -81,7 +86,7 @@ namespace org.SharpTiles.Expressions
             {
                 parseHelper.Reduce(TYPE);
                 var nested = parseHelper.Pop();
-                parseHelper.Expect(nameof(BracketsParser), BRACKETS_CLOSE, BRACKETS_COMMA);
+                parseHelper.Expect(nameof(BracketsParser), SIGNS);
                 var brackets = ((Brackets) parseHelper.Top);
                 brackets.FillNext(nested);
                 if (parseHelper.At(BRACKETS_CLOSE) && brackets.PartOfFunction)

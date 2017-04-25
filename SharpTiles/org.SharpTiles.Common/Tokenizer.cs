@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- using System.Collections;
+
+using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace org.SharpTiles.Common
@@ -25,7 +27,8 @@ namespace org.SharpTiles.Common
     {
         private readonly TokenizerConfiguration _configuration;
         private ParseContext _offSet;
-
+        private string _template;
+       
         public Tokenizer(string template, char? escapeCharacter, string[] seperators, char[] literals)
             : this(template, false, escapeCharacter, seperators, literals, null)
         {
@@ -44,19 +47,24 @@ namespace org.SharpTiles.Common
         }
 
         public Tokenizer(string template, bool returnSeperator, char? escapeCharacter, string[] seperators,
-                         char[] literals, string[] whiteSpaceSeperators, ParseContext offset=null)
+                         char[] literals, string[] whiteSpaceSeperators)
             : this(template, returnSeperator, false, escapeCharacter, seperators, literals, whiteSpaceSeperators)
 
         {
         }
 
         public Tokenizer(string template, bool returnSeperator, bool returnLiterals, char? escapeCharacter,
-                         string[] seperators, char[] literals, string[] whiteSpaceSeperators, ParseContext offset = null)
+                         string[] seperators, char[] literals, string[] whiteSpaceSeperators, ParseContext offset = null) : this(template, new TokenizerConfiguration(escapeCharacter, seperators, whiteSpaceSeperators, literals,
+                                           returnSeperator, returnLiterals))
         {
-            _configuration =
-                new TokenizerConfiguration(template, escapeCharacter, seperators, whiteSpaceSeperators, literals,
-                                           returnSeperator, returnLiterals);
         }
+
+        public Tokenizer(string template, TokenizerConfiguration configuration)
+        {
+            _template = template;
+            _configuration = configuration;
+        }
+
 
         public Tokenizer AddOffSet(ParseContext offSet)
         {
@@ -80,7 +88,10 @@ namespace org.SharpTiles.Common
 
         public TokenEnumerator GetTokenEnumerator()
         {
-            return new TokenEnumerator(_configuration, _offSet);
+            return new TokenEnumerator(_template, _configuration, _offSet);
         }
+
+
+       
     }
 }

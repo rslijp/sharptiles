@@ -17,6 +17,7 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
  using System;
+ using System.Collections.Generic;
  using System.Linq;
  using org.SharpTiles.Common;
  using org.SharpTiles.Expressions.Functions;
@@ -59,7 +60,8 @@ namespace org.SharpTiles.Expressions
         {
             Token start = parseHelper.Current;
             parseHelper.Expect(FunctionSign);
-            parseHelper.PushNewTokenConfiguration(true, true, '\\', _lib.Functions.Select(f=>f.Name).ToArray(), parseHelper.ExpressionLib.WhiteSpaceOperands, null, ResetIndex.CurrentAndLookAhead);
+            var helperExpressionLib = parseHelper.ExpressionLib;
+            parseHelper.PushNewTokenConfiguration(new TokenizerConfiguration('\\', _lib.FunctionNamesSet, _lib.FunctionNameSetMaxLength, helperExpressionLib.WhiteSpaceOperandsSet, helperExpressionLib.WhiteSpaceOperandsSetMaxLength, null, true, true), ResetIndex.CurrentAndLookAhead);
             Token token = parseHelper.Next();
             var function = _lib.Obtain(token.Contents);
             parseHelper.PopTokenConfiguration(ResetIndex.MaintainPosition);

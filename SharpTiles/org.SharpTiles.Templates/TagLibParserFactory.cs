@@ -38,6 +38,7 @@ namespace org.SharpTiles.Templates
         private readonly IResourceLocatorFactory _factory;
         private readonly ITagValidator _tagValidator;
         private ExpressionLib _expressionLib;
+        private static TokenizerConfiguration Configuration = new TokenizerConfiguration(null, TagLibConstants.SEPERATORS, null, TagLibConstants.LITERALS, true, true);
 
 
         public TagLibParserFactory(TagLibForParsing lib, ExpressionLib expressionLib, IResourceLocatorFactory factory, ITagValidator tagValidator)
@@ -60,7 +61,7 @@ namespace org.SharpTiles.Templates
 
         public ITag Parse(string tag)
         {
-            var tokenizer = new Tokenizer(tag, true, true, null, TagLibConstants.SEPERATORS, TagLibConstants.LITERALS, null);
+            var tokenizer = new Tokenizer(tag, Configuration);
             var helper = new ParseHelper(tokenizer);
             helper.Init();
             return Construct(helper,_factory.GetNewLocator()).Parse();
@@ -68,8 +69,7 @@ namespace org.SharpTiles.Templates
 
         public ITag Parse(ParseHelper helper, IResourceLocator locator)
         {
-            helper.PushNewTokenConfiguration(true, true, null, TagLibConstants.SEPERATORS, null, TagLibConstants.LITERALS,
-                                             ResetIndex.CurrentAndLookAhead);
+            helper.PushNewTokenConfiguration(Configuration,ResetIndex.CurrentAndLookAhead);
             try
             {
                 return Construct(helper, locator).Parse();

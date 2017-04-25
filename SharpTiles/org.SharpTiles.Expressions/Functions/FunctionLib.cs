@@ -17,6 +17,7 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */using System.Collections.Generic;
 using System.Linq;
+using org.SharpTiles.Common;
 using org.SharpTiles.Expressions.Functions;
 
 namespace org.SharpTiles.Expressions.Functions
@@ -24,11 +25,15 @@ namespace org.SharpTiles.Expressions.Functions
     public abstract class FunctionLib 
     {
         private readonly IDictionary<string, IFunctionDefinition> functions = new Dictionary<string, IFunctionDefinition>();
-       
-       
+        private ICollection<string> _functionNameSet = new HashSet<string>();
+        private int _maxKeyLength = 0;
+
+
         protected void RegisterFunction(IFunctionDefinition function)
         {
             functions.Add(function.Name, function);
+            _functionNameSet.Add(function.Name);
+            _maxKeyLength = TokenizerConfiguration.CalculaterMaxTokenLength(_functionNameSet);
         }
 
        
@@ -50,6 +55,9 @@ namespace org.SharpTiles.Expressions.Functions
         {
             get { return functions.Values; }
         }
-        
+
+        public ICollection<string> FunctionNamesSet => _functionNameSet;
+
+        public int FunctionNameSetMaxLength => _maxKeyLength;
     }
 }

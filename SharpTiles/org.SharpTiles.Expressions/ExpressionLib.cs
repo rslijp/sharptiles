@@ -37,9 +37,12 @@ namespace org.SharpTiles.Expressions
         private readonly IDictionary<Type, IExpressionParser> PARSERS_BY_TYPE =
             new Dictionary<Type, IExpressionParser>();
 
-        internal static string[] WHITESPACE_OPERANDS;
-
+        private string[] WHITESPACE_OPERANDS;
+        private ICollection<string> WHITESPACE_OPERANDS_SET;
+        private int WHITESPACE_OPERANDS_SET_MAX_LENGTH;
+        private TokenizerConfiguration configuration;
         private IEnumerable<FunctionLib> _libs;
+        
 
         public ExpressionLib(params FunctionLib[] libs)
         {
@@ -49,6 +52,8 @@ namespace org.SharpTiles.Expressions
         
 
         public string[] WhiteSpaceOperands => WHITESPACE_OPERANDS;
+        public ICollection<string> WhiteSpaceOperandsSet => WHITESPACE_OPERANDS_SET;
+        public int WhiteSpaceOperandsSetMaxLength => WHITESPACE_OPERANDS_SET_MAX_LENGTH;
 
         public void Clear()
         {
@@ -111,6 +116,9 @@ namespace org.SharpTiles.Expressions
 
                 OPERANDS = operands.ToArray();
                 WHITESPACE_OPERANDS = whiteSpaceOperands.ToArray();
+                WHITESPACE_OPERANDS_SET = new HashSet<string>(WHITESPACE_OPERANDS);
+                WHITESPACE_OPERANDS_SET_MAX_LENGTH = TokenizerConfiguration.CalculaterMaxTokenLength(WHITESPACE_OPERANDS_SET);
+                configuration = new TokenizerConfiguration('\\', OPERANDS,WHITESPACE_OPERANDS, null, true, false);                
         }
 
         
@@ -160,7 +168,7 @@ namespace org.SharpTiles.Expressions
 
         public Expression Parse(string expression, ParseContext offset = null)
         {
-            var tokenizer = new Tokenizer(expression, true, '\\', OPERANDS, null, WHITESPACE_OPERANDS, offset).AddOffSet(offset);
+            var tokenizer = new Tokenizer(expression, configuration).AddOffSet(offset);
             var parseHelper = new ExpressionParserHelper(this, tokenizer);
             parseHelper.Init();
             Parse(parseHelper);

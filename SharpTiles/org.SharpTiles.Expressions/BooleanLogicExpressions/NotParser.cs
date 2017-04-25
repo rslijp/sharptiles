@@ -17,7 +17,8 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
  using System;
-using org.SharpTiles.Common;
+ using System.Collections.Generic;
+ using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Expressions
 {
@@ -25,6 +26,7 @@ namespace org.SharpTiles.Expressions
     {
         private static string ADDITIONAL_SIGN = "not";
         private static string NOT_SIGN = "!";
+        private static ICollection<string> SIGNS =new HashSet<string>(new[] {NOT_SIGN, ADDITIONAL_SIGN});
 
         #region IExpressionParser Members
 
@@ -53,7 +55,7 @@ namespace org.SharpTiles.Expressions
         public void Parse(ExpressionParserHelper parseHelper)
         {
             Token token = parseHelper.Current;
-            parseHelper.Expect(nameof(NotParser), NOT_SIGN, ADDITIONAL_SIGN);
+            parseHelper.Expect(nameof(NotParser), SIGNS);
             parseHelper.ParseExpression();
              var not = new Not(parseHelper.Pop());
             not.Token = token;

@@ -26,6 +26,8 @@ namespace org.SharpTiles.Common
     {
         private static readonly Regex TEXT_REGEX=new Regex("^[A-Za-z]+$");
         private static readonly Regex TEXT_OR_SPACE_REGEX = new Regex("^[A-Za-z ]+$");
+        private static readonly Regex WHITE_SPACE_REGEX = new Regex("^\\s+$");
+        
 
         private readonly int _index;
         private readonly string _text;
@@ -74,6 +76,12 @@ namespace org.SharpTiles.Common
         {
             get { return TEXT_OR_SPACE_REGEX.Match(_contents).Success; }
         }
+
+        public bool IsWhiteSpace
+        {
+            get { return WHITE_SPACE_REGEX.Match(_contents).Success; }
+        }
+
         public bool IsSingleSpace
         {
             get { return " ".Equals(_contents); }

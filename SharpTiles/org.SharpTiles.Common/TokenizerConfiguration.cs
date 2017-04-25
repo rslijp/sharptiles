@@ -27,46 +27,77 @@ namespace org.SharpTiles.Common
         private readonly ICollection<char> _literals;
         private readonly int _maxSeperatorLength;
         private readonly int _maxWhiteSpaceSeperatorLength;
-        private bool _returnLiterals;
+        private readonly bool _returnLiterals;
         private readonly bool _returnSeperator;
         private readonly ICollection<string> _seperators;
-        private readonly string _template;
         private readonly ICollection<string> _whiteSpaceSeperators;
-        private bool _expectLiterals = true;
+        private readonly bool _expectLiterals;
 
         public TokenizerConfiguration(
-            string template,
             char? escapeCharacter,
             string[] seperators,
             string[] whiteSpaceSeperators,
             char[] literals,
             bool returnSeperator,
             bool returnLiterals
-            )
+            ) : this(
+                escapeCharacter, 
+                new SortedSet<string>(seperators), 
+                whiteSpaceSeperators!=null?new SortedSet<string>(whiteSpaceSeperators):null,
+                new SortedSet<char>(literals != null ? literals : new char[] { }), 
+                returnSeperator,
+                returnLiterals)
         {
-            _template = template;
+           
+        }
+
+        public TokenizerConfiguration(
+           char? escapeCharacter,
+           ICollection<string> seperators,
+           ICollection<string> whiteSpaceSeperators,
+           ICollection<char> literals,
+           bool returnSeperator,
+           bool returnLiterals
+           ) : this(
+               escapeCharacter, 
+               seperators, CalculaterMaxTokenLength(seperators), 
+               whiteSpaceSeperators, CalculaterMaxTokenLength(whiteSpaceSeperators), 
+               literals,
+               returnSeperator,
+               returnLiterals
+               )
+        {
+           
+        }
+
+        public TokenizerConfiguration(
+//           string template,
+           char? escapeCharacter,
+           ICollection<string> seperators,
+           int maxSeperatorLength,
+           ICollection<string> whiteSpaceSeperators,
+           int maxWhiteSpaceSeperatorLength,
+           ICollection<char> literals,
+           bool returnSeperator,
+           bool returnLiterals
+           )
+        {
             _escapeCharacter = escapeCharacter;
-            _seperators = new SortedSet<string>(seperators);
-            if (whiteSpaceSeperators != null)
+            _seperators = seperators;
+            _whiteSpaceSeperators = whiteSpaceSeperators;
+            if (whiteSpaceSeperators == null)
             {
-                _whiteSpaceSeperators = new SortedSet<string>(whiteSpaceSeperators);
+                _whiteSpaceSeperators = new HashSet<string>();
             }
-            else
-            {
-                _whiteSpaceSeperators = new SortedSet<string>();
-            }
-            _literals = new SortedSet<char>(literals != null ? literals : new char[] {});
+            _literals = literals;
+            _expectLiterals = literals != null && literals.Count > 0;
             _returnSeperator = returnSeperator;
             _returnLiterals = returnLiterals;
 
-            _maxSeperatorLength = CalculaterMaxTokenLength(_seperators);
-            _maxWhiteSpaceSeperatorLength = CalculaterMaxTokenLength(_whiteSpaceSeperators);
+            _maxSeperatorLength = maxSeperatorLength;
+            _maxWhiteSpaceSeperatorLength = maxWhiteSpaceSeperatorLength;
         }
 
-        public string Template
-        {
-            get { return _template; }
-        }
 
         public char? EscapeCharacter
         {
@@ -76,6 +107,11 @@ namespace org.SharpTiles.Common
         public ICollection<string> Seperators
         {
             get { return _seperators; }
+        }
+
+        public ICollection<string> WhiteSpaceSeperators
+        {
+            get { return _whiteSpaceSeperators; }
         }
 
         public ICollection<char> Literals
@@ -94,8 +130,14 @@ namespace org.SharpTiles.Common
 //            internal set { _returnLiterals = value; }
         }
 
-        private int CalculaterMaxTokenLength(ICollection<string> seps)
+        public int MaxSeperatorLength => _maxSeperatorLength;
+        public int MaxWhiteSpaceSeperatorsLength => _maxWhiteSpaceSeperatorLength;
+        public bool ExpectLiterals => _expectLiterals;
+
+
+        public static int CalculaterMaxTokenLength(ICollection<string> seps)
         {
+            if (seps == null) return 0;
             int result = 0;
             foreach (string sep in seps)
             {
@@ -114,77 +156,24 @@ namespace org.SharpTiles.Common
             return _expectLiterals ? Literals.Contains(c) : false;
         }
 
-        public string StartsWithSeperator(int offset)
-        {
-            string result = SeperatorAt(offset, _seperators, _maxSeperatorLength);
-            if (result == null)
-            {
-                result = StartsWithWhiteSpaceSurroundedSeperator(offset);
-            }
-            return result;
-        }
 
-        private string SeperatorAt(int offset, ICollection<string> seperators, int maxLength)
-        {
-            
-            if (!_expectLiterals && 
-                _template.Length<offset &&
-                Literals.Contains(_template[offset]))
-            {
-                return _template[offset].ToString();
-            }
+
         
-            string sub = _template.Substring(offset);
-            var length = sub.Length < maxLength ? sub.Length : maxLength;
-            for (int i = length; i > 0; i--)
-            {
-                string sep = sub.Substring(0, i);
-                if (seperators.Contains(sep))
-                {
-                    return sep;
-                }
-            }
-            return null;
-        }
-
-        public string StartsWithWhiteSpaceSurroundedSeperator(int offset)
-        {
-            string result = null;
-            bool whiteSpaceBefore = IndexIsWhiteSpace(offset - 1);
-            if (whiteSpaceBefore)
-            {
-                result = SeperatorAt(offset, _whiteSpaceSeperators, _maxWhiteSpaceSeperatorLength);
-            }
-            bool whiteSpaceAfter = result != null && IndexIsWhiteSpace(offset + result.Length);
-            if (!whiteSpaceAfter)
-            {
-                result = null;
-            }
-            return result;
-        }
-
-        private bool IndexIsWhiteSpace(int i)
-        {
-            if (i < 0 || _template.Length <= i)
-            {
-                return true;
-            }
-            return Char.IsWhiteSpace(_template[i]);
-        }
 
         public bool IsWhiteSpaceSeperator(string seperator)
         {
             return _whiteSpaceSeperators.Contains(seperator);
         }
 
-        public void DontExpectLiteralsAnyMore()
-        {
-            _expectLiterals = false;
-        }
+//        public void DontExpectLiteralsAnyMore()
+//        {
+//            _expectLiterals = false;
+//        }
+//
+//        public void ExpectLiteralsAgain()
+//        {
+//            _expectLiterals = true;
+//        }
 
-        public void ExpectLiteralsAgain()
-        {
-            _expectLiterals = true;
-        }
     }
 }
