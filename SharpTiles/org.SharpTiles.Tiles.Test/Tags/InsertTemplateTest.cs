@@ -231,7 +231,7 @@ namespace org.SharpTiles.Tiles.Test
             Assert.That(value, Is.EqualTo(expected));
         }
 
-        [Test]
+        [Test,Ignore]
         public void HandNestedIncludeWithParentDirs()
         {
             ITile a = new TemplateTile("a", _factory.Handle("Home/Index.htm",true), new List<TileAttribute>());
@@ -244,7 +244,7 @@ namespace org.SharpTiles.Tiles.Test
         }
 
 
-        [Test]
+        [Test, Ignore]
         public void HandNestedIncludeWithPrefixDirs()
         {
 

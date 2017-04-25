@@ -51,10 +51,7 @@ namespace org.SharpTiles.Tags
             get; set;
         }
 
-        public IResourceLocator ResourceLocator
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public IResourceLocator ResourceLocator { get; set; }
 
         public object Evaluate(TagModel model)
         {

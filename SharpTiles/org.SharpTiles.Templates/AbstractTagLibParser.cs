@@ -287,6 +287,11 @@ namespace org.SharpTiles.Templates
                     tagReflection[key] =new ConstantAttribute("", tag) {AttributeName = key,Context = keyToken.Context };
                     continue;
                 }
+                if (!value.Contains("${"))
+                {
+                    tagReflection[key] = new ConstantAttribute(value, tag) { AttributeName = key, Context = keyToken.Context, ResourceLocator = _locator};
+                    continue;
+                }
                 var offSet = _helper.Current.Context;
                 var attr=new TemplateAttribute(new InternalFormatter(new TagLibParserFactoryAdapter(this), _expressionLib, value, false, _locator, offSet).Parse()) { AttributeName = key };
                 tagReflection[key] = attr;
