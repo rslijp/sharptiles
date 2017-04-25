@@ -48,16 +48,5 @@ namespace org.SharpTiles.Expressions.Test
             Assert.That(concat.Evaluate(new Reflection(this)), Is.EqualTo("rhs"));
         }
 
-        [Test]
-        public void TestParseConcatExpression()
-        {
-            var parsed = new ExpressionLib().Parse("'Lhs' | 'Rhs' ");
-
-            Assert.That(parsed.GetType(), Is.EqualTo(typeof(Concat)));
-            var concat = (Concat) parsed;
-            Assert.That(((Constant)concat.Lhs).Value, Is.EqualTo("Lhs"));
-            Assert.That(((Constant)concat.Rhs).Value, Is.EqualTo("Rhs"));
-
-        }
     }
 }

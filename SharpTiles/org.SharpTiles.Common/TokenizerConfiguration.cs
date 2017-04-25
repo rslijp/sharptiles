@@ -46,16 +46,16 @@ namespace org.SharpTiles.Common
         {
             _template = template;
             _escapeCharacter = escapeCharacter;
-            _seperators = new HashSet<string>(seperators);
+            _seperators = new SortedSet<string>(seperators);
             if (whiteSpaceSeperators != null)
             {
-                _whiteSpaceSeperators = new HashSet<string>(whiteSpaceSeperators);
+                _whiteSpaceSeperators = new SortedSet<string>(whiteSpaceSeperators);
             }
             else
             {
-                _whiteSpaceSeperators = new HashSet<string>();
+                _whiteSpaceSeperators = new SortedSet<string>();
             }
-            _literals = new HashSet<char>(literals != null ? literals : new char[] {});
+            _literals = new SortedSet<char>(literals != null ? literals : new char[] {});
             _returnSeperator = returnSeperator;
             _returnLiterals = returnLiterals;
 
@@ -134,17 +134,17 @@ namespace org.SharpTiles.Common
                 return _template[offset].ToString();
             }
         
-            string result = null;
             string sub = _template.Substring(offset);
-            for (int i = 1; i <= maxLength && i <= sub.Length; i++)
+            var length = sub.Length < maxLength ? sub.Length : maxLength;
+            for (int i = length; i > 0; i--)
             {
                 string sep = sub.Substring(0, i);
                 if (seperators.Contains(sep))
                 {
-                    result = sep;
+                    return sep;
                 }
             }
-            return result;
+            return null;
         }
 
         public string StartsWithWhiteSpaceSurroundedSeperator(int offset)

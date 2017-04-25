@@ -78,7 +78,7 @@ namespace org.SharpTiles.Common
         public bool IsAhead(params string[] expectedTokens)
         {
             Token lookAhead = Lookahead;
-            ICollection<string> set = new HashSet<string>(expectedTokens);
+            ICollection<string> set = new SortedSet<string>(expectedTokens);
             return Lookahead != null ? set.Contains(lookAhead.Contents) : false;
         }
 
@@ -95,7 +95,7 @@ namespace org.SharpTiles.Common
         public bool At(params string[] expectedTokens)
         {
             Token current = Current;
-            ICollection<string> set = new HashSet<string>(expectedTokens);
+            ICollection<string> set = new SortedSet<string>(expectedTokens);
             return Current != null ? set.Contains(current.Contents) : false;
         }
 
@@ -122,7 +122,7 @@ namespace org.SharpTiles.Common
         public Token Expect(string forParser, params string[] expectedTokens)
         {
             Token current = Current;
-            ICollection<string> set = new HashSet<string>(expectedTokens);
+            ICollection<string> set = new SortedSet<string>(expectedTokens);
             if (!set.Contains(current.Contents))
             {
                 throw ParseException.ExpectedToken(CollectionUtils.ToString(set), current.Contents, forParser).Decorate(current);
