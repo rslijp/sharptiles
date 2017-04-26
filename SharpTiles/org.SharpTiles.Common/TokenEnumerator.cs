@@ -172,9 +172,10 @@ namespace org.SharpTiles.Common
 
             var remaining = _templateLength - offset;
             var length = remaining < maxLength ? remaining : maxLength;
+            if (length == 0) return null;
             if (length > 1)
             {
-                for (int i = length; i > 0; i--)
+                for (int i = length; i > 1; i--)
                 {
                     var sep = _template.Substring(offset, i);
                     if (seperators.Contains(sep))
@@ -182,14 +183,9 @@ namespace org.SharpTiles.Common
                         return sep;
                     }
                 }
-                return null;
             }
-            if (length == 1)
-            {
-                var c = _template[offset].ToString();
-                return seperators.Contains(c) ? c : null;
-            }
-            return null;
+            var c = _template[offset].ToString();
+            return seperators.Contains(c) ? c : null;            
         }
 
         public string StartsWithWhiteSpaceSurroundedSeperator(int offset)
