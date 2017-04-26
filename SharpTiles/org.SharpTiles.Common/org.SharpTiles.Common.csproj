@@ -80,6 +80,7 @@
     <Compile Include="LanguageHelper.cs" />
     <Compile Include="ParseContext.cs" />
     <Compile Include="ReflectionResult.cs" />
+    <Compile Include="RegexCollection.cs" />
     <Compile Include="ResourceException.cs" />
     <Compile Include="StackModel.cs" />
     <Compile Include="StreamExtensions.cs" />

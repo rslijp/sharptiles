@@ -134,6 +134,7 @@ namespace org.SharpTiles.Common
 
         private void HandeLiteral(int start, StringBuilder builder)
         {
+            Action onNoMoreCharacters = () => ThrowUnClosedLiteral(start);
             char open = NextChar(); // Literal
             builder.Append(open);
             while (HasNext() && !(Literal() && open == CurrentChar()))
@@ -142,9 +143,9 @@ namespace org.SharpTiles.Common
                 {
                     NextChar(); // Escape
                 }
-                builder.Append(NextChar(() => ThrowUnClosedLiteral(start)));
+                builder.Append(NextChar(onNoMoreCharacters));
             }
-            builder.Append(NextChar(() => ThrowUnClosedLiteral(start)));
+            builder.Append(NextChar(onNoMoreCharacters));
         }
 
         private void ThrowUnClosedLiteral(int start)
@@ -171,13 +172,22 @@ namespace org.SharpTiles.Common
 
             var remaining = _templateLength - offset;
             var length = remaining < maxLength ? remaining : maxLength;
-            for (int i = length; i > 0; i--)
+            if (length > 1)
             {
-                var sep = _template.Substring(offset, i);
-                if (seperators.Contains(sep))
+                for (int i = length; i > 0; i--)
                 {
-                    return sep;
+                    var sep = _template.Substring(offset, i);
+                    if (seperators.Contains(sep))
+                    {
+                        return sep;
+                    }
                 }
+                return null;
+            }
+            if (length == 1)
+            {
+                var c = _template[offset].ToString();
+                return seperators.Contains(c) ? c : null;
             }
             return null;
         }

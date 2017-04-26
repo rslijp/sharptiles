@@ -43,9 +43,9 @@ namespace org.SharpTiles.Common
             bool returnLiterals
             ) : this(
                 escapeCharacter, 
-                new SortedSet<string>(seperators), 
-                whiteSpaceSeperators!=null?new SortedSet<string>(whiteSpaceSeperators):null,
-                new SortedSet<char>(literals != null ? literals : new char[] { }), 
+                new HashSet<string>(seperators), 
+                whiteSpaceSeperators!=null?new HashSet<string>(whiteSpaceSeperators):null,
+                new HashSet<char>(literals != null ? literals : new char[] { }), 
                 returnSeperator,
                 returnLiterals)
         {

@@ -17,12 +17,27 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
  using System;
-using org.SharpTiles.Common;
+ using System.Collections.Generic;
+ using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Expressions
 {
     public abstract class TupleExpressionParser<T> : IExpressionParser where T : TupleExpression
     {
+        private HashSet<string> _tokens;
+
+        
+
+        private HashSet<string> Tokens
+        {
+            get
+            {
+                if (_tokens != null) return _tokens;
+                return _tokens = new HashSet<string>(new[] {DistinctToken.Token, AdditionalToken.Token});
+            }
+        }
+
+
         public abstract ExpressionOperatorSign AdditionalToken { get; }
 
         #region IExpressionParser Members
@@ -46,7 +61,7 @@ namespace org.SharpTiles.Expressions
             Expression lhs = parseHelper.Pop();
             if (AdditionalToken != null)
             {
-                parseHelper.Expect($"TupleExpressionParser<{typeof(T).Name}>", DistinctToken.Token, AdditionalToken.Token);
+                parseHelper.Expect($"TupleExpressionParser<{typeof(T).Name}>", Tokens);
             }
             else
             {

@@ -75,11 +75,7 @@ namespace org.SharpTiles.Common
             return Lookahead != null ? Lookahead.Contents.Equals(expected) : false;
         }
 
-        public bool IsAhead(params string[] expectedTokens)
-        {
-            return IsAhead(new SortedSet<string>(expectedTokens));
-        }
-
+       
         public bool IsAhead(ICollection<string> expectedTokens)
         {
             Token lookAhead = Lookahead;
@@ -98,11 +94,7 @@ namespace org.SharpTiles.Common
             return Current != null ? Current.Contents.Equals(expected) : false;
         }
 
-        public bool At(params string[] expectedTokens)
-        {
-            return At(new SortedSet<string>(expectedTokens));
-        }
-
+        
         public bool At(ICollection<string> expectedTokens)
         {
             Token current = Current;
@@ -129,11 +121,7 @@ namespace org.SharpTiles.Common
             return current;
         }
 
-        public Token Expect(string forParser, params string[] expectedTokens)
-        {
-            return Expect(forParser, new SortedSet<string>(expectedTokens));
-        }
-
+        
         public Token Expect(string forParser, ICollection<string> expectedTokens)
         {
             Token current = Current;
@@ -145,7 +133,18 @@ namespace org.SharpTiles.Common
             return current;
         }
 
-       
+        public Token Expect(string forParser, string expected)
+        {
+            Token current = Current;
+            if (!expected.Equals(current.Contents))
+            {
+                throw ParseException.ExpectedToken(expected, current.Contents, forParser)
+                    .Decorate(current);
+            }
+            return current;
+        }
+
+
         public bool HasMore()
         {
             return Lookahead != null;
