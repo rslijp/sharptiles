@@ -72,7 +72,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionTest.cs" />
     <Compile Include="RefreshJobTest.cs" />
-    <Compile Include="RegexCollectionTest.cs" />
     <Compile Include="StringUtilsTest.cs" />
     <Compile Include="ParseContextTest.cs" />
     <Compile Include="TokenizerTest.cs" />
