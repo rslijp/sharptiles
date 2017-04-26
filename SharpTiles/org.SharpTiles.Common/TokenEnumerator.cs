@@ -188,7 +188,18 @@ namespace org.SharpTiles.Common
             return seperators.Contains(c) ? c : null;            
         }
 
-        public string StartsWithWhiteSpaceSurroundedSeperator(int offset)
+        private string StartsWithWhiteSpacePrefixedSeperator(int offset)
+        {
+            string result = null;
+            bool whiteSpaceBefore = IndexIsWhiteSpace(offset - 1);
+            if (whiteSpaceBefore)
+            {
+                result = SeperatorAt(offset, _configuration.WhiteSpaceSeperators, _configuration.MaxWhiteSpaceSeperatorsLength);
+            }
+            return result;
+        }
+
+        private string StartsWithWhiteSpaceSurroundedSeperator(int offset)
         {
             string result = null;
             bool whiteSpaceBefore = IndexIsWhiteSpace(offset - 1);
@@ -204,6 +215,8 @@ namespace org.SharpTiles.Common
             return result;
         }
 
+//        private static HashSet<char> WHITESPACE = new HashSet<char>(new [] {' ', '\t', '\r', '\n'});
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private bool IndexIsWhiteSpace(int i)
         {
@@ -211,14 +224,16 @@ namespace org.SharpTiles.Common
             {
                 return true;
             }
-            return char.IsWhiteSpace(_template[i]);
-        }
+//            return WHITESPACE.Contains(_template[i]);
+            var c = _template[i];
+            return c == ' ' || c == '\t' || c == '\r' || c == '\n';
+        }       
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string StartsWithSeperator(int offset)
         {
             return SeperatorAt(offset, _configuration.Seperators, _configuration.MaxSeperatorLength) 
-                    ?? StartsWithWhiteSpaceSurroundedSeperator(offset);
+                    ?? StartsWithWhiteSpacePrefixedSeperator(offset);
         }
 
 
