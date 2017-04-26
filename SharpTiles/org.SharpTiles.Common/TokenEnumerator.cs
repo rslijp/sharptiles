@@ -18,7 +18,8 @@
  */
  using System;
 using System.Collections.Generic;
-using System.Text;
+ using System.Runtime.CompilerServices;
+ using System.Text;
 
 namespace org.SharpTiles.Common
 {
@@ -54,7 +55,7 @@ namespace org.SharpTiles.Common
         {
             _configurationStack.Clear();
             _configurationStack = null;
-            Configuration = null;
+            _configuration = null;
         }
 
         #endregion
@@ -67,14 +68,11 @@ namespace org.SharpTiles.Common
             {
                 return _current != null &&
                        _current.Type == TokenType.Seperator &&
-                       !Configuration.ReturnSeperator;
+                       !_configuration.ReturnSeperator;
             }
         }
 
-        private TokenizerConfiguration Configuration
-        {
-            get; set;
-        }
+        private TokenizerConfiguration _configuration;
 
         public bool MoveNext()
         {
@@ -106,7 +104,7 @@ namespace org.SharpTiles.Common
                     HandeSeperator();
                     break;
                 case TokenizerState.Literal:
-                    if (Configuration.ReturnLiterals)
+                    if (_configuration.ReturnLiterals)
                     {
                         HandeLiteral();
                     }
@@ -136,13 +134,13 @@ namespace org.SharpTiles.Common
 
         private void HandeLiteral(int start, StringBuilder builder)
         {
-            char open = Read(Literal);
+            char open = NextChar(); // Literal
             builder.Append(open);
-            while (HasNext() && !(At(Literal) && open == CurrentChar()))
+            while (HasNext() && !(Literal() && open == CurrentChar()))
             {
-                if (At(Escape))
+                if (Escape())
                 {
-                    Read(Escape);
+                    NextChar(); // Escape
                 }
                 builder.Append(NextChar(() => ThrowUnClosedLiteral(start)));
             }
@@ -164,19 +162,18 @@ namespace org.SharpTiles.Common
         private string SeperatorAt(int offset, ICollection<string> seperators, int maxLength)
         {
 
-            if (!Configuration.ExpectLiterals&&
+            if (!_configuration.ExpectLiterals&&
                 _templateLength < offset &&
-                Configuration.Literals.Contains(_template[offset]))
+                _configuration.Literals.Contains(_template[offset]))
             {
                 return _template[offset].ToString();
             }
 
             var remaining = _templateLength - offset;
             var length = remaining < maxLength ? remaining : maxLength;
-            string sub = _template.Substring(offset, length);
             for (int i = length; i > 0; i--)
             {
-                string sep = sub.Substring(0, i);
+                var sep = _template.Substring(offset, i);
                 if (seperators.Contains(sep))
                 {
                     return sep;
@@ -191,7 +188,7 @@ namespace org.SharpTiles.Common
             bool whiteSpaceBefore = IndexIsWhiteSpace(offset - 1);
             if (whiteSpaceBefore)
             {
-                result = SeperatorAt(offset, Configuration.WhiteSpaceSeperators, Configuration.MaxWhiteSpaceSeperatorsLength);
+                result = SeperatorAt(offset, _configuration.WhiteSpaceSeperators, _configuration.MaxWhiteSpaceSeperatorsLength);
             }
             bool whiteSpaceAfter = result != null && IndexIsWhiteSpace(offset + result.Length);
             if (!whiteSpaceAfter)
@@ -201,6 +198,7 @@ namespace org.SharpTiles.Common
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private bool IndexIsWhiteSpace(int i)
         {
             if (i < 0 || _templateLength <= i)
@@ -210,14 +208,11 @@ namespace org.SharpTiles.Common
             return char.IsWhiteSpace(_template[i]);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string StartsWithSeperator(int offset)
         {
-            string result = SeperatorAt(offset, Configuration.Seperators, Configuration.MaxSeperatorLength);
-            if (result == null)
-            {
-                result = StartsWithWhiteSpaceSurroundedSeperator(offset);
-            }
-            return result;
+            return SeperatorAt(offset, _configuration.Seperators, _configuration.MaxSeperatorLength) 
+                    ?? StartsWithWhiteSpaceSurroundedSeperator(offset);
         }
 
 
@@ -226,7 +221,7 @@ namespace org.SharpTiles.Common
             int start = _index;
             string seperator = StartsWithSeperator(start);
             Read(seperator);
-            if (Configuration.IsWhiteSpaceSeperator(seperator) && HasNext())
+            if (_configuration.IsWhiteSpaceSeperator(seperator) && HasNext())
             {
                 Read(WhiteSpace);
             }
@@ -239,16 +234,16 @@ namespace org.SharpTiles.Common
             var builder = new StringBuilder();
             while (HasNext() &&
                    !(
-                        At(Seperator) ||
-                        (Configuration.ReturnLiterals && At(Literal)))
+                        Seperator() ||
+                        (_configuration.ReturnLiterals && Literal()))
                 )
             {
-                if (At(Escape))
+                if (Escape())
                 {
-                    Read(Escape);
+                    NextChar();
                     builder.Append(NextChar());
                 }
-                else if (At(Literal))
+                else if (Literal())
                 {
                     HandeLiteral(_index, builder);
                 }
@@ -257,8 +252,8 @@ namespace org.SharpTiles.Common
                     builder.Append(NextChar());
                 }
             }
-            string tokenStr = builder.ToString();
-            if (At(WhiteSpaceSurroundedSeperator))
+            var tokenStr = builder.ToString();
+            if (WhiteSpaceSurroundedSeperator())
             {
                 tokenStr = tokenStr.TrimEnd();
             }
@@ -267,11 +262,11 @@ namespace org.SharpTiles.Common
 
         private void DetermineState()
         {
-            if (At(Literal))
+            if (Literal())
             {
                 _state = TokenizerState.Literal;
             }
-            else if (At(Seperator))
+            else if (Seperator())
             {
                 _state = TokenizerState.Seperator;
             }
@@ -281,42 +276,40 @@ namespace org.SharpTiles.Common
             }
         }
 
-        private bool At(Is isMethod)
-        {
-            return isMethod(_index);
-        }
-
         private char Read(Is isMethod)
         {
-            if (!At(isMethod))
+            if (!isMethod())
             {
                 throw TokenException.Expected(isMethod, _index).Decorate(_current);
             }
             return NextChar();
         }
 
-        private bool Literal(int index)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private bool Literal()
         {
-            if (_overrideNoLiterals) return false;
-            return Configuration.IsLiteral(_template[index]);
+            return !_overrideNoLiterals && _configuration.IsLiteral(_template[_index]);
         }
 
-        private bool Escape(int index)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private bool Escape()
         {
-            return Configuration.IsEscapeCharacter(_template[index]);
+            return _configuration.IsEscapeCharacter(_template[_index]);
         }
 
-        private bool WhiteSpace(int index)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private bool WhiteSpace()
         {
-            return Char.IsWhiteSpace(_template[index]);
+            return Char.IsWhiteSpace(_template[_index]);
         }
 
-        public bool Seperator(int index)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Seperator()
         {
             return StartsWithSeperator(_index) != null;
         }
 
-        public bool WhiteSpaceSurroundedSeperator(int index)
+        public bool WhiteSpaceSurroundedSeperator()
         {
             return StartsWithWhiteSpaceSurroundedSeperator(_index) != null;
         }
@@ -329,7 +322,7 @@ namespace org.SharpTiles.Common
             }
         }
 
-        private delegate bool Is(int index);
+        private delegate bool Is();
 
         #endregion
 
@@ -390,20 +383,19 @@ namespace org.SharpTiles.Common
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private char NextChar()
         {
             return NextChar(ThrowExpectedMoreCharacters);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private char NextChar(Action onNoMoreCharacters)
         {
             if (!HasNext())
-            {
                 onNoMoreCharacters();
-            }
-            char c = _template[_index];
-            _index++;
-            return c;
+
+            return _template[_index++];
         }
 
         private void ThrowExpectedMoreCharacters()
@@ -419,9 +411,10 @@ namespace org.SharpTiles.Common
                 );
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private bool HasNext()
         {
-            return (_index + 1) <= _templateLength;
+            return _index < _templateLength;
         }
 
         #endregion
@@ -440,13 +433,13 @@ namespace org.SharpTiles.Common
         public void PushConfiguration(TokenizerConfiguration configuration)
         {
             _configurationStack.Push(configuration);
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
         public void PopConfiguration()
         {
             _configurationStack.Pop();
-            Configuration = _configurationStack.Peek();
+            _configuration = _configurationStack.Peek();
         }
 
         public void SetIndexTo(int index)

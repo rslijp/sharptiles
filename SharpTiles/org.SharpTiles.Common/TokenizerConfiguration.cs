@@ -18,6 +18,7 @@
  */
  using System;
  using System.Collections.Generic;
+ using System.Runtime.CompilerServices;
 
 namespace org.SharpTiles.Common
 {
@@ -146,14 +147,16 @@ namespace org.SharpTiles.Common
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsEscapeCharacter(char c)
         {
-            return EscapeCharacter.HasValue ? Equals(EscapeCharacter, c) : false;
+            return _escapeCharacter.HasValue && _escapeCharacter.Value == c;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsLiteral(char c)
         {
-            return _expectLiterals ? Literals.Contains(c) : false;
+            return _expectLiterals && _literals.Contains(c);
         }
 
 
