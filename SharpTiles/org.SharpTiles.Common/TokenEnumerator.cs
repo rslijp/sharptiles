@@ -32,8 +32,8 @@ namespace org.SharpTiles.Common
         private TokenizerState _state = TokenizerState.NotSet;
         private ParseContext _offSet;
         private bool _overrideNoLiterals;
-        private string _template;
-        private int _templateLength;
+        private readonly string _template;
+        private readonly int _templateLength;
 
         public TokenEnumerator(string template, TokenizerConfiguration configuration, ParseContext offSet=null)
         {
@@ -101,7 +101,7 @@ namespace org.SharpTiles.Common
             switch (_state)
             {
                 case TokenizerState.Seperator:
-                    HandeSeperator();
+                    HandleSeperator();
                     break;
                 case TokenizerState.Literal:
                     if (_configuration.ReturnLiterals)
@@ -187,17 +187,17 @@ namespace org.SharpTiles.Common
             var c = _template[offset].ToString();
             return seperators.Contains(c) ? c : null;            
         }
-
-        private string StartsWithWhiteSpacePrefixedSeperator(int offset)
-        {
-            string result = null;
-            bool whiteSpaceBefore = IndexIsWhiteSpace(offset - 1);
-            if (whiteSpaceBefore)
-            {
-                result = SeperatorAt(offset, _configuration.WhiteSpaceSeperators, _configuration.MaxWhiteSpaceSeperatorsLength);
-            }
-            return result;
-        }
+//
+//        private string StartsWithWhiteSpacePrefixedSeperator(int offset)
+//        {
+//            string result = null;
+//            bool whiteSpaceBefore = IndexIsWhiteSpace(offset - 1);
+//            if (whiteSpaceBefore)
+//            {
+//                result = SeperatorAt(offset, _configuration.WhiteSpaceSeperators, _configuration.MaxWhiteSpaceSeperatorsLength);
+//            }
+//            return result;
+//        }
 
         private string StartsWithWhiteSpaceSurroundedSeperator(int offset)
         {
@@ -233,11 +233,11 @@ namespace org.SharpTiles.Common
         public string StartsWithSeperator(int offset)
         {
             return SeperatorAt(offset, _configuration.Seperators, _configuration.MaxSeperatorLength) 
-                    ?? StartsWithWhiteSpacePrefixedSeperator(offset);
+                    ?? StartsWithWhiteSpaceSurroundedSeperator(offset);
         }
 
 
-        private void HandeSeperator()
+        private void HandleSeperator()
         {
             int start = _index;
             string seperator = StartsWithSeperator(start);
@@ -321,7 +321,7 @@ namespace org.SharpTiles.Common
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private bool WhiteSpace()
         {
-            return Char.IsWhiteSpace(_template[_index]);
+            return char.IsWhiteSpace(_template[_index]);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
