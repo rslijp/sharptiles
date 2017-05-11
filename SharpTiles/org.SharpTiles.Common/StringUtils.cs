@@ -22,17 +22,25 @@ namespace org.SharpTiles.Common
 {
     public static class StringUtils
     {
+        private static readonly string[] _predefinedChars = { "&", "<", ">", "\"", "'" };
+        private static readonly string[] _predefinedEntities = { "&amp;", "&lt;", "&gt;", "&quot;", "&apos;" };
+
         public static string EscapeXml(string text)
         {
-            return text == null
-                       ? null
-                       :
-                           text.Replace("&", "&amp;").
-                               Replace("<", "&lt;").
-                               Replace(">", "&gt;").
-                               Replace("\"", "&quot;").
-                               Replace("'", "&apos;");
+            var result = text;
+            for (int i = 0; i < _predefinedChars.Length; i++)
+                result = result.Replace(_predefinedChars[i], _predefinedEntities[i]);
+            return result;
         }
+
+        public static string UnescapeXml(string text)
+        {
+            var result = text;
+            for (int i = _predefinedEntities.Length - 1; i >= 0; i--)
+                result = result.Replace(_predefinedEntities[i], _predefinedChars[i]);
+            return result;
+        }
+
 
         public static string FormatAsProperty(string property)
         {
