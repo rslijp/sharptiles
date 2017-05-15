@@ -43,13 +43,13 @@ namespace org.SharpTiles.Templates
             {
                 return _tag.Evaluate(model);
             }
-            catch (ExceptionWithContext EWC)
+            catch (ExceptionWithContext ewc)
             {
-                if (EWC.Context == null)
+                if (ewc.Context == null)
                 {
-                    throw ExceptionWithContext.MakePartial(EWC).Decorate(_tag.Context);
+                    throw ExceptionWithContext.MakePartial(ewc).Decorate(_tag.Context);
                 }
-                throw EWC;
+                throw;
             }
             catch (Exception e)
             {
