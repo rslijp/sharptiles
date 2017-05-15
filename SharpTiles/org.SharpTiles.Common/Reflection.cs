@@ -24,6 +24,10 @@ using System.Reflection;
 
 namespace org.SharpTiles.Common
 {
+    public enum ReflectionMode
+    {
+        Normal, Strict, Loose
+    }
     public class Reflection : IReflectionModel
     {
         private static IDictionary<CacheKey, ReflectionPropertyResult> HANDLER_CACHE = new Dictionary<CacheKey, ReflectionPropertyResult>();
@@ -39,7 +43,7 @@ namespace org.SharpTiles.Common
         #endregion
 
         public const string SEPERATOR = ".";
-        private bool strict = false;
+        public ReflectionMode Mode { get; private set; } = ReflectionMode.Normal;
 
         private readonly object _subject;
         private ResolveObject _objectResolver;
@@ -69,7 +73,13 @@ namespace org.SharpTiles.Common
 
         public Reflection BecomeStrict()
         {
-            strict = true;
+            Mode = ReflectionMode.Strict;
+            return this;
+        }
+
+        public Reflection BecomeLoose()
+        {
+            Mode = ReflectionMode.Loose;
             return this;
         }
 
@@ -80,7 +90,7 @@ namespace org.SharpTiles.Common
             get
             {
                 var result = GetProperty(_subject, property, 0);
-                if (result.ReflectionException != null && (strict || !result.ReflectionException.IgnoreOnGet)) throw result.ReflectionException;
+                if (result.ReflectionException != null && (Mode == ReflectionMode.Strict || !result.ReflectionException.IgnoreOnGet)) throw result.ReflectionException;
                 return result.Result;
             }
             set
@@ -176,6 +186,8 @@ namespace org.SharpTiles.Common
 
         private ReflectionResult GetCurrentProperty(object source, string property, int level)
         {
+            if (source == null && Mode == ReflectionMode.Loose)
+                return new ReflectionResult {Result = null};
             var propertyHandler = DeterminePropertyHandlerCached(source, property);
             if (propertyHandler.ReflectionException != null)
             {

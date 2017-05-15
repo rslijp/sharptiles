@@ -72,7 +72,7 @@ namespace org.SharpTiles.Common
 
         public static ReflectionExceptionWithContext DecorateWithContext(ReflectionException re, ParseContext context)
         {
-            return ReflectionExceptionWithContext.MakePartial(new ReflectionExceptionWithContext(re.Message)).Decorate(context);
+            return ReflectionExceptionWithContext.MakePartial(new ReflectionExceptionWithContext(re.Message, re)).Decorate(context);
         }
 
         public class ReflectionExceptionWithContext : ExceptionWithContext
