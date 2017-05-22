@@ -361,7 +361,7 @@ namespace org.SharpTiles.Expressions.Test
                 Assert.That(EPe.Message, Is
                                              .EqualTo(ConvertException.CannotConvert(
                                                           typeof(decimal),
-                                                          true.ToString()).Message));
+                                                          true).Message));
             }
         }
 
@@ -397,7 +397,7 @@ namespace org.SharpTiles.Expressions.Test
                 Assert.That(EPe.Message, Is
                                              .EqualTo(ConvertException.CannotConvert(
                                                           typeof (decimal),
-                                                          true.ToString()).Message));
+                                                          true).Message));
             }
         }
 
@@ -433,7 +433,7 @@ namespace org.SharpTiles.Expressions.Test
                 Assert.That(EPe.Message, Is
                                              .EqualTo(ConvertException.CannotConvert(
                                                           typeof (decimal),
-                                                          true.ToString()).Message));
+                                                          true).Message));
             }
         }
 
@@ -469,7 +469,7 @@ namespace org.SharpTiles.Expressions.Test
                 Assert.That(EPe.Message, Is
                                              .EqualTo(ConvertException.CannotConvert(
                                                           typeof (bool),
-                                                          "42").Message));
+                                                          42m).Message));
             }
         }
 
@@ -505,7 +505,7 @@ namespace org.SharpTiles.Expressions.Test
                 Assert.That(EPe.Message, Is
                                              .EqualTo(ConvertException.CannotConvert(
                                                           typeof (bool),
-                                                          "42").Message));
+                                                          42m).Message));
             }
         }
 
@@ -541,7 +541,7 @@ namespace org.SharpTiles.Expressions.Test
                 Assert.That(EPe.Message, Is
                                              .EqualTo(ConvertException.CannotConvert(
                                                           typeof (bool),
-                                                          "42").Message));
+                                                          42m).Message));
             }
         }
 
@@ -602,7 +602,7 @@ namespace org.SharpTiles.Expressions.Test
                 Assert.That(EPe.Message, Is
                                              .EqualTo(ConvertException.CannotConvert(
                                                           typeof (bool),
-                                                          "42").Message));
+                                                          42m).Message));
             }
         }
 
@@ -814,7 +814,7 @@ namespace org.SharpTiles.Expressions.Test
                 Assert.That(EPe.Message, Is
                                              .EqualTo(ConvertException.CannotConvert(
                                                           typeof (bool),
-                                                          "42").Message));
+                                                          42m).Message));
             }
         }
 
@@ -850,7 +850,7 @@ namespace org.SharpTiles.Expressions.Test
                 Assert.That(EPe.Message, Is
                                              .EqualTo(ConvertException.CannotConvert(
                                                           typeof (bool),
-                                                          "42").Message));
+                                                          42m).Message));
             }
         }
 

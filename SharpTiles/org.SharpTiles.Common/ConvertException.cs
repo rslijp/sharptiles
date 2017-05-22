@@ -27,9 +27,26 @@ namespace org.SharpTiles.Common
         {
         }
 
+        private static string PrettyName(Type target)
+        {
+            if (target == null) return "object";
+            if (target.IsGenericType && target.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                var realTarget = target.GetGenericArguments()[0];
+                return realTarget.Name + "?";
+            }
+            return target.Name; 
+        }
+
         public static ConvertException CannotConvert(Type expected, object found)
         {
-            String msg = String.Format("Cannot convert {1} to {0}", found ?? "null", expected.Name);
+            String msg = String.Format("Cannot convert {0}({1}) to {2}", found ?? "null", PrettyName(found?.GetType()), PrettyName(expected));
+            return new ConvertException(msg);
+        }
+
+        public static ConvertException CannotConvertValue(Type expected, object found)
+        {
+            String msg = String.Format("Cannot convert value {0}({1}) to {2}", found ?? "null", PrettyName(found?.GetType()), PrettyName(expected));
             return new ConvertException(msg);
         }
 

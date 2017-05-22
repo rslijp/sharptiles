@@ -21,6 +21,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Reflection;
+using Newtonsoft.Json.Linq;
 
 namespace org.SharpTiles.Common
 {
@@ -332,6 +333,10 @@ namespace org.SharpTiles.Common
             {
                 result = new PropertyHandler(GetNameValueCollection, SetNameValueCollection);
             }
+            else if (source is JObject)
+            {
+                result = new PropertyHandler(GetJObject, SetNameValueCollection);
+            }
             else if (source is Array)
             {
                 result = new PropertyHandler(GetArray, SetArray);
@@ -438,6 +443,19 @@ namespace org.SharpTiles.Common
             {
                 var sourceAsList = (NameValueCollection)source;
                 return new ReflectionResult { Result = sourceAsList[property] };
+            }
+            catch (KeyNotFoundException e)
+            {
+                throw new KeyNotFoundException($"Property '{property}' not found in {source}.", e);
+            }
+        }
+
+        private static ReflectionResult GetJObject(string property, object source)
+        {
+            try
+            {
+                var json = (JObject)source;
+                return new ReflectionResult { Result = json[property] };
             }
             catch (KeyNotFoundException e)
             {

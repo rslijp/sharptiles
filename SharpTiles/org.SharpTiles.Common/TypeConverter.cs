@@ -36,6 +36,7 @@ namespace org.SharpTiles.Common
             REGISTERED.Add(typeof (float), (source, culture) => (float) Convert.ToDouble(source, culture.NumberFormat));
             REGISTERED.Add(typeof (double), (source, culture) => (object) Convert.ToDouble(source, culture.NumberFormat));
             REGISTERED.Add(typeof (bool), (source, culture) => (object) Convert.ToBoolean(source));
+            REGISTERED.Add(typeof (Guid), (source, culture) => (object) Guid.ParseExact(source,"D"));
             REGISTERED.Add(typeof (int?),
                            (source, culture) => source != null ? (object) Convert.ToInt32(source) : null);
             REGISTERED.Add(typeof (decimal?),
@@ -46,6 +47,8 @@ namespace org.SharpTiles.Common
                            (source, culture) => source != null ? (object) Convert.ToDouble(source, culture.NumberFormat) : null);
             REGISTERED.Add(typeof (bool?),
                            (source, culture) => source != null ? (object) Convert.ToBoolean(source) : null);
+            REGISTERED.Add(typeof(Guid?),
+                (source, culture) => source != null ? (object)Guid.ParseExact(source, "D") : null);
             REGISTERED.Add(typeof (string),
                            (source, culture) => source != null ? source.ToString() : null);
 
@@ -79,6 +82,12 @@ namespace org.SharpTiles.Common
                 if (source == null || "".Equals(source)) return false;
                 return bool.TryParse(source.ToString(), out result);
             });
+            REGISTER_CAN.Add(typeof(Guid), (source, culture) =>
+            {
+                Guid result;
+                if (source == null || "".Equals(source)) return false;
+                return Guid.TryParse(source.ToString(), out result);
+            });
             REGISTER_CAN.Add(typeof(int?), (source, culture) =>
             {
                 int result;
@@ -109,7 +118,12 @@ namespace org.SharpTiles.Common
                 if (source == null || "".Equals(source)) return true;
                 return bool.TryParse(source.ToString(), out result);
             });
-
+            REGISTER_CAN.Add(typeof(Guid?), (source, culture) =>
+            {
+                Guid result;
+                if (source == null || "".Equals(source)) return true;
+                return Guid.TryParse(source.ToString(), out result);
+            });
 
             REGISTERED_NUMERICS.Add(typeof (int));
             REGISTERED_NUMERICS.Add(typeof (int?));
@@ -132,19 +146,51 @@ namespace org.SharpTiles.Common
             try
             {
                 if (source == null ||
-                    Equals(target, typeof (object)) ||
-                    Equals(source.GetType(), target) ||
-                    source.GetType().GetInterfaces().Any(t => Equals(t, target)))
+                    target == typeof (object) ||
+                    source.GetType() == target ||
+                    source.GetType().GetInterfaces().Any(t => t == target))
                 {
                     return source;
                 }
+                if (target.IsGenericType && target.GetGenericTypeDefinition() == typeof(Nullable<>))
+                {
+                    var realTarget = target.GetGenericArguments()[0];
+                    if (source.GetType() == realTarget ||
+                        source.GetType().GetInterfaces().Any(t => t == realTarget))
+                    {
+                        return source;
+                    }
+                }
+                if (target.IsEnum)
+                {
+                    return ToEnum(source, target,culture);
+                }
                 var formattable = source as IFormattable;
                 var text = formattable?.ToString(null, culture) ?? source.ToString();
-                return REGISTERED[target](text, culture);
+                ConvertTo convertTo = null;
+                if(!REGISTERED.TryGetValue(target, out convertTo)) throw ConvertException.CannotConvert(target, source);
+                return convertTo(text, culture);
             }
             catch (FormatException)
             {
                 throw ConvertException.CannotConvert(target, source);
+            }
+        }
+
+        private static object ToEnum(object source, Type target, CultureInfo culture)
+        {
+            try
+            {
+                if (source?.GetType() == typeof(string))
+                {
+                    return Enum.Parse(target, (string) source);
+                }
+                var intValue = REGISTERED[target](source.ToString(), culture);
+                return Enum.ToObject(target, intValue);
+            }
+            catch (ArgumentException)
+            {
+                throw ConvertException.CannotConvertValue(target, source);
             }
         }
 

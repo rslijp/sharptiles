@@ -47,6 +47,11 @@ namespace org.SharpTiles.Common.Test
             get { return _model; }
         }
 
+        public class TestNullableSubject
+        {
+            public Guid Regular { get; set; }
+            public Guid? Nullable { get; set; }
+        }
 
         public class TestSubject
         {
@@ -128,6 +133,46 @@ namespace org.SharpTiles.Common.Test
             var reflection = new Reflection(model);
             model.Add("Model", new Hashtable());
             Assert.IsNull(reflection["Model.text"]);
+        }
+
+        [Test]
+        public void Nullable_Bug_1()
+        {
+            var model = new TestNullableSubject();
+            var reflection = new Reflection(model);
+            var g = Guid.NewGuid();
+            reflection["Regular"] = g;
+            Assert.That(model.Regular, Is.EqualTo(g));
+        }
+
+        [Test]
+        public void Nullable_Bug_2()
+        {
+            var model = new TestNullableSubject();
+            var reflection = new Reflection(model);
+            var g = Guid.NewGuid();
+            reflection["Nullable"] = g;
+            Assert.That(model.Nullable, Is.EqualTo(g));
+        }
+
+        [Test]
+        public void Nullable_Bug_3()
+        {
+            var model = new TestNullableSubject();
+            var reflection = new Reflection(model);
+            var g = Guid.NewGuid();
+            reflection["Regular"] = g.ToString();
+            Assert.That(model.Regular, Is.EqualTo(g));
+        }
+
+        [Test]
+        public void Nullable_Bug_4()
+        {
+            var model = new TestNullableSubject();
+            var reflection = new Reflection(model);
+            var g = Guid.NewGuid();
+            reflection["Nullable"] = g.ToString();
+            Assert.That(model.Nullable, Is.EqualTo(g));
         }
 
 
