@@ -117,7 +117,7 @@ namespace org.SharpTiles.Tags.CoreTags
         public decimal? GetAutoValueAsDecimal(string propertyName, TagModel model)
         {
             object result = GetAutoValue(propertyName, model);
-            return (decimal?)TypeConverter.To(result, typeof(decimal?));
+            return (decimal?)TypeConverter.To(result, typeof(decimal?), model.GetApplicableCulture());
         }
 
         public DateTime? GetAutoValueAsDateTime(string propertyName, TagModel model)
@@ -137,7 +137,7 @@ namespace org.SharpTiles.Tags.CoreTags
             }
             try
             {
-                return DateTime.ParseExact(dateStr, pattern, CultureInfo.CurrentCulture);
+                return DateTime.ParseExact(dateStr, pattern, model.GetApplicableCulture());
             }
             catch (FormatException Fe)
             {

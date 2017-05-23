@@ -45,4 +45,11 @@ namespace org.SharpTiles.Tags.FormatTags
             NUMBERSTYLES.Add(NumberType.Percentage, NumberStyles.Number);
         }
     }
+
+    public static class LocaleModelExtensions {
+        public static CultureInfo GetApplicableCulture(this TagModel model)
+        {
+            return (model.TryGet(FormatConstants.LOCALE) as CultureInfo) ?? CultureInfo.CurrentCulture;
+        }
+    }
 }
