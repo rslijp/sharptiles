@@ -56,7 +56,12 @@ let RunUnit3 (dllName: string) =
     let outputXml = (testDir+"/"+dllName+".results.xml")
     let outputTxt = (testDir+"/"+dllName+".results.txt")
     //CreateDir outputDir
-    let result = Shell.Exec("tools/nunit3/nunit-console", "--labels=All --workers=1 --result="+outputXml+" --output="+outputTxt+" "+buildDir+"/"+dllName)
+    let result = Shell.Exec("tools/nunit3/nunit-console", "--labels=All --exclude:Performance --workers=1 --result="+outputXml+" --output="+outputTxt+" "+buildDir+"/"+dllName+"/"+dllName+".dll")
+    if result <> 0 then failwithf "nunit failed for %s\n" dllName
+    //if result <> 0 then printf "nunit failed for %s\n" dllName
+
+let RunUnit3Old (dllName: string) =
+    let result = Shell.Exec("tools/nunit3/nunit-console", "--labels=All --exclude:Performance --workers=1 --out=build/tests/"+dllName+".result.xml build/tests/"+dllName+"/"+dllName+".dll")
     if result <> 0 then failwithf "nunit failed for %s\n" dllName
     //if result <> 0 then printf "nunit failed for %s\n" dllName
 
