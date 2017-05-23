@@ -53,7 +53,10 @@ let MergeAssemblies (dllNames: string list) =
     if result <> 0 then failwithf "ILMerge failed for %s based on %s\n" "org.SharpTiles.dll" dllNamesArg 
 
 let RunUnit3 (dllName: string) =
-    let result = Shell.Exec("tools/nunit3/nunit-console", "--labels=All --exclude:Performance --workers=1 --out=build/tests/"+dllName+".result.xml build/tests/"+dllName+"/"+dllName+".dll")
+    let outputXml = (testDir+"/"+dllName+".results.xml")
+    let outputTxt = (testDir+"/"+dllName+".results.txt")
+    //CreateDir outputDir
+    let result = Shell.Exec("tools/nunit3/nunit-console", "--labels=All --workers=1 --result="+outputXml+" --output="+outputTxt+" "+buildDir+"/"+dllName)
     if result <> 0 then failwithf "nunit failed for %s\n" dllName
     //if result <> 0 then printf "nunit failed for %s\n" dllName
 
