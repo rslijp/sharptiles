@@ -39,6 +39,12 @@ namespace org.SharpTiles.Common
             return new ReflectionException(msg);
         }
 
+        public static ReflectionException KeyNotFound(string key)
+        {
+            string msg = $"There's no key '{key}' defined on this indexer'.";
+            return new ReflectionException(msg);
+        }
+
         public static ReflectionException NoSourceAvailable(string property)
         {
             string msg = string.Format("There's no source(null) to evaluate property '{0}' on.", property);

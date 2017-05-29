@@ -432,7 +432,10 @@ namespace org.SharpTiles.Common
             }
             catch (KeyNotFoundException e)
             {
-                throw new KeyNotFoundException($"Property '{property}' not found in {source}.", e);
+                return new ReflectionResult
+                {
+                    ReflectionException = ReflectionException.KeyNotFound(property)
+                };
             }
         }
 
@@ -446,7 +449,10 @@ namespace org.SharpTiles.Common
             }
             catch (KeyNotFoundException e)
             {
-                throw new KeyNotFoundException($"Property '{property}' not found in {source}.", e);
+                return new ReflectionResult
+                {
+                    ReflectionException = ReflectionException.KeyNotFound(property)
+                };
             }
         }
 
@@ -459,7 +465,10 @@ namespace org.SharpTiles.Common
             }
             catch (KeyNotFoundException e)
             {
-                throw new KeyNotFoundException($"Property '{property}' not found in {source}.", e);
+                return new ReflectionResult
+                {
+                    ReflectionException = ReflectionException.KeyNotFound(property)
+                };
             }
         }
 
@@ -473,7 +482,11 @@ namespace org.SharpTiles.Common
             }
             catch (KeyNotFoundException e)
             {
-                throw new KeyNotFoundException($"Property '{property}' not found in {source}.", e);
+
+                return new ReflectionResult
+                {
+                    ReflectionException = ReflectionException.KeyNotFound(property)
+                };
             }
         }
 
@@ -489,7 +502,10 @@ namespace org.SharpTiles.Common
             }
             catch (KeyNotFoundException e)
             {
-                throw new KeyNotFoundException($"Property '{property}' not found in {source}.", e);
+                return new ReflectionResult
+                {
+                    ReflectionException = ReflectionException.KeyNotFound(property)
+                };
             }
         }
 
