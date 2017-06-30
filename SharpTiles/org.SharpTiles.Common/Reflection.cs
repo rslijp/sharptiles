@@ -130,7 +130,7 @@ namespace org.SharpTiles.Common
         {
             var exception = GuardPropertyIsSet(property);
             if (exception != null) return new ReflectionResult { ReflectionException = exception };
-            int split = property.IndexOf(SEPERATOR);
+            int split = property.IndexOf(SEPERATOR, StringComparison.Ordinal);
             if (split >= 0)
             {
                 string head = property.Substring(0, split);
@@ -149,7 +149,7 @@ namespace org.SharpTiles.Common
         {
             var exception = GuardPropertyIsSet(property);
             if (exception != null) return new ReflectionResult { ReflectionException = exception };
-            int split = property.IndexOf(SEPERATOR);
+            int split = property.IndexOf(SEPERATOR, StringComparison.Ordinal);
             if (split >= 0)
             {
                 string head = property.Substring(0, split);
@@ -238,9 +238,9 @@ namespace org.SharpTiles.Common
 
             public override bool Equals(object obj)
             {
-                CacheKey cacheKey = obj as CacheKey;
+                var cacheKey = obj as CacheKey;
                 if (cacheKey == null) return false;
-                return Equals(_type, cacheKey._type) && Equals(_property, cacheKey._property);
+                return _type == cacheKey._type && Equals(_property, cacheKey._property);
             }
 
             public override int GetHashCode()
