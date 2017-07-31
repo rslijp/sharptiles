@@ -100,6 +100,8 @@ namespace org.SharpTiles.Tags
             _response = response;
         }
 
+        public bool ThrowExceptionOnGet { get; set; } = true;
+
         public Stack<TagStackModel> TagVariables
         {
             get { return _tagVariables; }
@@ -165,7 +167,7 @@ namespace org.SharpTiles.Tags
         {
             get
             {
-                return HasScopePrefix(property) ? _internal[property] : Resolve(property, true);
+                return HasScopePrefix(property) ? _internal[property] : Resolve(property, ThrowExceptionOnGet);
             }
             set
             {
