@@ -664,6 +664,21 @@ namespace org.SharpTiles.Common
             return new ReflectionResult();
         }
 
+        public bool HasProperty(string property)
+        {
+            return AcquirePropertyInfo(property, _subject)?.PropertyInfo !=  null;
+        }
+
+        public bool HasPropertyGetter(string property)
+        {
+            return AcquirePropertyInfo(property, _subject)?.PropertyInfo?.GetMethod?.IsPublic ?? false;
+        }
+
+        public bool HasPropertySetter(string property)
+        {
+            return AcquirePropertyInfo(property, _subject)?.PropertyInfo?.SetMethod?.IsPublic ?? false;
+        }
+
         private static PropertyInfoResult AcquirePropertyInfo(string property, object source)
         {
             Type type = source.GetType();
