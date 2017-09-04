@@ -46,6 +46,7 @@ namespace org.SharpTiles.Expressions.Functions
             RegisterFunction(new NowFunction());
             RegisterFunction(new PathFunction());
             RegisterFunction(new PathCombineFunction());
+            RegisterFunction(new FallbackFunction());
         }
 
         public override string GroupName

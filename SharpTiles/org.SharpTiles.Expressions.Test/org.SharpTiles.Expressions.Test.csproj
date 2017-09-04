@@ -72,6 +72,8 @@
     <Compile Include="ConcatTest.cs" />
     <Compile Include="ConcatWithSpaceTest.cs" />
     <Compile Include="Functions\CustomFunctionLibTest.cs" />
+    <Compile Include="Functions\FallbackFuntionTest.cs" />
+    <Compile Include="Functions\FunctionArgumentsExtensions.cs" />
     <Compile Include="Functions\RegExReplaceFunctionTest.cs" />
     <Compile Include="Functions\ReverseFunctionTest.cs" />
     <Compile Include="Math\AbsFunctionTest.cs" />

@@ -53,21 +53,55 @@ namespace org.SharpTiles.Expressions.Functions
             get { return _function.ReturnType; }
         }
 
+
+
+
         public override void GuardTypeSafety()
         {
-            for (int i = 0; i < _function.Arguments.Length; i++)
+            if (_function.IsParamsFunctions())
             {
-                Expression node = _nested.Nodes[i];
-                if (node == null || node.ReturnType == null || typeof(object).Equals(_function.Arguments[i].Type)) continue;
-                if (_function.Arguments[i].Type.IsInterface)
+                var argumentType = _function.Arguments[0].Type;
+                for (int i = 0; i < _nested.Nodes.Count; i++)
                 {
-                    if (!node.ReturnType.GetInterfaces().Contains(_function.Arguments[i].Type)) throw ConvertException.StaticTypeSafety(_function.Arguments[i].Type, node.ReturnType, node.ToString());
+                    Expression node = _nested.Nodes[i];
+                    if (node == null || node.ReturnType == null ||
+                        typeof(object).Equals(argumentType)) continue;
+                    if (_function.Arguments[i].Type.IsInterface)
+                    {
+                        if (!node.ReturnType.GetInterfaces().Contains(argumentType))
+                            throw ConvertException.StaticTypeSafety(argumentType, node.ReturnType,
+                                node.ToString());
+                    }
+                    else
+                    {
+                        if (node.ReturnType != _function.Arguments[i].Type)
+                            throw ConvertException.StaticTypeSafety(argumentType, node.ReturnType,
+                                node.ToString());
+                    }
+                    node.GuardTypeSafety();
                 }
-                else
+            }
+            else
+            {
+                for (int i = 0; i < _function.Arguments.Length; i++)
                 {
-                    if (node.ReturnType != _function.Arguments[i].Type) throw ConvertException.StaticTypeSafety(_function.Arguments[i].Type, node.ReturnType, node.ToString());
+                    Expression node = _nested.Nodes[i];
+                    if (node == null || node.ReturnType == null ||
+                        typeof(object).Equals(_function.Arguments[i].Type)) continue;
+                    if (_function.Arguments[i].Type.IsInterface)
+                    {
+                        if (!node.ReturnType.GetInterfaces().Contains(_function.Arguments[i].Type))
+                            throw ConvertException.StaticTypeSafety(_function.Arguments[i].Type, node.ReturnType,
+                                node.ToString());
+                    }
+                    else
+                    {
+                        if (node.ReturnType != _function.Arguments[i].Type)
+                            throw ConvertException.StaticTypeSafety(_function.Arguments[i].Type, node.ReturnType,
+                                node.ToString());
+                    }
+                    node.GuardTypeSafety();
                 }
-                node.GuardTypeSafety();
             }
         }
 
@@ -82,11 +116,23 @@ namespace org.SharpTiles.Expressions.Functions
         public override object Evaluate(IModel model)
         {
             var parameters = new List<object>();
-            for (int i = 0; i < _function.Arguments.Length; i++)
+            if (_function.Arguments.Length == 1 && _function.Arguments[0].Params)
             {
-                Expression node = _nested.Nodes[i];
-                object value = node.Evaluate(model);
-                parameters.Add(TypeConverter.To(value, _function.Arguments[i].Type));
+                for (int pi = 0; pi < _nested.Nodes.Count; pi++)
+                {
+                    Expression node = _nested.Nodes[pi];
+                    object value = node.Evaluate(model);
+                    parameters.Add(TypeConverter.To(value, _function.Arguments[0].Type));
+                }
+            } 
+            else
+            {
+                for (int i = 0; i < _function.Arguments.Length; i++)
+                {
+                    Expression node = _nested.Nodes[i];
+                    object value = node.Evaluate(model);
+                    parameters.Add(TypeConverter.To(value, _function.Arguments[i].Type));
+                }
             }
             try
             {

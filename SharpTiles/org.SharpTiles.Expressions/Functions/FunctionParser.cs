@@ -73,6 +73,11 @@ namespace org.SharpTiles.Expressions
             {
                    BracketsParser.MunchEmptyBrackets(parseHelper);
             }
+            else if (function.IsParamsFunctions())
+            {
+                var bp = new BracketsParser(true, function.Arguments.Length, true);
+                bp.Parse(parseHelper);
+            }
             else
             {
                 var bp = new BracketsParser(true, function.Arguments.Length);
@@ -91,6 +96,11 @@ namespace org.SharpTiles.Expressions
         {
             var brackets = (Brackets) parseHelper.Pop();
             var function = (Function) parseHelper.Top;
+            if (function.IsParamsFunctions())
+            {
+                function.FillNested(brackets);
+                return;
+            }
             if (brackets.Nodes.Count < function.Arguments.Length)
             {
                 throw ExpressionParseException.ExpectedMoreParameter(function, brackets.Nodes.Count,

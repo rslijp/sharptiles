@@ -30,6 +30,8 @@ namespace org.SharpTiles.Expressions.Functions
         public string Name { get; set; }
         [DataMember]
         public Type Type { get; set; }
+        [DataMember]
+        public bool Params { get; set; }
 
     }
 }

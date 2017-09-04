@@ -22,18 +22,18 @@ using org.SharpTiles.Expressions.Functions;
 
 namespace org.SharpTiles.Expressions
 {
-    public class EmptyFunction : IFunctionDefinition
+    public class FallbackFunction : IFunctionDefinition
     {
         private static readonly FunctionArgument[] ARGUMENTS = new[]
                              {
-                                 new FunctionArgument{ Type = typeof (object), Name = "arg"}
+                                 new FunctionArgument{ Type = typeof (object), Name = "arg", Params = true}
                              };
 
         #region IFunctionDefinition Members
 
         public string Name
         {
-            get { return "empty"; }
+            get { return "fallback"; }
         }
 
         public FunctionArgument[] Arguments
@@ -43,32 +43,20 @@ namespace org.SharpTiles.Expressions
 
         public Type ReturnType
         {
-            get { return typeof (bool); }
+            get { return typeof(object); }
         }
 
         public object Evaluate(params object[] parameters)
         {
-            object subject = parameters[0];
-            return IsEmpty(subject);
+            for (var i = 0; i < parameters.Length; i++)
+            {
+                var subject = parameters[i];
+                if (!EmptyFunction.IsEmpty(subject)) return subject;
+            }
+            return null;
         }
 
-        public static bool IsEmpty(object subject)
-        {
-            if (subject == null)
-            {
-                {
-                    return true;
-                }
-            }
-            if (subject is IEnumerable)
-            {
-                IEnumerator enumerator = ((IEnumerable)subject).GetEnumerator();
-                {
-                    return !enumerator.MoveNext();
-                }
-            }
-            return false;
-        }
+       
 
         #endregion
     }

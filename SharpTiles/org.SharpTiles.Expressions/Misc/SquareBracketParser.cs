@@ -25,8 +25,8 @@ namespace org.SharpTiles.Expressions
     {
         public static string BRACKETS_OPEN = "[";
         public static string BRACKETS_CLOSE = "]";
-        private readonly int _arguments;
-        private readonly bool _functionArgument;
+//        private readonly int _arguments;
+//        private readonly bool _functionArgument;
         private static readonly Type TYPE = typeof (SquareBrackets);
         
         #region IExpressionParser Members

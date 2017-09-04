@@ -34,14 +34,17 @@ namespace org.SharpTiles.Expressions
         private readonly int _arguments;
         private readonly bool _functionArgument;
         private static readonly Type TYPE = typeof (Brackets);
+        private bool _paramsArgument;
+
         public BracketsParser() : this(false, 1)
         {
         }
 
-        public BracketsParser(bool functionArgument, int arguments)
+        public BracketsParser(bool functionArgument, int arguments, bool paramsArgument=false)
         {
             _functionArgument = functionArgument;
             _arguments = arguments;
+            _paramsArgument = paramsArgument;
         }
 
         #region IExpressionParser Members
@@ -78,17 +81,25 @@ namespace org.SharpTiles.Expressions
             {
                 var token = parseHelper.Current;
                 parseHelper.Expect(BRACKETS_OPEN);
-                var brackets = new Brackets(_functionArgument, _arguments) {Token = token};
+                var brackets = new Brackets(_functionArgument, _arguments,_paramsArgument) {Token = token};
                 parseHelper.Push(brackets);
                 parseHelper.ParseExpression();
             }
             else
             {
-                parseHelper.Reduce(TYPE);
-                var nested = parseHelper.Pop();
-                parseHelper.Expect(nameof(BracketsParser), SIGNS);
-                var brackets = ((Brackets) parseHelper.Top);
-                brackets.FillNext(nested);
+                Brackets brackets;
+                if (!parseHelper.PreviousWas(BRACKETS_OPEN))
+                {
+                    parseHelper.Reduce(TYPE);
+                    var nested = parseHelper.Pop();
+                    parseHelper.Expect(nameof(BracketsParser), SIGNS);
+                    brackets = ((Brackets) parseHelper.Top);
+                    brackets.FillNext(nested);
+                }
+                else
+                {
+                    brackets = ((Brackets)parseHelper.Top);
+                }
                 if (parseHelper.At(BRACKETS_CLOSE) && brackets.PartOfFunction)
                 {
                     FunctionParser.FillArguments(parseHelper);

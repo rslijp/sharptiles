@@ -30,16 +30,18 @@ namespace org.SharpTiles.Expressions
         private readonly int _arguments;
         private readonly List<Expression> _nodes;
         private readonly bool _partOfFunction;
+        private bool _paramsArgument;
 
         public Brackets()
         {
         }
 
-        public Brackets(bool partOfFunction, int arguments)
+        public Brackets(bool partOfFunction, int arguments, bool paramsArgument=false)
         {
             _partOfFunction = partOfFunction;
             _arguments = arguments;
             _nodes = new List<Expression>();
+            _paramsArgument = paramsArgument;
         }
 
         public Brackets(Expression nested) : this(false, 1)
@@ -95,7 +97,7 @@ namespace org.SharpTiles.Expressions
             {
                 throw ExpressionParseException.BracketsAreNotUsedInFunction("Adding second parameter").Decorate(Token);
             }
-            if (AllFilled)
+            if (!_paramsArgument && AllFilled)
             {
                 throw ExpressionParseException.UnExpectedParameter(exp).Decorate(Token);
             }

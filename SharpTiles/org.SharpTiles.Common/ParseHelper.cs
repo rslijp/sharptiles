@@ -94,7 +94,13 @@ namespace org.SharpTiles.Common
             return Current != null ? Current.Contents.Equals(expected) : false;
         }
 
-        
+        public bool PreviousWas(string expected)
+        {
+            return Previous != null ? Previous.Contents.Equals(expected) : false;
+        }
+
+
+
         public bool At(ICollection<string> expectedTokens)
         {
             Token current = Current;
