@@ -100,6 +100,8 @@ namespace org.SharpTiles.Tags
             _response = response;
         }
 
+        public bool ThrowExceptionOnGet { get; set; } = true;
+
         public Stack<TagStackModel> TagVariables
         {
             get { return _tagVariables; }
@@ -165,7 +167,7 @@ namespace org.SharpTiles.Tags
         {
             get
             {
-                return HasScopePrefix(property) ? _internal[property] : Resolve(property, true);
+                return HasScopePrefix(property) ? _internal[property] : Resolve(property, ThrowExceptionOnGet);
             }
             set
             {
@@ -202,13 +204,12 @@ namespace org.SharpTiles.Tags
 
         private static bool HasScopePrefix(string property)
         {
-            if (property.Contains(Reflection.SEPERATOR))
-            {
-                int split = property.IndexOf(Reflection.SEPERATOR);
-                string head = property.Substring(0, split);
-                return SCOPE_MAPPING.ContainsKey(head);
-            }
-            return false;
+            var split = property.IndexOf(Reflection.SEPERATOR, StringComparison.Ordinal);
+            if (split == -1)
+                return false;
+
+            var head = property.Substring(0, split);
+            return SCOPE_MAPPING.ContainsKey(head);
         }
 
         public ReflectionResult Get(string property)
