@@ -71,6 +71,8 @@
     <Compile Include="BooleanTernaryExpressionTest.cs" />
     <Compile Include="ConcatTest.cs" />
     <Compile Include="ConcatWithSpaceTest.cs" />
+    <Compile Include="Functions\AddDaysFunctionTest.cs" />
+    <Compile Include="Functions\AddMonthsFunctionTest.cs" />
     <Compile Include="Functions\CustomFunctionLibTest.cs" />
     <Compile Include="Functions\FallbackFuntionTest.cs" />
     <Compile Include="Functions\RegExReplaceFunctionTest.cs" />

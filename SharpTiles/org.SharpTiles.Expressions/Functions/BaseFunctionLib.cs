@@ -47,6 +47,8 @@ namespace org.SharpTiles.Expressions.Functions
             RegisterFunction(new PathFunction());
             RegisterFunction(new PathCombineFunction());
             RegisterFunction(new FallbackFunction());
+            RegisterFunction(new AddDaysFunction());
+            RegisterFunction(new AddMonthsFunction());
         }
 
         public override string GroupName

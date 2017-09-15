@@ -71,6 +71,8 @@
     <Compile Include="BooleanLogicExpressions\BooleanTernaryExpression.cs" />
     <Compile Include="ComparisionException.cs" />
     <Compile Include="ExpressionLib.cs" />
+    <Compile Include="Functions\AddDaysFunction.cs" />
+    <Compile Include="Functions\AddMonthsFunction.cs" />
     <Compile Include="Functions\BaseFunctionLib.cs" />
     <Compile Include="Functions\FallbackFunction.cs" />
     <Compile Include="Functions\FunctionArgumentsExtensions.cs" />
