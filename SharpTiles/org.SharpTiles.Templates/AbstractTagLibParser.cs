@@ -193,12 +193,13 @@ namespace org.SharpTiles.Templates
             {
                 ReadWhiteSpace(_helper);
                 var nested = Parse(true);
-                if (nested.State == TagState.Closed)
+                if (nested?.State == TagState.Closed)
                 {
                     GuardClosingOfTag(nested, tag);
                     return;
                 }
-                tag.AddNestedTag(nested);
+                if (nested != null)
+                    tag.AddNestedTag(nested);
             } while (_helper.HasMore());
             _helper.PopIgnoreUnkownTag();
         }
