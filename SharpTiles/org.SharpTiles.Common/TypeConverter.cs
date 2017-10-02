@@ -37,7 +37,7 @@ namespace org.SharpTiles.Common
             REGISTERED.Add(typeof (double), (source, culture) => (object) Convert.ToDouble(source, culture.NumberFormat));
             REGISTERED.Add(typeof (bool), (source, culture) => (object) Convert.ToBoolean(source));
             REGISTERED.Add(typeof (Guid), (source, culture) => (object) Guid.ParseExact(source,"D"));
-            REGISTERED.Add(typeof(DateTime), (source, culture) => (object) ParseUniversalDate(source));
+            REGISTERED.Add(typeof(DateTime), (source, culture) => (object) ParseUniversalDate(source, culture.DateTimeFormat));
             REGISTERED.Add(typeof (int?),
                            (source, culture) => source != null ? (object) Convert.ToInt32(source) : null);
             REGISTERED.Add(typeof (decimal?),
@@ -50,7 +50,7 @@ namespace org.SharpTiles.Common
                            (source, culture) => source != null ? (object) Convert.ToBoolean(source) : null);
             REGISTERED.Add(typeof(Guid?),
                 (source, culture) => source != null ? (object)Guid.ParseExact(source, "D") : null);
-            REGISTERED.Add(typeof(DateTime?), (source, culture) => source != null ?  (DateTime?) ParseUniversalDate(source) : null);
+            REGISTERED.Add(typeof(DateTime?), (source, culture) => !string.IsNullOrEmpty(source) ?  (DateTime?) ParseUniversalDate(source,culture) : null);
             REGISTERED.Add(typeof (string),
                            (source, culture) => source != null ? source.ToString() : null);
 
@@ -90,6 +90,19 @@ namespace org.SharpTiles.Common
                 if (source == null || "".Equals(source)) return false;
                 return Guid.TryParse(source.ToString(), out result);
             });
+            REGISTER_CAN.Add(typeof(DateTime), (source, culture) =>
+            {
+                if (source == null || "".Equals(source)) return false;
+                try
+                {
+                    ParseUniversalDate(source.ToString(), culture);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            });
             REGISTER_CAN.Add(typeof(int?), (source, culture) =>
             {
                 int result;
@@ -126,7 +139,19 @@ namespace org.SharpTiles.Common
                 if (source == null || "".Equals(source)) return true;
                 return Guid.TryParse(source.ToString(), out result);
             });
-
+            REGISTER_CAN.Add(typeof(DateTime?), (source, culture) =>
+            {
+                if (source == null || "".Equals(source)) return true;
+                try
+                {
+                    ParseUniversalDate(source.ToString(), culture);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            });
             REGISTERED_NUMERICS.Add(typeof (int));
             REGISTERED_NUMERICS.Add(typeof (int?));
             REGISTERED_NUMERICS.Add(typeof (decimal));
@@ -141,12 +166,13 @@ namespace org.SharpTiles.Common
         private const string DATE_ONLY = "yyyy-MM-dd";
         private const string DATE_TIME = "yyyy-MM-dd HH:mm:ss";
 
-        private static DateTime? ParseUniversalDate(string source)
+        private static DateTime? ParseUniversalDate(string source, IFormatProvider formatProvider)
         {
-            if (source.Length.Equals(DATE_ONLY.Length)) return DateTime.ParseExact(source, DATE_ONLY,CultureInfo.InvariantCulture);
-            return DateTime.ParseExact(source, DATE_TIME, CultureInfo.InvariantCulture);
+            Console.WriteLine(">>>>>"+source);
+            if (source.Length.Equals(DATE_ONLY.Length)) return DateTime.ParseExact(source, DATE_ONLY, formatProvider);
+            return DateTime.ParseExact(source, DATE_TIME, formatProvider);
         }
-
+        
         public static object To(object source, Type target)
         {
             return To(source, target, CultureInfo.CurrentCulture);
