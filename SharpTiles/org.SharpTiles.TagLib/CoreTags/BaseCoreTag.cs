@@ -114,6 +114,24 @@ namespace org.SharpTiles.Tags.CoreTags
             return (int?) TypeConverter.To(result, typeof (int?));
         }
 
+        public char? GetAutoValueAsChar(string propertyName, TagModel model)
+        {
+            var result = GetAutoValue(propertyName, model);
+            if (result == null) return default(char?);
+            if (result is char) return result as char?;
+            if (result is string)
+            {
+                var str = (string) result;
+                if (str.Length != 1)
+                {
+                    throw new FormatException($"Can't narrow string of length to {str.Length} to char.");
+                }
+                return str[0];
+            }
+            throw new FormatException($"Can't parse {result?.GetType()} to char.");
+        }
+
+
         public decimal? GetAutoValueAsDecimal(string propertyName, TagModel model)
         {
             object result = GetAutoValue(propertyName, model);
