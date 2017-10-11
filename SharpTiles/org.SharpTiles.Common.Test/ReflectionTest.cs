@@ -929,6 +929,40 @@ namespace org.SharpTiles.Common.Test
             Assert.That(_subject.ComplexArray[3].SimpleString, Is.EqualTo("fourth"));
         }
 
+       
+
+        [Test]
+        public void Should_Try_To_Cast_Array()
+        {
+            _subject.StringArray = null;
+            List<object> objects = new List<object>();
+            objects.Add("A");
+            objects.Add("B");
+            objects.Add("C");
+            _reflection["StringArray"] = objects;
+
+            Assert.That(_subject.StringArray, Is.EqualTo(new [] {"A","B","C"}));
+        }
+
+        [Test]
+        public void Should_Try_To_Cast_Array_But_Cant_Peform_Miracles()
+        {
+            _subject.StringArray = null;
+            List<object> objects = new List<object>();
+            objects.Add(1);
+            objects.Add(2);
+            objects.Add(3);
+            try
+            {
+                _reflection["StringArray"] = objects;
+                Assert.Fail();
+            }
+            catch (ConvertException e)
+            {
+                
+            }
+        }
+
         [Test]
         public void TestSetNewDictionaryProperty()
         {

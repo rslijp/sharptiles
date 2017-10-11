@@ -20,6 +20,7 @@
 using System.Collections.Generic;
  using System.Globalization;
  using System.Linq;
+ using System.Reflection;
 
 namespace org.SharpTiles.Common
 {
@@ -32,6 +33,7 @@ namespace org.SharpTiles.Common
         static TypeConverter()
         {
             REGISTERED.Add(typeof (int), (source, culture) => (object) Convert.ToInt32(source));
+            REGISTERED.Add(typeof(long), (source, culture) => (object)Convert.ToInt64(source));
             REGISTERED.Add(typeof (decimal), (source, culture) => (object) Convert.ToDecimal(source, culture.NumberFormat));
             REGISTERED.Add(typeof (float), (source, culture) => (float) Convert.ToDouble(source, culture.NumberFormat));
             REGISTERED.Add(typeof (double), (source, culture) => (object) Convert.ToDouble(source, culture.NumberFormat));
@@ -40,6 +42,8 @@ namespace org.SharpTiles.Common
             REGISTERED.Add(typeof(DateTime), (source, culture) => (object) ParseUniversalDate(source, culture.DateTimeFormat));
             REGISTERED.Add(typeof (int?),
                            (source, culture) => source != null ? (object) Convert.ToInt32(source) : null);
+            REGISTERED.Add(typeof(long?),
+                (source, culture) => source != null ? (object)Convert.ToInt64(source) : null);
             REGISTERED.Add(typeof (decimal?),
                            (source, culture) => source != null ? (object) Convert.ToDecimal(source, culture.NumberFormat) : null);
             REGISTERED.Add(typeof (float?),
@@ -168,7 +172,6 @@ namespace org.SharpTiles.Common
 
         private static DateTime? ParseUniversalDate(string source, IFormatProvider formatProvider)
         {
-            Console.WriteLine(">>>>>"+source);
             if (source.Length.Equals(DATE_ONLY.Length)) return DateTime.ParseExact(source, DATE_ONLY, formatProvider);
             return DateTime.ParseExact(source, DATE_TIME, formatProvider);
         }
@@ -197,10 +200,18 @@ namespace org.SharpTiles.Common
                     {
                         return source;
                     }
+                    if (realTarget.IsEnum)
+                    {
+                        return ToEnum(source, realTarget, culture);
+                    }
                 }
                 if (target.IsEnum)
                 {
                     return ToEnum(source, target,culture);
+                }
+                if (target.IsArray)
+                {
+                    return TryArray(source, target);
                 }
                 var formattable = source as IFormattable;
                 var text = formattable?.ToString(null, culture) ?? source.ToString();
@@ -212,6 +223,26 @@ namespace org.SharpTiles.Common
             {
                 throw ConvertException.CannotConvert(target, source);
             }
+        }
+
+        private static object TryArray(object source, Type target)
+        {
+           var elementType = target.GetElementType();
+           var castMethod = typeof(Enumerable).GetMethod("Cast")
+               .MakeGenericMethod(new System.Type[] {elementType});
+           var toArrayMethod = typeof(Enumerable).GetMethod("ToArray")
+               .MakeGenericMethod(new System.Type[] {elementType});
+
+            try
+            {
+                var castedObjectEnum = castMethod.Invoke(null, new[] {source});
+                var castedObject = toArrayMethod.Invoke(null, new[] {castedObjectEnum});
+                return castedObject;
+            } catch
+            {
+                throw ConvertException.CannotConvert(target, source);
+            } 
+            
         }
 
         private static object ToEnum(object source, Type target, CultureInfo culture)
