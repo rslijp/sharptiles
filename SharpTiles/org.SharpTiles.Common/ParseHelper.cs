@@ -230,7 +230,8 @@ namespace org.SharpTiles.Common
             switch (mode)
             {
                 case Common.ResetIndex.MaintainPosition:
-                    _tokenizer.SetIndexTo(Lookahead.Index);
+                    if (Lookahead != null)
+                        _tokenizer.SetIndexTo(Lookahead.Index);
                     ReinitLookAhead();
                     break;
                 case Common.ResetIndex.LookAhead:

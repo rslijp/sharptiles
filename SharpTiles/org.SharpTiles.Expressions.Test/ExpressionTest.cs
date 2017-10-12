@@ -1723,5 +1723,24 @@ namespace org.SharpTiles.Expressions.Test
             //            Assert.That(function.Evaluate("(06) 14 66 49 54", pattern, ""), Is.EqualTo("0614664954"));
             //            Assert.That(function.Evaluate("06-14664954", pattern, ""), Is.EqualTo("0614664954"));
         }
+
+        [Test]
+        public void Should_throw_usable_exception()
+        {
+            // Given
+            try
+            {
+                // When
+                new ExpressionLib().ParseAndEvaluate("fn:now", new Reflection(new object()));
+
+                Assert.Fail("Expected an exception");
+            }
+            catch (ParseException e)
+            {
+                // Then
+                Assert.That(e.Message, Text.Contains("Expected more tokens"));
+            }
+        }
+
     }
 }
