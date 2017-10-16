@@ -28,6 +28,9 @@ namespace org.SharpTiles.Common
     {
         public static string ToString(IEnumerable values, PropertyInfo info)
         {
+            if (values == null)
+                return string.Empty;
+
             bool first = true;
             var builder = new StringBuilder();
             foreach (object o in values)
@@ -36,7 +39,7 @@ namespace org.SharpTiles.Common
                 {
                     builder.Append(", ");
                 }
-                builder.Append(info.GetValue(o, null).ToString());
+                builder.Append(info?.GetValue(o, null));
                 first = false;
             }
             return builder.ToString();
@@ -44,6 +47,9 @@ namespace org.SharpTiles.Common
 
         public static string ToString(IEnumerable values)
         {
+            if (values == null)
+                return string.Empty;
+
             bool first = true;
             var builder = new StringBuilder();
             foreach (object o in values)
