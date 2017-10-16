@@ -80,17 +80,17 @@ namespace org.SharpTiles.Tags
         {
         }
 
-        public TagModel(object model, ISimpleSessionState session)
+        public TagModel(object model, IModel session)
             : this(new Reflection(model), session, null, null)
         {
         }
 
-        public TagModel(object model, ISimpleSessionState session, IModel request, IResponse response)
+        public TagModel(object model, IModel session, IModel request, IResponse response)
             : this(new Reflection(model), session, request, response)
         {
         }
 
-        public TagModel(IModel model, ISimpleSessionState session, IModel request, IResponse response)
+        public TagModel(IModel model, IModel session, IModel request, IResponse response)
         {
             _model = model;
             _page = new Reflection(new Hashtable());
