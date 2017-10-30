@@ -355,6 +355,23 @@ namespace org.SharpTiles.Tags.Test
             Assert.That(model["NewValue"], Is.EqualTo("abc"));
         }
 
+        [Test]
+        public void Should_return_null_when_page_variable_is_null()
+        {
+            // Given
+            var model = new TagModel(new Reflection(new Level1()));
+            model.Page["grantCountry1"] = "AU";
+            model.Page["grantCountry2"] = null;
+
+            // When
+            var gc1 = model["grantCountry1"];
+            var gc2 = model["grantCountry2"];
+
+            // Then
+            Assert.That(gc1, Is.EqualTo("AU"));
+            Assert.That(gc2, Is.Null);
+        }
+
         public class Level1 
         {
             public Level2 Level2

@@ -428,7 +428,10 @@ namespace org.SharpTiles.Common
             try
             {
                 var sourceAsList = (IDictionary) source;
-                return new ReflectionResult {Result = sourceAsList[property]};
+                var result = new ReflectionResult {Result = sourceAsList[property]};
+                if (result.Result == null)
+                    result.Full = sourceAsList.Contains(property);
+                return result;
             }
             catch (KeyNotFoundException e)
             {
