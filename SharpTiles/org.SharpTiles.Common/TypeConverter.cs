@@ -172,8 +172,8 @@ namespace org.SharpTiles.Common
 
         private static DateTime? ParseUniversalDate(string source, IFormatProvider formatProvider)
         {
-            if (source.Length.Equals(DATE_ONLY.Length)) return DateTime.ParseExact(source, DATE_ONLY, formatProvider);
-            return DateTime.ParseExact(source, DATE_TIME, formatProvider);
+            if (source.Length.Equals(DATE_ONLY.Length)) return DateTime.ParseExact(source, DATE_ONLY, formatProvider).ToUniversalTime();
+            return DateTime.ParseExact(source, DATE_TIME, formatProvider).ToUniversalTime();
         }
         
         public static object To(object source, Type target)
