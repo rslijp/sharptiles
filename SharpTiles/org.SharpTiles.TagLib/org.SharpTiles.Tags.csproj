@@ -69,6 +69,7 @@
     <Compile Include="BaseTagGroup.cs" />
     <Compile Include="BooleanEnum.cs" />
     <Compile Include="BooleanPropertyTypeAttribute.cs" />
+    <Compile Include="CoreTags\BaseCoreTagWithFreeFields.cs" />
     <Compile Include="DatePropertyTypeAttribute.cs" />
     <Compile Include="DefaultConstantAttribute.cs" />
     <Compile Include="ConstantAttribute.cs" />

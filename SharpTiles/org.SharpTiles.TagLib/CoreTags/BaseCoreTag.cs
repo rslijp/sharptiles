@@ -36,9 +36,12 @@ namespace org.SharpTiles.Tags.CoreTags
         private IDictionary<string, IDefaultPropertyValue> DEFAULT_CACHE;
         protected ITagAttribute _id;
         protected TagState _state;
+        private ReflectionAttributeSetter _attributeSetter;
+
         protected BaseCoreTag()
         {
                 InitCache();
+                _attributeSetter= new ReflectionAttributeSetter(this);
         }
 
         private void InitCache()
@@ -74,10 +77,7 @@ namespace org.SharpTiles.Tags.CoreTags
         }
 
 
-        public virtual ITagAttributeSetter AttributeSetter
-        {
-            get { return new ReflectionAttributeSetter(this); }
-        }
+        public virtual ITagAttributeSetter AttributeSetter => _attributeSetter;
 
         public virtual ParseContext Context { get; set; }
 

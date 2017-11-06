@@ -21,6 +21,8 @@
     {
         bool SupportNaturalLanguage { get; }
         ITagAttribute this[string property] { get; set; }
+
+        bool HasAttribute(string propery);
         void InitComplete();
     }
 }

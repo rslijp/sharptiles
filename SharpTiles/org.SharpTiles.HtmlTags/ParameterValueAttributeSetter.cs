@@ -74,6 +74,7 @@ namespace org.SharpTiles.HtmlTags
         }
 
 
+        public bool HasAttribute(string propery) => true;
 
         public void InitComplete()
         {

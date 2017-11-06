@@ -41,6 +41,11 @@ namespace org.SharpTiles.Tags
             set { _tag[StringUtils.FormatAsProperty(property)] = value; }
         }
 
+        public bool HasAttribute(string property)
+        {
+            return _tag.HasProperty(StringUtils.FormatAsProperty(property));
+        }
+
         public void InitComplete()
         {
             //

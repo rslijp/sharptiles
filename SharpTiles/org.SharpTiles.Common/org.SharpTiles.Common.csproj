@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModelWithFreeFields.cs" />
     <Compile Include="AssemblyBasedResourceLocator.cs" />
     <Compile Include="CalculatedParseContext.cs" />
     <Compile Include="CollectionUtils.cs" />
