@@ -19,6 +19,8 @@
  using System;
 using System.Collections;
 using System.ComponentModel;
+ using System.Linq;
+ using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Tags.CoreTags
 {
@@ -33,6 +35,9 @@ namespace org.SharpTiles.Tags.CoreTags
 
         [Required]
         public ITagAttribute Delims { get; set; }
+
+        [TagDefaultValue(false)]
+        public ITagAttribute Trim { get; set; }
 
         #region ITag Members
 
@@ -54,7 +59,11 @@ namespace org.SharpTiles.Tags.CoreTags
             string items = GetAsString(Items, model) ?? String.Empty;
             string delims = GetAsString(Delims, model);
             string[] tokens = items.Split(delims.ToCharArray());
-
+            var trim = GetAutoValueAsBool(nameof(Trim), model);
+            if (trim)
+            {
+                tokens = tokens.Select(t => t.Trim()).ToArray();
+            }
             return new ArrayList(tokens);
         }
     }
