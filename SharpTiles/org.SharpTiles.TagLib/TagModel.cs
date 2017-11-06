@@ -161,6 +161,13 @@ namespace org.SharpTiles.Tags
             }
         }
 
+        public bool ContainsKey(string property)
+        {
+            return HasScopePrefix(property)
+                ? _internal.Get(property)?.ReflectionException == null
+                : Get(property)?.ReflectionException == null;
+        }
+
         #region IModel Members
 
         public object this[string property]
