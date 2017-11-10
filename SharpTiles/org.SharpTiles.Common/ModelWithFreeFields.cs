@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace org.SharpTiles.Common
 {
+    [DataContract]
     public class ModelWithFreeFields<T> : IModel where T: ModelWithFreeFields<T>
     {
+        private IDictionary<string, object> _freeFieldsRaw;
         private Reflection _freeFields;
         private readonly Reflection _self;
 
@@ -19,8 +23,14 @@ namespace org.SharpTiles.Common
 
         public T ReloadFreeField(IDictionary<string, object> freeFields=null)
         {
-            _freeFields = new Reflection(freeFields?? new Dictionary<string, object>());
+            _freeFieldsRaw = freeFields ?? new Dictionary<string, object>();
+            _freeFields = new Reflection(_freeFieldsRaw);
             return this as T;
+        }
+
+        public T ReloadFreeField<S>(ModelWithFreeFields<S> other) where S : ModelWithFreeFields<S>
+        {
+            return ReloadFreeField(new Dictionary<string, object>(other._freeFieldsRaw));
         }
 
         public object this[string property]
@@ -46,5 +56,29 @@ namespace org.SharpTiles.Common
         {
             return _self.Exist(property) ? _self.Get(property) : _freeFields.Get(property);
         }
+
+        [DataMember]
+        public JObject FreeFields
+        {
+            get
+            {
+                var j = new JObject();
+                foreach (var freeField in _freeFieldsRaw)
+                {
+                    j[freeField.Key] = JToken.FromObject(freeField.Value);
+                }
+                return j;
+            }
+            set
+            {
+                var dictionary = new Dictionary<string, object>();
+                if (value != null)
+                {
+                    dictionary = value.ToObject<Dictionary<string, object>>();
+                }
+                ReloadFreeField(dictionary);
+            }
+        }
     }
+  
 }

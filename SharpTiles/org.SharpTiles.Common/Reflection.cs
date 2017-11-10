@@ -672,6 +672,13 @@ namespace org.SharpTiles.Common
             return AcquirePropertyInfo(property, _subject)?.PropertyInfo !=  null;
         }
 
+        public bool HasPropertyOfType(string property, Type expectedType)
+        {
+            var propertyInfo =  AcquirePropertyInfo(property, _subject)?.PropertyInfo;
+            if (propertyInfo == null) return false;
+            return expectedType.IsAssignableFrom(propertyInfo.PropertyType);
+        }
+
         public bool HasPropertyGetter(string property)
         {
             return AcquirePropertyInfo(property, _subject)?.PropertyInfo?.GetMethod?.IsPublic ?? false;

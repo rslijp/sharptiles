@@ -1092,5 +1092,22 @@ namespace org.SharpTiles.Common.Test
                                              };
             Assert.That(_reflection["Proxy.SimpleString"], Is.EqualTo("String in proxy"));
         }
+
+        public class HasPropertyOfTypeTestSubject
+        {
+            public IEnumerable Enumerable { get; set; }
+            public ArrayList List { get; set; }
+        }
+
+        [Test]
+        public void TestHashPropertyOfType()
+        {
+            var x = new HasPropertyOfTypeTestSubject();
+            var r =  new Reflection(x);
+            Assert.That(r.HasPropertyOfType("List", typeof(ArrayList)));
+            Assert.That(r.HasPropertyOfType("List", typeof(IEnumerable)));
+            Assert.That(!r.HasPropertyOfType("Enumerable", typeof(ArrayList)));
+            Assert.That(r.HasPropertyOfType("Enumerable", typeof(IEnumerable)));
+        }
     }
 }

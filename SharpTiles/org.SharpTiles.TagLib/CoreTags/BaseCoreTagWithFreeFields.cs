@@ -16,27 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Collections.Generic;
- using System.Globalization;
- using org.SharpTiles.Common;
- using org.SharpTiles.Expressions;
- using org.SharpTiles.Tags.Creators;
- using org.SharpTiles.Tags.DefaultPropertyValues;
- using org.SharpTiles.Tags.FormatTags;
 
 namespace org.SharpTiles.Tags.CoreTags
 {
-    public abstract class BaseCoreTagWithFreeFields : BaseCoreTag, ITagAttributeSetter
+    public abstract class BaseCoreTagWithFreeFields : BaseCoreTag
     {
         protected readonly Dictionary<string, ITagAttribute> FreeAttribs = new Dictionary<string, ITagAttribute>();
 
         public IDictionary<string, object> FreeFields(TagModel model)
         {
-            if (FreeAttribs.Count == 0) return null;
+            if (FreeAttribs.Count == 0) return new Dictionary<string, object>();
             var freeFields = new Dictionary<string, object>();
             foreach (var attrib in FreeAttribs)
             {
@@ -45,6 +35,25 @@ namespace org.SharpTiles.Tags.CoreTags
             return freeFields;
         }
 
+        private ITagAttributeSetter _instance;
+
+        public override ITagAttributeSetter AttributeSetter => _instance??(_instance=new FreeFieldsAttributeSetter(FreeAttribs, base.AttributeSetter));
+     
+        
+    }
+
+    public class FreeFieldsAttributeSetter : ITagAttributeSetter
+    {
+        private readonly IDictionary<string, ITagAttribute> _freeAttribs;
+        private readonly ITagAttributeSetter _parent;
+
+        public FreeFieldsAttributeSetter(IDictionary<string, ITagAttribute> freeAttribs, ITagAttributeSetter parent)
+        {
+            _freeAttribs = freeAttribs;
+            _parent = parent;
+        }
+        public bool SupportNaturalLanguage => true;
+
         public bool HasAttribute(string property)
         {
             return true;
@@ -52,35 +61,31 @@ namespace org.SharpTiles.Tags.CoreTags
 
         public void InitComplete()
         {
-            base.AttributeSetter.InitComplete();
+            _parent.InitComplete();
         }
-
-        public override ITagAttributeSetter AttributeSetter => this;
-
-        public bool SupportNaturalLanguage => true;
 
         public ITagAttribute this[string property]
         {
             get
             {
-                if (base.AttributeSetter.HasAttribute(property))
+                if (_parent.HasAttribute(property))
                 {
-                    return base.AttributeSetter[property];
+                    return _parent[property];
                 }
-                return FreeAttribs.ContainsKey(property) ? FreeAttribs[property] : null;
+                return _freeAttribs.ContainsKey(property) ? _freeAttribs[property] : null;
             }
             set
             {
-                if (base.AttributeSetter.HasAttribute(property))
+                if (_parent.HasAttribute(property))
                 {
-                    base.AttributeSetter[property] = value;
+                    _parent[property] = value;
                 }
                 else
                 {
-                    FreeAttribs[property] = value;
+                    _freeAttribs[property] = value;
                 }
             }
         }
-        
     }
+
 }

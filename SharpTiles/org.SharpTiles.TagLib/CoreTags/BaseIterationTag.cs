@@ -57,7 +57,7 @@ namespace org.SharpTiles.Tags.CoreTags
             int step = GetAutoValueAsInt("Step", model).Value;
             string var = GetAutoValueAsString("Var", model);
             string varStatus = GetAutoValueAsString("VarStatus", model);
-            model.PushTagStack();
+            model.PushTagStack(true);
             var status = new ForEachStatus(list.Count, start, end);
             if (list.Count > 0)
             {

@@ -43,7 +43,7 @@ namespace org.SharpTiles.Tags
 
         public bool HasAttribute(string property)
         {
-            return _tag.HasProperty(StringUtils.FormatAsProperty(property));
+            return _tag.HasPropertyOfType(StringUtils.FormatAsProperty(property) , typeof(ITagAttribute));
         }
 
         public void InitComplete()
