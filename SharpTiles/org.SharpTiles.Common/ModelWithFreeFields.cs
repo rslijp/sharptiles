@@ -9,15 +9,13 @@ using Newtonsoft.Json.Linq;
 namespace org.SharpTiles.Common
 {
     [DataContract]
-    public class ModelWithFreeFields<T> : IModel where T: ModelWithFreeFields<T>
+    public class ModelWithFreeFields<T> : IReflectionModel where T: ModelWithFreeFields<T>
     {
         private IDictionary<string, object> _freeFieldsRaw;
         private Reflection _freeFields;
-        private readonly Reflection _self;
-
+      
         public ModelWithFreeFields()
         {
-            _self = new Reflection(this);
             ReloadFreeField();
         }
 
@@ -37,24 +35,41 @@ namespace org.SharpTiles.Common
         {
             get
             {
-                if (_self.Exist(property)) return _self[property];
+                var own = Reflection.AcquirePropertyInfo(property, this);
+                if(own.PropertyInfo!=null) return own.PropertyInfo.GetValue(this);
                 return _freeFields[property];
             }
             set
             {
-                if (_self.Exist(property)) _self[property] = value;
+                var own = Reflection.AcquirePropertyInfo(property, this);
+                if (own.PropertyInfo != null) own.PropertyInfo.SetValue(this, value);
                 else _freeFields[property] = value;
             }
         }
 
         public object TryGet(string property)
         {
-            return _self.Exist(property) ? _self.TryGet(property) : _freeFields.TryGet(property);
+            var own = Reflection.AcquirePropertyInfo(property, this);
+            return own.PropertyInfo != null ? own.PropertyInfo.GetValue(this) : _freeFields.TryGet(property);
         }
 
         public ReflectionResult Get(string property)
         {
-            return _self.Exist(property) ? _self.Get(property) : _freeFields.Get(property);
+            var own = Reflection.AcquirePropertyInfo(property, this);
+            if(own.PropertyInfo == null) return _freeFields.Get(property);
+            try
+            {
+                var value = own.PropertyInfo.GetValue(this);
+                return new ReflectionResult
+                {
+                    Full = true,
+                    Result = value
+                };
+            }
+            catch (Exception e)
+            {
+                return new ReflectionResult {Full = true, ReflectionException = new ReflectionException(e.Message)};
+            }
         }
 
         [DataMember]

@@ -115,6 +115,26 @@ namespace org.SharpTiles.Common.Test
 
 
         [Test]
+        public void Should_Update_Set_FreeProperty_With_Reflection()
+        {
+            var r = new TestSubject();
+            var m = new Reflection(r);
+            m["Free"] = "Willy";
+            Assert.That(r["Free"], Is.EqualTo("Willy"));
+        }
+
+
+        [Test]
+        public void Should_Update_Get_FreeProperty_With_Reflection()
+        {
+            var r = new TestSubject();
+            r["Free"] = "Willy";
+            var m = new Reflection(r);
+            Assert.That(m["Free"], Is.EqualTo("Willy"));
+        }
+
+
+        [Test]
         public void Should_Update_Set_and_Get_Property_With_Nesting()
         {
             var m = new TestSubject();
@@ -122,6 +142,7 @@ namespace org.SharpTiles.Common.Test
             m["Free.Whale"] = "Willy";
             Assert.That(m["Free.Whale"], Is.EqualTo("Willy"));
         }
+
         [Test]
         public void SHould_Be_Able_To_Reload_FreeFields()
         {

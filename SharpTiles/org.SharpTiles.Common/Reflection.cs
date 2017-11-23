@@ -55,7 +55,7 @@ namespace org.SharpTiles.Common
             public PropertyHandler PropertyHandler { get; set; }
         }
 
-        private class PropertyInfoResult
+        public class PropertyInfoResult
         {
             public ReflectionException ReflectionException { get; set; }
             public PropertyInfo PropertyInfo { get; set; }
@@ -689,7 +689,7 @@ namespace org.SharpTiles.Common
             return AcquirePropertyInfo(property, _subject)?.PropertyInfo?.SetMethod?.IsPublic ?? false;
         }
 
-        private static PropertyInfoResult AcquirePropertyInfo(string property, object source)
+        public static PropertyInfoResult AcquirePropertyInfo(string property, object source)
         {
             Type type = source.GetType();
             var key = new CacheKey(property, type);
