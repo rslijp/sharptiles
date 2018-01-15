@@ -30,4 +30,9 @@ namespace org.SharpTiles.Tags.CoreTags
 
         string GetAutoValueAsString(string propertyName, TagModel model);
     }
+
+    public interface ITagWithVariableAndPostEvaluate
+    {
+        void PostEvaluate(TagModel model, object value);
+    }
 }

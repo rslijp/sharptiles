@@ -24,24 +24,27 @@ namespace org.SharpTiles.Tags.CoreTags
     {
         public static string Evaluate(ITagWithVariable tag, TagModel model)
         {
-            object result = tag.InternalEvaluate(model);
-            string var = tag.GetAutoValueAsString("Var", model);
-            string scope = tag.GetAutoValueAsString("Scope", model);
+            var result = tag.InternalEvaluate(model);
+            var var = tag.GetAutoValueAsString("Var", model);
+            var scope = tag.GetAutoValueAsString("Scope", model);
             model[scope + "." + var] = result;
-            return String.Empty;
+            var postTag = tag as ITagWithVariableAndPostEvaluate;
+            postTag?.PostEvaluate(model, result);
+            return string.Empty;
         }
 
         public static string EvaluateOptional(ITagWithVariable tag, TagModel model)
         {
-            object result = tag.InternalEvaluate(model);
+            var result = tag.InternalEvaluate(model);
             if (tag.Var != null)
             {
-                string var = tag.GetAutoValueAsString("Var", model);
-                string scope = tag.GetAutoValueAsString("Scope", model);
+                var var = tag.GetAutoValueAsString("Var", model);
+                var scope = tag.GetAutoValueAsString("Scope", model);
                 model[scope + "." + var] = result;
-                return String.Empty;
             }
-            return result != null ? result.ToString() : String.Empty;
+            var postTag = tag as ITagWithVariableAndPostEvaluate;
+            postTag?.PostEvaluate(model, result);
+            return tag.Var == null ? (result?.ToString() ?? string.Empty) : string.Empty;
         }
     }
 }
