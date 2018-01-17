@@ -66,7 +66,7 @@ namespace org.SharpTiles.Common
 
         public int Index => _index;
 
-        private object Contents => _contents;
+        public string Contents => _contents;
 
         public int LineNumber
         {

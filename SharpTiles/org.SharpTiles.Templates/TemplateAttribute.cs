@@ -84,7 +84,7 @@ namespace org.SharpTiles.Templates
             get { return _resultParts.ResourceLocator; }
         }
 
-       
+
 
         #endregion
 
@@ -106,6 +106,16 @@ namespace org.SharpTiles.Templates
             return builder;
         }
 
-        public override string ToString() => ConstantValue?.ToString();
+        public override string ToString()
+        {
+            if (_resultParts == null)
+                return null;
+            var sb = new StringBuilder();
+            foreach (ITemplatePart part in _resultParts)
+            {
+                sb.Append(part);
+            }
+            return sb.ToString();
+        }
     }
 }

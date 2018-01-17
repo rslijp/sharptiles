@@ -60,5 +60,7 @@ namespace org.SharpTiles.Templates
         {
             _text += part._text;
         }
+
+        public override string ToString() => _text;
     }
 }

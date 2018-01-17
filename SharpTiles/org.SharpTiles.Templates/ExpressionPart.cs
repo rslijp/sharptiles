@@ -60,5 +60,7 @@ namespace org.SharpTiles.Templates
         }
 
         #endregion
+
+        public override string ToString() => Context?.Contents;
     }
 }
