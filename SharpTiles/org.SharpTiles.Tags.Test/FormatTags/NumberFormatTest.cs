@@ -306,7 +306,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             number.Value = new MockAttribute(new Property("anumber"));
             number.Type = new MockAttribute(new Constant("Percentage"));
             _model.Model["anumber"] = 0.12m;
-            Assert.That(number.Evaluate(_model), Is.EqualTo("12.00 %"));
+            Assert.That(number.Evaluate(_model), Is.EqualTo("12.00%"));
         }
 
         [Test]
@@ -316,7 +316,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             number.Value = new MockAttribute(new Property("anumber"));
             number.Type = new MockAttribute(new Constant("Percentage"));
             _model.Model["anumber"] = -0.12m;
-            Assert.That(number.Evaluate(_model), Is.EqualTo("-12.00 %"));
+            Assert.That(number.Evaluate(_model), Is.EqualTo("-12.00%"));
         }
 
         [Test]
@@ -337,7 +337,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             number.Value = new MockAttribute(new Property("anumber"));
             number.Type = new MockAttribute(new Constant("Percentage"));
             _model.Model["anumber"] = 0.012m;
-            Assert.That(number.Evaluate(_model), Is.EqualTo("1.20 %"));
+            Assert.That(number.Evaluate(_model), Is.EqualTo("1.20%"));
         }
 
         [Test]

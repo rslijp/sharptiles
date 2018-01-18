@@ -80,7 +80,7 @@ namespace org.SharpTiles.Common
                 var j = new JObject();
                 foreach (var freeField in _freeFieldsRaw)
                 {
-                    j[freeField.Key] = JToken.FromObject(freeField.Value);
+                    j[freeField.Key] = freeField.Value==null?null:JToken.FromObject(freeField.Value);
                 }
                 return j;
             }

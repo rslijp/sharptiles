@@ -964,7 +964,18 @@ namespace org.SharpTiles.Templates.Test
             Assert.That(formatter.Format(new TagModel(raw)), Is.EqualTo("<!-- This file is generated at 05-11-2012 05:30:2012 -->\nB ==> D"));
         }
 
-      
+        [Test]
+        public void Bug()
+        {
+            var raw = new Hashtable()
+            {
+                {"s", "BZZB"},
+            };
+            var formatter = new Formatter(@"<c:set value=""${fn:replace(s,'ZZ','B')}_postfix"" var='t' scope='Model'/>").Parse();
+            formatter.Format(new TagModel(raw));
+            Console.WriteLine(raw["t"].GetType());
+            Assert.That(raw["t"], Is.EqualTo("BBB_postfix"));
+        }
 
 
     }

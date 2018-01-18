@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
@@ -151,6 +152,29 @@ namespace org.SharpTiles.Common.Test
             Assert.That(m["Free"], Is.EqualTo("Willy"));
         }
 
+        [Test]
+        public void SHould_Be_Able_To_Serialize_And_Deserialize()
+        {
+            var m = new TestSubject();
+            m.ReloadFreeField(new Dictionary<string, object> { { "Free", "Willy" } });
+            var json = JsonConvert.SerializeObject(m);
+            Console.WriteLine(json);
+            var c = JsonConvert.DeserializeObject<TestSubject>(json);
+            Assert.That(c["Free"], Is.EqualTo("Willy"));
+
+        }
+
+        [Test]
+        public void SHould_Be_Able_To_Serialize_And_Deserialize_Null_Value()
+        {
+            var m = new TestSubject();
+            m.ReloadFreeField(new Dictionary<string, object> { { "Free", null } });
+            var json = JsonConvert.SerializeObject(m);
+            Console.WriteLine(json);
+            var c = JsonConvert.DeserializeObject<TestSubject>(json);
+            Assert.That(c["Free"], Is.EqualTo(null));
+
+        }
 
     }
 }

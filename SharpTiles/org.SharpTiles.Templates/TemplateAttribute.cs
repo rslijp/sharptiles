@@ -103,7 +103,7 @@ namespace org.SharpTiles.Templates
                 object result = part.Evaluate(model);
                 builder.Append(result != null ? BaseCoreTag.ValueOfWithi18N(model, result) : String.Empty);
             }
-            return builder;
+            return builder.ToString();
         }
 
         public override string ToString() => ConstantValue?.ToString();
