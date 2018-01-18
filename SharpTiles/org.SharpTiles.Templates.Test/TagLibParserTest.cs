@@ -706,7 +706,7 @@ namespace org.SharpTiles.Templates.Test
             Base().Parse("<fmt:parseNumber var=\"result\" scope=\"Page\">0.33</fmt:parseNumber>").Evaluate(model);
             Base().Parse("<fmt:setLocale scope=\"Page\" Value=\"nl-NL\"/>").Evaluate(model);
             ITag tag = Base().Parse("<fmt:formatNumber value=\"${result}\" Type=\"Percentage\"/>");
-            Assert.That(tag.Evaluate(model), Is.EqualTo("33,00 %"));
+            Assert.That(tag.Evaluate(model), Is.EqualTo("33,00%"));
         }
 
         [Test]
