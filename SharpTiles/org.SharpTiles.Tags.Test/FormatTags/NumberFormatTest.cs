@@ -327,7 +327,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             number.Type = new MockAttribute(new Constant("Percentage"));
             number.MinFractionDigits = new MockAttribute(new Constant("6"));
             _model.Model["anumber"] = 0.12;
-            Assert.That(number.Evaluate(_model), Is.EqualTo("12.000000 %"));
+            Assert.That(number.Evaluate(_model), Is.EqualTo("12.000000%"));
         }
 
         [Test]

@@ -106,7 +106,12 @@ namespace org.SharpTiles.Tags.FormatTags
 
             number = ClipNumber(model, number);
 
-            return number.ToString(pattern, format);
+            var result =  number.ToString(pattern, format);
+            if (result.EndsWith(" %")) //.NET version issue(grmbl)
+            {
+                result=result.Replace(" %", "%");
+            }
+            return result;
         }
 
         private decimal ClipNumber(TagModel model, decimal number)
