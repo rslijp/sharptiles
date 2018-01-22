@@ -56,9 +56,9 @@ namespace org.SharpTiles.Templates.SharpTags
                     
             try
             {
-                if (fileName == null) return String.Empty;
+                if (fileName == null) return string.Empty;
                 LoadTile(fileName.ToString());
-                return _body.Evaluate(model);
+                return _body?.Evaluate(model) ?? string.Empty;
             }
             catch (Exception e)
             {
