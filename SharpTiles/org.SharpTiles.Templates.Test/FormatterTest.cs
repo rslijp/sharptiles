@@ -978,5 +978,19 @@ namespace org.SharpTiles.Templates.Test
         }
 
 
+        public class BugModel
+        {
+            public string In { get; set; }
+            public decimal Out { get; set; }
+        }
+
+        [Test]
+        public void TestDecimalCast()
+        {
+            var mdl = new BugModel() {In = "80012"};
+            var fmt  = new Formatter("<c:set value='${In / 100}' var='Out' scope='Model'/>").Parse();
+            fmt.Format(new TagModel(mdl));
+            Assert.That(mdl.Out, Is.EqualTo(800.12m));
+        }
     }
 }

@@ -68,6 +68,7 @@
     <Compile Include="Processor\IHaveTemplateProcessor.cs" />
     <Compile Include="Processor\ITemplateProcessor.cs" />
     <Compile Include="Processor\TemplateProcessorCollection.cs" />
+    <Compile Include="SharpTags\Log.cs" />
     <Compile Include="Validators\BooleanTagAttributeValidator.cs" />
     <Compile Include="Validators\NumberTagAttributeValidator.cs" />
     <Compile Include="Validators\DateTagAttributeValidator.cs" />

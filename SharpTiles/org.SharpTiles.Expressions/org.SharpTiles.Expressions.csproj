@@ -74,6 +74,7 @@
     <Compile Include="Functions\AddDaysFunction.cs" />
     <Compile Include="Functions\AddMonthsFunction.cs" />
     <Compile Include="Functions\BaseFunctionLib.cs" />
+    <Compile Include="Functions\FalseOrValue.cs" />
     <Compile Include="Functions\FallbackFunction.cs" />
     <Compile Include="Functions\FunctionArgumentsExtensions.cs" />
     <Compile Include="Functions\FunctionLib.cs" />

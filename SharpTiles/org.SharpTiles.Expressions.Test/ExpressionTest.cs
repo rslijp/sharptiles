@@ -1572,14 +1572,16 @@ namespace org.SharpTiles.Expressions.Test
                 );
         }
         
+        
+
         [Test]
         public void TestMathMaxFunctionWithProperty()
         {
             Assert.That(new ExpressionLib().ParseAndEvaluate(
-                            "max(3,FirstInt)",
-                            new Reflection(new SampleModel() )),
-                        Is.EqualTo(42)
-                );
+                    "max(3,FirstInt)",
+                    new Reflection(new SampleModel())),
+                Is.EqualTo(42)
+            );
         }
 
         [Test]
