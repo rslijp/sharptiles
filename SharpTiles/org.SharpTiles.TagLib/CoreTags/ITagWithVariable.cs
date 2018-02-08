@@ -29,6 +29,7 @@ namespace org.SharpTiles.Tags.CoreTags
         object InternalEvaluate(TagModel model);
 
         string GetAutoValueAsString(string propertyName, TagModel model);
+        T? GetAutoValueAs<T>(string propertyName, TagModel model) where T : struct;
     }
 
     public interface ITagWithVariableAndPostEvaluate

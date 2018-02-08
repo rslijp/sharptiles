@@ -26,8 +26,11 @@ namespace org.SharpTiles.Tags.CoreTags
         {
             var result = tag.InternalEvaluate(model);
             var var = tag.GetAutoValueAsString("Var", model);
-            var scope = tag.GetAutoValueAsString("Scope", model);
-            model[scope + "." + var] = result;
+            var scope = tag.GetAutoValueAs<VariableScope>("Scope", model);
+            if (scope != VariableScope.Page || !model.TryUpdateTag(var, result))
+            {
+                model[scope + "." + var] = result;
+            }
             var postTag = tag as ITagWithVariableAndPostEvaluate;
             postTag?.PostEvaluate(model, result);
             return string.Empty;

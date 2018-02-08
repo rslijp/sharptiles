@@ -29,15 +29,17 @@ namespace org.SharpTiles.Tags
     {
         private readonly IModel _model;
         private readonly TagStackModel _parent;
+        private int _stackDepth;
 
-        public TagStackModel() : this(null)
+        public TagStackModel() : this(null, 0)
         {
         }
 
-        public TagStackModel(TagStackModel parent)
+        public TagStackModel(TagStackModel parent, int stackDepth)
         {
             _model = new Reflection(new Hashtable());
             _parent = parent;
+            _stackDepth = stackDepth;
         }
 
         public object this[string property]
@@ -58,6 +60,19 @@ namespace org.SharpTiles.Tags
             if (_parent == null) return result;
             if (result.Partial || result.Full) return result;
             return _parent.Get(property);
+
+        }
+
+        public bool TryUpdate(string property, object value)
+        {
+            var result = _model.Get(property);
+            if (result.Full)
+            {
+                _model[property]=value;
+                return true;
+            }
+            if (_parent == null) return false;
+            return _parent.TryUpdate(property , value);
 
         }
     }

@@ -108,6 +108,23 @@ namespace org.SharpTiles.Templates.Test
         }
 
         [Test]
+        public void Tag_Scope_Should_Be_Handled_Correct()
+        {
+            var model = new Hashtable();
+            model.Add(VariableScope.Model.ToString(), new Hashtable());
+            var reflection = new TagModel(model);
+            var list = new ArrayList(new[] { 1, 2, 3, 4, 5, 6 });
+            reflection["Model.list"] = list;
+            reflection.PushTagStack();
+            reflection.Tag["last"] = "-";
+            ITag tag =
+                Base().Parse(
+                    "<c:forEach items=\"${Model.list}\"><c:set value=\"${Item}\" var=\"last\"/></c:forEach>");
+            Assert.That(tag.Evaluate(reflection), Is.EqualTo(String.Empty));
+            Assert.That(reflection["Tag.last"], Is.EqualTo(6));
+    }
+
+        [Test]
         public void TestOfParseOfForEachfSimpleBody()
         {
             var model = new Hashtable();

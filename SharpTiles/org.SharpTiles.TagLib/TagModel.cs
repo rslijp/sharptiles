@@ -182,8 +182,9 @@ namespace org.SharpTiles.Tags
                 {
                     _internal[property] = value;
                 }
-                else
+                else if(!TryUpdateTag(property, value))
                 {
+
                     _internal[VariableScope.Model + Reflection.SEPERATOR + property] = value;
                 }
             }
@@ -198,9 +199,16 @@ namespace org.SharpTiles.Tags
 
         public void PushTagStack(bool peekInParent = false)
         {
-            peekInParent &= _tagVariables.Count > 0;
-            _tagVariables.Push(new TagStackModel(peekInParent?_tagVariables.Peek():null));
+            var stackCount = _tagVariables.Count;
+            peekInParent &= stackCount > 0;
+            _tagVariables.Push(new TagStackModel(peekInParent?_tagVariables.Peek():null, stackCount+1));
             _hasTags = true;
+        }
+
+        public bool TryUpdateTag(string property, object variable)
+        {
+            if (!_hasTags) return false;
+            return _tagVariables.Peek().TryUpdate(property, variable);
         }
 
         public void PopTagStack()
