@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using org.SharpTiles.Common;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.CoreTags;
 
-namespace org.SharpTiles.Templates.SharpTags
+namespace org.SharpTiles.Templates.MacroTags
 {
     public class DefineMacro : BaseCoreTagWithVariable, ITag
     {
-        public static readonly string NAME = "defineMacro";
+        public static readonly string NAME = "define";
 
         #region ITag Members
 
@@ -26,25 +22,25 @@ namespace org.SharpTiles.Templates.SharpTags
         public override object InternalEvaluate(TagModel model)
         {
             var self = this;
-            return new LazyFunction(() => self.GetAutoValueAsString(nameof(Body), model));
+            return new MarcoDefinition((callingModel) => self.GetAutoValueAsString(nameof(Body), callingModel));
         }
 
         public TagBodyMode TagBodyMode => TagBodyMode.Free;
 
         #endregion
 
-        public class LazyFunction
+        public class MarcoDefinition
         {
-            private readonly Func<string> _lazyFunction;
+            private readonly Func<TagModel, string> _lazyFunction;
 
-            public LazyFunction(Func<string> lazyFunction)
+            public MarcoDefinition(Func<TagModel, string> lazyFunction)
             {
                 _lazyFunction = lazyFunction;
             }
 
-            public string Evaluate()
+            public string Evaluate(TagModel model)
             {
-                return _lazyFunction();
+                return _lazyFunction(model);
             }
         }
     }

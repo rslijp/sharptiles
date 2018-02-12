@@ -65,11 +65,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MacroTags\DefineFunction.cs" />
+    <Compile Include="MacroTags\MacroException.cs" />
+    <Compile Include="MacroTags\Macro.cs" />
     <Compile Include="Processor\IHaveTemplateProcessor.cs" />
     <Compile Include="Processor\ITemplateProcessor.cs" />
     <Compile Include="Processor\TemplateProcessorCollection.cs" />
-    <Compile Include="SharpTags\CallMacro.cs" />
-    <Compile Include="SharpTags\DefineMacro.cs" />
+    <Compile Include="MacroTags\CallMacro.cs" />
+    <Compile Include="MacroTags\DefineMacro.cs" />
     <Compile Include="SharpTags\Log.cs" />
     <Compile Include="Validators\BooleanTagAttributeValidator.cs" />
     <Compile Include="Validators\NumberTagAttributeValidator.cs" />

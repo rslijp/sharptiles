@@ -52,7 +52,7 @@ namespace org.SharpTiles.Tags.CoreTags
             _freeAttribs = freeAttribs;
             _parent = parent;
         }
-        public bool SupportNaturalLanguage => true;
+        public virtual bool SupportNaturalLanguage => true;
 
         public bool HasAttribute(string property)
         {

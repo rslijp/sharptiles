@@ -175,7 +175,12 @@ namespace org.SharpTiles.Common
             if (source.Length.Equals(DATE_ONLY.Length)) return DateTime.ParseExact(source, DATE_ONLY, formatProvider).ToUniversalTime();
             return DateTime.ParseExact(source, DATE_TIME, formatProvider).ToUniversalTime();
         }
-        
+        public static T To<T>(object source)
+        {
+            return (T) To(source,typeof(T), CultureInfo.CurrentCulture);
+        }
+
+
         public static object To(object source, Type target)
         {
             return To(source, target, CultureInfo.CurrentCulture);

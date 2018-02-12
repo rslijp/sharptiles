@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FormatterTest.cs" />
+    <Compile Include="MacroTags\MacroTest.cs" />
     <Compile Include="NestedTagLibTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequiresEnglishCulture.cs" />

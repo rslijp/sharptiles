@@ -25,6 +25,7 @@ using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.Creators;
 using org.SharpTiles.Tags.Templates.SharpTags;
+using org.SharpTiles.Templates.MacroTags;
 using org.SharpTiles.Templates.Processor;
 using org.SharpTiles.Templates.Templates;
 using org.SharpTiles.Templates.Validators;
@@ -49,6 +50,7 @@ namespace org.SharpTiles.Templates
             _lib = new TagLib();
             _expressionLib = new ExpressionLib();
             _lib.Register(new Sharp());
+            _lib.Register(new Macro());
         }
 
         public Formatter(string template) : this()

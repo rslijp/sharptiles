@@ -44,6 +44,7 @@ namespace org.SharpTiles.Tags.CoreTags
                 _attributeSetter= new ReflectionAttributeSetter(this);
         }
 
+
         private void InitCache()
         {
             PROPERTY_CACHE = new Dictionary<string, PropertyInfo>();
@@ -90,7 +91,6 @@ namespace org.SharpTiles.Tags.CoreTags
         {
             object result = GetAutoValue(propertyName, model);
             return result != null ? ValueOfWithi18N(model, result) : null;
-
         }
 
         public static string ValueOfWithi18N(TagModel model, object raw)
