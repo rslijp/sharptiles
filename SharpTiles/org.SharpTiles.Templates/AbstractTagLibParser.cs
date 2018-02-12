@@ -112,7 +112,7 @@ namespace org.SharpTiles.Templates
             if (tag == null) return null;
             var tagReflection = tag.AttributeSetter;
             AddAttributes(tagReflection, tag);
-            //tagReflection.InitComplete();
+            tagReflection.InitComplete();
             
             TagState state = TagState.Opened;
             if (_helper.IsAhead(TagLibConstants.CLOSE_SLASH))
