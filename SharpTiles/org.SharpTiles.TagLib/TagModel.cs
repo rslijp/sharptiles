@@ -37,7 +37,7 @@ namespace org.SharpTiles.Tags
         public static readonly IList<VariableScope> SCOPE_ORDER;
         private readonly Reflection _internal;
         private readonly IModel _model;
-        private readonly IModel _page;
+        private IModel _page;
         private readonly IResponse _response;
         private readonly IModel _request;
         private readonly IModel _session;
@@ -320,12 +320,26 @@ namespace org.SharpTiles.Tags
                 throw TagException.HttpResponseNotAvailable();
             }
         }
-        
-//        public TagModel UpdateFactory(IResourceLocatorFactory factory)
-//        {
-//            _factory = factory;
-//            return this;
-//        }
 
+        //        public TagModel UpdateFactory(IResourceLocatorFactory factory)
+        //        {
+        //            _factory = factory;
+        //            return this;
+        //        }
+
+        public TagModel Fork(object model)
+        {
+            return Fork(new Reflection(model));
+        }
+
+        public TagModel Fork(IModel model)
+        {
+            return new TagModel(
+                model                
+            )
+            {
+                _page = _page?.AsReadonlyModel()           
+            };
+        }
     }
 }

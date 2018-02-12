@@ -53,15 +53,24 @@ namespace org.SharpTiles.Expressions
         {
             if (Lhs == null)
                 throw ExpressionParseException.MissingExpression("lhs").Decorate(Token);
-
-            return (decimal) TypeConverter.To(Lhs.Evaluate(model), ParameterType);
+            var raw = Lhs.Evaluate(model);
+            if (raw == null)
+            {
+                throw ExpressionParseException.UnexpectedNullValue("lhs").Decorate(Token);
+            }
+            return (decimal) TypeConverter.To(raw, ParameterType);
         }
 
         public decimal RhsTyped(IModel model)
         {
             if (Rhs == null)
                 throw ExpressionParseException.MissingExpression("rhs").Decorate(Token);
-            return (decimal) TypeConverter.To(Rhs.Evaluate(model), ParameterType);
+            var raw = Rhs.Evaluate(model);
+            if (raw == null)
+            {
+                throw ExpressionParseException.UnexpectedNullValue("rhs").Decorate(Token);
+            }
+            return (decimal)TypeConverter.To(raw, ParameterType);
         }
     }
 }

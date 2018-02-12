@@ -18,6 +18,7 @@
  */using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,6 +29,37 @@ namespace org.SharpTiles.Common
         public static IModel AdaptToNaturalLanguage(this IModel model)
         {
             return new NaturalLanguageModelWrapper(model);
+        }
+
+        public static IModel AsReadonlyModel(this IModel model)
+        {
+            if(model==null) return null;
+            return new ReadonlyWrapper(model);
+        }
+
+        public class ReadonlyWrapper : IModel
+        {
+            private IModel _backing;
+
+            public ReadonlyWrapper(IModel backing)
+            {
+                _backing = backing;
+            }
+            public object this[string property]
+            {
+                get { return _backing[property]; }
+                set { throw ReflectionException.SetNotAvailableInForkedModel(property); }
+            }
+
+            public object TryGet(string property)
+            {
+                return _backing.TryGet(property);
+            }
+
+            public ReflectionResult Get(string property)
+            {
+                return _backing.Get(property);
+            }
         }
 
         public class NaturalLanguageModelWrapper : IModel

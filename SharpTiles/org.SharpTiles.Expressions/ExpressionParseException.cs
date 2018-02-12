@@ -40,6 +40,12 @@ namespace org.SharpTiles.Expressions
             return MakePartial(new ExpressionParseException(msg));
         }
 
+        public static PartialExceptionWithContext<ExpressionParseException> UnexpectedNullValue(string part)
+        {
+            String msg = String.Format("{0} results in an unexpected null value.", part);
+            return MakePartial(new ExpressionParseException(msg));
+        }
+
         public static PartialExceptionWithContext<ExpressionParseException> ExpressionEndedButTokensLeft()
         {
             return MakePartial(new ExpressionParseException("Expression ended but more tokens left to parse"));

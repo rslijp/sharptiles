@@ -76,6 +76,12 @@ namespace org.SharpTiles.Common
             return new ReflectionException(msg);
         }
 
+        public static ReflectionException SetNotAvailableInForkedModel(string typeStr)
+        {
+            string msg = String.Format("There's no handler for setting values in a forked model. Property {0}", typeStr);
+            return new ReflectionException(msg);
+        }
+
         public static ReflectionExceptionWithContext DecorateWithContext(ReflectionException re, ParseContext context)
         {
             return ReflectionExceptionWithContext.MakePartial(new ReflectionExceptionWithContext(re.Message, re)).Decorate(context);
