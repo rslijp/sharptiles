@@ -5,7 +5,7 @@ using org.SharpTiles.Tags.CoreTags;
 
 namespace org.SharpTiles.Templates.MacroTags
 {
-    public class DefineMacro : BaseCoreTagWithVariable, ITag
+    public class DefineMacroTag : BaseCoreTagWithVariable, ITag
     {
         public static readonly string NAME = "define";
 

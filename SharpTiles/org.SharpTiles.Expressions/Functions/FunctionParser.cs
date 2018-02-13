@@ -96,12 +96,7 @@ namespace org.SharpTiles.Expressions
         {
             var brackets = (Brackets) parseHelper.Pop();
             var function = (Function) parseHelper.Top;
-            if (function.IsParamsFunctions())
-            {
-                function.FillNested(brackets);
-                return;
-            }
-            if (brackets.Nodes.Count < function.Arguments.Length)
+            if (brackets.Nodes.Count < function.Arguments.Where(a=>!a.Params).Count())
             {
                 throw ExpressionParseException.ExpectedMoreParameter(function, brackets.Nodes.Count,
                                                                      function.Arguments.Length).Decorate(

@@ -25,9 +25,9 @@ namespace org.SharpTiles.Templates.MacroTags
     {
         public Macro()
         {
-            Register<DefineMacro>();
-            Register<DefineFunction>();
-            Register<CallMacro>();
+            Register<DefineMacroTag>();
+            Register<DefineFunctionTag>();
+            Register<CallMacroTag>();
         }
 
         public override string Name => "macro";

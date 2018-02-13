@@ -60,9 +60,9 @@ namespace org.SharpTiles.Expressions.Functions
         {
             if (_function.IsParamsFunctions())
             {
-                var argumentType = _function.Arguments[0].Type;
                 for (int i = 0; i < _nested.Nodes.Count; i++)
                 {
+                    var argumentType = i<_function.Arguments.Length?_function.Arguments[i].Type:_function.Arguments.Last().Type;
                     Expression node = _nested.Nodes[i];
                     if (node == null || node.ReturnType == null ||
                         typeof(object).Equals(argumentType)) continue;
@@ -116,22 +116,23 @@ namespace org.SharpTiles.Expressions.Functions
         public override object Evaluate(IModel model)
         {
             var parameters = new List<object>();
-            if (_function.Arguments.Length == 1 && _function.Arguments[0].Params)
+            for (int i = 0; i < _function.Arguments.Length; i++)
             {
-                for (int pi = 0; pi < _nested.Nodes.Count; pi++)
+                var arg = _function.Arguments[i];
+                if (!arg.Params)
                 {
-                    Expression node = _nested.Nodes[pi];
-                    object value = node.Evaluate(model);
-                    parameters.Add(TypeConverter.To(value, _function.Arguments[0].Type));
-                }
-            } 
-            else
-            {
-                for (int i = 0; i < _function.Arguments.Length; i++)
-                {
-                    Expression node = _nested.Nodes[i];
+                    var node = _nested.Nodes[i];
                     object value = node.Evaluate(model);
                     parameters.Add(TypeConverter.To(value, _function.Arguments[i].Type));
+                }
+                else
+                {
+                    for (int pi = i; pi < _nested.Nodes.Count; pi++)
+                    {
+                        var node = _nested.Nodes[pi];
+                        object value = node.Evaluate(model);
+                        parameters.Add(TypeConverter.To(value, _function.Arguments[i].Type));
+                    }
                 }
             }
             try

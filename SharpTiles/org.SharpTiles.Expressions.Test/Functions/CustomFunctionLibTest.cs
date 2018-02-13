@@ -30,7 +30,20 @@ namespace org.SharpTiles.Expressions.Test.Functions
     [TestFixture]
     public class CustomFunctionLibTest
     {
-       
+
+        [Test]
+        public void Should_Reject_Faulthy_Params_Function()
+        {
+            var lib = new MathLib();
+            try
+            {
+                lib.PublicRegisterFunction(new MathLib.WhoopsyFunction());
+            }
+            catch (Exception e)
+            {
+                Assert.That(e.Message, Is.EqualTo("Only last argument of a function can be a params argument. Argument whoopsy of whoopsy is in violation."));
+            }
+        }
 
         [Test]
         public void TestTrimNested()
@@ -52,10 +65,35 @@ public class MathLib : FunctionLib
         RegisterFunction(new FibonacciFunction());
     }
 
+    public void PublicRegisterFunction(IFunctionDefinition function)
+    {
+        RegisterFunction(function);
+    }
 
     public override string GroupName
     {
         get { return "math"; }
+    }
+
+    public class WhoopsyFunction : IFunctionDefinition
+    {
+        private static readonly FunctionArgument[] ARGUMENTS = new[]
+        {
+            new FunctionArgument{ Type = typeof (decimal), Name = "whoopsy",Params = true},
+            new FunctionArgument{ Type = typeof (decimal), Name = "number" }
+        };
+
+        public object Evaluate(params object[] parameters)
+        {
+            return null;
+        }
+
+      
+        public string Name => "whoopsy";
+
+        public FunctionArgument[] Arguments => ARGUMENTS;
+
+        public Type ReturnType => typeof(decimal);
     }
 
     public class FibonacciFunction : IFunctionDefinition

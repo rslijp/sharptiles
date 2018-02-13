@@ -15,7 +15,10 @@
  * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
- */using System.Collections.Generic;
+ */
+
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using org.SharpTiles.Common;
 using org.SharpTiles.Expressions.Functions;
@@ -31,12 +34,23 @@ namespace org.SharpTiles.Expressions.Functions
 
         protected void RegisterFunction(IFunctionDefinition function)
         {
+            GuardParams(function);
             functions.Add(function.Name, function);
             _functionNameSet.Add(function.Name);
             _maxKeyLength = TokenizerConfiguration.CalculaterMaxTokenLength(_functionNameSet);
         }
 
-       
+        private void GuardParams(IFunctionDefinition function)
+        {
+            var functionArguments = function.Arguments;
+            if (functionArguments.Length == 0) return;
+            for (var i = 0; i < functionArguments.Length - 1; i++)
+            {
+                if(functionArguments[i].Params) throw new ArgumentException($"Only last argument of a function can be a params argument. Argument {functionArguments[i].Name} of {function.Name} is in violation.");
+            }
+        }
+
+
         public abstract string GroupName { get; }
 
 

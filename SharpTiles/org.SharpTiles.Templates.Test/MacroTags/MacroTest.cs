@@ -39,7 +39,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
             ITag tag = CreateFactory().Parse("<macro:define var='testA'>aa</macro:define>");
             tag.Evaluate(model);
             Assert.That(model.Page["testA"], Is.Not.Null);
-            Assert.That((model.Page["testA"] as DefineMacro.MarcoDefinition), Is.Not.Null);
+            Assert.That((model.Page["testA"] as DefineMacroTag.MarcoDefinition), Is.Not.Null);
         }
 
         [Test]
@@ -57,8 +57,8 @@ namespace org.SharpTiles.Templates.Test.SharpTags
             var model = new TagModel(this);
             ITag tag = CreateFactory().Parse("<macro:define var='testA'>aa</macro:define>");
             tag.Evaluate(model);
-            Assert.That((model.Page["testA"] as DefineMacro.MarcoDefinition), Is.Not.Null);
-            Assert.That((model.Page["testA"] as DefineMacro.MarcoDefinition).Evaluate(model), Is.EqualTo("aa"));
+            Assert.That((model.Page["testA"] as DefineMacroTag.MarcoDefinition), Is.Not.Null);
+            Assert.That((model.Page["testA"] as DefineMacroTag.MarcoDefinition).Evaluate(model), Is.EqualTo("aa"));
         }
 
         [Test]
@@ -67,8 +67,8 @@ namespace org.SharpTiles.Templates.Test.SharpTags
             var model = new TagModel(this);
             CreateFactory().Parse("<macro:define var='testA'>aa</macro:define>").Evaluate(model);
             CreateFactory().Parse("<macro:define var='testB'>bb</macro:define>").Evaluate(model);
-            Assert.That((model.Page["testA"] as DefineMacro.MarcoDefinition).Evaluate(model), Is.EqualTo("aa"));
-            Assert.That((model.Page["testB"] as DefineMacro.MarcoDefinition).Evaluate(model), Is.EqualTo("bb"));
+            Assert.That((model.Page["testA"] as DefineMacroTag.MarcoDefinition).Evaluate(model), Is.EqualTo("aa"));
+            Assert.That((model.Page["testB"] as DefineMacroTag.MarcoDefinition).Evaluate(model), Is.EqualTo("bb"));
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
             var model = new TagModel(this);
             CreateFactory().Parse("<macro:define var='testA'>aa</macro:define>").Evaluate(model);
             CreateFactory().Parse("<macro:define var='testA'>bb</macro:define>").Evaluate(model);
-            Assert.That((model.Page["testA"] as DefineMacro.MarcoDefinition).Evaluate(model), Is.EqualTo("bb"));
+            Assert.That((model.Page["testA"] as DefineMacroTag.MarcoDefinition).Evaluate(model), Is.EqualTo("bb"));
         }
 
         [Test]
@@ -138,7 +138,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
             ITag tag = CreateFactory().Parse("<macro:function var='testA' argument-1='firstName' argument-2='lastName'>Hi ${firstName} ${lastName}</macro:function>");
             tag.Evaluate(model);
             Assert.That(model.Page["testA"], Is.Not.Null);
-            Assert.That((model.Page["testA"] as DefineFunction.FunctionDefinition), Is.Not.Null);
+            Assert.That((model.Page["testA"] as DefineFunctionTag.FunctionDefinition), Is.Not.Null);
         }
 
 
@@ -149,7 +149,7 @@ namespace org.SharpTiles.Templates.Test.SharpTags
             ITag tag = CreateFactory().Parse("<macro:function var='testA' argument-1='firstName' argument-2='lastName'>Hi ${firstName} ${lastName}</macro:function>");
             tag.Evaluate(model);
             Assert.That(model.Page["testA"], Is.Not.Null);
-            var function = (model.Page["testA"] as DefineFunction.FunctionDefinition);
+            var function = (model.Page["testA"] as DefineFunctionTag.FunctionDefinition);
             Assert.That(function.Arguments, Is.EquivalentTo(new string[]{"firstName","lastName"}));
         }
 
@@ -168,12 +168,12 @@ namespace org.SharpTiles.Templates.Test.SharpTags
             var model = new TagModel(this);
             ITag tag = CreateFactory().Parse("<macro:function var='testA' argument-1='firstName' argument-2='lastName'>Hi ${firstName} ${lastName}</macro:function>");
             tag.Evaluate(model);
-            Assert.That((model.Page["testA"] as DefineFunction.FunctionDefinition), Is.Not.Null);
+            Assert.That((model.Page["testA"] as DefineFunctionTag.FunctionDefinition), Is.Not.Null);
             var functionModel  = new TagModel(this);
             functionModel.PushTagStack(true);
             functionModel.Tag["firstName"] = "John";
             functionModel.Tag["lastName"] = "Doe";
-            Assert.That((model.Page["testA"] as DefineFunction.FunctionDefinition).Evaluate(functionModel), Is.EqualTo("Hi John Doe"));
+            Assert.That((model.Page["testA"] as DefineFunctionTag.FunctionDefinition).Evaluate(functionModel), Is.EqualTo("Hi John Doe"));
         }
 
         [Test]
@@ -182,13 +182,24 @@ namespace org.SharpTiles.Templates.Test.SharpTags
             var model = new TagModel(this);
             CreateFactory().Parse("<macro:function var='testA' argument-1='firstName' argument-2='lastName'>Hi ${firstName} ${lastName}</macro:function>").Evaluate(model);
             CreateFactory().Parse("<macro:function var='testB' argument-1='firstName' argument-2='lastName'>Bye ${firstName} ${lastName}</macro:function>").Evaluate(model);
-            Assert.That((model.Page["testA"] as DefineFunction.FunctionDefinition), Is.Not.Null);
+            Assert.That((model.Page["testA"] as DefineFunctionTag.FunctionDefinition), Is.Not.Null);
             var functionModel = new TagModel(this);
             functionModel.PushTagStack(true);
             functionModel.Tag["firstName"] = "John";
             functionModel.Tag["lastName"] = "Doe";
-            Assert.That((model.Page["testA"] as DefineFunction.FunctionDefinition).Evaluate(functionModel), Is.EqualTo("Hi John Doe"));
-            Assert.That((model.Page["testB"] as DefineFunction.FunctionDefinition).Evaluate(functionModel), Is.EqualTo("Bye John Doe"));
+            Assert.That((model.Page["testA"] as DefineFunctionTag.FunctionDefinition).Evaluate(functionModel), Is.EqualTo("Hi John Doe"));
+            Assert.That((model.Page["testB"] as DefineFunctionTag.FunctionDefinition).Evaluate(functionModel), Is.EqualTo("Bye John Doe"));
+        }
+
+        [Test]
+        public void Should_Also_Call_The_Function_Using_The_Function()
+        {
+            var model = new TagModel(this);
+            CreateFactory().Parse("<macro:function var='testA' argument-1='firstName' argument-2='lastName'>Hi ${firstName} ${lastName}</macro:function>").Evaluate(model);
+            CreateFactory().Parse("<macro:function var='testB' argument-1='firstName' argument-2='lastName'>Bye ${firstName} ${lastName}</macro:function>").Evaluate(model);
+            Assert.That((model.Page["testA"] as DefineFunctionTag.FunctionDefinition), Is.Not.Null);
+            Assert.That(new ExpressionLib(new MacroFunctionLib()).Parse("macro:call(testA,'John','Doe')").Evaluate(model), Is.EqualTo("Hi John Doe"));
+            Assert.That(new ExpressionLib(new MacroFunctionLib()).Parse("macro:call(testB,'John','Doe')").Evaluate(model), Is.EqualTo("Bye John Doe"));
         }
 
         [Test]
@@ -231,7 +242,8 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         {
             var lib = new TagLib();
             lib.Register(new Macro());
-            return new TagLibParserFactory(new TagLibForParsing(lib), new ExpressionLib(), new FileLocatorFactory(), null);
+
+            return new TagLibParserFactory(new TagLibForParsing(lib), new ExpressionLib(new MacroFunctionLib()), new FileLocatorFactory(), null);
         }
     }
 }

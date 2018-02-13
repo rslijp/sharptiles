@@ -6,7 +6,7 @@ using org.SharpTiles.Tags.CoreTags;
 
 namespace org.SharpTiles.Templates.MacroTags
 {
-    public class CallMacro : BaseCoreTagWithFreeFields, ITag
+    public class CallMacroTag : BaseCoreTagWithFreeFields, ITag
     {
         public static readonly string NAME = "call";
 
@@ -35,8 +35,8 @@ namespace org.SharpTiles.Templates.MacroTags
             {
                 throw MacroException.NotFound(id).Decorate(Name.Context);
             }
-            var macro = raw as DefineMacro.MarcoDefinition;
-            var function = raw as DefineFunction.FunctionDefinition;
+            var macro = raw as DefineMacroTag.MarcoDefinition;
+            var function = raw as DefineFunctionTag.FunctionDefinition;
             if (macro == null && function==null)
             {
                 throw MacroException.NoMacroOrFunction(id).Decorate(Name.Context);
@@ -48,7 +48,7 @@ namespace org.SharpTiles.Templates.MacroTags
             return ExecuteFunction(model, function);
         }
 
-        private string ExecuteFunction(TagModel model, DefineFunction.FunctionDefinition function)
+        private string ExecuteFunction(TagModel model, DefineFunctionTag.FunctionDefinition function)
         {
             model.PushTagStack(false);
             var freeFields = FreeFields(model);
@@ -67,7 +67,7 @@ namespace org.SharpTiles.Templates.MacroTags
             return result;
         }
 
-        private string ExecuteMacro(TagModel model, string id, DefineMacro.MarcoDefinition macro)
+        private string ExecuteMacro(TagModel model, string id, DefineMacroTag.MarcoDefinition macro)
         {
             if (FreeAttribs.Count > 0)
             {

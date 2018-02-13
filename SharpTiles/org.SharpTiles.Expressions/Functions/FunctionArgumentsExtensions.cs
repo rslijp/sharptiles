@@ -22,7 +22,8 @@ namespace org.SharpTiles.Expressions.Functions
 
         public static bool IsParamsFunctions(this FunctionArgument[] arguments)
         {
-            return arguments.Length == 1 && arguments[0].Params;
+            return arguments.Length >= 1 && arguments.Last().Params;
+//            return arguments.Length == 1 && arguments[0].Params;
         }
     }
 }

@@ -8,11 +8,11 @@ using org.SharpTiles.Tags.CoreTags;
 
 namespace org.SharpTiles.Templates.MacroTags
 {
-    public class DefineFunction : BaseCoreTagWithVariable, ITag, ITagAttributeSetter
+    public class DefineFunctionTag : BaseCoreTagWithVariable, ITag, ITagAttributeSetter
     {
         public static readonly string NAME = "function";
 
-        public DefineFunction()
+        public DefineFunctionTag()
         {
             Arguments=new List<ITagAttribute>();
         }
@@ -20,6 +20,8 @@ namespace org.SharpTiles.Templates.MacroTags
         #region ITag Members
 
         public string TagName => NAME;
+
+        public ITagAttribute Result { get; private set; }
 
         private List<ITagAttribute> Arguments { get; }
 
@@ -53,6 +55,7 @@ namespace org.SharpTiles.Templates.MacroTags
         {
             get
             {
+                if (nameof(Result).Equals(property)) return Result;
                 var argumentIndex = ParseArgumentsProperty(property);
                 if (!argumentIndex.HasValue) return base.AttributeSetter[property];
                 if (argumentIndex >= Arguments.Count) return null;
@@ -60,6 +63,11 @@ namespace org.SharpTiles.Templates.MacroTags
 
             }
             set {
+                if (nameof(Result).Equals(property))
+                {
+                    Result = value;
+                    return;
+                }
                 var argumentIndex = ParseArgumentsProperty(property);
                 if (!argumentIndex.HasValue)
                 {
