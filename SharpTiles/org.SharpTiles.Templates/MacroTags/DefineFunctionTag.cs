@@ -40,6 +40,10 @@ namespace org.SharpTiles.Templates.MacroTags
             {
                 def.RegisterArgument(TypeConverter.To<string>(argument.Evaluate(model)));
             }
+            if (Result != null)
+            {
+                def.Result = TypeConverter.To<string>(Result.Evaluate(model));
+            }
             if (GetAutoValueAsBool(nameof(IsStrict),model))
             {
                 def.MakeStrict();
@@ -117,13 +121,17 @@ namespace org.SharpTiles.Templates.MacroTags
                 _arguments.Add(name);
             }
 
+            public string Result { get; set; }
+
             public string[] Arguments => _arguments.ToArray();
 
             public bool IsStrict { get; private set; }
 
-            public string Evaluate(TagModel model)
+            public object Evaluate(TagModel model)
             {
-                return _lazyFunction(model);
+                var output = _lazyFunction(model);
+                if (string.IsNullOrEmpty(Result)) return output;
+                return model.TryGet(Result);
             }
 
             public void MakeStrict()

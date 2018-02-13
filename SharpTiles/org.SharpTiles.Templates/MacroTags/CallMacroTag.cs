@@ -50,7 +50,7 @@ namespace org.SharpTiles.Templates.MacroTags
 
         private string ExecuteFunction(TagModel model, DefineFunctionTag.FunctionDefinition function)
         {
-            model.PushTagStack(false);
+            model.PushTagStack();
             var freeFields = FreeFields(model);
             foreach (var argument in function.Arguments)
             {
@@ -64,7 +64,7 @@ namespace org.SharpTiles.Templates.MacroTags
             }
             var result = function.Evaluate(model);
             model.PopTagStack();
-            return result;
+            return TypeConverter.To<string>(result);
         }
 
         private string ExecuteMacro(TagModel model, string id, DefineMacroTag.MarcoDefinition macro)

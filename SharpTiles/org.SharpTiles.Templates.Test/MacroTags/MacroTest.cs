@@ -203,6 +203,17 @@ namespace org.SharpTiles.Templates.Test.SharpTags
         }
 
         [Test]
+        public void Should_Use_The_Result_Var_Of_The_Function()
+        {
+            var model = new TagModel(this);
+            CreateFactory().Parse("<macro:function var='testA' argument-1='firstName' argument-2='lastName'>Hi ${firstName} ${lastName}</macro:function>").Evaluate(model);
+            CreateFactory().Parse("<macro:function var='testB' argument-1='firstName' argument-2='lastName' result='output'>X<c:set var='output'>Bye ${firstName} ${lastName}</c:set>X</macro:function>").Evaluate(model);
+            Assert.That((model.Page["testA"] as DefineFunctionTag.FunctionDefinition), Is.Not.Null);
+            Assert.That(new ExpressionLib(new MacroFunctionLib()).Parse("macro:call(testA,'John','Doe')").Evaluate(model), Is.EqualTo("Hi John Doe"));
+            Assert.That(new ExpressionLib(new MacroFunctionLib()).Parse("macro:call(testB,'John','Doe')").Evaluate(model), Is.EqualTo("Bye John Doe"));
+        }
+
+        [Test]
         public void Should_Call_Correct_Function()
         {
             var model = new TagModel(this);
