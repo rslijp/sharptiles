@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- using org.SharpTiles.Common;
+
+using System;
+using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Tags.CoreTags
 {
@@ -27,9 +29,9 @@ namespace org.SharpTiles.Tags.CoreTags
         [TagDefaultValue("Page")]
         [EnumProperyType(typeof(VariableScope))]
         public ITagAttribute Scope { get; set; }
-
+        public bool SetWithNaturalLanguage { get;set; }
         [Required]
-        public ITagAttribute Var { get; set; }
+        public virtual ITagAttribute Var { get; set; }
 
         public abstract object InternalEvaluate(TagModel model);
 
@@ -37,7 +39,7 @@ namespace org.SharpTiles.Tags.CoreTags
 
         public string Evaluate(TagModel model)
         {
-            return VariableHelper.Evaluate(this, model);
+            return VariableHelper.Evaluate(this, model, SetWithNaturalLanguage);
         }
     }
 }

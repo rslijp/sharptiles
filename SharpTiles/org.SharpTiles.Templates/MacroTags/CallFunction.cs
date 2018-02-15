@@ -22,7 +22,7 @@ namespace org.SharpTiles.Templates.MacroTags
             var args = parameters.Skip(1).ToArray();
             if (args.Length != def.Arguments.Length)
             {
-                throw new  MacroException($"Arguments length not matched. Found {args.Length} and expected {def.Arguments.Length}.");
+                throw MacroException.ArgumentIndexOutOfBounds(args.Length, def.Arguments.Length);
             }
             var model = new Dictionary<string, object>();
             for (var i=0; i<def.Arguments.Length; i++)

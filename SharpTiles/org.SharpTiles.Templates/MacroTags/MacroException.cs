@@ -41,7 +41,7 @@ namespace org.SharpTiles.Expressions
 
         public static PartialExceptionWithContext<MacroException> NullNotAllowed(string argumentName)
         {
-            var msg = $"Can't find varialbe {argumentName}(or {LanguageHelper.CamelCaseAttribute(argumentName)} which is required, because called function is strict";
+            var msg = $"Can't find variable {argumentName} which is required, because this is a function.";
             return MakePartial(new MacroException(msg));
         }
 
@@ -51,10 +51,10 @@ namespace org.SharpTiles.Expressions
             return MakePartial(new MacroException(msg));
         }
 
-        public static PartialExceptionWithContext<MacroException> ArgumentIndexOutOfBounds(int index, int bounds)
+        public static MacroException ArgumentIndexOutOfBounds(int size, int expected)
         {
-            var msg = $"Argument index '{index}' exceeds number of arguments of {bounds}";
-            return MakePartial(new MacroException(msg));
+            var msg = $"Found {size}, but expected {expected}";
+            return new MacroException(msg);
         }
 
         public static PartialExceptionWithContext<MacroException> ExcpectedArgumentIndex(int index, int bounds)

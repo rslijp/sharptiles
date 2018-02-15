@@ -30,6 +30,7 @@ namespace org.SharpTiles.Templates.MacroTags
             {
                 throw ExpressionParseException.UnexpectedNullValue(nameof(Name)).Decorate(Name.Context);
             }
+            id = LanguageHelper.CamelCaseAttribute(id);
             var raw = model.TryGet(id);
             if (raw == null)
             {

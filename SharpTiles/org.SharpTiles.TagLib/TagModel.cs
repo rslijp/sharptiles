@@ -37,7 +37,7 @@ namespace org.SharpTiles.Tags
         public static readonly IList<VariableScope> SCOPE_ORDER;
         private readonly Reflection _internal;
         private readonly IModel _model;
-        private IModel _page;
+        private readonly IModel _page;
         private readonly IResponse _response;
         private readonly IModel _request;
         private readonly IModel _session;
@@ -278,7 +278,7 @@ namespace org.SharpTiles.Tags
                 case VariableScope.Page:
                     return _page;
                 case VariableScope.Request:
-                    return _session;
+                    return _request;
                 case VariableScope.Session:
                     return _session;
                 case VariableScope.Tag:
@@ -335,11 +335,11 @@ namespace org.SharpTiles.Tags
         public TagModel Fork(IModel model)
         {
             return new TagModel(
-                model                
-            )
-            {
-                _page = _page?.AsReadonlyModel()           
-            };
+                model,
+                null,
+                _page?.AsReadonlyModel(),
+                null
+            );
         }
     }
 }

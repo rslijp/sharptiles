@@ -10,11 +10,18 @@ namespace org.SharpTiles.Templates.MacroTags
 {
     public class DefineFunctionTag : BaseCoreTagWithVariable, ITag, ITagAttributeSetter
     {
-        public static readonly string NAME = "function";
+        private static readonly string NAME = "function";
+
+        [TagDefaultProperty(nameof(Name))]
+        public override ITagAttribute Var { get; set; }
+
+        [Required]
+        public ITagAttribute Name { get; set; }
 
         public DefineFunctionTag()
         {
             Arguments=new List<ITagAttribute>();
+            SetWithNaturalLanguage = true;
         }
 
         #region ITag Members

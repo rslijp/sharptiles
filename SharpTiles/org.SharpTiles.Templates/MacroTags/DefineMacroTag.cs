@@ -7,7 +7,12 @@ namespace org.SharpTiles.Templates.MacroTags
 {
     public class DefineMacroTag : BaseCoreTagWithVariable, ITag
     {
-        public static readonly string NAME = "define";
+        private static readonly string NAME = "define";
+
+        public DefineMacroTag()
+        {
+            SetWithNaturalLanguage = true;
+        }
 
         #region ITag Members
 
@@ -15,6 +20,13 @@ namespace org.SharpTiles.Templates.MacroTags
         {
             get { return NAME; }
         }
+
+        [Internal]
+        [TagDefaultProperty(nameof(Name))]
+        public override ITagAttribute Var { get; set; }
+
+        [Required]
+        public ITagAttribute Name { get; set; }
 
         [Internal]
         public ITagAttribute Body { get; set; }

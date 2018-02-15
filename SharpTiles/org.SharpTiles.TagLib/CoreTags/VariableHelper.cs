@@ -17,15 +17,20 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
  using System;
+ using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Tags.CoreTags
 {
     public static class VariableHelper
     {
-        public static string Evaluate(ITagWithVariable tag, TagModel model)
+        public static string Evaluate(ITagWithVariable tag, TagModel model, bool naturalLanguage=false)
         {
             var result = tag.InternalEvaluate(model);
             var var = tag.GetAutoValueAsString("Var", model);
+            if (naturalLanguage)
+            {
+                var=LanguageHelper.CamelCaseAttribute(var);
+            }
             var scope = tag.GetAutoValueAs<VariableScope>("Scope", model);
             if (scope != VariableScope.Page || !model.TryUpdateTag(var, result))
             {
