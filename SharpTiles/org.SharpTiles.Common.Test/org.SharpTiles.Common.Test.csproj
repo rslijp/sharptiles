@@ -80,6 +80,7 @@
     <Compile Include="StringUtilsTest.cs" />
     <Compile Include="ParseContextTest.cs" />
     <Compile Include="TokenizerTest.cs" />
+    <Compile Include="TypeConverterTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\org.SharpTiles.Common\org.SharpTiles.Common.csproj">

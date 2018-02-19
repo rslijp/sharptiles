@@ -169,10 +169,12 @@ namespace org.SharpTiles.Common
 
         private const string DATE_ONLY = "yyyy-MM-dd";
         private const string DATE_TIME = "yyyy-MM-dd HH:mm:ss";
+        private const string DATE_TIME2 = "yyyy-MM-dd'T'HH:mm:ss";
 
         private static DateTime? ParseUniversalDate(string source, IFormatProvider formatProvider)
         {
             if (source.Length.Equals(DATE_ONLY.Length)) return DateTime.ParseExact(source, DATE_ONLY, formatProvider).ToUniversalTime();
+            if (source[10]=='T') return DateTime.ParseExact(source, DATE_TIME2, formatProvider).ToUniversalTime();
             return DateTime.ParseExact(source, DATE_TIME, formatProvider).ToUniversalTime();
         }
         public static T To<T>(object source)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using org.SharpTiles.Common;
 using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
@@ -51,17 +52,35 @@ namespace org.SharpTiles.Templates.MacroTags
 
         private string ExecuteFunction(TagModel model, DefineFunctionTag.FunctionDefinition function)
         {
-            model.PushTagStack();
+            var callArguments = new Dictionary<string,object>();
             var freeFields = FreeFields(model);
-            foreach (var argument in function.Arguments)
+            foreach (var argumentWithDefault in function.Arguments)
             {
+                var argument = argumentWithDefault;
+                var defaultPath = null as string;
+                if (argumentWithDefault.Contains("(") && argumentWithDefault.EndsWith(")"))
+                {
+                    var split = argumentWithDefault.IndexOf("(", StringComparison.InvariantCulture);
+                    argument = argumentWithDefault.Substring(0, split);
+                    defaultPath = argumentWithDefault.Substring(split + 1, argumentWithDefault.Length-split-2);
+                    // Console.WriteLine(defaultPath);
+                }
                 var value = CollectionUtils.SafeGet(freeFields,argument) ?? CollectionUtils.SafeGet(freeFields, LanguageHelper.CamelCaseProperty(argument));
-                //accept null values;
+                if (!string.IsNullOrEmpty(defaultPath) && value == null)
+                {
+                    value=model.TryGet(defaultPath);
+                }
                 if (function.IsStrict && value==null)
                 {
                     throw MacroException.NullNotAllowed(argument).Decorate(Name.Context);
                 }
-                model.Tag[argument] = value;
+                callArguments[argument] = value;
+//                model.Tag[argument] = value;
+            }
+            model.PushTagStack();
+            foreach (var argument in callArguments)
+            {
+                model.Tag[argument.Key] =argument.Value;
             }
             var result = function.Evaluate(model);
             model.PopTagStack();

@@ -28,6 +28,10 @@ namespace org.SharpTiles.Templates.MacroTags
             for (var i=0; i<def.Arguments.Length; i++)
             {
                 var argument = def.Arguments[i];
+                if (argument.Contains("("))
+                {
+                    argument = argument.Substring(0, argument.IndexOf("(", StringComparison.InvariantCulture));
+                }
                 model[argument] = args[i];
             }
             return def.Evaluate(new TagModel(model));

@@ -43,9 +43,10 @@ namespace org.SharpTiles.Common
             get { return _context; }
         }
 
-        public void Update(ParseContext context)
+        public ExceptionWithContext Update(ParseContext context)
         {
             _context = context;
+            return this;
         }
 
 

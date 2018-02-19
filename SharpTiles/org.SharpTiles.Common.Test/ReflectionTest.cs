@@ -1109,5 +1109,6 @@ namespace org.SharpTiles.Common.Test
             Assert.That(!r.HasPropertyOfType("Enumerable", typeof(ArrayList)));
             Assert.That(r.HasPropertyOfType("Enumerable", typeof(IEnumerable)));
         }
+        
     }
 }

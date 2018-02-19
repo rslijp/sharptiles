@@ -200,6 +200,17 @@ namespace org.SharpTiles.Templates.Test.MacroTags
         }
 
         [Test]
+        public void Should_Also_Call_The_Function_Using_The_Function_Should_Ignore_Default_Values()
+        {
+            var model = new TagModel(this);
+            CreateFactory().Parse("<macro:function name='testA' argument-1='firstName(X)' argument-2='lastName(X)'>Hi ${firstName} ${lastName}</macro:function>").Evaluate(model);
+            CreateFactory().Parse("<macro:function name='testB' argument-1='firstName(X)' argument-2='lastName(X)'>Bye ${firstName} ${lastName}</macro:function>").Evaluate(model);
+            Assert.That((model.Page["TestA"] as DefineFunctionTag.FunctionDefinition), Is.Not.Null);
+            Assert.That(new ExpressionLib(new MacroFunctionLib()).Parse("macro:call(TestA,'John','Doe')").Evaluate(model), Is.EqualTo("Hi John Doe"));
+            Assert.That(new ExpressionLib(new MacroFunctionLib()).Parse("macro:call(TestB,'John','Doe')").Evaluate(model), Is.EqualTo("Bye John Doe"));
+        }
+
+        [Test]
         public void Should_Use_The_Result_Var_Of_The_Function()
         {
             var model = new TagModel(this);
@@ -289,6 +300,19 @@ namespace org.SharpTiles.Templates.Test.MacroTags
             lib.Register(new Macro());
 
             return new TagLibParserFactory(new TagLibForParsing(lib), new ExpressionLib(new MacroFunctionLib()), new FileLocatorFactory(), null);
+        }
+
+        [Test]
+        public void Should_User_Function_Defaults_For_Arguments()
+        {
+            var model = new TagModel(this);
+            CreateFactory().Parse("<macro:function name='testA' argument-1='firstName(FIRST)' argument-2='lastName(LAST)'>Hi ${firstName} ${lastName}</macro:function>").Evaluate(model);
+            model.PushTagStack(true);
+            model.Tag["FIRST"] = "John";
+            model.Tag["LAST"] = "Doe";
+            var result = CreateFactory().Parse("<macro:call name='testA'/>").Evaluate(model);
+            model.PopTagStack();
+            Assert.That(result, Is.EqualTo("Hi John Doe"));
         }
     }
 }
