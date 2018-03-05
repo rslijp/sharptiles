@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CollectionUtilsTest.cs" />
+    <Compile Include="EnumParserTest.cs" />
     <Compile Include="ModelWithFreeFieldsTest.cs" />
     <Compile Include="NaturalLanguageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

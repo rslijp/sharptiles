@@ -29,8 +29,13 @@ namespace org.SharpTiles.Common
         {
             foreach (T enumValue in Enum.GetValues(typeof (T)))
             {
-                CACHE.Add(enumValue.ToString(), enumValue);
-                CACHE.Add(enumValue.ToString().ToLower(), enumValue);
+                var key = enumValue.ToString();
+                if (!CACHE.ContainsKey(key))
+                    CACHE.Add(key, enumValue);
+
+                key = enumValue.ToString().ToLowerInvariant();
+                if (!CACHE.ContainsKey(key))
+                    CACHE.Add(key, enumValue);
             }
         }
 
