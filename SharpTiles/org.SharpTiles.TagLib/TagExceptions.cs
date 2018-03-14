@@ -156,6 +156,12 @@ namespace org.SharpTiles.Tags
             return MakePartial(new TagException(msg));
         }
 
+        public static TagException DuplicateTag(string tag, params string[] knownTags)
+        {
+            string msg = string.Format("Duplicate tag '{0}'. Known tags are: {1}", tag, string.Join(", ", knownTags));
+            return new TagException(msg);
+        }
+
         public static PartialExceptionWithContext<TagException> EvaluationError(Exception e)
         {
             return MakePartial(new TagException(e));
