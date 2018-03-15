@@ -228,6 +228,8 @@ namespace org.SharpTiles.Expressions
 
         public IExpressionParser GetParser(Type type)
         {
+            if (!PARSERS_BY_TYPE.ContainsKey(type))
+                throw new ExpressionParseException($"No parser found for '{type}'");
             return PARSERS_BY_TYPE[type];
         }
 
