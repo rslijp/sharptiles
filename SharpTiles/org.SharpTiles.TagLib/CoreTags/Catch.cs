@@ -52,6 +52,7 @@ namespace org.SharpTiles.Tags.CoreTags
             try
             {
                 result = GetAsString(Body, model);
+                model[scope + "." + var] = null;
             }
             catch (Exception e)
             {

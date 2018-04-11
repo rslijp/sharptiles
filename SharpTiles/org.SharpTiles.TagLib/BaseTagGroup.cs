@@ -81,17 +81,24 @@ namespace org.SharpTiles.Tags
         public void Register<T>() where T : ITag, new()
         {
             ITagFactory factory = new GenericTagFactory<T>();
-            REGISTERED_TAGS.Add(factory.Name, factory);
+            AddTag(factory.Name, factory);
         }
 
         public void Register(Type type)
         {
             ITagFactory factory = new GenericTagFactory(type);
-            REGISTERED_TAGS.Add(factory.Name, factory);
+            AddTag(factory.Name, factory);
         }
 
         public void Register(ITagFactory factory)
         {
+            AddTag(factory.Name, factory);
+        }
+
+        private void AddTag(string name, ITagFactory factory)
+        {
+            if (REGISTERED_TAGS.ContainsKey(name))
+                throw TagException.DuplicateTag(name, REGISTERED_TAGS.Keys.ToArray());
             REGISTERED_TAGS.Add(factory.Name, factory);
         }
     }
