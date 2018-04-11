@@ -35,6 +35,8 @@ namespace org.SharpTiles.Expressions.Functions
             RegisterFunction(new ReplaceFunction());
             RegisterFunction(new RegExReplaceFunction());
             RegisterFunction(new JoinFunction());
+            RegisterFunction(new PluckFunction());
+            RegisterFunction(new SelectFunction());
             RegisterFunction(new SplitFunction());
             RegisterFunction(new EscapeXmlFunction());
             RegisterFunction(new ToLowerCaseFunction());

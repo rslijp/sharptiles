@@ -80,6 +80,8 @@
     <Compile Include="Functions\FunctionLib.cs" />
     <Compile Include="Functions\NowFunction.cs" />
     <Compile Include="Functions\PathCombineFunction.cs" />
+    <Compile Include="Functions\SelectFunction.cs" />
+    <Compile Include="Functions\PluckFunction.cs" />
     <Compile Include="Functions\RegExReplaceFunction.cs" />
     <Compile Include="Functions\PathFunction.cs" />
     <Compile Include="Functions\ReverseFunction.cs" />

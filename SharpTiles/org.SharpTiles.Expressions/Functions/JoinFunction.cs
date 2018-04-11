@@ -16,7 +16,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- using System;
+using System;
+using System.Collections;
+using System.Linq;
+using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Expressions.Functions
 {
@@ -25,7 +28,7 @@ namespace org.SharpTiles.Expressions.Functions
 
         private static readonly FunctionArgument[] ARGUMENTS = new[]
                              {
-                                 new FunctionArgument{ Type = typeof (string[]), Name = "parts"},
+                                 new FunctionArgument{ Type = typeof (object[]), Name = "parts"},
                                  new FunctionArgument{ Type = typeof (string), Name = "seperator"}
                              };
 
@@ -48,9 +51,10 @@ namespace org.SharpTiles.Expressions.Functions
 
         public object Evaluate(params object[] parameters)
         {
-            string[] source = (string[]) parameters[0] ?? new string[] {};
-            string seperator = (string) parameters[1] ?? "";
-            return string.Join(seperator, source);
+            var source = (object[]) parameters[0] ?? new object[] {};
+            var seperator = (string) parameters[1] ?? "";
+            var parts = source.Select(r => r?.ToString()).ToArray();
+            return string.Join(seperator, parts);
         }
 
         #endregion

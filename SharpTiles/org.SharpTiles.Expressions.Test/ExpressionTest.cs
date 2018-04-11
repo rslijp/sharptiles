@@ -1755,5 +1755,63 @@ namespace org.SharpTiles.Expressions.Test
             }
         }
 
+        [Test]
+        public void Select()
+        {
+            var y = new SampleModel {Name = "Y"};
+            var dic = new Dictionary<string,object>
+            {
+                { "Samples", new List<SampleModel>
+                {
+                    new SampleModel {Name = "X"},
+                    y,
+
+                } }
+            };
+            var r = new ExpressionLib().ParseAndEvaluate(
+                "fn:select(Samples, 'Name', 'Y')",
+                new Reflection(dic));
+            Assert.That((r as IEnumerable).Cast<object>().SingleOrDefault(),  Is.EqualTo(y));
+        }
+
+        [Test]
+        public void PluckAndSelect()
+        {
+            var y = new SampleModel { Name = "Y" };
+            var dic = new Dictionary<string, object>
+            {
+                { "Samples", new List<SampleModel>
+                {
+                    new SampleModel {Name = "X"},
+                    y,
+
+                } }
+            };
+            var r = new ExpressionLib().ParseAndEvaluate(
+                "fn:pluck(fn:select(Samples, 'Name', 'Y'),'Name')",
+                new Reflection(dic));
+            Assert.That((r as IEnumerable).Cast<object>().SingleOrDefault(), Is.EqualTo("Y"));
+          
+        }
+
+        [Test]
+        public void JoinPluckAndSelect()
+        {
+            var y = new SampleModel { Name = "Y" };
+            var dic = new Dictionary<string, object>
+            {
+                { "Samples", new List<SampleModel>
+                {
+                    new SampleModel {Name = "X"},
+                    y,
+
+                } }
+            };
+            var r = new ExpressionLib().ParseAndEvaluate(
+                "fn:join(fn:pluck(fn:select(Samples, 'Name', 'Y'),'Name'),',')",
+                new Reflection(dic));
+            Assert.That(r, Is.EqualTo("Y"));
+        }
+
     }
 }

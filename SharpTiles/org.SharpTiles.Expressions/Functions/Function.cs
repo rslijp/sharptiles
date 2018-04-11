@@ -94,8 +94,10 @@ namespace org.SharpTiles.Expressions.Functions
                             throw ConvertException.StaticTypeSafety(_function.Arguments[i].Type, node.ReturnType,
                                 node.ToString());
                     }
-                    else
-                    {
+                    else if ((_function.Arguments[i].Type != typeof(object) && !node.ReturnType.IsArray && !_function.Arguments[i].Type.IsArray) ||
+                             (_function.Arguments[i].Type != typeof(object[]) && node.ReturnType.IsArray && _function.Arguments[i].Type.IsArray)
+                        )   {
+                        
                         if (node.ReturnType != _function.Arguments[i].Type)
                             throw ConvertException.StaticTypeSafety(_function.Arguments[i].Type, node.ReturnType,
                                 node.ToString());
