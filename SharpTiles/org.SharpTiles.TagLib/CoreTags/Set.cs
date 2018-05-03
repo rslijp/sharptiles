@@ -50,12 +50,15 @@ namespace org.SharpTiles.Tags.CoreTags
         public override object InternalEvaluate(TagModel model)
         {
             var result = GetAutoValue(nameof(Value), model);
+            if (DefaultValue == null)
+                return result;
+
             if (result == null)
                 result = GetAutoValue(nameof(DefaultValue), model);
             else
             {
                 var text = result as string;
-                if (text != null && text.Length==0)
+                if (text != null && text.Length == 0)
                     result = GetAutoValue(nameof(DefaultValue), model);
             }
             return result;
