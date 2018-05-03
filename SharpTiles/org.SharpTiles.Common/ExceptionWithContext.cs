@@ -63,6 +63,21 @@ namespace org.SharpTiles.Common
             }
         }
 
+        public Exception SourceException
+        {
+            get
+            {
+                Exception exception = this;
+                while (exception.InnerException != null)
+                {
+                    exception = exception.InnerException;
+                }
+                return exception;
+            }
+        }
+
+        public string SourceMessage => SourceException?.Message ?? base.Message;
+
         public override string Message
         {
             get

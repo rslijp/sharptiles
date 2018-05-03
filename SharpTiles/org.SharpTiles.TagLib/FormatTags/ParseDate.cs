@@ -30,6 +30,7 @@ namespace org.SharpTiles.Tags.FormatTags
 
         [TagDefaultProperty("Body")]
         public ITagAttribute Value { get; set; }
+        public ITagAttribute DefaultValue { get; set; }
 
         [Internal]
         public ITagAttribute Body { get; set; }
@@ -55,6 +56,9 @@ namespace org.SharpTiles.Tags.FormatTags
             var format =
                 (DateTimeFormatInfo) DateTimeFormatInfo.GetInstance(culture.DateTimeFormat).Clone();
             DateTime? result = null;
+            if (string.IsNullOrEmpty(dateStr))
+                dateStr = GetAutoValueAsString(nameof(DefaultValue), model);
+
             if (!String.IsNullOrEmpty(dateStr))
             {
                 if (GetAutoValueAsBool("Exact", model))
