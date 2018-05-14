@@ -45,6 +45,8 @@ namespace org.SharpTiles.Tags.FormatTags
 
         public ITagAttribute ParseLocale { get; set; }
 
+        public ITagAttribute DefaultValue { get; set; }
+
         [EnumProperyType(typeof(BooleanEnum))]
         [TagDefaultValue(INTEGER_ONLY)]
         public ITagAttribute IntegerOnly { get; set; }
@@ -69,11 +71,11 @@ namespace org.SharpTiles.Tags.FormatTags
             NumberType type = GetAutoValueAs<NumberType>("Type", model).Value;
 
             decimal? result = null;
+            if (string.IsNullOrEmpty(value))
+                value = GetAutoValueAsString(nameof(DefaultValue), model);
 
-            if (!String.IsNullOrEmpty(value))
-            {
+            if (!string.IsNullOrEmpty(value))
                 result = Parse(model, value, type);
-            }
 
             return result;
         }

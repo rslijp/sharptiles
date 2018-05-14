@@ -28,6 +28,7 @@ namespace org.SharpTiles.Tags.CoreTags
 
         [TagDefaultProperty("Body")]
         public ITagAttribute Value { get; set; }
+        public ITagAttribute DefaultValue { get; set; }
 
         [Internal]
         public ITagAttribute Body { get; set; }
@@ -48,7 +49,19 @@ namespace org.SharpTiles.Tags.CoreTags
 
         public override object InternalEvaluate(TagModel model)
         {
-            return GetAutoValue("Value", model);
+            var result = GetAutoValue(nameof(Value), model);
+            if (DefaultValue == null)
+                return result;
+
+            if (result == null)
+                result = GetAutoValue(nameof(DefaultValue), model);
+            else
+            {
+                var text = result as string;
+                if (text != null && text.Length == 0)
+                    result = GetAutoValue(nameof(DefaultValue), model);
+            }
+            return result;
         }
     }
 }
