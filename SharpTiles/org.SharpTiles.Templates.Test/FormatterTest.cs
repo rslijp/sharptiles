@@ -992,5 +992,14 @@ namespace org.SharpTiles.Templates.Test
             fmt.Format(new TagModel(mdl));
             Assert.That(mdl.Out, Is.EqualTo(800.12m));
         }
+
+        [Test]
+        public void TestParseNumberWithLocale()
+        {
+            var mdl = new BugModel() { In = "0.42" };
+            var fmt = new Formatter("<fmt:setLocale value='en-GB'/><fmt:parseNumber Styles='AllowDecimalPoint' var='Out' value='${In}' scope=\"Model\"/>").Parse();
+            fmt.Format(new TagModel(mdl));
+            Assert.That(mdl.Out, Is.EqualTo(0.42m));
+        }
     }
 }

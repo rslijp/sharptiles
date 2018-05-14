@@ -40,7 +40,7 @@ namespace org.SharpTiles.Tags.FormatTags
         [TagDefaultValue(NumberType.Number)]
         public ITagAttribute Type { get; set; }
 
-        [EnumProperyType(typeof(NumberStyles))]
+        [EnumProperyType(typeof(NumberStyles), Multiple = true)]
         public ITagAttribute Styles { get; set; }
 
         public ITagAttribute ParseLocale { get; set; }

@@ -158,6 +158,17 @@ namespace org.SharpTiles.Tags.Test.FormatTags
         }
 
         [Test]
+        public void TestBug()
+        {
+            var tag = new ParseNumber();
+            tag.Value = new MockAttribute(new StringConstant("0.42"));
+            tag.Var = new MockAttribute(new StringConstant("Number"));
+            tag.IntegerOnly = new MockAttribute(new StringConstant("False"));
+            Assert.That(tag.Evaluate(_model), Is.EqualTo(String.Empty));
+            Assert.That(_model["Number"], Is.EqualTo(0.42m));
+        }
+
+        [Test]
         public void TestFromValueDecimalToVarWithDecimalSeperatorNotAllowedInStyle()
         {
             var tag = new ParseNumber();
@@ -176,6 +187,8 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             }
         }
 
+
+
         [Test]
         public void TestFromValueDecimalToVarWithDecimalSeperatorWithStyles()
         {
@@ -184,6 +197,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             tag.Var = new MockAttribute(new StringConstant("Decimal"));
             tag.Styles =
                 new MockAttribute(new StringConstant(NumberStyles.AllowDecimalPoint + "," + NumberStyles.AllowThousands));
+            Console.WriteLine(new StringConstant(NumberStyles.AllowDecimalPoint + "," + NumberStyles.AllowThousands));
             Assert.That(tag.Evaluate(_model), Is.EqualTo(String.Empty));
             Assert.That(_model["Decimal"], Is.EqualTo(1345.67m));
         }
@@ -212,5 +226,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
             Assert.That(tag.Evaluate(_model), Is.EqualTo(String.Empty));
             Assert.That(_model["Number"], Is.EqualTo(4m));
         }
+
+       
     }
 }
