@@ -171,6 +171,7 @@ namespace org.SharpTiles.Tags.CoreTags
         public bool GetAutoValueAsBool(string propertyName, TagModel model)
         {
             object result = GetAutoValue(propertyName, model);
+            if(result==null) new FormatException($"Can't parse '{propertyName}' to bool since it's null");
             return (bool)TypeConverter.To(result, typeof(bool));
         }
 

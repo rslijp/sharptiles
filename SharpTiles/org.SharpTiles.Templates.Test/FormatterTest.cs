@@ -1001,5 +1001,6 @@ namespace org.SharpTiles.Templates.Test
             fmt.Format(new TagModel(mdl));
             Assert.That(mdl.Out, Is.EqualTo(0.42m));
         }
+        
     }
 }
