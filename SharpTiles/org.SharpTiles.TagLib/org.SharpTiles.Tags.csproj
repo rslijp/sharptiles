@@ -94,6 +94,7 @@
     <Compile Include="ITagLib.cs" />
     <Compile Include="ITagExtendTagLib.cs" />
     <Compile Include="NumberPropertyTypeAttribute.cs" />
+    <Compile Include="PropertyAnnotationAttribute.cs" />
     <Compile Include="ReflectionAttributeSetter.cs" />
     <Compile Include="RequiredAttribute.cs" />
     <Compile Include="CoreTags\BaseCoreTag.cs" />
