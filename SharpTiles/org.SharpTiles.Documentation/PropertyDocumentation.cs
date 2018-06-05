@@ -32,7 +32,8 @@ namespace org.SharpTiles.Documentation
         Text,
         Number,
         Boolean,
-        Enum
+        Enum,
+        DateTime
     }
 
     [DataContract]
@@ -40,11 +41,9 @@ namespace org.SharpTiles.Documentation
     {
         private readonly ResourceKeyStack _messagePath;
         private readonly PropertyInfo _property;
-        private readonly string _propertyName;
+        private readonly EnumValue[] _enumValues;
         private bool _required;
         private string _default;
-        private DescriptionAttribute _description;
-        private EnumValue[] _enumValues;
 
         public PropertyDocumentation(ResourceKeyStack messagePath, PropertyInfo property)
         {
@@ -52,10 +51,15 @@ namespace org.SharpTiles.Documentation
             _messagePath = messagePath.BranchFor(property);
             IsRequired(property);
             DetermineDefault(property);
-            _description = DescriptionAttribute.Harvest(property)??_messagePath.Description;
+            Description = DescriptionAttribute.Harvest(property)??_messagePath.Description;
             _enumValues = GetEnumValues(_property.GetCustomAttribute<EnumProperyTypeAttribute>(false)?.EnumType);
             DataType = DetermineDataType(_property);
             Annotations = GetAnnotations(_property);
+            var dateAttr = property.GetCustomAttribute<DatePropertyTypeAttribute>();
+            if (dateAttr != null)
+            {
+                DateFormat = dateAttr.Format;
+            }
         }
 
         private string[] GetAnnotations(PropertyInfo property)
@@ -83,48 +87,43 @@ namespace org.SharpTiles.Documentation
             {
                 return TagAttributeDataType.Boolean;
             }
+            if (property.GetCustomAttribute<DatePropertyTypeAttribute>() != null)
+            {
+                return TagAttributeDataType.DateTime;
+            }
             return TagAttributeDataType.Text;
         }
 
         public PropertyDocumentation(ResourceKeyStack messagePath, PropertyAttribute property)
         {
-            _propertyName = property.Name;
             _messagePath = messagePath.BranchFor(new AttributeInfo(property.Name, property.DeclaringType));
             _required = property.Required;
             _default = property.DefaultValue;
-            _description = property.Description != null ? new DescriptionAttribute(property.Description) : _messagePath.Description;
+            Description = property.Description != null ? new DescriptionAttribute(property.Description) : _messagePath.Description;
             _enumValues = property.DeclaringType.IsEnum ? GetEnumValues(property.DeclaringType) : null;
         }
 
         [DataMember]
-        public bool Required
-        {
-            get { return _required; }
-        }
+        public bool Required => _required;
 
         [DataMember]
-        public string Default
-        {
-            get { return _default; }
-        }
+        public string Default => _default;
 
         #region IDescriptionElement Members
 
         [DataMember]
-        public string Id
-        {
-            get { return _messagePath.Id; }
-        }
+        public string Id => _messagePath.Id;
 
         [DataMember]
-        public DescriptionAttribute Description => _description;
+        public DescriptionAttribute Description { get; }
+
         public string DescriptionKey => _messagePath.DescriptionKey;
 
         [DataMember]
-        public string Name
-        {
-            get { return _property.Name; }
-        }
+        public string Name => _property.Name;
+
+        [DataMember]
+        public string DateFormat { get; }
 
         #endregion
 

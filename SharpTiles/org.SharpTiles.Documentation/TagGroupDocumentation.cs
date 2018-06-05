@@ -2,17 +2,17 @@
  * SharpTiles, R.Z. Slijp(2008), www.sharptiles.org
  *
  * This file is part of SharpTiles.
- * 
+ *
  * SharpTiles is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * SharpTiles is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,26 +31,35 @@ namespace org.SharpTiles.Documentation
     {
         private readonly ResourceKeyStack _messagePath;
         private readonly string _name;
-        private readonly IList<TagDocumentation> _tags;
+        private readonly IList<int> _tags;
         private IList<Func<ITag, TagDocumentation, bool>> _specials;
+        private readonly Dictionary<int, TagDocumentation> _tagDictionary;
         private readonly List<NoteAttribute> _notes = new List<NoteAttribute>();
         private readonly List<ExampleAttribute> _examples = new List<ExampleAttribute>();
         private readonly DescriptionAttribute _description;
         private readonly string _title;
 
-        public TagGroupDocumentation(ResourceKeyStack messagePath, ITagGroup tagGroup, IList<Func<ITag, TagDocumentation, bool>> specials)
+        public TagGroupDocumentation(ResourceKeyStack messagePath, ITagGroup tagGroup, IList<Func<ITag, TagDocumentation, bool>> specials, Dictionary<int,TagDocumentation> tagDictionary)
         {
             _messagePath = messagePath.BranchFor(tagGroup);
             _name = tagGroup.Name;
             _specials = specials;
-            _tags = new List<TagDocumentation>();
-            var tagGroupType=tagGroup.GetType();
-            _description=DescriptionAttribute.Harvest(tagGroupType)?? _messagePath.Description;
-            
+            _tagDictionary = tagDictionary;
+            _tags = new List<int>();
+            var tagGroupType = tagGroup.GetType();
+            _description = DescriptionAttribute.Harvest(tagGroupType)?? _messagePath.Description;
+
             _title = TitleAttribute.HarvestTagLibrary(tagGroupType);
             foreach (ITag _tag in tagGroup)
             {
-                _tags.Add(new TagDocumentation(_messagePath, _tag, _specials));
+                var hash = _tag.GetType().GetHashCode();
+                if (!_tagDictionary.ContainsKey(hash))
+                {
+                    _tagDictionary[hash] = null;
+                    var tagDoc = new TagDocumentation(_messagePath, _tag, _specials, _tagDictionary);
+                    _tagDictionary[hash] = tagDoc;
+                }
+                _tags.Add(hash);
             }
             if (ExampleAttribute.Harvest(tagGroupType))
             {
@@ -77,8 +86,11 @@ namespace org.SharpTiles.Documentation
         [DataMember]
         public NoteAttribute[] Notes => _notes.ToArray();
 
+        public IList<TagDocumentation> Tags => _tags.Select(t => _tagDictionary[t]).ToList();
+
+
         [DataMember]
-        public IList<TagDocumentation> Tags => _tags;
+        public IList<int> TagIds => _tags;
 
         #region IDescriptionElement Members
 

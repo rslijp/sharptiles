@@ -2,17 +2,17 @@
  * SharpTiles, R.Z. Slijp(2008), www.sharptiles.org
  *
  * This file is part of SharpTiles.
- * 
+ *
  * SharpTiles is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * SharpTiles is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -32,7 +32,7 @@ namespace org.SharpTiles.Documentation
     [DataContract]
     public class DocumentModel
     {
-      
+
         private IList<ExpressionDocumentation> _expressions;
         private IList<FunctionDocumentation> _functions;
         private IList<FunctionDocumentation> _mathFunctions;
@@ -43,11 +43,12 @@ namespace org.SharpTiles.Documentation
         private bool _all;
         private IList<Func<ITag, TagDocumentation, bool>> _specials;
         private ExpressionLib _expressionlib;
+        private Dictionary<int, TagDocumentation> _tagDictionary;
 
         public DocumentModel(TagLib subject, bool all, ResourceBundle bundle, IList<Func<ITag, TagDocumentation, bool>> specials=null)
         {
             _expressionlib = new ExpressionLib();
-
+            _tagDictionary = new Dictionary<int, TagDocumentation>();
             _subject = subject;
             _all = all;
             _specials = specials??new List<Func<ITag, TagDocumentation, bool>>();
@@ -62,10 +63,10 @@ namespace org.SharpTiles.Documentation
         {
             _groups = new List<TagGroupDocumentation>();
             var lib = _subject;
-           
+
             foreach (ITagGroup tag in lib)
             {
-                _groups.Add(new TagGroupDocumentation(_resouceKey, tag, _specials));
+                _groups.Add(new TagGroupDocumentation(_resouceKey, tag, _specials, _tagDictionary));
             }
         }
 
@@ -151,5 +152,8 @@ namespace org.SharpTiles.Documentation
                 return list;
             }
         }
+
+        [DataMember]
+        public Dictionary<int, TagDocumentation> TagDictionary => _tagDictionary;
     }
 }
