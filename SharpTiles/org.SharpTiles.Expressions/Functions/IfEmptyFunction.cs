@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 
 namespace org.SharpTiles.Expressions.Functions
 {
@@ -15,7 +14,7 @@ namespace org.SharpTiles.Expressions.Functions
 
         public FunctionArgument[] Arguments => ARGUMENTS;
 
-        public Type ReturnType => typeof(IList);
+        public Type ReturnType => typeof(object);
 
         public object Evaluate(params object[] parameters)
         {
