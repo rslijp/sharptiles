@@ -78,6 +78,8 @@ namespace org.SharpTiles.Expressions.Test
                 get { return 37; }
             }
 
+            public decimal? Null => null;
+
             public object[] EmptyArray
             {
                 get { return new object[0]; }
@@ -1581,6 +1583,26 @@ namespace org.SharpTiles.Expressions.Test
                     "max(3,FirstInt)",
                     new Reflection(new SampleModel())),
                 Is.EqualTo(42)
+            );
+        }
+
+        [Test]
+        public void TestDefaultNumberExpressionNull()
+        {
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
+                    "Null??'1'",
+                    new Reflection(new SampleModel())),
+                Is.EqualTo(1m)
+            );
+        }
+
+        [Test]
+        public void TestDefaultNumberExpressionNotNull()
+        {
+            Assert.That(new ExpressionLib().ParseAndEvaluate(
+                    "FirstInt??'1'",
+                    new Reflection(new SampleModel())),
+                Is.EqualTo(42m)
             );
         }
 

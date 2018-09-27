@@ -67,6 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArithmeticExpressions\ArithmeticExpression.cs" />
+    <Compile Include="ArithmeticExpressions\DefaultNumber.cs" />
+    <Compile Include="ArithmeticExpressions\DefaultNumberParser.cs" />
     <Compile Include="BooleanLogicExpressions\BooleanTernaryExpressionParser.cs" />
     <Compile Include="BooleanLogicExpressions\BooleanTernaryExpression.cs" />
     <Compile Include="ComparisionException.cs" />
