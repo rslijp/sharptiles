@@ -52,6 +52,7 @@ namespace org.SharpTiles.Expressions.Functions
             RegisterFunction(new FalseOrValueFunction());
             RegisterFunction(new AddDaysFunction());
             RegisterFunction(new AddMonthsFunction());
+            RegisterFunction(new IfEmptyFunction());
         }
 
         public override string GroupName

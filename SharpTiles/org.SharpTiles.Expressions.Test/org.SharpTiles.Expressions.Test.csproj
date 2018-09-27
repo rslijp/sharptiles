@@ -75,6 +75,7 @@
     <Compile Include="Functions\AddMonthsFunctionTest.cs" />
     <Compile Include="Functions\CustomFunctionLibTest.cs" />
     <Compile Include="Functions\FallbackFuntionTest.cs" />
+    <Compile Include="Functions\IfEmptyFunctionTest.cs" />
     <Compile Include="Functions\RegExReplaceFunctionTest.cs" />
     <Compile Include="Functions\ReverseFunctionTest.cs" />
     <Compile Include="Math\AbsFunctionTest.cs" />
