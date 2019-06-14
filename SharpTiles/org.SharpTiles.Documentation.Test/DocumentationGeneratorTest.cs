@@ -78,16 +78,6 @@ namespace org.SharpTiles.Documentation.Test
        
     }
 
-
-    [DataContract]
-    public class Simple
-    {
-        [DataMember]
-        public string A { get; set; }
-        [ScriptIgnore]
-        public string B { get; set; }
-    }
-
     public class TestGroup : BaseTagGroup<TestGroup>
     {
         public override string Name => "Test";

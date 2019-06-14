@@ -28,7 +28,7 @@ using MarkdownDeep;
 namespace org.SharpTiles.Documentation.DocumentationAttributes
 {
     [DataContract]
-    public class NoteValue : Attribute
+    public class NoteValue 
     {
         public NoteValue(string value)
         {
