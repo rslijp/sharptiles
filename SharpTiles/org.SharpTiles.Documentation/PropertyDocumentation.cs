@@ -165,12 +165,12 @@ namespace org.SharpTiles.Documentation
             [DataMember]
             public object Value { get; }
             [DataMember]
-            public DescriptionAttribute Description { get; }
+            public DescriptionValue Description { get; }
 
             public EnumValue(object value, DescriptionAttribute description)
             {
                 Value = value;
-                Description = description;
+                Description = description!=null?new DescriptionValue(description):null;
             }
 
             public static EnumValue Create(Type enumType, object value)
