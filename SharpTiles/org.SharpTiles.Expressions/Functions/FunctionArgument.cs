@@ -17,20 +17,13 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
  using System;
-using System.Collections.Generic;
- using System.Runtime.Serialization;
- using System.Text;
 
 namespace org.SharpTiles.Expressions.Functions
 {
-    [DataContract]
     public struct FunctionArgument
     {
-        [DataMember]
         public string Name { get; set; }
-        [DataMember]
         public Type Type { get; set; }
-        [DataMember]
         public bool Params { get; set; }
 
     }

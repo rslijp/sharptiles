@@ -23,6 +23,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Web.Script.Serialization;
 using org.SharpTiles.Common;
 using org.SharpTiles.Documentation.DocumentationAttributes;
 using org.SharpTiles.Tags;
@@ -33,18 +34,18 @@ namespace org.SharpTiles.Documentation
     [DataContract]
     public class TagDocumentation : IDescriptionElement
     {
-        private readonly Dictionary<int, TagDocumentation> _tagDictionary;
-        private readonly IList<int> _nested;
+        private readonly Dictionary<string, TagDocumentation> _tagDictionary;
+        private readonly IList<string> _nested;
         private readonly IList<PropertyDocumentation> _list;
         private readonly IList<FunctionDocumentation> _methods;
         private readonly ResourceKeyStack _messagePath;
         private readonly string _name;
         private readonly CategoryAttribute _category;
-        private readonly List<NoteAttribute> _notes = new List<NoteAttribute>();
-        private readonly List<ExampleAttribute> _examples = new List<ExampleAttribute>();
-        private readonly DescriptionAttribute _description;
+        private readonly List<NoteValue> _notes = new List<NoteValue>();
+        private readonly List<ExampleValue> _examples = new List<ExampleValue>();
+        private readonly DescriptionValue _description;
 
-        public TagDocumentation(ResourceKeyStack messagePath, ITag tag,  IList<Func<ITag, TagDocumentation,bool>> specials, Dictionary<int,TagDocumentation> tagDictionary)
+        public TagDocumentation(ResourceKeyStack messagePath, ITag tag,  IList<Func<ITag, TagDocumentation,bool>> specials, Dictionary<string,TagDocumentation> tagDictionary)
         {
             _tagDictionary = tagDictionary;
             _messagePath = messagePath.BranchFor(tag);
@@ -55,7 +56,7 @@ namespace org.SharpTiles.Documentation
             _category = CategoryHelper.GetCategory(tagType);
 
             _list = new List<PropertyDocumentation>();
-            _nested = new List<int>();
+            _nested = new List<string>();
             _methods = new List<FunctionDocumentation>();
             TagBodyMode = tag.TagBodyMode;
 
@@ -81,7 +82,7 @@ namespace org.SharpTiles.Documentation
             {
                 foreach (var nested in extendingTag.TagLibExtension)
                 {
-                    var hash = nested.GetType().GetHashCode();
+                    var hash = nested.GetType().GetHashCode().ToString();
                     if (!_tagDictionary.ContainsKey(hash))
                     {
                         _tagDictionary[hash] = null;
@@ -95,8 +96,8 @@ namespace org.SharpTiles.Documentation
             if (instanceDocumentation!=null)
             {
                 _description = instanceDocumentation.Description;
-                _examples.AddRange(instanceDocumentation.Examples?? new ExampleAttribute[] {});
-                _notes.AddRange(instanceDocumentation.Notes ?? new NoteAttribute[] {});
+                _examples.AddRange(instanceDocumentation.Examples?? new ExampleValue[] {});
+                _notes.AddRange(instanceDocumentation.Notes ?? new NoteValue[] {});
             }
             else
             {
@@ -108,7 +109,7 @@ namespace org.SharpTiles.Documentation
                 }
                 if (HasExample.Has(tagType))
                 {
-                    _examples.Add(new ExampleAttribute(_messagePath.Example));
+                    _examples.Add(new ExampleValue(_messagePath.Example));
                 }
                 if (NoteAttribute.Harvest(tagType))
                 {
@@ -116,21 +117,23 @@ namespace org.SharpTiles.Documentation
                 }
                 if (HasNote.Has(tagType))
                 {
-                    _notes.Add(new NoteAttribute(_messagePath.Note));
+                    _notes.Add(new NoteValue(_messagePath.Note));
                 }
             }
         }
 
 
+        [ScriptIgnore]
         public ResourceKeyStack MessagePath => _messagePath;
 
         [DataMember]
         public IList<PropertyDocumentation> Properties => _list;
 
+        [ScriptIgnore]
         public IList<TagDocumentation> NestedTags => _nested.Select(t => _tagDictionary[t]).ToList();
 
         [DataMember]
-        public IList<int> NestedTagIds => _nested;
+        public IList<string> NestedTagIds => _nested;
 
         [DataMember]
         public IList<FunctionDocumentation> Methods => _methods;
@@ -141,6 +144,7 @@ namespace org.SharpTiles.Documentation
         [DataMember]
         public TagBodyMode TagBodyMode { get; }
 
+        [DataMember]
         public string CategoryDescription
         {
             get
@@ -156,21 +160,22 @@ namespace org.SharpTiles.Documentation
 
     #region IDescriptionElement Members
 
-    [DataMember]
+        [DataMember]
         public string Id => _messagePath.Id;
 
         [DataMember]
-        public DescriptionAttribute Description => _description;
+        public DescriptionValue Description => _description;
+        [ScriptIgnore]
         public string DescriptionKey => _messagePath.DescriptionKey;
 
         [DataMember]
         public string Name => _name;
 
         [DataMember]
-        public ExampleAttribute[] Examples => _examples.ToArray();
+        public ExampleValue[] Examples => _examples.ToArray();
 
         [DataMember]
-        public NoteAttribute[] Notes => _notes.ToArray();
+        public NoteValue[] Notes => _notes.ToArray();
         #endregion
 
         private bool IsInternal(PropertyInfo property)

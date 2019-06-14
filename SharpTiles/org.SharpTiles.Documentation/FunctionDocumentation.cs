@@ -18,7 +18,10 @@
  */
  using System;
  using System.ComponentModel;
+ using System.Linq;
  using System.Runtime.Serialization;
+ using System.Web.Script.Serialization;
+ using org.SharpTiles.Documentation.DocumentationAttributes;
  using org.SharpTiles.Expressions.Functions;
  using DescriptionAttribute = org.SharpTiles.Documentation.DocumentationAttributes.DescriptionAttribute;
 
@@ -29,9 +32,9 @@ namespace org.SharpTiles.Documentation
     {
         private readonly ResourceKeyStack _messagePath;
         private readonly string _name;
-        private readonly FunctionArgument[] _arguments;
-        private readonly Type _returnType;
-        private readonly DescriptionAttribute _description;
+        private readonly FunctionArgumentDocumentation[] _arguments;
+        private readonly Type _returnTypeValue;
+        private readonly DescriptionValue _description;
         private readonly CategoryAttribute _category;
         private readonly string _libName;
            
@@ -41,8 +44,8 @@ namespace org.SharpTiles.Documentation
 
             _libName = libName;
             _name = func.Name;
-            _arguments = func.Arguments;
-            _returnType = func.ReturnType;
+            _arguments = func.Arguments.Select(arg=> new FunctionArgumentDocumentation(arg)).ToArray();
+            _returnTypeValue = func.ReturnType;
             _messagePath = messagePath.BranchFor(func);
             _description=_messagePath.Description;
             _category = CategoryHelper.GetCategory(func.GetType());
@@ -67,18 +70,21 @@ namespace org.SharpTiles.Documentation
         }
 
         [DataMember]
-        public DescriptionAttribute Description => _description;
+        public DescriptionValue Description => _description;
 
         [DataMember]
-        public FunctionArgument[] Arguments
+        public FunctionArgumentDocumentation[] Arguments
         {
             get { return _arguments; }
         }
 
-        [DataMember]
-        public Type ReturnType
+        [ScriptIgnore]
+        public Type ReturnTypeValue
         {
-            get { return _returnType; }
+            get { return _returnTypeValue; }
         }
+
+        [DataMember]
+        public string ReturnType => ReturnTypeValue.AssemblyQualifiedName;
     }
 }

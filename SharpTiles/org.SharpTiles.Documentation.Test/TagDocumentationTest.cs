@@ -37,7 +37,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void InternalPropertyIsNotIncluded()
         {
-            var tagDict = new Dictionary<int,TagDocumentation>();
+            var tagDict = new Dictionary<string, TagDocumentation>();
             var td = new TagDocumentation(new ResourceKeyStack(bundle), new Out(), new List<Func<ITag, TagDocumentation, bool>>(), tagDict);
             bool hasBody = false;
             foreach (PropertyDocumentation property in td.Properties)
@@ -50,7 +50,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void NonInternalPropertyIsIncluded()
         {
-            var tagDict = new Dictionary<int,TagDocumentation>();
+            var tagDict = new Dictionary<string,TagDocumentation>();
             var td = new TagDocumentation(new ResourceKeyStack(bundle), new Out(), new List<Func<ITag, TagDocumentation, bool>>(),tagDict);
             bool hasValue = false;
             foreach (PropertyDocumentation property in td.Properties)
@@ -63,17 +63,17 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void IInstanceTagDocumentationPropertyIsUsed()
         {
-            var tagDict = new Dictionary<int,TagDocumentation>();
+            var tagDict = new Dictionary<string, TagDocumentation>();
             var td = new TagDocumentation(new ResourceKeyStack(bundle), new InstanceTagDocumentationOut(), new List<Func<ITag, TagDocumentation, bool>>(), tagDict);
-            bool hasBody = false;
+//            bool hasBody = false;
             Assert.That(td.Description.Value, Is.EqualTo("Hi"));
          }
 
         public class InstanceTagDocumentationOut : Out, IInstanceTagDocumentation
         {
-            public DescriptionAttribute Description => new DescriptionAttribute("Hi");
-            public ExampleAttribute[] Examples => null;
-            public NoteAttribute[] Notes => null;
+            public DescriptionValue Description => new DescriptionValue("Hi");
+            public ExampleValue[] Examples => null;
+            public NoteValue[] Notes => null;
 
         }
 

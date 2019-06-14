@@ -27,7 +27,6 @@ using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Documentation.DocumentationAttributes
 {
-    [DataContract]
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
     public class ExampleAttribute : Attribute
     {
@@ -37,14 +36,8 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
             Description = description;
         }
 
-        [DataMember]
         public string Value { get; private set; }
-        [DataMember]
         public string Description { get; set; }
-
-        public string Html => AsCodeHtml(Value);
-        public string DescriptionHtml => AsDescriptionHtml(Description);
-
 
         public static bool Harvest(Type type)
         {
@@ -53,20 +46,14 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
             return true;
         }
 
-        public static ExampleAttribute[] HarvestTags(Type type)
+        public static ExampleValue[] HarvestTags(Type type)
         {
             return
                 type.GetCustomAttributes(typeof (ExampleAttribute), false)
                     .Cast<ExampleAttribute>()
+                    .Select(attr => new ExampleValue(attr))
                     .ToArray();
         }
-
-        public static string AsCodeHtml(string code) => StringUtils.EscapeXml(code)
-            .Replace("\n", "<br/>")
-            .Replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
-            .Replace("    ", "&nbsp;&nbsp;&nbsp;&nbsp;");
-
-        public static string AsDescriptionHtml(string description)
-            => new Markdown {ExtraMode = true}.Transform(description);
+        
     }
 }

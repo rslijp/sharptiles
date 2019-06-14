@@ -23,6 +23,8 @@ using System.Collections.Generic;
  using System.Reflection;
  using System.Runtime.Serialization;
  using System.Text;
+ using System.Web.Script.Serialization;
+ using org.SharpTiles.Documentation.DocumentationAttributes;
  using org.SharpTiles.Expressions;
 using org.SharpTiles.Tags;
  using DescriptionAttribute = org.SharpTiles.Documentation.DocumentationAttributes.DescriptionAttribute;
@@ -36,7 +38,7 @@ namespace org.SharpTiles.Documentation
         private readonly string _name;
         private List<ExpressionOperatorSign> _tokens;
         private CategoryAttribute _category;
-        private DescriptionAttribute _description;
+        private DescriptionValue _description;
 
 
         public ExpressionDocumentation(ResourceKeyStack messagePath, IExpressionParser expr)
@@ -71,7 +73,7 @@ namespace org.SharpTiles.Documentation
         }
 
         [DataMember]
-        public DescriptionAttribute Description => _description;
+        public DescriptionValue Description => _description;
 
         [DataMember]
         public List<ExpressionOperatorSign> Tokens
@@ -85,6 +87,7 @@ namespace org.SharpTiles.Documentation
             get { return _category!=null?_messagePath.Resource(CategoryDescriptionKey) :null; }
         }
 
+        [ScriptIgnore]
         public string CategoryDescriptionKey
         {
             get

@@ -2,8 +2,8 @@
     <td class="function">
         ${Tag.Item.LibName}<c:if test="${not fn:empty(Tag.Item.LibName)}">:</c:if>${Tag.Item.Name}(
         <c:forEach  items="${Tag.Item.Arguments}">
-            <fmt:message key="type_${Tag.Item.Type.Name}"/> <i>${Tag.Item.Name}</i><c:if test="${!Tag.Status.IsLast}">,</c:if>
-        </c:forEach>) : <fmt:message key="type_${Tag.Item.ReturnType.Name}"/>
+            <fmt:message key="type_${Tag.Item.TypeValue.Name}"/> <i>${Tag.Item.Name}</i><c:if test="${!Tag.Status.IsLast}">,</c:if>
+        </c:forEach>) : <fmt:message key="type_${Tag.Item.ReturnTypeValue.Name}"/>
     </td>
     <td class="description">${Tag.Item.Description.Html}</td>
 </tr>

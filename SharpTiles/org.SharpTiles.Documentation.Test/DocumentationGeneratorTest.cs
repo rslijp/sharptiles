@@ -18,13 +18,19 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
+using org.SharpTiles.Expressions.Functions;
 using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.CoreTags;
 
@@ -42,21 +48,44 @@ namespace org.SharpTiles.Documentation.Test
         }
 
         [Test]
-        public void GenerateDocumentationForTagLib()
+        public void Should_be_serializable_by_NewtonSoft()
         {
             var lib = new TagLib();
             lib.Register(new TestGroup());
 
             //When
             var model = new DocumentationGenerator().For(lib).BuildModel();
-            var result = JsonConvert.SerializeObject(model, Formatting.Indented);
+            var result = JsonConvert.SerializeObject(model, Formatting.None);
 
 
             // Then
-            File.WriteAllText("c:/Temp/TagLib.json", result);
             Assert.That(result, Is.Not.Null);
         }
 
+        [Test]
+        public void Should_be_serializable_by_JavascriptSerializer()
+        {
+            var lib = new TagLib();
+            lib.Register(new TestGroup());
+
+            //When
+            var model = new DocumentationGenerator().For(lib).BuildModel();
+            var result = new JavaScriptSerializer().Serialize(model);
+            
+            // Then
+            Assert.That(result, Is.Not.Null);
+        }
+       
+    }
+
+
+    [DataContract]
+    public class Simple
+    {
+        [DataMember]
+        public string A { get; set; }
+        [ScriptIgnore]
+        public string B { get; set; }
     }
 
     public class TestGroup : BaseTagGroup<TestGroup>

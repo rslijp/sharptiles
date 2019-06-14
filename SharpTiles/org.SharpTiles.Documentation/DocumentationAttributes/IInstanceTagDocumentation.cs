@@ -8,8 +8,8 @@ namespace org.SharpTiles.Documentation.DocumentationAttributes
 {
     public interface IInstanceTagDocumentation
     {
-        DescriptionAttribute Description { get; }
-        ExampleAttribute[] Examples { get; }
-        NoteAttribute[] Notes { get; }
+        DescriptionValue Description { get; }
+        ExampleValue[] Examples { get; }
+        NoteValue[] Notes { get; }
     }
 }

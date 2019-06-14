@@ -22,38 +22,29 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using MarkdownDeep;
 
 namespace org.SharpTiles.Documentation.DocumentationAttributes
 {
-    [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
-    public class NoteAttribute : Attribute
+    [DataContract]
+    public class NoteValue : Attribute
     {
-        public NoteAttribute(string value)
+        public NoteValue(string value)
         {
             Value = value;
         }
 
+        public NoteValue(NoteAttribute attribute) : this(attribute.Value)
+        {
+        }
+
+
+        [DataMember]
         public string Value { get; private set; }
 
+        [ScriptIgnore]
         public string Html => new Markdown { ExtraMode = true }.Transform(Value);
-
-
-        public static bool Harvest(Type type)
-        {
-            var description = HarvestTags(type).FirstOrDefault();
-            if (description == null) return false;
-            return true;
-        }
-
-        public static NoteValue[] HarvestTags(Type type)
-        {
-            return
-                type.GetCustomAttributes(typeof(NoteAttribute), false)
-                    .Cast<NoteAttribute>()
-                    .Select(attr => new NoteValue(attr))
-                    .ToArray();
-        }
-
+        
     }
 }

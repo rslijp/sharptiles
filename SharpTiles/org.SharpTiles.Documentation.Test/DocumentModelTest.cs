@@ -46,7 +46,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void PropertyInTagsShouldBePresent()
         {
-            var tagDict = new Dictionary<int,TagDocumentation>();
+            var tagDict = new Dictionary<string, TagDocumentation>();
             var tag = new TagDocumentation(new ResourceKeyStack(bundle), new Out(), new List<Func<ITag, TagDocumentation, bool>>(),tagDict);
             Assert.That(tag.Name, Is.EqualTo(new Out().TagName));
             Assert.That(tag.Properties, Is.Not.Null);
@@ -90,7 +90,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void TagGroupShouldReturnDescriptionKey()
         {
-            var tagDict = new Dictionary<int,TagDocumentation>();
+            var tagDict = new Dictionary<string, TagDocumentation>();
             var taggroup = new TagGroupDocumentation(new ResourceKeyStack(bundle), new Core(), new List<Func<ITag, TagDocumentation, bool>>(),tagDict);
             Assert.That(taggroup.DescriptionKey, Is.EqualTo("description_Core"));
         }
@@ -106,7 +106,7 @@ namespace org.SharpTiles.Documentation.Test
         [Test]
         public void TagInTagGroupsShouldBePresent()
         {
-            var tagDict = new Dictionary<int,TagDocumentation>();
+            var tagDict = new Dictionary<string, TagDocumentation>();
             var taggroup = new TagGroupDocumentation(new ResourceKeyStack(bundle), new Core(), new List<Func<ITag, TagDocumentation, bool>>(),tagDict);
             Assert.That(taggroup.Name, Is.EqualTo(new Core().Name));
             Assert.That(taggroup.Tags, Is.Not.Null);
@@ -118,7 +118,7 @@ namespace org.SharpTiles.Documentation.Test
         {
             var key = new ResourceKeyStack(bundle);
             key = key.BranchFor(new Core());
-            var tagDict = new Dictionary<int,TagDocumentation>();
+            var tagDict = new Dictionary<string, TagDocumentation>();
             var tag = new TagDocumentation(key, new Out(), new List<Func<ITag, TagDocumentation, bool>>(),tagDict);
             Assert.That(tag.DescriptionKey, Is.EqualTo("description_Core_Out"));
         }

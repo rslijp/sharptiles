@@ -20,6 +20,7 @@
 using System.Linq;
 using System.Reflection;
  using System.Runtime.Serialization;
+ using System.Web.Script.Serialization;
  using org.SharpTiles.Documentation.DocumentationAttributes;
  using org.SharpTiles.Tags;
 using org.SharpTiles.Tags.DefaultPropertyValues;
@@ -99,7 +100,7 @@ namespace org.SharpTiles.Documentation
             _messagePath = messagePath.BranchFor(new AttributeInfo(property.Name, property.DeclaringType));
             _required = property.Required;
             _default = property.DefaultValue;
-            Description = property.Description != null ? new DescriptionAttribute(property.Description) : _messagePath.Description;
+            Description = property.Description != null ? new DescriptionValue(property.Description) : _messagePath.Description;
             _enumValues = property.DeclaringType.IsEnum ? GetEnumValues(property.DeclaringType) : null;
         }
 
@@ -115,8 +116,9 @@ namespace org.SharpTiles.Documentation
         public string Id => _messagePath.Id;
 
         [DataMember]
-        public DescriptionAttribute Description { get; }
+        public DescriptionValue Description { get; }
 
+        [ScriptIgnore]
         public string DescriptionKey => _messagePath.DescriptionKey;
 
         [DataMember]

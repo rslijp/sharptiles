@@ -17,49 +17,46 @@
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using MarkdownDeep;
+using org.SharpTiles.Common;
 
 namespace org.SharpTiles.Documentation.DocumentationAttributes
 {
     [DataContract]
-
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Field, Inherited = true,
-        AllowMultiple = false)]
-    public class DescriptionAttribute : Attribute
+    public class ExampleValue
     {
-
-        public DescriptionAttribute(string value, string category=null)
+        public ExampleValue(string value, string description = null)
         {
             Value = value;
-            Category = category;
+            Description = description;
         }
 
-        
+        public ExampleValue(ExampleAttribute attribute) : this(attribute.Value, attribute.Description)
+        {
+        }
+
         [DataMember]
         public string Value { get; private set; }
         [DataMember]
-        public string Category { get; private set; }
-        
+        public string Description { get; set; }
 
-        public static DescriptionValue Harvest(Type type)
-        {
-            var attr = type.GetCustomAttributes(typeof(DescriptionAttribute), false).Cast<DescriptionAttribute>().SingleOrDefault();
-            if (attr == null) return null;
-            return new DescriptionValue(attr);
-        }
+        [ScriptIgnore]
+        public string Html => AsCodeHtml(Value);
+        [ScriptIgnore]
+        public string DescriptionHtml => AsDescriptionHtml(Description);
 
-        
-        internal static DescriptionValue Harvest(PropertyInfo property)
-        {
-            var attr = property.GetCustomAttributes(typeof(DescriptionAttribute), false).Cast<DescriptionAttribute>().SingleOrDefault();
-            if (attr == null) return null;
-            return new DescriptionValue(attr);
-        }
-        
+        public static string AsCodeHtml(string code) => StringUtils.EscapeXml(code)
+            .Replace("\n", "<br/>")
+            .Replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+            .Replace("    ", "&nbsp;&nbsp;&nbsp;&nbsp;");
+
+        public static string AsDescriptionHtml(string description)
+            => new Markdown {ExtraMode = true}.Transform(description);
     }
 }

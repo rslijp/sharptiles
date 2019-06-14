@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Web.Script.Serialization;
 using org.SharpTiles.Expressions;
 using org.SharpTiles.Expressions.Functions;
 using org.SharpTiles.Expressions.Math;
@@ -43,12 +44,12 @@ namespace org.SharpTiles.Documentation
         private bool _all;
         private IList<Func<ITag, TagDocumentation, bool>> _specials;
         private ExpressionLib _expressionlib;
-        private Dictionary<int, TagDocumentation> _tagDictionary;
+        private Dictionary<string, TagDocumentation> _tagDictionary;
 
         public DocumentModel(TagLib subject, bool all, ResourceBundle bundle, IList<Func<ITag, TagDocumentation, bool>> specials=null)
         {
             _expressionlib = new ExpressionLib();
-            _tagDictionary = new Dictionary<int, TagDocumentation>();
+            _tagDictionary = new Dictionary<string, TagDocumentation>();
             _subject = subject;
             _all = all;
             _specials = specials??new List<Func<ITag, TagDocumentation, bool>>();
@@ -101,9 +102,12 @@ namespace org.SharpTiles.Documentation
 
         [DataMember]
         public IList<ExpressionDocumentation> Expressions => _expressions;
+        [ScriptIgnore]
         public IDictionary<string, string> AdditionalResources => _additionalResources;
+        [ScriptIgnore]
         public bool All => _all;
 
+        [ScriptIgnore]
         public IEnumerable<ExpressionDocumentation> CategoryOrderedExpressions => Expressions.OrderBy(e=>(e.Category??"other")+"-"+e.Name);
 
 
@@ -125,6 +129,7 @@ namespace org.SharpTiles.Documentation
             get { return _groups; }
         }
 
+        [ScriptIgnore]
         public bool ShowTagGroup => _subject.Mode == TagLibMode.Strict;
 
         [DataMember]
@@ -154,6 +159,6 @@ namespace org.SharpTiles.Documentation
         }
 
         [DataMember]
-        public Dictionary<int, TagDocumentation> TagDictionary => _tagDictionary;
+        public Dictionary<string, TagDocumentation> TagDictionary => _tagDictionary;
     }
 }

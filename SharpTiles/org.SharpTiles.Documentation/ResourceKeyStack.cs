@@ -83,7 +83,7 @@ namespace org.SharpTiles.Documentation
             }
         }
 
-        public DescriptionAttribute Description => new DescriptionAttribute(Resource(DescriptionKey));
+        public DescriptionValue Description => new DescriptionValue(Resource(DescriptionKey));
 
         public string DescriptionKey
         {

@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Web.Script.Serialization;
 using org.SharpTiles.Documentation.DocumentationAttributes;
 using org.SharpTiles.Tags;
 
@@ -31,28 +32,28 @@ namespace org.SharpTiles.Documentation
     {
         private readonly ResourceKeyStack _messagePath;
         private readonly string _name;
-        private readonly IList<int> _tags;
+        private readonly IList<string> _tags;
         private IList<Func<ITag, TagDocumentation, bool>> _specials;
-        private readonly Dictionary<int, TagDocumentation> _tagDictionary;
-        private readonly List<NoteAttribute> _notes = new List<NoteAttribute>();
-        private readonly List<ExampleAttribute> _examples = new List<ExampleAttribute>();
-        private readonly DescriptionAttribute _description;
+        private readonly Dictionary<string, TagDocumentation> _tagDictionary;
+        private readonly List<NoteValue> _notes = new List<NoteValue>();
+        private readonly List<ExampleValue> _examples = new List<ExampleValue>();
+        private readonly DescriptionValue _description;
         private readonly string _title;
 
-        public TagGroupDocumentation(ResourceKeyStack messagePath, ITagGroup tagGroup, IList<Func<ITag, TagDocumentation, bool>> specials, Dictionary<int,TagDocumentation> tagDictionary)
+        public TagGroupDocumentation(ResourceKeyStack messagePath, ITagGroup tagGroup, IList<Func<ITag, TagDocumentation, bool>> specials, Dictionary<string,TagDocumentation> tagDictionary)
         {
             _messagePath = messagePath.BranchFor(tagGroup);
             _name = tagGroup.Name;
             _specials = specials;
             _tagDictionary = tagDictionary;
-            _tags = new List<int>();
+            _tags = new List<string>();
             var tagGroupType = tagGroup.GetType();
             _description = DescriptionAttribute.Harvest(tagGroupType)?? _messagePath.Description;
 
             _title = TitleAttribute.HarvestTagLibrary(tagGroupType);
             foreach (ITag _tag in tagGroup)
             {
-                var hash = _tag.GetType().GetHashCode();
+                var hash = _tag.GetType().GetHashCode().ToString();
                 if (!_tagDictionary.ContainsKey(hash))
                 {
                     _tagDictionary[hash] = null;
@@ -67,7 +68,7 @@ namespace org.SharpTiles.Documentation
             }
             if (HasExample.Has(tagGroupType))
             {
-                _examples.Add(new ExampleAttribute(_messagePath.Example));
+                _examples.Add(new ExampleValue(_messagePath.Example));
             }
             if (NoteAttribute.Harvest(tagGroupType))
             {
@@ -75,22 +76,23 @@ namespace org.SharpTiles.Documentation
             }
             if (HasNote.Has(tagGroupType))
             {
-                _notes.Add(new NoteAttribute(_messagePath.Note));
+                _notes.Add(new NoteValue(_messagePath.Note));
             }
         }
 
 
         [DataMember]
-        public ExampleAttribute[] Examples => _examples.ToArray();
+        public ExampleValue[] Examples => _examples.ToArray();
 
         [DataMember]
-        public NoteAttribute[] Notes => _notes.ToArray();
+        public NoteValue[] Notes => _notes.ToArray();
 
+        [ScriptIgnore]
         public IList<TagDocumentation> Tags => _tags.Select(t => _tagDictionary[t]).ToList();
 
 
         [DataMember]
-        public IList<int> TagIds => _tags;
+        public IList<string> TagIds => _tags;
 
         #region IDescriptionElement Members
 
@@ -101,8 +103,9 @@ namespace org.SharpTiles.Documentation
         public string Id => _messagePath.Id;
 
         [DataMember]
-        public DescriptionAttribute Description => _description;
+        public DescriptionValue Description => _description;
 
+        [ScriptIgnore]
         public string DescriptionKey => _messagePath.DescriptionKey;
 
         [DataMember]

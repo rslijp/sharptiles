@@ -24,6 +24,6 @@ namespace org.SharpTiles.Documentation
     public interface IDescriptionElement
     {
         string Name { get; }
-        DescriptionAttribute Description { get; }
+        DescriptionValue Description { get; }
     }
 }
