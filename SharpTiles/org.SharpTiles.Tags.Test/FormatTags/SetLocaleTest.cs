@@ -91,6 +91,7 @@ namespace org.SharpTiles.Tags.Test.FormatTags
         {
             var model = new Hashtable();
             var tagModel = new TagModel(model);
+            tagModel.Page[FormatConstants.LOCALE] = null;
             var tag = new SetLocale();
             tag.Value = new MockAttribute(new Constant("nl-NL"));
             tag.Scope = new MockAttribute(new Constant("Model"));

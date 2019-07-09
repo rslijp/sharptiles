@@ -16,11 +16,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SharpTiles.  If not, see <http://www.gnu.org/licenses/>.
  */
- using System.Collections;
-using NUnit.Framework;
+
+using System;
+using System.Collections;
+using System.Globalization;
+using System.Threading;
+ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using org.SharpTiles.Common;
  using org.SharpTiles.NUnit;
+ using org.SharpTiles.Tags.FormatTags;
 
 namespace org.SharpTiles.Tags.Test
 {
@@ -99,7 +104,7 @@ namespace org.SharpTiles.Tags.Test
         public void NonExistingNestedResolve_Prefers_Deepest_Nesting_First_One_Deepested_Nesting()
         {
             var model = new TagModel(new Reflection(new Hashtable()));
-            model.Model["a"] = new Hashtable{{"b", new Hashtable()}};
+            model.Model["a"] = new Hashtable {{"b", new Hashtable()}};
             model.Page["a"] = new Hashtable();
             try
             {
@@ -116,7 +121,7 @@ namespace org.SharpTiles.Tags.Test
         {
             var model = new TagModel(new Reflection(new Hashtable()));
             model.Model["a"] = new Hashtable();
-            model.Page["a"] = new Hashtable { { "b", new Hashtable() } };
+            model.Page["a"] = new Hashtable {{"b", new Hashtable()}};
             try
             {
                 object o = model["a.b.c"];
@@ -279,7 +284,7 @@ namespace org.SharpTiles.Tags.Test
             Assert.That(model[VariableScope.Tag + ".NewValue"], Is.EqualTo("abc"));
         }
 
-       
+
         [Test]
         public void TestPushingAndPoppingOfTagStack()
         {
@@ -301,7 +306,7 @@ namespace org.SharpTiles.Tags.Test
             var model = new TagModel(new Reflection(new Hashtable()));
             model.PushTagStack();
             model.Tag["NewValue"] = "abc";
-            Assert.That(model ["Tag.NewValue"], Is.EqualTo("abc"));
+            Assert.That(model["Tag.NewValue"], Is.EqualTo("abc"));
             model.PushTagStack();
             Assert.That(model["Tag.NewValue"], Is.Null);
             model.Tag["NewValue"] = "def";
@@ -372,32 +377,21 @@ namespace org.SharpTiles.Tags.Test
             Assert.That(gc2, Is.Null);
         }
 
-        public class Level1 
+        public class Level1
         {
-            public Level2 Level2
-            {
-                get;
-                set;
-            }
+            public Level2 Level2 { get; set; }
         }
 
         public class Level2
         {
-            public Level3 Level3
-            {
-                get;
-                set;
-            }
+            public Level3 Level3 { get; set; }
         }
 
         public class Level3
         {
-            public int? Value
-            {
-                get;
-                set;
-            }
+            public int? Value { get; set; }
         }
+
         [Test]
         public void TagDeepNestedResolveTest()
         {
@@ -454,7 +448,8 @@ namespace org.SharpTiles.Tags.Test
         }
 
         [Test]
-        public void PushTagWithPeekInParentShouldResolveParentValuesWithOutTrhowinngReflectionExceptionsOnUnknownPathsOnChild()
+        public void
+            PushTagWithPeekInParentShouldResolveParentValuesWithOutTrhowinngReflectionExceptionsOnUnknownPathsOnChild()
         {
             var model = new TagModel(new Reflection(new Hashtable()));
             model.PushTagStack(true);
@@ -468,6 +463,29 @@ namespace org.SharpTiles.Tags.Test
             model.PopTagStack();
             Assert.That(model["NewValue"], Is.EqualTo("abc"));
             Assert.That(model["OtherValue"], Is.Null);
+        }
+
+        [Test]
+        public void ShouldInitializePageModelWithCurrentLocale()
+        {
+            var culture = Thread.CurrentThread.CurrentCulture;
+            try
+            {
+                TagModel model = new TagModel(new Hashtable());
+                Assert.That(((CultureInfo) model.Global[FormatConstants.LOCALE]).Name, Is.EqualTo("en-US"));
+                Assert.That(((CultureInfo) model.Page[FormatConstants.LOCALE]).Name, Is.EqualTo("en-US"));
+                Assert.That(model[FormatConstants.LOCALE], Is.EqualTo(new CultureInfo("en-US")));
+            
+                Thread.CurrentThread.CurrentCulture=new CultureInfo("de-DE");
+                model = new TagModel(new Hashtable());
+                Assert.That(((CultureInfo)model.Global[FormatConstants.LOCALE]).Name, Is.EqualTo("en-US"));
+                Assert.That(((CultureInfo)model.Page[FormatConstants.LOCALE]).Name, Is.EqualTo("de-DE"));
+                Assert.That(model[FormatConstants.LOCALE], Is.EqualTo(new CultureInfo("de-DE")));
+            }
+            finally
+            {
+                Thread.CurrentThread.CurrentCulture = culture;
+            }
         }
     }
 }

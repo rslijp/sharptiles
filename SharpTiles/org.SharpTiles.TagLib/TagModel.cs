@@ -20,6 +20,7 @@
 using System.Collections;
 using System.Collections.Generic;
  using System.Collections.Specialized;
+ using System.Globalization;
  using System.Linq;
  using System.Text;
 using System.Threading;
@@ -94,6 +95,8 @@ namespace org.SharpTiles.Tags
         {
             _model = model;
             _page = new Reflection(new Hashtable());
+            _page[FormatConstants.LOCALE] = Thread.CurrentThread.CurrentCulture;
+
             _request = request;
             _session = session != null ? new Reflection(session) : null;
             _internal = new Reflection(this);
