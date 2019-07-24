@@ -1002,5 +1002,6 @@ namespace org.SharpTiles.Templates.Test
             Assert.That(mdl.Out, Is.EqualTo(0.42m));
         }
         
+
     }
 }

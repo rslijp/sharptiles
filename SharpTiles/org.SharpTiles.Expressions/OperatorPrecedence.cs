@@ -18,6 +18,7 @@
  */
  using System;
 using System.Collections.Generic;
+ using org.SharpTiles.Common;
  using org.SharpTiles.Expressions.Functions;
 
 namespace org.SharpTiles.Expressions
@@ -41,6 +42,7 @@ namespace org.SharpTiles.Expressions
                     new[]
                         {typeof (GreaterThan), typeof (GreaterThanOrEqual), typeof (LessThan), typeof (LessThanOrEqual)}));
             PRECENDENCE.Add(new List<Type>(new[] {typeof (EqualTo), typeof (NotEqualTo)}));
+            PRECENDENCE.Add(new List<Type>(new[] { typeof(DefaultNumber) }));
             PRECENDENCE.Add(new List<Type>(new[] {typeof (Add), typeof (Minus), typeof (Not), typeof(Concat), typeof(ConcatWithSpace)}));
             PRECENDENCE.Add(new List<Type>(new[] {typeof (Multiply), typeof (Divide), typeof (Modulo)}));
             PRECENDENCE.Add(new List<Type>(new[] {typeof (Power)}));
@@ -66,6 +68,10 @@ namespace org.SharpTiles.Expressions
 
         public static int Of(Type op)
         {
+            if (!_lookup.ContainsKey(op))
+            {
+                throw new ParseException($"Can't determine operator precendence of {op.FullName}");
+            }
             return _lookup[op];
         }
 

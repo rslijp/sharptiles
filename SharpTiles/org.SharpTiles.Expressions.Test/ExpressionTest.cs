@@ -1835,5 +1835,18 @@ namespace org.SharpTiles.Expressions.Test
             Assert.That(r, Is.EqualTo("Y"));
         }
 
+        [Test]
+        public void Test_DefaultNumber_Precendence()
+        {
+            Assert.That(new ExpressionLib().ParseAndEvaluate("Wrong ?? 2", new Reflection(new Hashtable())), Is.EqualTo(2));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("Wrong ?? 2.4", new Reflection(new Hashtable())), Is.EqualTo(2.4m));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("Wrong ?? 2 * 6", new Reflection(new Hashtable())), Is.EqualTo(12));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("round(Wrong ?? 2.4)", new Reflection(new Hashtable())), Is.EqualTo(2m));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("5 * round(Wrong ?? 2.4)", new Reflection(new Hashtable())), Is.EqualTo(10m));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("3 * round(Wrong ?? 2.4 * 3 + 1)", new Reflection(new Hashtable())), Is.EqualTo(24m));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("3 * round(1 + (Wrong ?? 2.4) * 3)", new Reflection(new Hashtable())), Is.EqualTo(24m));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("3 * round(1 + (Wrong ?? 2.4) * 3) -1 ", new Reflection(new Hashtable())), Is.EqualTo(23m));
+            Assert.That(new ExpressionLib().ParseAndEvaluate("((Wrong??3) * 14)", new Reflection(new Hashtable())), Is.EqualTo(42m));
+        }
     }
 }
