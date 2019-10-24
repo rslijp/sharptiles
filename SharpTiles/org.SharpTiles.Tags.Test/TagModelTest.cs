@@ -487,5 +487,21 @@ namespace org.SharpTiles.Tags.Test
                 Thread.CurrentThread.CurrentCulture = culture;
             }
         }
+
+        [Test]
+        public void TagImportFix()
+        {
+            var model = new TagModel(new Reflection(new Hashtable()));
+            model.Page["Tag"] = new Hashtable { {"Case1", "Yeah"} };
+            Assert.That(model.Page["Tag.Case1"], Is.EqualTo("Yeah"));
+        }
+
+        [Test]
+        public void TagImportFix2()
+        {
+            var model = new TagModel(new Reflection(new Hashtable()));
+            model.Page["Tag"] = new Hashtable { { "Case1", "Yeah" } };
+            Assert.That(model["Tag.Case1"], Is.EqualTo("Yeah"));
+        }
     }
 }

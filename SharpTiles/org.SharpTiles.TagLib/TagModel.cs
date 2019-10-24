@@ -177,7 +177,7 @@ namespace org.SharpTiles.Tags
         {
             get
             {
-                return HasScopePrefix(property) ? _internal[property] : Resolve(property, ThrowExceptionOnGet);
+                return (HasScopePrefix(property) ? _internal[property] : Resolve(property, ThrowExceptionOnGet)) ?? Resolve(property, false);
             }
             set
             {
