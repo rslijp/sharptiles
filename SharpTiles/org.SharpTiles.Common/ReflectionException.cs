@@ -45,6 +45,19 @@ namespace org.SharpTiles.Common
             return new ReflectionException(msg);
         }
 
+        public static ReflectionException NoDefaultSetterFound(string key)
+        {
+            string msg = $"There's no default setter for '{key}' defined'.";
+            return new ReflectionException(msg);
+        }
+
+        public static ReflectionException NoDefaultConstructorFound(Type type)
+        {
+            string msg = $"There's no default constructor for type '{type.FullName}' defined'.";
+            return new ReflectionException(msg);
+        }
+
+
         public static ReflectionException NoSourceAvailable(string property)
         {
             string msg = string.Format("There's no source(null) to evaluate property '{0}' on.", property);

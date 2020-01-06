@@ -1109,6 +1109,28 @@ namespace org.SharpTiles.Common.Test
             Assert.That(!r.HasPropertyOfType("Enumerable", typeof(ArrayList)));
             Assert.That(r.HasPropertyOfType("Enumerable", typeof(IEnumerable)));
         }
-        
+
+        [Test]
+        public void Should_Create_Nested_Child()
+        {
+            _reflection.EnableAutoCreate();
+            _subject.Nested = null;
+            _reflection["Nested.SimpleString"] = "Test";
+            Assert.That(_subject.Nested.SimpleString, Is.EqualTo("Test"));
+        }
+        //public IList<string> StringList { get; set; }
+
+        [Test]
+        public void Should_Add_List_Entry_For_Child()
+        {
+            _reflection.EnableAutoCreate();
+            _subject.StringList = new List<string>();
+            _reflection["StringList.0"] = "Test1";
+            _reflection["StringList.1"] = "Test2";
+            _reflection["StringList.2"] = "Test3";
+            Assert.That(_subject.StringList[0], Is.EqualTo("Test1"));
+            Assert.That(_subject.StringList[1], Is.EqualTo("Test2"));
+            Assert.That(_subject.StringList[2], Is.EqualTo("Test3"));
+        }
     }
 }

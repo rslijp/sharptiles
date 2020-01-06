@@ -27,7 +27,7 @@ namespace org.SharpTiles.Common
 {
     public enum ReflectionMode
     {
-        Normal, Strict, Loose
+        Normal, Strict, AutoCreate
     }
     public class Reflection : IReflectionModel
     {
@@ -78,9 +78,9 @@ namespace org.SharpTiles.Common
             return this;
         }
 
-        public Reflection BecomeLoose()
+        public Reflection EnableAutoCreate()
         {
-            Mode = ReflectionMode.Loose;
+            Mode = ReflectionMode.AutoCreate;
             return this;
         }
 
@@ -140,6 +140,11 @@ namespace org.SharpTiles.Common
                 {
                     return temp;
                 }
+                if (temp.Result == null && Mode == ReflectionMode.AutoCreate)
+                {
+                    SetDefaultProperty(subject, head, level);
+                    temp = GetCurrentProperty(subject, head, level);
+                }
                 return SetProperty(temp.Result, tail, value, level + 1);
             }
             return SetCurrentProperty(subject, property, value, level);
@@ -176,6 +181,16 @@ namespace org.SharpTiles.Common
             return propertyHandler.PropertyHandler.Set(property, source, value, level);
         }
 
+        private ReflectionResult SetDefaultProperty(object source, string property, int level)
+        {
+            var propertyHandler = DeterminePropertyHandlerCached(source, property);
+            if (propertyHandler.ReflectionException != null)
+            {
+                return new ReflectionResult { ReflectionException = propertyHandler.ReflectionException };
+            }
+            return propertyHandler.PropertyHandler.SetDefault(property, source, level);
+        }
+
         public object GetDirectProperty(string property)
         {
             var exception = GuardPropertyIsSet(property);
@@ -187,8 +202,6 @@ namespace org.SharpTiles.Common
 
         private ReflectionResult GetCurrentProperty(object source, string property, int level)
         {
-            if (source == null && Mode == ReflectionMode.Loose)
-                return new ReflectionResult {Result = null};
             var propertyHandler = DeterminePropertyHandlerCached(source, property);
             if (propertyHandler.ReflectionException != null)
             {
@@ -253,14 +266,17 @@ namespace org.SharpTiles.Common
         {
             public delegate ReflectionResult GetResult(string property, object source);
             public delegate ReflectionResult SetResult(string property, object source, object value);
+            public delegate ReflectionResult SetDefaultResult(string property, object source);
 
             private GetResult _get;
             private SetResult _set;
+            private SetDefaultResult _setDefault;
 
-            public PropertyHandler(GetResult get, SetResult set)
+            public PropertyHandler(GetResult get, SetResult set, SetDefaultResult setDefault =null)
             {
                 _get = get;
                 _set = set;
+                _setDefault = setDefault;
             }
 
             public ReflectionResult Get(string property, object source, int level)
@@ -276,6 +292,17 @@ namespace org.SharpTiles.Common
             public ReflectionResult Set(string property, object source, object value, int level)
             {
                 var result = _set(property, source, value);
+                if (result.ReflectionException != null)
+                {
+                    result.ReflectionException.Nesting = level;
+                }
+                return result;
+            }
+
+            public ReflectionResult SetDefault(string property, object source, int level)
+            {
+                if(_setDefault==null) return new ReflectionResult {ReflectionException = ReflectionException.NoDefaultSetterFound(property)};
+                var result = _setDefault(property, source);
                 if (result.ReflectionException != null)
                 {
                     result.ReflectionException.Nesting = level;
@@ -311,7 +338,7 @@ namespace org.SharpTiles.Common
             PropertyHandler result;
             if (source.GetType().IsMarshalByRef)
             {
-                result = new PropertyHandler(GetSimple, SetSimple);
+                result = new PropertyHandler(GetSimple, SetSimple, SetSimpleDefault);
             }
             else if (source is IReflectionModel)
             {
@@ -351,7 +378,7 @@ namespace org.SharpTiles.Common
             }
             else
             {
-                result = new PropertyHandler(GetSimple, SetSimple);
+                result = new PropertyHandler(GetSimple, SetSimple, SetSimpleDefault);
             }
             return new ReflectionPropertyResult { PropertyHandler = result };
         }
@@ -515,7 +542,7 @@ namespace org.SharpTiles.Common
         private static ReflectionResult SetList(string property, object source, object value)
         {
             var sourceAsList = (IList)source;
-            if (property.Equals("add"))
+            if (property.Equals("add") || sourceAsList.Count.ToString().Equals(property))
             {
                 sourceAsList.Add(value);
                 return new ReflectionResult();
@@ -623,6 +650,34 @@ namespace org.SharpTiles.Common
             try
             {
                 info.PropertyInfo.SetValue(source, value, null);
+                return new ReflectionResult();
+            }
+            catch (TargetInvocationException Te)
+            {
+                if (Te.InnerException != null)
+                {
+                    throw Te.InnerException;
+                }
+                throw;
+            }
+        }
+
+        private static ReflectionResult SetSimpleDefault(string property, object source)
+        {
+            PropertyInfoResult info = AcquirePropertyInfo(property, source);
+            if (info.ReflectionException != null)
+            {
+                return new ReflectionResult { ReflectionException = info.ReflectionException };
+            }
+            var type = info.PropertyInfo.PropertyType;
+            var constructor = type.GetConstructor(new Type[0]);
+            if (constructor == null)
+            {
+                return new ReflectionResult { ReflectionException = ReflectionException.NoDefaultConstructorFound(type) };
+            }
+            try
+            {
+                info.PropertyInfo.SetValue(source, constructor.Invoke(new object[0]), null);
                 return new ReflectionResult();
             }
             catch (TargetInvocationException Te)
