@@ -53,6 +53,11 @@ namespace org.SharpTiles.Common.Test
             public Guid? Nullable { get; set; }
         }
 
+        public class SubTestSubject : TestSubject
+        {
+            public int Extra { get; set; }
+        }
+
         public class TestSubject
         {
             public int SimpleInt { get; set; }
@@ -1131,6 +1136,18 @@ namespace org.SharpTiles.Common.Test
             Assert.That(_subject.StringList[0], Is.EqualTo("Test1"));
             Assert.That(_subject.StringList[1], Is.EqualTo("Test2"));
             Assert.That(_subject.StringList[2], Is.EqualTo("Test3"));
+        }
+
+        [Test]
+        public void Should_Auto_Cast_To_Base()
+        {
+            var sub = new SubTestSubject();
+            _subject.Nested = new TestSubject();
+            
+
+            _reflection["Nested"] = sub;
+            
+            Assert.That(_reflection["Nested"], Is.SameAs(sub));
         }
     }
 }

@@ -30,6 +30,18 @@ namespace org.SharpTiles.Common
         private static readonly IDictionary<Type, CanConvertTo> REGISTER_CAN = new Dictionary<Type, CanConvertTo>();
         private static readonly ICollection<Type> REGISTERED_NUMERICS = new HashSet<Type>();
 
+        public static IEnumerable<Type> GetBaseTypes(this Type type)
+        {
+            var types = new List<Type>();
+            var c = type;
+            if (c.BaseType != null && c.BaseType != typeof(object))
+            {
+                c=type.BaseType;
+                types.Add(c);
+            }
+            return types;
+        }
+
         static TypeConverter()
         {
             REGISTERED.Add(typeof (int), (source, culture) => (object) Convert.ToInt32(source));
@@ -195,7 +207,8 @@ namespace org.SharpTiles.Common
                 if (source == null ||
                     target == typeof (object) ||
                     source.GetType() == target ||
-                    source.GetType().GetInterfaces().Any(t => t == target))
+                    source.GetType().GetInterfaces().Any(t => t == target) ||
+                    source.GetType().GetBaseTypes().Any(t => t == target))
                 {
                     return source;
                 }
