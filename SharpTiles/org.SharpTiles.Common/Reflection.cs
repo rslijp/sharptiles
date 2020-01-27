@@ -27,7 +27,7 @@ namespace org.SharpTiles.Common
 {
     public enum ReflectionMode
     {
-        Normal, Strict, AutoCreate
+        Normal, Strict, AutoCreate, Loose
     }
     public class Reflection : IReflectionModel
     {
@@ -83,6 +83,13 @@ namespace org.SharpTiles.Common
             Mode = ReflectionMode.AutoCreate;
             return this;
         }
+
+        public Reflection BecomeLoose()
+        {
+            Mode = ReflectionMode.Loose;
+            return this;
+        }
+
 
         #region IReflectionModel Members
 
@@ -202,6 +209,8 @@ namespace org.SharpTiles.Common
 
         private ReflectionResult GetCurrentProperty(object source, string property, int level)
         {
+            if (source == null && Mode == ReflectionMode.Loose)
+                return new ReflectionResult { Result = null };
             var propertyHandler = DeterminePropertyHandlerCached(source, property);
             if (propertyHandler.ReflectionException != null)
             {
