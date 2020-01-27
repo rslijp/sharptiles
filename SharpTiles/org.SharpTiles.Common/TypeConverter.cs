@@ -34,9 +34,9 @@ namespace org.SharpTiles.Common
         {
             var types = new List<Type>();
             var c = type;
-            if (c.BaseType != null && c.BaseType != typeof(object))
+            while (c.BaseType != null && c.BaseType != typeof(object))
             {
-                c=type.BaseType;
+                c=c.BaseType;
                 types.Add(c);
             }
             return types;

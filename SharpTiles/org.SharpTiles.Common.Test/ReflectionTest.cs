@@ -58,6 +58,10 @@ namespace org.SharpTiles.Common.Test
             public int Extra { get; set; }
         }
 
+        public class SubSubTestSubject : SubTestSubject
+        {
+        }
+
         public class TestSubject
         {
             public int SimpleInt { get; set; }
@@ -1147,6 +1151,18 @@ namespace org.SharpTiles.Common.Test
 
             _reflection["Nested"] = sub;
             
+            Assert.That(_reflection["Nested"], Is.SameAs(sub));
+        }
+
+        [Test]
+        public void Should_Auto_Cast_To_Nested_Base()
+        {
+            var sub = new SubSubTestSubject();
+            _subject.Nested = new TestSubject();
+
+
+            _reflection["Nested"] = sub;
+
             Assert.That(_reflection["Nested"], Is.SameAs(sub));
         }
     }
